@@ -10,8 +10,17 @@ window._ = require('lodash');
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
+    window.$ = $.extend(require('jquery-ui-bundle'));
+    window.$ = $.extend(require('bootstrap-colorpicker'));
 
     require('bootstrap');
+    mix.webpackConfig({
+        resolve: {
+            alias: {
+                'jquery-ui': 'jquery-ui-dist/jquery-ui.js',
+            }
+        }
+    });
 } catch (e) {}
 
 /**
