@@ -17,6 +17,7 @@ mix.js('resources/js/app.js', 'public/js')
 mix.scripts(
     [
         'node_modules/datatables.net/js/jquery.dataTables.js',
+        'resources/js/tools.js',
     ],
     'public/js/dnd-tools.js'
 );
