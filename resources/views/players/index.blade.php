@@ -55,8 +55,9 @@
                 data: 'id',
                 render: function(id)
                 {
-                    return "<a href='/players/" + id + "/edit' class='btn btn-sm btn-primary mr-2'><span class='fa fa-edit'></span></a>" +
-                        "<a href='#' onclick='promptDelete(" + id + ")' class='btn btn-sm btn-danger'><span class='fa fa-trash'></span></a>";
+                    return "<a href='/players/" + id + "/edit' class='btn btn-sm btn-primary mr-1'><span class='fa fa-edit'></span></a>" +
+                        "<a href='#' onclick='promptDelete(" + id + ")' class='btn btn-sm btn-danger mr-1'><span class='fa fa-trash'></span></a>" +
+                    "<a href='/players/pcs/" + id + "' class='btn btn-sm btn-info'><span class='fa fa-eye'></span></a>"
                 }
             }
         ]

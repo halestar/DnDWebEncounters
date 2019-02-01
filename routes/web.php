@@ -20,7 +20,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/players/data','PlayerController@playerList')->name('players.data');
+Route::get('/players/pcs/{player}','PcController@playerIndex')->name('players.characters');
 Route::resource('players', 'PlayerController');
 
-Route::resource('pcs', 'PcController');
+Route::get('/pcs/data/{selectedPlayer}','PcController@pcList')->name('pcs.data');
+Route::resource('pcs', 'PcController')->except(['show']);
 

@@ -62,7 +62,7 @@ class PlayerController extends Controller
             $player->portrait = $contents;
         }
         $request->user()->players()->save($player);
-        return redirect()->route('players.list');
+        return redirect()->route('players.index');
     }
     
     /**

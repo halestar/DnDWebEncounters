@@ -19,6 +19,8 @@ class CreatePlayersTable extends Migration
 	        $table->string("name");
 	        $table->string("dci")->nullable();
             $table->timestamps();
+	
+	        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 	    DB::statement("ALTER TABLE players ADD portrait MEDIUMBLOB NULL ");
     }

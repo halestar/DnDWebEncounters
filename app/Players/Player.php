@@ -18,4 +18,9 @@ class Player extends Model
     {
         return 'id';
     }
+	
+	public function pcs()
+	{
+		return $this->hasMany('App\Players\Pc', 'player_id', 'id');
+	}
 }
