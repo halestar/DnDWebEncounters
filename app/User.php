@@ -32,4 +32,9 @@ class User extends Authenticatable
     {
     	return $this->hasMany('App\Players\Player', 'user_id', 'id');
     }
+	
+	public function customMonsters()
+	{
+		return $this->hasMany('App\Encounters\CustomMonster', 'user_id', 'id');
+	}
 }

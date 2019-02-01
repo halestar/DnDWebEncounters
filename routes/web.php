@@ -26,3 +26,8 @@ Route::resource('players', 'PlayerController');
 Route::get('/pcs/data/{selectedPlayer}','PcController@pcList')->name('pcs.data');
 Route::resource('pcs', 'PcController')->except(['show']);
 
+
+Route::get('/monsters/sr/data','MonsterController@srList')->name('pcs.srdata');
+Route::get('/monsters/custom/data','MonsterController@customList')->name('pcs.customdata');
+Route::resource('monsters', 'MonsterController')->except(['show']);
+
