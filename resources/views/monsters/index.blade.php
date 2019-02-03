@@ -64,7 +64,7 @@
     jQuery('#sr_monster_table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{!! route('pcs.srdata') !!}',
+        ajax: '{!! route('monsters.srdata') !!}',
         columns: [
             { data: 'name', name: 'name' },
             { data: 'cr', name: 'cr' },
@@ -74,7 +74,7 @@
     jQuery('#custom_monster_table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{!! route('pcs.customdata') !!}',
+        ajax: '{!! route('monsters.customdata') !!}',
         columns: [
             { data: 'name', name: 'name' },
             { data: 'cr', name: 'cr' },

@@ -54,13 +54,16 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('players.index') }}">Players</a>
+                                <a class="nav-link @if(app('request')->is('players*')) active @endif" href="{{ route('players.index') }}">Players</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('pcs.index') }}">PC's</a>
+                                <a class="nav-link @if(app('request')->is('pcs*')) active @endif" href="{{ route('pcs.index') }}">PC's</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('monsters.index') }}">Monsters</a>
+                                <a class="nav-link @if(app('request')->is('monsters*')) active @endif" href="{{ route('monsters.index') }}">Monsters</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @if(app('request')->is('encounters*')) active @endif" href="{{ route('encounters.index') }}">Encounters</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

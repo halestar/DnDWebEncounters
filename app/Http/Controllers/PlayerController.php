@@ -76,7 +76,7 @@ class PlayerController extends Controller
         if($player->user_id != $request->user()->id)
             return abort(404, "Permission denied");
         if(!$player->portrait)
-            return Storage::disk('local')->get('public/unkn.png');
+            return Storage::disk('local')->get('unkn.png');
         return $player->portrait;
     }
     

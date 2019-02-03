@@ -27,7 +27,11 @@ Route::get('/pcs/data/{selectedPlayer}','PcController@pcList')->name('pcs.data')
 Route::resource('pcs', 'PcController')->except(['show']);
 
 
-Route::get('/monsters/sr/data','MonsterController@srList')->name('pcs.srdata');
-Route::get('/monsters/custom/data','MonsterController@customList')->name('pcs.customdata');
+Route::get('/monsters/sr/data','MonsterController@srList')->name('monsters.srdata');
+Route::get('/monsters/custom/data','MonsterController@customList')->name('monsters.customdata');
+Route::get('/monsters/search', 'MonsterController@monsterSearch')->name('monsters.search');
 Route::resource('monsters', 'MonsterController')->except(['show']);
+
+Route::get('/encounters/data','EncounterController@encounterList')->name('encounters.data');
+Route::resource('encounters', 'EncounterController')->except(['show']);
 

@@ -37,4 +37,9 @@ class User extends Authenticatable
 	{
 		return $this->hasMany('App\Encounters\CustomMonster', 'user_id', 'id');
 	}
+    
+    public function encounters()
+    {
+        return $this->hasMany('App\Encounters\Encounter', 'user_id', 'id');
+    }
 }

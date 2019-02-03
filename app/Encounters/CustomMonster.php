@@ -31,4 +31,8 @@ class CustomMonster extends Model
 	{
 		return $this->hasMany('App\Encounters\MonsterAbility', 'monster_id', 'id')->where('monster_ability.type', '=', CustomMonster::$LEGENDARY_ABILITY);
 	}
-}
+    
+    public function encounters()
+    {
+        return $this->morphToMany('App\Encounters\Encounter', 'monster');
+    }}

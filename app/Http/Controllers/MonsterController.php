@@ -10,6 +10,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class MonsterController extends Controller
 {
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -283,4 +289,17 @@ class MonsterController extends Controller
 		$monsters = CustomMonster::select('custom_monsters.*')->where('custom_monsters.user_id', '=', $request->user()->id);
 		return Datatables::of($monsters)->make(true);
 	}
+    
+    public function monsterSearch(Request $request)
+    {
+        $query = $request->input('query');
+        $custom_monsters = CustomMonster::select('name', 'cr', 'id AS monster_id')->where('name', 'LIKE', '%' . $query . '%')->get();
+        $monsters = Monster::allSrMonsters()->filter(function($value) use($query)
+        {
+            return (stripos($value->name, $query) !== false);
+        });
+        $monsters = $monsters->merge($custom_monsters);
+        
+        return response()->json($monsters);
+    }
 }

@@ -18,7 +18,10 @@ mix.scripts(
     [
         'node_modules/datatables.net/js/jquery.dataTables.js',
         'resources/js/tools.js',
+        'resources/js/typeahead.jquery.js',
         'resources/js/ability_manager.js',
-    ],
-    'public/js/dnd-tools.js'
+        'resources/js/monster_manager.js',
+],
+'public/js/dnd-tools.js'
 );
+
