@@ -22,12 +22,12 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="name">Description</label>
+                                    <label for="name">Tier</label>
                                     <select class="custom-select" id="tier" name="tier">
                                         <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
                                     </select>
                                 </div>
                             </div>
@@ -56,7 +56,5 @@
 @push('scripts')
     <script>
         var encounterManager = new EncounterManager('encounter_manager_containter', "{{ route('modules.encounter_data') }}");
-
-
     </script>
 @endpush

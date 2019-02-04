@@ -5,6 +5,8 @@ let EncounterManager = (function()
         this.container = jQuery('#' + container_id);
         this.dataUrl = data_url;
         this.encounters = [];
+        this.loaded = false;
+        this.selection = null;
 
         let inputContainer = jQuery('<div class="input-group mb-3"><div class="input-group-prepend">' +
             '<span class="input-group-text" id="encounterSearchLabel">Filter Encounters: </span></div>');
@@ -53,6 +55,22 @@ let EncounterManager = (function()
             il_container.append(div_container);
             this.encounterContainer.append(il_container);
         }
+        this.loaded = true;
+        this.selectEncounters();
+    }
+
+    EncounterManager.prototype.selectEncounters = function()
+    {
+        if(this.loaded && this.selection != null)
+        {
+            this.encounterContainer.find('li').removeClass('active');
+            this.encounterContainer.find('li input[type=checkbox]').removeAttr('checked');
+            for(let i = 0; i < this.selection.length; i++)
+            {
+                this.encounterContainer.find('li[encounter_id=' + this.selection[i] + ']').addClass('active');
+                this.encounterContainer.find('li[encounter_id=' + this.selection[i] + '] input[type=checkbox]').attr('checked', 'checked');
+            }
+        }
     }
 
     EncounterManager.prototype.filterEncounters = function()
@@ -66,6 +84,12 @@ let EncounterManager = (function()
         let lis = this.encounterContainer.find('li');
         lis.hide();
         this.encounterContainer.find('li:contains("' + query + '")').show();
+    }
+
+    EncounterManager.prototype.loadSelection = function(encounter_ids)
+    {
+        this.selection = encounter_ids;
+        this.selectEncounters();
     }
 
     return EncounterManager;

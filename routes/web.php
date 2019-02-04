@@ -43,3 +43,15 @@ Route::get('/modules/data','ModuleController@moduleList')->name('modules.data');
 Route::get('/modules/encounter-data','ModuleController@encounterList')->name('modules.encounter_data');
 Route::resource('modules', 'ModuleController')->except(['show']);
 
+
+Route::post('/adventure/party/create/{play_session_id}', 'PlaySessionController@createParty')->name('adventure.party.create');
+Route::post('/adventure/party/assign/{play_session_id}', 'PlaySessionController@assignParty')->name('adventure.party.assign');
+Route::get('/adventure/pcs', 'PlaySessionController@pcList')->name('adventure.pcs');
+Route::get('/adventure/parties', 'PlaySessionController@partyList')->name('adventure.parties');
+Route::get('/adventure/begin', 'PlaySessionController@startSession')->name('adventure.begin');
+Route::get('/adventure/continue/{id}', 'PlaySessionController@continueSession')->name('adventure.continue');
+Route::post('/adventure/module/assign/{play_session_id}', 'PlaySessionController@assignModule')->name('adventure.module.assign');
+Route::post('/adventure/encounter/add/{play_session_id}', 'PlaySessionController@addEncounter')->name('adventure.encounter.add');
+Route::post('/adventure/encounter/remove/{play_session_id}', 'PlaySessionController@removeEncounter')->name('adventure.encounter.remove');
+
+

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Players\Pc;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+	    $numPlayers = Auth::user()->players()->count();
+	    $numPcs = Pc::select('characters.*')->join('players', 'characters.player_id', '=', 'players.id')->where('players.user_id', '=', Auth::user()->id)->count();
+	    $numCustomMonsters = Auth::user()->customMonsters()->count();
+	    $numMonsterTokens = Auth::user()->monsterTokens()->count();
+	    $numModules = Auth::user()->modules()->count();
+	    $numEncounters = Auth::user()->encounters()->count();
+	    $lastActiveSession = Auth::user()->lastActiveSession();
+        return view('home',
+	        [
+		        'numPlayers' => $numPlayers,
+		        'numPcs' => $numPcs,
+		        'numCustomMonsters' => $numCustomMonsters,
+		        'numMonsterTokens' => $numMonsterTokens,
+		        'numModules' => $numModules,
+		        'numEncounters' => $numEncounters,
+		        'lastActiveSession' => $lastActiveSession,
+	        ]);
     }
 }
