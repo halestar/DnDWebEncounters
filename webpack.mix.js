@@ -17,10 +17,12 @@ mix.js('resources/js/app.js', 'public/js')
 mix.scripts(
     [
         'node_modules/datatables.net/js/jquery.dataTables.js',
+        'node_modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
         'resources/js/tools.js',
         'resources/js/typeahead.jquery.js',
         'resources/js/ability_manager.js',
         'resources/js/monster_manager.js',
+        'resources/js/encounter_manager.js',
 ],
 'public/js/dnd-tools.js'
 );

@@ -65,6 +65,12 @@
                             <li class="nav-item">
                                 <a class="nav-link @if(app('request')->is('encounters*')) active @endif" href="{{ route('encounters.index') }}">Encounters</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link @if(app('request')->is('monster_tokens*')) active @endif" href="{{ route('monster_tokens.index') }}">Monster Tokens</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @if(app('request')->is('modules*')) active @endif" href="{{ route('modules.index') }}">Modules</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

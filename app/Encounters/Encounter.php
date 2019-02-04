@@ -28,4 +28,10 @@ class Encounter extends Model
     {
         $this->attributes['sr_monsters'] = json_encode($val);
     }
+    
+    public function modules()
+    {
+        return $this->belongsToMany('App\Encounters\Module', 'modules_encounters');
+    }
+    
 }

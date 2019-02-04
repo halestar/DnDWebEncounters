@@ -42,4 +42,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Encounters\Encounter', 'user_id', 'id');
     }
+    
+    public function monsterTokens()
+    {
+        return $this->hasMany('App\Encounters\MonsterToken', 'user_id', 'id');
+    }
+    
+    public function modules()
+    {
+        return $this->hasMany('App\Encounters\Module', 'user_id', 'id');
+    }
 }

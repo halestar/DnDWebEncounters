@@ -34,5 +34,6 @@ class CustomMonster extends Model
     
     public function encounters()
     {
-        return $this->morphToMany('App\Encounters\Encounter', 'monster');
-    }}
+        return $this->belongsToMany('App\Encounters\Encounter', 'encounter_monsters');
+    }
+}

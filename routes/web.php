@@ -35,3 +35,11 @@ Route::resource('monsters', 'MonsterController')->except(['show']);
 Route::get('/encounters/data','EncounterController@encounterList')->name('encounters.data');
 Route::resource('encounters', 'EncounterController')->except(['show']);
 
+Route::get('/monster_tokens/data','MonsterTokenController@tokensList')->name('monster_tokens.data');
+Route::resource('monster_tokens', 'MonsterTokenController');
+
+
+Route::get('/modules/data','ModuleController@moduleList')->name('modules.data');
+Route::get('/modules/encounter-data','ModuleController@encounterList')->name('modules.encounter_data');
+Route::resource('modules', 'ModuleController')->except(['show']);
+
