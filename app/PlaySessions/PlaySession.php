@@ -14,11 +14,6 @@ class PlaySession extends Model
 		return $this->belongsTo('App\User', 'id', 'user_id');
 	}
 	
-	public function playSessions()
-	{
-		return $this->hasMany('App\PlaySessions\PlaySession', 'user_id', 'id');
-	}
-	
 	public function party()
 	{
 		return $this->belongsTo('App\PlaySessions\Party', 'party_id', 'id');
@@ -26,26 +21,21 @@ class PlaySession extends Model
 	
 	public function encounters()
 	{
-		return $this->belongsToMany('App\Encounters\Encounter', 'play_session_encounters');
+		return $this->belongsToMany('App\Encounters\Encounter', 'play_session_encounters', 'play_session_id', 'encounter_id');
 	}
 	
-	public function encountersToPlay()
+	public function adventureEncounters()
 	{
-		return $this->belongsToMany('App\Encounters\Encounter', 'play_session_encounters')->where('play_session_encounters.complete', false);
-	}
-	
-	public function completedEncounters()
-	{
-		return $this->belongsToMany('App\Encounters\Encounter', 'play_session_encounters')->where('play_session_encounters.complete', true);
+		return $this->hasMany('App\PlaySessions\AdventureEncounter', 'id', 'current_encounter_id');
 	}
 	
 	public function currentEncounter()
-	{
-		return $this->belongsTo('App\Encounters\Encounter', 'id', 'current_encounter_id');
-	}
+    {
+        return $this->adventureEncounters()->where('encounter_completed', '=', false)->first();
+    }
 	
 	public function module()
 	{
-		return $this->belongsTo('App\Encounters\Module', 'id', 'module_id');
+		return $this->belongsTo('App\Encounters\Module', 'module_id', 'id');
 	}
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Encounters\Encounter;
+use App\Encounters\Module;
 use App\Players\Pc;
+use App\PlaySessions\AdventureEncounter;
 use App\PlaySessions\Party;
 use App\PlaySessions\PlaySession;
 use Illuminate\Http\Request;
@@ -24,9 +26,8 @@ class PlaySessionController extends Controller
 		return redirect()->route('adventure.continue', ['id' => $playSessionId]);
 	}
 	
-	public function continueSession(Request $request, $id)
+	public function continueSession(Request $request, PlaySession $playSession)
 	{
-		$playSession = PlaySession::findOrFail($id);
 		$parties = $request->user()->parties;
 		$pcs = $request->user()->pcs;
 		$modules = $request->user()->modules;
@@ -46,9 +47,8 @@ class PlaySessionController extends Controller
 		return response()->json($pcs);
 	}
 	
-	public function createParty(Request $request, $play_session_id)
+	public function createParty(Request $request, PlaySession $playSession)
 	{
-		$playSession = PlaySession::findOrFail($play_session_id);
 		$data = $request->validate(
 			[
 				'party_id' => 'nullable|numeric',
@@ -80,9 +80,8 @@ class PlaySessionController extends Controller
 		return redirect()->route('adventure.continue', ['id' => $playSession->id]);
 	}
 	
-	public function assignParty(Request $request, $play_session_id)
+	public function assignParty(Request $request, PlaySession $playSession)
 	{
-		$playSession = PlaySession::findOrFail($play_session_id);
 		$data = $request->validate(
 			[
 				'party_id' => 'required|numeric',
@@ -94,14 +93,41 @@ class PlaySessionController extends Controller
 		return redirect()->route('adventure.continue', ['id' => $playSession->id]);
 	}
 	
-	public function assignModule(Request $request, $play_session_id)
+	public function assignModule(Request $request, PlaySession $playSession)
 	{
-	
+        $data = $request->validate(
+            [
+                'module_id' => 'nullable|numeric',
+            ]
+        );
+        if(!isset($data['module_id']))
+        {
+            //remove the module encounters.
+            $module = $playSession->module;
+            $playSession->module()->dissociate();
+            $playSession->save();
+            if($module)
+            {
+                $encounter_ids = $module->encounters()->pluck('id');
+                $playSession->encounters()->detach($encounter_ids);
+            }
+        }
+        else
+        {
+            //assign a module to the session.
+            $module = Module::findOrFail($data['module_id']);
+            $playSession->module()->associate($module);
+            $playSession->save();
+            //add all encounters
+            $encounter_ids = $module->encounters()->pluck('id');
+            Log::debug(print_r($encounter_ids, true));
+            $playSession->encounters()->sync($encounter_ids);
+        }
+        return redirect()->route('adventure.continue', ['id' => $playSession->id]);
 	}
 	
-	public function addEncounter(Request $request, $play_session_id)
+	public function addEncounter(Request $request, PlaySession $playSession)
 	{
-		$playSession = PlaySession::findOrFail($play_session_id);
 		$data = $request->validate(
 			[
 				'encounter_id' => 'required|numeric',
@@ -112,9 +138,8 @@ class PlaySessionController extends Controller
 		return redirect()->route('adventure.continue', ['id' => $playSession->id]);
 	}
 	
-	public function removeEncounter(Request $request, $play_session_id)
+	public function removeEncounter(Request $request, PlaySession $playSession)
 	{
-		$playSession = PlaySession::findOrFail($play_session_id);
 		$data = $request->validate(
 			[
 				'encounter_id' => 'required|numeric',
@@ -124,4 +149,18 @@ class PlaySessionController extends Controller
 		$playSession->encounters()->detach($encounter);
 		return redirect()->route('adventure.continue', ['id' => $playSession->id]);
 	}
+	
+	public function playEncounter(Request $request, PlaySession $playSession, $encounter_id)
+    {
+        //create the start of the encounter.  From here, all other encounters should be locked out while one is active.
+        if($playSession->currentEncounter())
+        {
+            return redirect()::back()->withErrors(['Error creating adventure!', 'There is already an adventure playing.  Close that one to continue.']);
+        }
+        $encounter = Encounter::findOrFail($encounter_id);
+        $adventureEncounter = new AdventureEncounter();
+        $adventureEncounter->encounter_id = $encounter->id;
+        $playSession->adventureEncounters()->save($adventureEncounter);
+        //return redirect()->route('set')
+    }
 }

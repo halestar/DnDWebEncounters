@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Players\Player;
+use App\PlaySessions\AdventureEncounter;
+use App\PlaySessions\PlaySession;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -29,6 +31,8 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
     
         Route::model('player', Player::class);
+        Route::model('play_session', PlaySession::class);
+        Route::model('adventure_encounter', AdventureEncounter::class);
     }
 
     /**

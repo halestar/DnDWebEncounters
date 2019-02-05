@@ -97,6 +97,24 @@
                     Current Encounter
                 </div>
                 <div class="card-body">
+                    @if($playSession->currentEncounter())
+                        <button type="button" class="btn btn-warning btn-block">Continue Adventure</button>
+                    @else
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Quickplay Encounter:</span>
+                        </div>
+                        <select name="quick_encounter_id" id="quick_encounter_id" class="custom-select">
+                            <option value=""></option>
+                            @foreach($encounters as $encounter)
+                                <option value="{{ $encounter->id }}">{{ $encounter->name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-primary" onclick="window.location='/adventure/encounter/play/{{ $playSession->id }}/'+jQuery('#quick_encounter_id').val();"><span class="fa fa-play"></span></button>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -110,21 +128,26 @@
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="module_id">Current Module:</label>
                         </div>
-                        <select name="module_id" id="module_id" class="custom-select">
-                            <option value="">None</option>
-                            @foreach($modules as $module)
-                                <option value="{{ $module->id }}" @if($module->id == $playSession->module_id) selected @endif>{{ $module->name }}</option>
-                            @endforeach
-                        </select>
+                        <form action="{{ route('adventure.module.assign', ['play_session_id' => $playSession->id]) }}" method="POST" id="module_assign_form">
+                            @csrf
+                            <select name="module_id" id="module_id" class="custom-select" onchange="jQuery('form#module_assign_form').submit();">
+                                <option value="">None</option>
+                                @foreach($modules as $module)
+                                    <option value="{{ $module->id }}" @if($module->id == $playSession->module_id) selected @endif>{{ $module->name }}</option>
+                                @endforeach
+                            </select>
+                        </form>
                     </div>
                     <hr>
                     <h6>Encounter Queue</h6>
                     <ul class="list-group mb-3">
-                        @foreach($playSession->encountersToPlay as $encounter)
+                        @foreach($playSession->encounters as $encounter)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{ $encounter->name }}
                             <span class="encounter_control d-flex">
-                                <button type="button" class="btn btn-outline-primary btn-sm"><span class="fa fa-play"></span></button>
+                                @if(!$playSession->currentEncounter())
+                                <a role="button" class="btn btn-outline-primary btn-sm" href="{{ route('adventure.encounter.play', ['play_session_id' => $playSession->id, 'encounter_id' => $encounter->id]) }}"><span class="fa fa-play"></span></a>
+                                @endif
                                 <form action="{{ route('adventure.encounter.remove', ['play_session_id' => $playSession->id]) }}" method="POST" class="form-inline ml-1">
                                     @csrf
                                     <input type="hidden" name="encounter_id" value="{{ $encounter->id }}" />

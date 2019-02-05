@@ -44,14 +44,17 @@ Route::get('/modules/encounter-data','ModuleController@encounterList')->name('mo
 Route::resource('modules', 'ModuleController')->except(['show']);
 
 
-Route::post('/adventure/party/create/{play_session_id}', 'PlaySessionController@createParty')->name('adventure.party.create');
-Route::post('/adventure/party/assign/{play_session_id}', 'PlaySessionController@assignParty')->name('adventure.party.assign');
+Route::post('/adventure/party/create/{play_session}', 'PlaySessionController@createParty')->name('adventure.party.create');
+Route::post('/adventure/party/assign/{play_session}', 'PlaySessionController@assignParty')->name('adventure.party.assign');
 Route::get('/adventure/pcs', 'PlaySessionController@pcList')->name('adventure.pcs');
 Route::get('/adventure/parties', 'PlaySessionController@partyList')->name('adventure.parties');
 Route::get('/adventure/begin', 'PlaySessionController@startSession')->name('adventure.begin');
-Route::get('/adventure/continue/{id}', 'PlaySessionController@continueSession')->name('adventure.continue');
-Route::post('/adventure/module/assign/{play_session_id}', 'PlaySessionController@assignModule')->name('adventure.module.assign');
-Route::post('/adventure/encounter/add/{play_session_id}', 'PlaySessionController@addEncounter')->name('adventure.encounter.add');
-Route::post('/adventure/encounter/remove/{play_session_id}', 'PlaySessionController@removeEncounter')->name('adventure.encounter.remove');
+Route::get('/adventure/continue/{play_session}', 'PlaySessionController@continueSession')->name('adventure.continue');
+Route::post('/adventure/module/assign/{play_session}', 'PlaySessionController@assignModule')->name('adventure.module.assign');
+Route::post('/adventure/encounter/add/{play_session}', 'PlaySessionController@addEncounter')->name('adventure.encounter.add');
+Route::post('/adventure/encounter/remove/{play_session}', 'PlaySessionController@removeEncounter')->name('adventure.encounter.remove');
+Route::get('/adventure/encounter/play/{play_session}/{encounter_id}', 'PlaySessionController@playEncounter')->name('adventure.encounter.play');
+
+Router::get('/play/{adventure_encounter}/setup/', 'PlayController@setup')->name('play.setup');
 
 
