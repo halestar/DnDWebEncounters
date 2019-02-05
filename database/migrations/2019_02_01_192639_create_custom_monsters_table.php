@@ -35,6 +35,7 @@ class CreateCustomMonstersTable extends Migration
 	        $table->integer('hp');
 	        $table->integer('ac');
 	        $table->string('speed');
+	        $table->string('hd');
             $table->timestamps();
 	
 	        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

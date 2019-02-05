@@ -34,6 +34,8 @@ class CreateMonsterTokensTable extends Migration
      */
     public function down()
     {
+	    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('monster_tokens');
+	    DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

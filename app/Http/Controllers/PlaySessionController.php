@@ -161,6 +161,6 @@ class PlaySessionController extends Controller
         $adventureEncounter = new AdventureEncounter();
         $adventureEncounter->encounter_id = $encounter->id;
         $playSession->adventureEncounters()->save($adventureEncounter);
-        //return redirect()->route('set')
+        return redirect()->route('play.setup', ['adventure_encounter' => $adventureEncounter->id]);
     }
 }

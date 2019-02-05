@@ -98,7 +98,7 @@
                 </div>
                 <div class="card-body">
                     @if($playSession->currentEncounter())
-                        <button type="button" class="btn btn-warning btn-block">Continue Adventure</button>
+                        <a href="{{ route('play', ['adventure_encounter' => $playSession->currentEncounter()->id]) }}" role="button" class="btn btn-warning btn-block">Continue Adventure</a>
                     @else
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">

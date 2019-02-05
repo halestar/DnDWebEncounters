@@ -87,6 +87,10 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="name">Hit Dice</label>
+                            <input type="text" class="form-control" id="hd" name="hd">
+                        </div>
                     </div>
                 </div>
             </div>

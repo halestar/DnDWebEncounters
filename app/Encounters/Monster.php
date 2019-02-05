@@ -18,7 +18,7 @@ class Monster
 	public $name, $cr, $monsterType, $monsterSize, $alignment, $resistances, $immunities, $vulnerabilities, $languages, $senses;
 	public $str, $dex, $con, $int, $wis, $cha;
 	public $str_mod, $dex_mod, $con_mod, $int_mod, $wis_mod, $cha_mod;
-	public $hp, $ac, $speed;
+	public $hp, $ac, $speed, $hd;
 	public $specialAbilities, $actions, $legendaryAbilities;
 	
 	public static function allSrMonsters()
@@ -69,6 +69,7 @@ class Monster
 	public static function makeMonster($stats)
 	{
 		$monster = new Monster();
+		$monster->monsterJSON = json_encode($stats);
 		$monster->name = $stats['name'];
 		$monster->cr = $stats['challenge_rating'];
 		$monster->str = $stats['strength'];
@@ -98,6 +99,7 @@ class Monster
 		$monster->specialAbilities = (isset($stats['special_abilities'])? $stats['special_abilities']: "");
 		$monster->actions = (isset($stats['special_abilities'])? $stats['special_abilities']: "");
 		$monster->legendaryAbilities = (isset($stats['legendary_actions'])? $stats['legendary_actions']: "");
+		$monster->hd = (isset($stats['hit_dice'])? $stats['hit_dice']: "");
 		return $monster;
 	}
 

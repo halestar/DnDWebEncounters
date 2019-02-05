@@ -55,6 +55,11 @@ Route::post('/adventure/encounter/add/{play_session}', 'PlaySessionController@ad
 Route::post('/adventure/encounter/remove/{play_session}', 'PlaySessionController@removeEncounter')->name('adventure.encounter.remove');
 Route::get('/adventure/encounter/play/{play_session}/{encounter_id}', 'PlaySessionController@playEncounter')->name('adventure.encounter.play');
 
-Router::get('/play/{adventure_encounter}/setup/', 'PlayController@setup')->name('play.setup');
+Route::get('/play/{adventure_encounter}/setup', 'PlayController@setup')->name('play.setup');
+Route::post('/play/{adventure_encounter}/setup', 'PlayController@completeSetup')->name('play.setup.complete');
+Route::get('/play/{adventure_encounter}', 'PlayController@playEncounter')->name('play');
+
+Route::get('/dice/dialog', 'DiceController@showDialog')->name('dice.dialog');
+Route::post('/dice/roll', 'DiceController@rollDice')->name('dice.roll');
 
 

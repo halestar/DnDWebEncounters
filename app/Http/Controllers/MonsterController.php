@@ -64,7 +64,8 @@ class MonsterController extends Controller
 			    'wis' => 'required|numeric|min:0',
 			    'cha' => 'required|numeric|min:0',
 			    'ac' => 'required|numeric|min:0',
-			    'hp' => 'required|numeric|min:0'
+			    'hp' => 'required|numeric|min:0',
+			    'hd' => 'required',
 		    ]
 	    );
 	    $monster = new CustomMonster();
@@ -161,7 +162,8 @@ class MonsterController extends Controller
 			    'wis' => 'required|numeric|min:0',
 			    'cha' => 'required|numeric|min:0',
 			    'ac' => 'required|numeric|min:0',
-			    'hp' => 'required|numeric|min:0'
+			    'hp' => 'required|numeric|min:0',
+			    'hd' => 'required',
 		    ]
 	    );
 	    $monster->fill($data);

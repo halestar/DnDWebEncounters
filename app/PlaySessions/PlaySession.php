@@ -26,7 +26,7 @@ class PlaySession extends Model
 	
 	public function adventureEncounters()
 	{
-		return $this->hasMany('App\PlaySessions\AdventureEncounter', 'id', 'current_encounter_id');
+		return $this->hasMany('App\PlaySessions\AdventureEncounter', 'play_session_id', 'id');
 	}
 	
 	public function currentEncounter()

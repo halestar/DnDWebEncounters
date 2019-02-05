@@ -88,6 +88,10 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="name">Hit Dice</label>
+                            <input type="text" class="form-control" id="hd" name="hd" value="{{ $monster->hd }}">
+                        </div>
                     </div>
                 </div>
             </div>
