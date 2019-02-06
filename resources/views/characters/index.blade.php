@@ -6,7 +6,7 @@
             <div class="col-12">
                 <h3>
                     PC's
-                    <a href="{{ route('pcs.create') }}" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span></a>
+                    <a href="{{ route('pcs.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
                     <small>
                         <label for="player_selection">View for player:</label>
                         <select name="player_selection" id="player_selection" onchange="updatePlayerFilter(jQuery(this).val())">
@@ -69,8 +69,8 @@
                 data: 'id',
                 render: function(id)
                 {
-                    return "<a href='/pcs/" + id + "/edit' class='btn btn-sm btn-primary mr-2'><span class='fa fa-edit'></span></a>" +
-                        "<a href='#' onclick='promptDelete(" + id + ")' class='btn btn-sm btn-danger'><span class='fa fa-trash'></span></a>";
+                    return "<a href='/pcs/" + id + "/edit' class='text-primary mr-2'><span class='fa fa-edit'></span></a>" +
+                        "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger'><span class='fa fa-trash'></span></a>";
                 }
             }
         ]

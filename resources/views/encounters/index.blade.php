@@ -6,7 +6,7 @@
             <div class="col-5">
                 <h3>
                     Encounters
-                    <a href="{{ route('encounters.create') }}" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span></a>
+                    <a href="{{ route('encounters.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
                 </h3>
                 <table class="table table-bordered" id="encounters-table">
                     <thead>
@@ -46,8 +46,8 @@
                 data: 'id',
                 render: function(id)
                 {
-                    return "<a href='/encounters/" + id + "/edit' class='btn btn-sm btn-primary mr-1'><span class='fa fa-edit'></span></a>" +
-                        "<a href='#' onclick='promptDelete(" + id + ")' class='btn btn-sm btn-danger mr-1'><span class='fa fa-trash'></span></a>";
+                    return "<a href='/encounters/" + id + "/edit' class='text-primary mr-1'><span class='fa fa-edit'></span></a>" +
+                        "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger mr-1'><span class='fa fa-trash'></span></a>";
                 }
             }
         ]

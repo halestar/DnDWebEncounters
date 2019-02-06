@@ -10,6 +10,7 @@ use App\PlaySessions\AdventureEncounter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class PlayController extends Controller
 {
@@ -55,13 +56,9 @@ class PlayController extends Controller
 	    //at this point, we can enter the objects.
 	    Log::debug("data received from setup: " . print_r($data, true));
 	    //setttings first
-	    $adventureEncounter->turn_completed = false;
-	    $adventureEncounter->encounter_setup = true;
-	    $adventureEncounter->encounter_completed = false;
 	    $adventureEncounter->monster_initiative = $data['monster_initiative'];
 	    $adventureEncounter->monster_hp = $data['monster_hp'];
-	    $adventureEncounter->turn_number = 1;
-        $adventureEncounter->save();
+        $adventureEncounter->completeSetup();
 	    //PC's
 	    foreach($pcs as $pc)
 	    {
@@ -129,6 +126,72 @@ class PlayController extends Controller
     {
         if(!$adventureEncounter->encounter_setup)
         	return redirect()->route('play.setup', ['adventure_encounter' => $adventureEncounter->id]);
-        return view('adventure_encounter.home', compact('adventureEncounter'));
+        $currentActor = $adventureEncounter->getCurrentActor();
+        return view('adventure_encounter.home', compact('adventureEncounter', 'currentActor'));
+    }
+    
+    public function loadMonsterTarget(Request $request, AdventureEncounter $adventureEncounter, AdventureActor $actor)
+    {
+	    if($request->ajax())
+		    return view('adventure_encounter.monster_display', compact('adventureEncounter', 'actor'))->render();
+	    return redirect()->back();
+    }
+    
+    public function finishMonster(Request $request, AdventureEncounter $adventureEncounter, AdventureActor $actor)
+    {
+        $data = $request->validate([ 'hp' => 'required|numeric' ]);
+        $currentActor = $adventureEncounter->getCurrentActor();
+        $actor->current_hp = $data['hp'];
+        $actor->save();
+	    if($request->ajax())
+		    return view('adventure_encounter.player_turn', compact('adventureEncounter', 'currentActor'))->render();
+	    return redirect()->route('play', ['id' => $adventureEncounter->id]);
+    }
+    
+    public function markMonsterDead(Request $request, AdventureEncounter $adventureEncounter, AdventureActor $actor)
+    {
+	    $currentActor = $adventureEncounter->getCurrentActor();
+    	$actor->status = AdventureActor::DEAD;
+    	$actor->current_hp = 0;
+    	$actor->save();
+	    if($request->ajax())
+		    return view('adventure_encounter.player_turn', compact('adventureEncounter', 'currentActor'))->render();
+	    return redirect()->route('play', ['id' => $adventureEncounter->id]);
+    }
+    
+    public function finishPlayerTurn(Request $request, AdventureEncounter $adventureEncounter, AdventureActor $actor)
+    {
+		$actor->has_acted = true;
+		$actor->save();
+		$adventureEncounter->nextRound();
+		return redirect()->route('play', ['id' => $adventureEncounter->id]);
+    }
+    
+    public function finishMonsterTurn(Request $request, AdventureEncounter $adventureEncounter, AdventureActor $actor)
+    {
+		$data = $request->validate(
+			[
+				'current_hp' => 'required|numeric',
+				'status' => ['required', Rule::in([AdventureActor::ALIVE, AdventureActor::DEAD])],
+			]
+		);
+		$actor->current_hp = $data['current_hp'];
+		$actor->status = $data['status'];
+		$actor->has_acted = true;
+		$actor->save();
+	    $adventureEncounter->nextRound();
+	    return redirect()->route('play', ['id' => $adventureEncounter->id]);
+    }
+    
+    public function finishTurn(Request $request, AdventureEncounter $adventureEncounter)
+    {
+        $adventureEncounter->finishTurn();
+        return redirect()->route('play', ['id' => $adventureEncounter->id]);
+    }
+    
+    public function finishEncounter(Request $request, AdventureEncounter $adventureEncounter)
+    {
+	    $adventureEncounter->finishEncounter();
+	    return redirect()->route('adventure.continue', ['id' => $adventureEncounter->play_session_id]);
     }
 }

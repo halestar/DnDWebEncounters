@@ -52,6 +52,8 @@ class DiceRoller
 			$roll += $randNum;
 		}
 		$roll += $this->modifier;
+		if($roll < 0)
+			$roll = 0;
 		if($this->rollSign == "-")
 			$roll *= -1;
 		Log::debug("total roll results is a " . $roll);

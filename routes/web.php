@@ -58,6 +58,15 @@ Route::get('/adventure/encounter/play/{play_session}/{encounter_id}', 'PlaySessi
 Route::get('/play/{adventure_encounter}/setup', 'PlayController@setup')->name('play.setup');
 Route::post('/play/{adventure_encounter}/setup', 'PlayController@completeSetup')->name('play.setup.complete');
 Route::get('/play/{adventure_encounter}', 'PlayController@playEncounter')->name('play');
+Route::get('/play/{adventure_encounter}/monster-target/{adventure_actor}', 'PlayController@loadMonsterTarget')->name('play.monster_target');
+
+
+Route::post('/play/{adventure_encounter}/finish/monster/{adventure_actor}', 'PlayController@finishMonster')->name('play.finish.monster');
+Route::get('/play/{adventure_encounter}/finish/dead/{adventure_actor}', 'PlayController@markMonsterDead')->name('play.finish.dead');
+Route::get('/play/{adventure_encounter}/finish/player/{adventure_actor}', 'PlayController@finishPlayerTurn')->name('play.finish.player');
+Route::post('/play/{adventure_encounter}/finish/monster-turn/{adventure_actor}', 'PlayController@finishMonsterTurn')->name('play.finish.monster_turn');
+Route::get('/play/{adventure_encounter}/finish/turn', 'PlayController@finishTurn')->name('play.finish.turn');
+Route::get('/play/{adventure_encounter}/finish/encounter', 'PlayController@finishEncounter')->name('play.finish.encounter');
 
 Route::get('/dice/dialog', 'DiceController@showDialog')->name('dice.dialog');
 Route::post('/dice/roll', 'DiceController@rollDice')->name('dice.roll');

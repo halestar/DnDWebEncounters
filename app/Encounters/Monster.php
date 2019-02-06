@@ -96,9 +96,9 @@ class Monster
 		$monster->languages = (isset($stats['languages'])? $stats['languages']: "");
 		$monster->senses = (isset($stats['senses'])? $stats['senses']: "");
 		$monster->determineMods();
-		$monster->specialAbilities = (isset($stats['special_abilities'])? $stats['special_abilities']: "");
-		$monster->actions = (isset($stats['special_abilities'])? $stats['special_abilities']: "");
-		$monster->legendaryAbilities = (isset($stats['legendary_actions'])? $stats['legendary_actions']: "");
+		$monster->specialAbilities = (isset($stats['special_abilities'])? $stats['special_abilities']: []);
+		$monster->actions = (isset($stats['actions'])? $stats['actions']: []);
+		$monster->legendaryAbilities = (isset($stats['legendary_actions'])? $stats['legendary_actions']: []);
 		$monster->hd = (isset($stats['hit_dice'])? $stats['hit_dice']: "");
 		return $monster;
 	}

@@ -6,7 +6,7 @@
             <div class="col-12">
                 <h3>
                     Modules
-                    <a href="{{ route('modules.create') }}" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span></a>
+                    <a href="{{ route('modules.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
                 </h3>
                 <table class="table table-bordered" id="modules-table">
                     <thead>
@@ -48,8 +48,8 @@
                 data: 'id',
                 render: function(id)
                 {
-                    return "<a href='/modules/" + id + "/edit' class='btn btn-sm btn-primary mr-1'><span class='fa fa-edit'></span></a>" +
-                        "<a href='#' onclick='promptDelete(" + id + ")' class='btn btn-sm btn-danger mr-1'><span class='fa fa-trash'></span></a>";
+                    return "<a href='/modules/" + id + "/edit' class='text-primary mr-1'><span class='fa fa-edit'></span></a>" +
+                        "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger mr-1'><span class='fa fa-trash'></span></a>";
                 }
             }
         ]

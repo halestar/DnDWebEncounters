@@ -20,7 +20,7 @@
                     <div class="tab-pane fade show active" id="custom_monsters" role="tabpanel" aria-labelledby="custom-monsters">
                         <h3>
                             Custom Monsters
-                            <a href="{{ route('monsters.create') }}" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span></a>
+                            <a href="{{ route('monsters.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
                         </h3>
                         <table class="table table-bordered" id="custom_monster_table">
                             <thead>
@@ -82,8 +82,8 @@
                 data: 'id',
                 render: function(id)
                 {
-                    return "<a href='/monsters/" + id + "/edit' class='btn btn-sm btn-primary mr-2'><span class='fa fa-edit'></span></a>" +
-                        "<a href='#' onclick='promptDelete(" + id + ")' class='btn btn-sm btn-danger'><span class='fa fa-trash'></span></a>";
+                    return "<a href='/monsters/" + id + "/edit' class='text-primary mr-2'><span class='fa fa-edit'></span></a>" +
+                        "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger'><span class='fa fa-trash'></span></a>";
                 }
             }
         ]

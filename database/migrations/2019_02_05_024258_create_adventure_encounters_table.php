@@ -18,7 +18,6 @@ class CreateAdventureEncountersTable extends Migration
             $table->increments('id');
             $table->integer('play_session_id')->unsigned();
             $table->integer('encounter_id')->unsigned();
-            $table->boolean('turn_completed')->default(false);
             $table->boolean('encounter_setup')->default(false);
             $table->boolean('encounter_completed')->default(false);
             $table->boolean('monster_initiative')->default(false);
