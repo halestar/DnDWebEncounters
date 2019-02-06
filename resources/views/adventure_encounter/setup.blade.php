@@ -32,7 +32,7 @@
                         <ul class="list-group">
                             @foreach($adventureEncounter->encounter->srMonsters as $srMonster)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <input type="hidden" name="monster_target_{{ $loop->index }}" id="monster_target_{{ $loop->index }}" value='{{ json_encode($srMonster) }}' />
+                                <input type="hidden" name="monster_target_{{ $loop->index }}" id="monster_target_{{ $loop->index }}" value='{{ $srMonster['monsterJSON'] }}' />
                                 {{ $srMonster['name'] }}
                                 <select
                                         name="monster_token_{{ $loop->index }}"

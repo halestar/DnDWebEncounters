@@ -9,6 +9,8 @@
 namespace App\Dice;
 
 
+use Illuminate\Support\Facades\Log;
+
 class DiceRoller
 {
 	protected $modifier;
@@ -41,15 +43,18 @@ class DiceRoller
 	
 	public function roll()
 	{
+	    Log::debug("In DiceRoller@roll(), will roll " . $this->numDice . "d" . $this->numSides . " with mod " . $this->modifier);
 		$roll = 0;
 		for($i = 0; $i < $this->numDice; $i++)
 		{
 			$randNum = rand(1, $this->numSides);
+			Log::debug("this roll was a " . $randNum);
 			$roll += $randNum;
 		}
 		$roll += $this->modifier;
 		if($this->rollSign == "-")
 			$roll *= -1;
+		Log::debug("total roll results is a " . $roll);
 		return $roll;
 	}
 }

@@ -1201,16 +1201,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.7.24",
+            "version": "v5.7.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "2ede55db4b8201ed0450fa7e7a4d7220aa29bc34"
+                "reference": "f8fb354878064b94a3ff09a6ffd48ee9a8d712cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/2ede55db4b8201ed0450fa7e7a4d7220aa29bc34",
-                "reference": "2ede55db4b8201ed0450fa7e7a4d7220aa29bc34",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f8fb354878064b94a3ff09a6ffd48ee9a8d712cf",
+                "reference": "f8fb354878064b94a3ff09a6ffd48ee9a8d712cf",
                 "shasum": ""
             },
             "require": {
@@ -1343,7 +1343,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-01-29T22:13:46+00:00"
+            "time": "2019-02-05T14:28:43+00:00"
         },
         {
             "name": "laravel/nexmo-notification-channel",
@@ -4503,16 +4503,16 @@
         },
         {
             "name": "yajra/laravel-datatables-html",
-            "version": "v4.3.1",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-html.git",
-                "reference": "8ea6aa988ff9d504d35805de8ea049584c492315"
+                "reference": "52710b520097a7849e6c97b00cf13a0c98e19318"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/8ea6aa988ff9d504d35805de8ea049584c492315",
-                "reference": "8ea6aa988ff9d504d35805de8ea049584c492315",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/52710b520097a7849e6c97b00cf13a0c98e19318",
+                "reference": "52710b520097a7849e6c97b00cf13a0c98e19318",
                 "shasum": ""
             },
             "require": {
@@ -4559,7 +4559,7 @@
                 "jquery",
                 "laravel"
             ],
-            "time": "2018-11-21T10:00:46+00:00"
+            "time": "2019-02-05T01:51:03+00:00"
         },
         {
             "name": "yajra/laravel-datatables-oracle",

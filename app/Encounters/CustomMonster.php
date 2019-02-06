@@ -36,4 +36,34 @@ class CustomMonster extends Model
     {
         return $this->belongsToMany('App\Encounters\Encounter', 'encounter_monsters');
     }
+    
+    public function getStrModAttribute()
+    {
+        return (int)floor(($this->attributes['str'] - 10) / 2);
+    }
+    
+    public function getDexModAttribute()
+    {
+        return (int)floor(($this->attributes['dex'] - 10) / 2);
+    }
+    
+    public function getConModAttribute()
+    {
+        return (int)floor(($this->attributes['con'] - 10) / 2);
+    }
+    
+    public function getIntModAttribute()
+    {
+        return (int)floor(($this->attributes['int'] - 10) / 2);
+    }
+    
+    public function getWisModAttribute()
+    {
+        return (int)floor(($this->attributes['wis'] - 10) / 2);
+    }
+    
+    public function getChaModAttribute()
+    {
+        return (int)floor(($this->attributes['cha'] - 10) / 2);
+    }
 }

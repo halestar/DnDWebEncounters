@@ -152,11 +152,12 @@ class PlaySessionController extends Controller
 	
 	public function playEncounter(Request $request, PlaySession $playSession, $encounter_id)
     {
+        //makes ure tehre is a party!!!
+        if($playSession->party == null)
+            return redirect()->back()->withErrors(['You have not selected a party']);
         //create the start of the encounter.  From here, all other encounters should be locked out while one is active.
         if($playSession->currentEncounter())
-        {
             return redirect()::back()->withErrors(['Error creating adventure!', 'There is already an adventure playing.  Close that one to continue.']);
-        }
         $encounter = Encounter::findOrFail($encounter_id);
         $adventureEncounter = new AdventureEncounter();
         $adventureEncounter->encounter_id = $encounter->id;
