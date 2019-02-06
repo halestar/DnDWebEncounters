@@ -85,6 +85,7 @@ class AdventureEncounter extends Model
 	{
 		$this->current_initiative = $this->highestInitiative();
 		$this->save();
+		$this->playSession->touch();
 	}
 	
 	public function finishTurn()
@@ -94,12 +95,14 @@ class AdventureEncounter extends Model
 		$this->turn_number++;
 		$this->current_initiative = $this->highestInitiative();
 		$this->save();
+		$this->playSession->touch();
 	}
 	
 	public function finishEncounter()
 	{
 		$this->encounter_completed = true;
 		$this->save();
+		$this->playSession->touch();
 		$this->playSession->current_encounter_id = null;
 		$this->playSession->save();
 	}

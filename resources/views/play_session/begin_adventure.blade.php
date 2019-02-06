@@ -98,7 +98,24 @@
                 </div>
                 <div class="card-body">
                     @if($playSession->currentEncounter())
-                        <a href="{{ route('play', ['adventure_encounter' => $playSession->currentEncounter()->id]) }}" role="button" class="btn btn-warning btn-block">Continue Adventure</a>
+                        <div class="alert alert-info">
+                            <h5 class="alert-heading">Still Playing an Encounter!</h5>
+                            <div class="text-center">
+                                <div class="party-name font-weight-bolder">
+                                    @if($playSession->party != null)
+                                        {{ $playSession->party->name }}
+                                    @else
+                                        No Party Created
+                                    @endif
+                                </div>
+                                <div class="vs-display font-weight-bolder">&mdash; VS &mdash;</div>
+                                <div class="encounter-name font-weight-bolder">
+                                    {{ $playSession->currentEncounter()->encounter->name }}
+                                </div>
+                            </div>
+                            <hr>
+                            <a href="{{ route('play', ['adventure_encounter' => $playSession->currentEncounter()->id]) }}" role="button" class="btn btn-warning btn-block">Continue Adventure</a>
+                        </div>
                     @else
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -178,6 +195,7 @@
             </div>
         </div>
     </div>
+    <a href="#" role="button" class="btn btn-danger btn-block m-3">Finish and Close Adventure</a>
 </div>
 @endsection
 

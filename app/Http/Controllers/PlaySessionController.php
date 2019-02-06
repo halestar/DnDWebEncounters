@@ -28,6 +28,7 @@ class PlaySessionController extends Controller
 	
 	public function continueSession(Request $request, PlaySession $playSession)
 	{
+		$playSession->touch();
 		$parties = $request->user()->parties;
 		$pcs = $request->user()->pcs;
 		$modules = $request->user()->modules;

@@ -76,13 +76,44 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">Adventure Manager</div>
-
                 <div class="card-body">
                     @if(\Illuminate\Support\Facades\Auth::user()->canStartAdventure())
                         @if($lastActiveSession != null)
-                        <a href="{{ route('adventure.continue', ['play_session_id' => $lastActiveSession->id]) }}" class="btn btn-warning btn-block">Continue Last Adventure</a>
+                        <div class="alert alert-info">
+                            <h5 class="alert-heading">Still Playing an Adventure!</h5>
+                            <div class="d-flex justify-content-between">
+                                <span class="party-name font-weight-bold">
+                                    @if($lastActiveSession->party != null)
+                                    {{ $lastActiveSession->party->name }}
+                                    @else
+                                    No Party Created
+                                    @endif
+                                </span>
+                                <span class="last-played small">Last Played: {{ $lastActiveSession->updated_at->diffForHumans() }}</span>
+                            </div>
+                            <hr>
+                            <a href="{{ route('adventure.continue', ['play_session_id' => $lastActiveSession->id]) }}" class="btn btn-warning btn-block">Continue Last Adventure</a>
+                        </div>
                         @endif
                         <a href="{{ route('adventure.begin') }}" class="btn btn-primary btn-block">Begin New Adventure</a>
+
+                        @if($playSessions != null && $playSessions->count() > 0)
+                        <h4 class="mt-3">Active Adventures</h4>
+                        <div class="list-group">
+                            @foreach($playSessions as $pSession)
+                            <a href="{{ route('adventure.continue', ['play_session_id' => $pSession->id]) }}" class="list-group-item list-group-item-action d-flex justify-content-between">
+                                <span class="party-name font-weight-bold">
+                                @if($pSession->party != null)
+                                    {{ $pSession->party->name }}
+                                @else
+                                    No Party Created
+                                @endif
+                                </span>
+                                <span class="last-played small">Last Played: {{ $pSession->updated_at->diffForHumans() }}</span>
+                            </a>
+                            @endforeach
+                        </div>
+                        @endif
                     @else
                     <div class="alert alert-danger">
                         You cannot start an adventure until all the necessary things have been entered.

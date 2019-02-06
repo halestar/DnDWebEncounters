@@ -38,4 +38,9 @@ class PlaySession extends Model
 	{
 		return $this->belongsTo('App\Encounters\Module', 'module_id', 'id');
 	}
+	
+	public function finishSession()
+	{
+	
+	}
 }
