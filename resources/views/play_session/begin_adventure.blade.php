@@ -132,6 +132,16 @@
                         </div>
                     </div>
                     @endif
+                    @if($playSession->completedEncounters()->count() > 0)
+                    <h4>Completed Encounters</h4>
+                    <ul class="list-group">
+                        @foreach($playSession->completedEncounters() as $e)
+                            <li class="list-group-item bg-secondary">
+                                {{ $e->encounter->name }}
+                            </li>
+                        @endforeach
+                    </ul>
+                    @endif
                 </div>
             </div>
         </div>

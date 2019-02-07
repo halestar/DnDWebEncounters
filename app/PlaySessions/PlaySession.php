@@ -33,6 +33,11 @@ class PlaySession extends Model
     {
         return $this->adventureEncounters()->where('encounter_completed', '=', false)->first();
     }
+    
+    public function completedEncounters()
+    {
+    	return $this->adventureEncounters()->where('encounter_completed', '=', true)->get();
+    }
 	
 	public function module()
 	{
