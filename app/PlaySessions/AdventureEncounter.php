@@ -58,7 +58,6 @@ class AdventureEncounter extends Model
 	
 	public function completeSetup()
 	{
-		$this->turn_completed = false;
 		$this->encounter_setup = true;
 		$this->turn_number = 1;
 		$this->getCurrentInitiative();
