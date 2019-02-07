@@ -78,5 +78,10 @@ Route::get('/play/{adventure_encounter}/finish/encounter', 'PlayController@finis
 
 Route::get('/dice/dialog', 'DiceController@showDialog')->name('dice.dialog');
 Route::post('/dice/roll', 'DiceController@rollDice')->name('dice.roll');
+Route::post('/dice/quick', 'DiceController@quickRoll')->name('dice.quick');
+
+Route::get('/spells/dialog', 'SpellController@showDialog')->name('spells.dialog');
+Route::post('/spells/search', 'SpellController@spellSearch')->name('spells.search');
+Route::get('/spells/show/{idx}', 'SpellController@showSpell')->name('spells.show');
 
 

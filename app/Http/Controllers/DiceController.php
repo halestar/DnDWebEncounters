@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dice\DiceParser;
 use App\Dice\DiceRoller;
 use Illuminate\Http\Request;
 
@@ -31,5 +32,12 @@ class DiceController extends Controller
 		$diceRoller = new DiceRoller($data['dice_type'], $data['num_dice']);
 		$diceRoller->setModifier($data['mod']);
 		return $diceRoller->roll();
+	}
+	
+	public function quickRoll(Request $request)
+	{
+		$roll = $request->input('roll');
+		$dice = new DiceParser($roll);
+		return $dice->roll();
 	}
 }

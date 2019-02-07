@@ -127,6 +127,13 @@
             <p>
                 {{ $ability['desc'] }}
             </p>
+            <div class="border-top border-dark small pt-2 d-flex justify-content-around">
+                @foreach (\App\Dice\DiceParser::parseString($ability['desc']) as $dice)
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="quickRoll('{{ $dice->getDiceStr() }}')">
+                        {{ $dice->getDiceStr() }}
+                    </button>
+                @endforeach
+            </div>
         </div>
     @endforeach
 @else
@@ -138,6 +145,13 @@
             <p>
                 {{ $ability['desc'] }}
             </p>
+            <div class="border-top border-dark small pt-2 d-flex justify-content-around">
+                @foreach (\App\Dice\DiceParser::parseString($ability['desc']) as $dice)
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="quickRoll('{{ $dice->getDiceStr() }}')">
+                        {{ $dice->getDiceStr() }}
+                    </button>
+                @endforeach
+            </div>
         </div>
     @endforeach
 @endif
@@ -153,6 +167,13 @@
             <p>
                 {{ $ability['desc'] }}
             </p>
+            <div class="border-top border-dark small pt-2 d-flex justify-content-around">
+                @foreach (\App\Dice\DiceParser::parseString($ability['desc']) as $dice)
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="quickRoll('{{ $dice->getDiceStr() }}')">
+                        {{ $dice->getDiceStr() }}
+                    </button>
+                @endforeach
+            </div>
         </div>
     @endforeach
 @else
@@ -164,12 +185,19 @@
             <p>
                 {{ $ability['desc'] }}
             </p>
+            <div class="border-top border-dark small pt-2 d-flex justify-content-around">
+                @foreach (\App\Dice\DiceParser::parseString($ability['desc']) as $dice)
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="quickRoll('{{ $dice->getDiceStr() }}')">
+                        {{ $dice->getDiceStr() }}
+                    </button>
+                @endforeach
+            </div>
         </div>
     @endforeach
 @endif
 @endif
 @if(($actor->isSrMonster() && count($actor->srMonster()->legendaryAbilities) > 0) || ($actor->isCustomMonster() && $actor->customMonster->legendaryAbilities->count() > 0))
-    <h5>Actions</h5>
+    <h5>Legendary Abilities</h5>
     @if($actor->isSrMonster())
         @foreach($actor->srMonster()->legendaryAbilities as $ability)
             <div class="alert alert-info">
@@ -179,6 +207,13 @@
                 <p>
                     {{ $ability['desc'] }}
                 </p>
+                <div class="border-top border-dark small">
+                    @foreach (\App\Dice\DiceParser::parseString($ability['desc']) as $dice)
+                    <button type="button" class="btn btn-secondary btn-sm">
+                        {{ $dice->getDiceStr() }}
+                    </button>
+                    @endforeach
+                </div>
             </div>
         @endforeach
     @else
@@ -190,6 +225,13 @@
                 <p>
                     {{ $ability['desc'] }}
                 </p>
+                <div class="border-top border-dark small pt-2 d-flex justify-content-around">
+                    @foreach (\App\Dice\DiceParser::parseString($ability['desc']) as $dice)
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="quickRoll('{{ $dice->getDiceStr() }}')">
+                            {{ $dice->getDiceStr() }}
+                        </button>
+                    @endforeach
+                </div>
             </div>
         @endforeach
     @endif
