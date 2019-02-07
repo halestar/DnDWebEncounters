@@ -9,13 +9,13 @@
                 <div class="card-body">
                     <div class="text-center">
                         <h5>
-                            <a href="#" class="text-primary"><span class="fa fa-edit"></span></a>
+                            <a href="{{ route('play.party.edit', ['id' => $adventureEncounter->id]) }}" class="text-primary"><span class="fa fa-edit"></span></a>
                             {{ $adventureEncounter->playSession->party->name }}
                         </h5>
                         <h4>&mdash; VS &mdash;</h4>
                         <h5>
                             {{ $adventureEncounter->encounter->name }}
-                            <a href="#" class="text-danger"><span class="fa fa-edit"></span></a>
+                            <a href="{{ route('play.monsters.edit', ['id' => $adventureEncounter->id]) }}" class="text-danger"><span class="fa fa-edit"></span></a>
                         </h5>
                     </div>
                     <ul class="list-group mb-2" id="encounter-initiative-display">

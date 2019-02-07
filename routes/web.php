@@ -50,6 +50,7 @@ Route::get('/adventure/pcs', 'PlaySessionController@pcList')->name('adventure.pc
 Route::get('/adventure/parties', 'PlaySessionController@partyList')->name('adventure.parties');
 Route::get('/adventure/begin', 'PlaySessionController@startSession')->name('adventure.begin');
 Route::get('/adventure/continue/{play_session}', 'PlaySessionController@continueSession')->name('adventure.continue');
+Route::get('/adventure/end/{play_session}', 'PlaySessionController@endAdventure')->name('adventure.end');
 Route::post('/adventure/module/assign/{play_session}', 'PlaySessionController@assignModule')->name('adventure.module.assign');
 Route::post('/adventure/encounter/add/{play_session}', 'PlaySessionController@addEncounter')->name('adventure.encounter.add');
 Route::post('/adventure/encounter/remove/{play_session}', 'PlaySessionController@removeEncounter')->name('adventure.encounter.remove');
@@ -57,6 +58,13 @@ Route::get('/adventure/encounter/play/{play_session}/{encounter_id}', 'PlaySessi
 
 Route::get('/play/{adventure_encounter}/setup', 'PlayController@setup')->name('play.setup');
 Route::post('/play/{adventure_encounter}/setup', 'PlayController@completeSetup')->name('play.setup.complete');
+
+Route::get('/play/{adventure_encounter}/party', 'PlayController@editAdventureParty')->name('play.party.edit');
+Route::post('/play/{adventure_encounter}/party', 'PlayController@updateAdventureParty')->name('play.party.update');
+Route::get('/play/{adventure_encounter}/monsters', 'PlayController@editAdventureMonsters')->name('play.monsters.edit');
+Route::post('/play/{adventure_encounter}/monsters', 'PlayController@updateAdventureMonsters')->name('play.monsters.update');
+
+
 Route::get('/play/{adventure_encounter}', 'PlayController@playEncounter')->name('play');
 Route::get('/play/{adventure_encounter}/monster-target/{adventure_actor}', 'PlayController@loadMonsterTarget')->name('play.monster_target');
 

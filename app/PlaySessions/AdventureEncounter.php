@@ -44,6 +44,12 @@ class AdventureEncounter extends Model
 		return $this->current_initiative;
 	}
 	
+	public function reloadInitiative()
+	{
+		$this->current_initiative = $this->highestInitiative();
+		$this->save();
+	}
+	
 	public function getCurrentActor()
 	{
 		if($this->current_initiative == null)
@@ -78,6 +84,11 @@ class AdventureEncounter extends Model
 	public function monsterActors()
 	{
 		return $this->actors()->where('actor_type', '<>', AdventureActor::PC)->where('status', '=', AdventureActor::ALIVE)->get();
+	}
+	
+	public function allMonsterActors()
+	{
+		return $this->actors()->where('actor_type', '<>', AdventureActor::PC)->get();
 	}
 	
 	public function nextRound()

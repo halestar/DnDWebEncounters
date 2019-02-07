@@ -194,4 +194,63 @@ class PlayController extends Controller
 	    $adventureEncounter->finishEncounter();
 	    return redirect()->route('adventure.continue', ['id' => $adventureEncounter->play_session_id]);
     }
+    
+    public function editAdventureParty(Request $request, AdventureEncounter $adventureEncounter)
+    {
+    	return view('adventure_encounter.edit_adventure_party', compact('adventureEncounter'));
+    }
+
+	public function updateAdventureParty(Request $request, AdventureEncounter $adventureEncounter)
+	{
+		$rules = [];
+		foreach($adventureEncounter->pcActors() as $actor)
+			$rules['initiative_' . $actor->id] = 'required|numeric';
+		$data = $request->validate($rules);
+		foreach($adventureEncounter->pcActors() as $actor)
+		{
+			$actor->initiative = $data['initiative_' . $actor->id];
+			$actor->save();
+		}
+		$adventureEncounter->reloadInitiative();
+		return redirect()->route('play', ['id' => $adventureEncounter->id]);
+	}
+	
+	public function editAdventureMonsters(Request $request, AdventureEncounter $adventureEncounter)
+	{
+		$tokens = $request->user()->monsterTokens;
+		return view('adventure_encounter.edit_adventure_monsters', compact('adventureEncounter', 'tokens'));
+	}
+	
+	public function updateAdventureMonsters(Request $request, AdventureEncounter $adventureEncounter)
+	{
+		$rules = [];
+		foreach($adventureEncounter->allMonsterActors() as $actor)
+		{
+			$rules['initiative_' . $actor->id] = 'required|numeric';
+			$rules['hp_' . $actor->id] = 'required|numeric';
+			$rules['token_' . $actor->id] = 'required|numeric';
+			$rules['remove_' . $actor->id] = 'required|numeric';
+			$rules['dead_' . $actor->id] = 'required|numeric';
+			$rules['acted_' . $actor->id] = 'required|numeric';
+		}
+		$data = $request->validate($rules);
+		foreach($adventureEncounter->allMonsterActors() as $actor)
+		{
+			if($data['remove_' . $actor->id] == "1")
+			{
+				$actor->delete();
+			}
+			else
+			{
+				$actor->initiative = $data['initiative_' . $actor->id];
+				$actor->current_hp = $data['hp_' . $actor->id];
+				$actor->token_id = $data['token_' . $actor->id];
+				$actor->status = ($data['dead_' . $actor->id] == "1")? AdventureActor::DEAD : AdventureActor::ALIVE;
+				$actor->has_acted = ($data['acted_' . $actor->id] == "1");
+				$actor->save();
+			}
+		}
+		$adventureEncounter->reloadInitiative();
+		return redirect()->route('play', ['id' => $adventureEncounter->id]);
+	}
 }

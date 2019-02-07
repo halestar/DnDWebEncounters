@@ -195,7 +195,7 @@
             </div>
         </div>
     </div>
-    <a href="#" role="button" class="btn btn-danger btn-block m-3">Finish and Close Adventure</a>
+    <a href="{{ route('adventure.end', ['id' => $playSession->id]) }}" role="button" class="btn btn-danger btn-block m-3">Finish and Close Adventure</a>
 </div>
 @endsection
 

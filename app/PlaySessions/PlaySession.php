@@ -41,6 +41,8 @@ class PlaySession extends Model
 	
 	public function finishSession()
 	{
-	
+		$this->ended = date('Y-i-d');
+		$this->current_encounter_id = null;
+		$this->save();
 	}
 }

@@ -165,4 +165,14 @@ class PlaySessionController extends Controller
         $playSession->adventureEncounters()->save($adventureEncounter);
         return redirect()->route('play.setup', ['adventure_encounter' => $adventureEncounter->id]);
     }
+    
+    public function endAdventure(Request $request, PlaySession $playSession)
+    {
+        //close out all adventure encounters
+	    AdventureEncounter::where('play_session_id', '=', $playSession->id)
+		    ->update(['encounter_completed' => '1']);
+	    //close out the session
+	    $playSession->finishSession();
+    	return redirect()->route('home');
+    }
 }
