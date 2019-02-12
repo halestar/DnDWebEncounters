@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/sync/download', 'SyncController@sendSyncData')->name('sync.download');
+Route::post('/sync/upload', 'SyncController@receiveSyncData')->name('sync.upload');
