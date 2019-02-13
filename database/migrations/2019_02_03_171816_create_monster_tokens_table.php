@@ -16,6 +16,7 @@ class CreateMonsterTokensTable extends Migration
     {
         Schema::create('monster_tokens', function (Blueprint $table) {
             $table->increments('id');
+	        $table->string('uuid')->nullable()->default(null)->index();
             $table->integer('user_id')->unsigned();
             $table->string('name');
             $table->enum('token_type', ['NUMBER','COLOR','COLORED_NUMBER','MINI']);

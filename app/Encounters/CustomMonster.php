@@ -17,6 +17,11 @@ class CustomMonster extends Model
 		return $this->belongsTo('App\User', 'id', 'user_id');
 	}
 	
+	public function abilities()
+	{
+		return $this->hasMany('App\Encounters\MonsterAbility', 'monster_id', 'id');
+	}
+	
 	public function actions()
 	{
 		return $this->hasMany('App\Encounters\MonsterAbility', 'monster_id', 'id')->where('monster_ability.type', '=', CustomMonster::$ACTION);
