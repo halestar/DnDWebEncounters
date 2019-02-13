@@ -160,11 +160,6 @@ class SyncController extends Controller
 				//we don't have an id for the db in this monster, nor a uuid in the db, so its an easy insert.
 				$custom_monsters_ids[] = $this->addCustomMonster($monster);
 			}
-			elseif($monster['dbId'] == 0)
-			{
-				//easy case, update the monster in the db and update the id.
-				$custom_monsters_ids[] = $this->updateCustomMonster($dbMonster, $monster);
-			}
 			else
 			{
 				//in this case we have a monster, but the wrong id, so we will re-point it and update it.
@@ -262,11 +257,6 @@ class SyncController extends Controller
 			{
 				//we don't have an id for the db in this monster, nor a uuid in the db, so its an easy insert.
 				$encounter_ids[] = $this->addEncounter($encounter);
-			}
-			elseif($encounter['dbId'] == 0)
-			{
-				//easy case, update the monster in the db and update the id.
-				$encounter_ids[] = $this->updateEncounter($dbEncounter, $encounter);
 			}
 			else
 			{
@@ -368,11 +358,6 @@ class SyncController extends Controller
 				//we don't have an id for the db in this monster, nor a uuid in the db, so its an easy insert.
 				$token_ids[] = $this->addMonsterToken($token);
 			}
-			elseif($dbToken['dbId'] == 0)
-			{
-				//easy case, update the monster in the db and update the id.
-				$token_ids[] = $this->updateMonsterToken($dbToken, $token);
-			}
 			else
 			{
 				//in this case we have a monster, but the wrong id, so we will re-point it and update it.
@@ -448,11 +433,6 @@ class SyncController extends Controller
 				//we don't have an id for the db in this monster, nor a uuid in the db, so its an easy insert.
 				$player_ids[] = $this->addPlayer($player);
 			}
-			elseif($dbPlayer['dbId'] == 0)
-			{
-				//easy case, update the monster in the db and update the id.
-				$player_ids[] = $this->updatePlayer($dbPlayer, $player);
-			}
 			else
 			{
 				//in this case we have a monster, but the wrong id, so we will re-point it and update it.
@@ -513,11 +493,6 @@ class SyncController extends Controller
 			{
 				//we don't have an id for the db in this monster, nor a uuid in the db, so its an easy insert.
 				$pc_ids[] = $this->addPc($player, $pc);
-			}
-			elseif($dbPc['dbId'] == 0)
-			{
-				//easy case, update the monster in the db and update the id.
-				$pc_ids[] = $this->updatePc($dbPc, $pc);
 			}
 			else
 			{
@@ -582,11 +557,6 @@ class SyncController extends Controller
 			{
 				//we don't have an id for the db in this monster, nor a uuid in the db, so its an easy insert.
 				$module_ids[] = $this->addModule($module);
-			}
-			elseif($dbModule['dbId'] == 0)
-			{
-				//easy case, update the monster in the db and update the id.
-				$module_ids[] = $this->updateModule($dbModule, $module);
 			}
 			else
 			{
