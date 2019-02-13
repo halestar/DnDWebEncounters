@@ -21,26 +21,7 @@ class SyncController extends Controller
 		$this->middleware('auth:api');
 	}
 	
-	public function sendSyncData(Request $request)
-	{
-		//prepare the data to send
-		$players = $request->user()->players;
-		$customMonsters = $request->user()->customMonsters;
-		$encounters = $request->user()->encounters;
-		$monsterTokens = $request->user()->monsterTokens;
-		$modules = $request->user()->modules;
-		$pcs = $request->user()->pcs;
-		$response =
-			[
-				'players' => $players,
-				'pcs' => $pcs,
-				'custom_monsters' => $customMonsters,
-				'encounters' => $encounters,
-				'moster_tokens' => $monsterTokens,
-				'modules' => $modules,
-			];
-		return response($response, 200);
-	}
+	
 	
 	private function addCustomMonster($stats)
 	{
@@ -622,7 +603,6 @@ class SyncController extends Controller
 		$custom_monsters = $request->input("custom_monsters", []);
 		$encounters = $request->input("encounters", []);
 		$modules = $request->input("modules", []);
-		Log::debug("In SyncController@receiveSyncData, modules is " . print_r($modules, true));
 		$monster_tokens = $request->input("monster_tokens", []);
 		$players = $request->input("players", []);
 		$rsp =
@@ -634,5 +614,43 @@ class SyncController extends Controller
 				'modules' => $this->syncModules($modules),
 			];
 		return response($rsp, 200);
+	}
+	
+	public function sendSyncData(Request $request)
+	{
+		//prepare the data to send
+		$players = $request->user()->players()->with(['pcs'])->get();
+		foreach($players as $player)
+		{
+			if($player->portrait)
+				$player->portrait = base64_encode($player->portrait);
+		}
+		$customMonsters = $request->user()->customMonsters()->with(['actions', 'specialAbilities', 'legendaryAbilities'])->get();
+		$encounters = $request->user()->encounters()->with(['customMonsters'])->get();
+		$monsterTokens = $request->user()->monsterTokens;
+		foreach($monsterTokens as $monsterToken)
+		{
+			if($monsterToken->token_type = MonsterToken::$TOKEN_TYPE_MINI)
+				$monsterToken->mini = base64_encode($monsterToken->mini);
+		}
+		$modules = $request->user()->modules()->with(['encounters'])->get();
+		$rsp =
+			[
+				'players' => $players->toArray(),
+				'custom_monsters' => $customMonsters->toArray(),
+				'encounters' => $encounters->toArray(),
+				'moster_tokens' => $monsterTokens->toArray(),
+				'modules' => $modules->toArray(),
+			];
+		return response($rsp, 200);
+	}
+	
+	public function syncDb(Request $request)
+	{
+		$custom_monsters = $request->input("custom_monsters", []);
+		$encounters = $request->input("encounters", []);
+		$modules = $request->input("modules", []);
+		$monster_tokens = $request->input("monster_tokens", []);
+		$players = $request->input("players", []);
 	}
 }
