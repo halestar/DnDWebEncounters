@@ -11,6 +11,6 @@ class CustomMonsterSeeder extends Seeder
      */
     public function run()
     {
-	    factory(App\Encounters\CustomMonster::class, 20)->create();
+	    factory(App\Encounters\CustomMonster::class, 10)->create();
     }
 }

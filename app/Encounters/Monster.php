@@ -20,13 +20,19 @@ class Monster
 	public $str_mod, $dex_mod, $con_mod, $int_mod, $wis_mod, $cha_mod;
 	public $hp, $ac, $speed, $hd;
 	public $specialAbilities, $actions, $legendaryAbilities;
+	public $idx;
 	
 	public static function allSrMonsters()
 	{
 		$monster_json = json_decode(Storage::disk('local')->get('dnd_monsters.json'), true);
 		$monsters = new Collection();
+		$idx = 0;
 		foreach($monster_json as $monster_stat)
-			$monsters->push(Monster::makeMonster($monster_stat));
+        {
+            $monster_stat['idx'] = $idx;
+            $monsters->push(Monster::makeMonster($monster_stat));
+            $idx++;
+        }
 		return $monsters;
 	}
 
@@ -53,6 +59,7 @@ class Monster
 		$this->vulnerabilities = "NONE";
 		$this->languages = "NONE";
 		$this->senses = "NONE";
+		$this->idx = -1;
 		$this->determineMods();
 	}
 
@@ -100,6 +107,7 @@ class Monster
 		$monster->actions = (isset($stats['actions'])? $stats['actions']: []);
 		$monster->legendaryAbilities = (isset($stats['legendary_actions'])? $stats['legendary_actions']: []);
 		$monster->hd = (isset($stats['hit_dice'])? $stats['hit_dice']: "");
+		$monster->idx = $stats['idx'];
 		return $monster;
 	}
 

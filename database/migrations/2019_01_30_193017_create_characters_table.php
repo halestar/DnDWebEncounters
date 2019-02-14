@@ -27,7 +27,7 @@ class CreateCharactersTable extends Migration
 	        $table->integer('spellDc')->nullable();
 	        $table->timestamps();
             
-            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
         });
     }
 

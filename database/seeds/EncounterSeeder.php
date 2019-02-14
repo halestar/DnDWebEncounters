@@ -14,7 +14,7 @@ class EncounterSeeder extends Seeder
     public function run()
     {
     	$monsters = Monster::allSrMonsters();
-	    factory(App\Encounters\Encounter::class, 20)->create()->each(function($encounter) use($monsters)
+	    factory(App\Encounters\Encounter::class, 5)->create()->each(function($encounter) use($monsters)
 	    {
 	        $sr_monsters = $monsters->random(rand(3, 6));
 	        $encounter->srMonsters = $sr_monsters->toArray();

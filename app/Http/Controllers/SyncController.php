@@ -181,7 +181,7 @@ class SyncController extends Controller
 		$encounterMonsters = [];
 		foreach($stats['monsters'] as $encounterMonster)
 		{
-			if($encounterMonster['mid'] > 0)
+			if($encounterMonster['mid'] >= 0)
 			{
 				//sr monster
 				$encounterMonsters[] = $allMonsters->get($encounterMonster['mid']);
@@ -220,7 +220,7 @@ class SyncController extends Controller
 		$encounterMonsters = [];
 		foreach($stats['monsters'] as $encounterMonster)
 		{
-			if($encounterMonster['mid'] > 0)
+			if($encounterMonster['mid'] >= 0)
 			{
 				//sr monster
 				$encounterMonsters[] = $allMonsters->get($encounterMonster['mid']);
@@ -572,6 +572,7 @@ class SyncController extends Controller
 	{
 		$custom_monsters = $request->input("custom_monsters", []);
 		$encounters = $request->input("encounters", []);
+        Log::debug("encounters: " . print_r($encounters, true));
 		$modules = $request->input("modules", []);
 		$monster_tokens = $request->input("monster_tokens", []);
 		$players = $request->input("players", []);
@@ -600,7 +601,7 @@ class SyncController extends Controller
 		$monsterTokens = $request->user()->monsterTokens;
 		foreach($monsterTokens as $monsterToken)
 		{
-			if($monsterToken->token_type = MonsterToken::$TOKEN_TYPE_MINI)
+			if($monsterToken->token_type == MonsterToken::$TOKEN_TYPE_MINI)
 				$monsterToken->mini = base64_encode($monsterToken->mini);
 		}
 		$modules = $request->user()->modules()->with(['encounters'])->get();
@@ -609,7 +610,7 @@ class SyncController extends Controller
 				'players' => $players->toArray(),
 				'custom_monsters' => $customMonsters->toArray(),
 				'encounters' => $encounters->toArray(),
-				'moster_tokens' => $monsterTokens->toArray(),
+				'monster_tokens' => $monsterTokens->toArray(),
 				'modules' => $modules->toArray(),
 			];
 		return response($rsp, 200);
@@ -622,5 +623,6 @@ class SyncController extends Controller
 		$modules = $request->input("modules", []);
 		$monster_tokens = $request->input("monster_tokens", []);
 		$players = $request->input("players", []);
+		Log::debug("in syncDb: " . print_r($players, true));
 	}
 }
