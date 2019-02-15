@@ -21,15 +21,12 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand text-info" href="{{ url('/home') }}">
-                    <span class="fa fa-home"></span>
-                </a>
+                <a class="navbar-brand" href="#page-top"><img src="/img/d_d_logo.png" style="width: 150px;"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -54,29 +51,38 @@
                             @endif
                         @else
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/home') }}">
+                                    <span class="fa fa-home"></span>
+                                </a>
+                            </li>
+                            <li class="nav-item mr-2">
                                 <a class="nav-link @if(app('request')->is('players*')) active @endif" href="{{ route('players.index') }}">Players</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item mr-2">
                                 <a class="nav-link @if(app('request')->is('pcs*')) active @endif" href="{{ route('pcs.index') }}">PC's</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item mr-2">
                                 <a class="nav-link @if(app('request')->is('monsters*')) active @endif" href="{{ route('monsters.index') }}">Monsters</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item mr-2">
                                 <a class="nav-link @if(app('request')->is('encounters*')) active @endif" href="{{ route('encounters.index') }}">Encounters</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item mr-2">
                                 <a class="nav-link @if(app('request')->is('monster_tokens*')) active @endif" href="{{ route('monster_tokens.index') }}">Monster Tokens</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item mr-2">
                                 <a class="nav-link @if(app('request')->is('modules*')) active @endif" href="{{ route('modules.index') }}">Modules</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    <img src="/img/players_icon.png" class="img-thumbnail" style="width: 32px;"> <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Settings</a>
+                                    @can('admin')
+                                    <a class="dropdown-item" href="#">Admin</a>
+                                    @endcan
                                     <a class="dropdown-item" href="#" onclick="showDiceRoller()">Dice Roller</a>
                                     <a class="dropdown-item" href="#" onclick="showSpellSearch()">Spell Search</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -101,6 +107,15 @@
             @yield('content')
         </main>
     </div>
+    <!-- Footer -->
+    <footer class="bg-light py-5">
+        <div class="container">
+            <div class="small text-center text-muted">
+                This Web site is not affiliated with, endorsed, sponsored, or specifically approved by Wizards of the Coast LLC. This Web site may use the trademarks and other intellectual property of Wizards of the Coast LLC, which is permitted under Wizards' Fan Site Policy. For example, Dungeons & Dragons® is a trademark of Wizards of the Coast. For more information about Wizards of the Coast or any of Wizards' trademarks or other intellectual property, please visit their website at (www.wizards.com).
+            </div>
+            <div class="small text-center text-muted">Copyright &copy; 2019 - German Kalinec</div>
+        </div>
+    </footer>
     <!-- Modal -->
     <div class="modal fade" id="global_modal_dialog" tabindex="-1" role="dialog" aria-labelledby="modal_dialog_title" aria-hidden="true">
         <div class="modal-dialog" role="document">

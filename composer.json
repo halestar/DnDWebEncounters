@@ -15,6 +15,7 @@
         "laravel/framework": "5.7.*",
         "laravel/passport": "^7.1",
         "laravel/tinker": "^1.0",
+        "spatie/laravel-permission": "^2.32",
         "yajra/laravel-datatables": "^1.4"
     },
     "require-dev": {

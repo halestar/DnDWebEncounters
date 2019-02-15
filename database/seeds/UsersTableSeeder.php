@@ -1,6 +1,9 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UsersTableSeeder extends Seeder
 {
@@ -17,5 +20,10 @@ class UsersTableSeeder extends Seeder
 		    'email' => 'gkalinec@gmail.com',
 		    'password' => bcrypt('secret'),
 	    ]);
+	
+	    $adminPermission = Permission::create(['name' => 'admin']);
+	    $userPermission = Permission::create(['name' => 'user']);
+	    $user = User::findOrFail(100);
+	    $user->givePermissionTo('admin', 'user');
     }
 }
