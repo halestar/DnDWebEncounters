@@ -86,7 +86,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('settings') }}">Settings</a>
                                     @can('admin')
-                                    <a class="dropdown-item" href="#">Admin</a>
+                                    <a class="dropdown-item" href="{{ route('admin') }}">Admin</a>
                                     @endcan
                                     <a class="dropdown-item" href="#" onclick="showDiceRoller()">Dice Roller</a>
                                     <a class="dropdown-item" href="#" onclick="showSpellSearch()">Spell Search</a>

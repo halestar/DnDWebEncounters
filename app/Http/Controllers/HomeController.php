@@ -26,6 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+	    Auth::user()->touch();
 	    $numPlayers = Auth::user()->players()->count();
 	    $numPcs = Pc::select('characters.*')->join('players', 'characters.player_id', '=', 'players.id')->where('players.user_id', '=', Auth::user()->id)->count();
 	    $numCustomMonsters = Auth::user()->customMonsters()->count();

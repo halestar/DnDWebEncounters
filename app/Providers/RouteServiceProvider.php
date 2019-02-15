@@ -6,6 +6,7 @@ use App\Players\Player;
 use App\PlaySessions\AdventureActor;
 use App\PlaySessions\AdventureEncounter;
 use App\PlaySessions\PlaySession;
+use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -35,6 +36,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('play_session', PlaySession::class);
         Route::model('adventure_encounter', AdventureEncounter::class);
 	    Route::model('adventure_actor', AdventureActor::class);
+	    Route::model('user', User::class);
     }
 
     /**
