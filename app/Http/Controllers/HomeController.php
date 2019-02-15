@@ -46,4 +46,32 @@ class HomeController extends Controller
 		        'playSessions' => $playSessions,
 	        ]);
     }
+    
+    public function settings(Request $request)
+    {
+    	$user = $request->user();
+    	return view('settings', compact('user'));
+    }
+    
+    public function saveSettings(Request $request)
+    {
+        $data = $request->validate(
+        	[
+        	    'name' => 'required|max:255',
+		        'password' => 'nullable|confirmed|min:8',
+		        'avatar_url' => 'nullable|url',
+		        'monster_initiative' => 'checkbox',
+		        'monster_hp' => 'checkbox',
+	        ]
+        );
+        $user = $request->user();
+        $user->name = $data['name'];
+        $user->avatar_url = $data['avatar_url'];
+	    $user->monster_initiative = $data['monster_initiative'];
+	    $user->monster_hp = $data['monster_hp'];
+	    if(isset($data['password']))
+	        $user->password = bcrypt($data['password']);
+	    $user->save();
+	    return redirect()->route('settings')->with('success_message', 'Settings Updated');
+    }
 }

@@ -75,11 +75,16 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <img src="/img/players_icon.png" class="img-thumbnail" style="width: 32px;"> <span class="caret"></span>
+                                    @if(Auth::user()->avatar_url != "")
+                                        <img src="{!! Auth::user()->avatar_url !!}" class="img-thumbnail" style="width: 32px;">
+                                    @else
+                                    <img src="/img/players_icon.png" class="img-thumbnail" style="width: 32px;">
+                                    @endif
+                                    <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Settings</a>
+                                    <a class="dropdown-item" href="{{ route('settings') }}">Settings</a>
                                     @can('admin')
                                     <a class="dropdown-item" href="#">Admin</a>
                                     @endcan
