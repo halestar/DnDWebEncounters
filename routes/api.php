@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/sync/download', 'SyncController@sendSyncData')->name('sync.download');
 Route::post('/sync/upload', 'SyncController@receiveSyncData')->name('sync.upload');
 Route::post('/sync/db', 'SyncController@syncDb')->name('sync.db');
+Route::get('/sync/client-secret/{client_id}', 'SyncController@oAuthClientSecret')->name('sync.client_secret');

@@ -10,6 +10,7 @@ use App\Encounters\MonsterAbility;
 use App\Encounters\MonsterToken;
 use App\Players\Pc;
 use App\Players\Player;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +19,7 @@ class SyncController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth:api');
+		$this->middleware('auth:api')->except(['oAuthClientSecret']);
 	}
 	
 	
@@ -616,6 +617,12 @@ class SyncController extends Controller
 		return response($rsp, 200);
 	}
 	
+	public function oAuthClientSecret($client_id)
+	{
+		$client = DB::table('oauth_clients')->where('id', '=', $client_id)->value('secret');
+		return response(['client_secret' => $client], 200);
+	}
+	
 	public function syncDb(Request $request)
 	{
 		$custom_monsters = $request->input("custom_monsters", []);
@@ -623,6 +630,20 @@ class SyncController extends Controller
 		$modules = $request->input("modules", []);
 		$monster_tokens = $request->input("monster_tokens", []);
 		$players = $request->input("players", []);
-		Log::debug("in syncDb: " . print_r($players, true));
+		foreach($players as $player)
+		{
+			Player::where('id', '=', $player['dbId'])->update(['uuid' => $player['uuid']]);
+			foreach($player['pcs'] as $pc)
+				Pc::where('id', '=', $pc['dbId'])->update(['uuid' => $pc['uuid']]);
+		}
+		foreach($custom_monsters as $monster)
+			CustomMonster::where('id', '=', $monster['dbId'])->update(['uuid' => $monster['uuid']]);
+		foreach($encounters as $encounter)
+			Encounter::where('id', '=', $encounter['dbId'])->update(['uuid' => $encounter['uuid']]);
+		foreach($modules as $module)
+			Module::where('id', '=', $module['dbId'])->update(['uuid' => $module['uuid']]);
+		foreach($monster_tokens as $token)
+			MonsterToken::where('id', '=', $token['dbId'])->update(['uuid' => $token['uuid']]);
+		return response([], 200);
 	}
 }
