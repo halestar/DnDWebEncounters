@@ -16,7 +16,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/register', function()
+{
+	return view('auth.registration_closed');
+})->name('register');
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'HomeController@settings')->name('settings');

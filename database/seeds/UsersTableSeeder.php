@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
 	    	'id' => 100,
 		    'name' => "German Kalinec",
 		    'email' => 'gkalinec@gmail.com',
-		    'password' => bcrypt('secret'),
+		    'password' => bcrypt('nalin2d'),
 	    ]);
 	
 	    $adminPermission = Permission::create(['name' => 'admin']);

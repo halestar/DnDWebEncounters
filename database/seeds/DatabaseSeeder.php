@@ -13,10 +13,10 @@ class DatabaseSeeder extends Seeder
     {
 	    $this->call([
 		    UsersTableSeeder::class,
-		    PlayerAndPcSeeder::class,
+		    //PlayerAndPcSeeder::class,
 		    MonsterTokensSeeder::class,
-		    CustomMonsterSeeder::class,
-		    EncounterSeeder::class,
+		    //CustomMonsterSeeder::class,
+		    //EncounterSeeder::class,
 	    ]);
     }
 }
