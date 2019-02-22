@@ -5,6 +5,42 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="card">
+                <div class="card-header">Encounter Turn</div>
+                <div class="card-body">
+                    <h4 class="d-flex justify-content-between">
+                        <span class="turn-display">Turn #{{ $adventureEncounter->turn_number }}</span>
+                        @if($currentActor != null && $currentActor->isPC())
+                            <span class="text-primary turn-faction-display font-weight-bolder">
+                            PLAYER TURN
+                        </span>
+                        @elseif($currentActor != null)
+                            <span class="text-danger turn-faction-display font-weight-bolder">
+                            MONSTER TURN
+                        </span>
+                        @else
+                            <span class="text-success turn-faction-display font-weight-bolder">
+                            END OF TURN
+                        </span>
+                        @endif
+                    </h4>
+                    <h5>Next Up: <strong>{{ $currentActor == null? "End of Turn!": $currentActor->name }}</strong></h5>
+                    @if($currentActor != null)
+                        <div id="turn_display_container">
+                            @if($currentActor->isPc())
+                                @include('adventure_encounter.player_turn')
+                            @else
+                                @include('adventure_encounter.monster_turn')
+                            @endif
+                        </div>
+                    @else
+                        <a href="{{ route('play.finish.turn', ['id' => $adventureEncounter->id]) }}" role="button" class="btn btn-primary btn-block">Finish Turn</a>
+                        <a href="{{ route('play.finish.encounter', ['id' => $adventureEncounter->id]) }}" role="button" class="btn btn-danger btn-block">Finish Encounter</a>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
                 <div class="card-header">Encounter Information</div>
                 <div class="card-body">
                     <div class="text-center">
@@ -18,24 +54,29 @@
                             <a href="{{ route('play.monsters.edit', ['id' => $adventureEncounter->id]) }}" class="text-danger"><span class="fa fa-edit"></span></a>
                         </h5>
                     </div>
-                    <ul class="list-group mb-2" id="encounter-initiative-display">
-                        @foreach($adventureEncounter->actors()->orderBy('initiative', 'DESC')->get() as $actor)
-                        <li
-                            class="list-group-item d-flex justify-content-between align-items-center @if(!$actor->isAlive()) list-group-item-danger @elseif($actor->has_acted) list-group-item-secondary @elseif($adventureEncounter->isCurrentActor($actor)) list-group-item-success @endif"
-                            actor_id="{{$actor->id}}"
-                        >
-                            <span class="actor-info">
-                                @if($actor->isSrMonster() || $actor->isCustomMonster())
-                                <img src="{{ route('monster_tokens.show', ['id' => $actor->token->id]) }}" class="img-thumbnail" style="width: 32px;">
-                                @else
-                                <img src="/players/{{ $actor->pc->player_id }}" class='img-thumbnail' style="width: 32px;">
-                                @endif
-                                {{ $actor->name }}
-                            </span>
-                            <span class="initiative-container"><strong>Initiative:</strong> {{ $actor->initiative }}</span>
-                        </li>
+                    <div class="list-group mb-2" id="encounter-initiative-display">
+                        @foreach($adventureEncounter->actors()->orderBy('initiative', 'DESC')->orderBy('initiative_pos', 'ASC')->get() as $actor)
+                            <a
+                                    @if($actor->isSrMonster() || $actor->isCustomMonster())
+                                    href="{{ route('play.monster.edit', ['adventure_encounter' => $adventureEncounter->id, 'actor_id' => $actor->id]) }}"
+                                    @else
+                                    href="{{ route('play.pc.edit', ['adventure_encounter' => $adventureEncounter->id, 'actor_id' => $actor->id]) }}"
+                                    @endif
+                                    class="list-group-item d-flex justify-content-between align-items-center @if(!$actor->isAlive()) list-group-item-danger @elseif($actor->has_acted) list-group-item-secondary @elseif($adventureEncounter->isCurrentActor($actor)) list-group-item-success @endif"
+                                    actor_id="{{$actor->id}}"
+                            >
+                                <span class="actor-info">
+                                    @if($actor->isSrMonster() || $actor->isCustomMonster())
+                                        <img src="{{ route('monster_tokens.show', ['id' => $actor->token->id]) }}" class="img-thumbnail" style="width: 32px;">
+                                    @else
+                                        <img src="/players/{{ $actor->pc->player_id }}" class='img-thumbnail' style="width: 32px;">
+                                    @endif
+                                    {{ $actor->name }}
+                                </span>
+                                <span class="initiative-container"><strong>Initiative:</strong> {{ $actor->initiative }}</span>
+                            </a>
                         @endforeach
-                    </ul>
+                    </div>
                     <h5>Legend</h5>
                     <div class="d-flex align-self-center">
                         <div class="bg-success border border-dark legend-box mx-2">&nbsp;</div>: Up Next
@@ -44,42 +85,6 @@
                         <div class="border border-dark legend-box mx-2">&nbsp;</div>: Not yet Acted
                     </div>
                     <a href="{{ route('play.finish.encounter', ['id' => $adventureEncounter->id]) }}" role="button" class="btn btn-danger btn-block">Finish Encounter</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">Encounter Turn</div>
-                <div class="card-body">
-                    <h4 class="d-flex justify-content-between">
-                        <span class="turn-display">Turn #{{ $adventureEncounter->turn_number }}</span>
-                        @if($currentActor != null && $currentActor->isPC())
-                        <span class="text-primary turn-faction-display font-weight-bolder">
-                            PLAYER TURN
-                        </span>
-                        @elseif($currentActor != null)
-                        <span class="text-danger turn-faction-display font-weight-bolder">
-                            MONSTER TURN
-                        </span>
-                        @else
-                        <span class="text-success turn-faction-display font-weight-bolder">
-                            END OF TURN
-                        </span>
-                        @endif
-                    </h4>
-                    <h5>Next Up: <strong>{{ $currentActor == null? "End of Turn!": $currentActor->name }}</strong></h5>
-                    @if($currentActor != null)
-                    <div id="turn_display_container">
-                    @if($currentActor->isPc())
-                        @include('adventure_encounter.player_turn')
-                    @else
-                        @include('adventure_encounter.monster_turn')
-                    @endif
-                    </div>
-                    @else
-                    <a href="{{ route('play.finish.turn', ['id' => $adventureEncounter->id]) }}" role="button" class="btn btn-primary btn-block">Finish Turn</a>
-                    <a href="{{ route('play.finish.encounter', ['id' => $adventureEncounter->id]) }}" role="button" class="btn btn-danger btn-block">Finish Encounter</a>
-                    @endif
                 </div>
             </div>
         </div>

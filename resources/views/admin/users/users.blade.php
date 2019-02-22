@@ -1,6 +1,7 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
-@section('admin_content')
+@section('content')
+<div class="container">
     <table class="table table-bordered" id="user-table">
         <thead>
         <tr>
@@ -12,6 +13,7 @@
         </tr>
         </thead>
     </table>
+</div>
 @endsection
 @push('scripts')
     <script>
@@ -26,8 +28,8 @@
                     name: 'portrait',
                     render: function(data)
                     {
-                        if(data == "")
-                            return "<img src='/players/" + data + "' class='img-thumbnail' style='width: 32px;'>";
+                        if(data == null)
+                            return "<img src='/img/players_icon.png' class='img-thumbnail' style='width: 32px;'>";
                         return "<img src='"+ data + "' class='img-thumbnail' style='width: 32px;'>";
                     }
                 },
@@ -39,7 +41,7 @@
                     render: function(data)
                     {
                         let last_login = new Date(Date.parse(data));
-                        return last_login.getMonth() + "/" + last_login.getDate() + "/" + last_login.getFullYear() + " @ " + last_login.getHours() + ":" + last_login.getMinutes();
+                        return (last_login.getMonth() + 1) + "/" + last_login.getDate() + "/" + last_login.getFullYear() + " @ " + last_login.getHours() + ":" + ('00' + last_login.getMinutes()).slice(-2);
                     }
                 },
                 {

@@ -22,6 +22,7 @@ class CreateAdventureActorTable extends Migration
             $table->mediumText('sr_monster')->nullable();
             $table->enum('status', ['ALIVE', 'DEAD'])->default('ALIVE');
             $table->tinyInteger('initiative')->unsigned();
+	        $table->tinyInteger('initiative_pos')->unsigned()->default(1);
             $table->boolean('has_acted')->default(false);
             $table->integer('current_hp')->unsigned();
             $table->integer('max_hp')->unsigned();

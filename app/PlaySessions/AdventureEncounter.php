@@ -54,7 +54,8 @@ class AdventureEncounter extends Model
 	{
 		if($this->current_initiative == null)
 			$this->getCurrentInitiative();
-		foreach($this->actors as $actor)
+		$actors = $this->actors()->orderBy('initiative', 'DESC')->orderBy('initiative_pos', 'ASC')->get();
+		foreach($actors as $actor)
 		{
 			if($this->current_initiative == $actor->initiative && !$actor->has_acted && ($actor->isPc() || $actor->isAlive()))
 				return $actor;

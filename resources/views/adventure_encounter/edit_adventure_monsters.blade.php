@@ -22,6 +22,12 @@
                                             </div>
                                             <div class="input-group mb-2 ml-2">
                                                 <div class="input-group-prepend">
+                                                    <div class="input-group-text">Initiative Position: </div>
+                                                </div>
+                                                <input type="text" class="form-control" id="initiative_pos_{{ $actor->id }}" name="initiative_pos_{{ $actor->id }}" value="{{ $actor->initiative_pos }}">
+                                            </div>
+                                            <div class="input-group mb-2 ml-2">
+                                                <div class="input-group-prepend">
                                                     <div class="input-group-text">HP: </div>
                                                 </div>
                                                 <input type="text" class="form-control" id="hp_{{ $actor->id }}" name="hp_{{ $actor->id }}" value="{{ $actor->current_hp }}">

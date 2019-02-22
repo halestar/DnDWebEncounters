@@ -51,18 +51,24 @@ function rollDice()
 {
     let num_dice = jQuery('input[name="dice_num"]:checked').val();
     let dice_type = jQuery('input[name="dice_type"]:checked').val();
+    let other_dice_num = jQuery('#other_dice_num').val();
     let mod = jQuery('#dice_mod').val();
     let data =
         {
             'num_dice': num_dice,
             'dice_type': dice_type,
+            'other_dice_num': other_dice_num,
             'mod': mod
         };
     axios.post('/dice/roll', data)
         .then(function (response)
         {
             jQuery('#global_modal_dialog').modal('hide');
-            let msg = "Rolled " + num_dice + 'd' + dice_type;
+            let msg = "";
+            if(num_dice == 11)
+                msg = "Rolled " + other_dice_num + 'd' + dice_type;
+            else
+                msg = "Rolled " + num_dice + 'd' + dice_type;
             if(mod > 0)
                 msg += '+' + mod;
             else if(mod < 0)

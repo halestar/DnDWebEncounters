@@ -68,7 +68,16 @@
         columns: [
             { data: 'name', name: 'name' },
             { data: 'cr', name: 'cr' },
-        ]
+        ],
+        'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull)
+        {
+            jQuery(nRow).click(function()
+            {
+                window.location="/monsters/show-sr/" + aData.idx;
+            });
+            jQuery(nRow).addClass('cursor-pointer');
+            return nRow;
+        }
     });
 
     jQuery('#custom_monster_table').DataTable({

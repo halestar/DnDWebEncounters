@@ -175,4 +175,13 @@ class PlaySessionController extends Controller
 	    $playSession->finishSession();
     	return redirect()->route('home');
     }
+    
+    public function showCreateParty(Request $request, PlaySession $playSession, $party_id = null)
+    {
+    	$party_edit = null;
+    	if($party_id != null)
+    	    $party_edit = Party::findOrFail($party_id);
+	    $pcs = $request->user()->pcs;
+        return view('play_session.create_party', compact('playSession', 'party_edit', 'pcs'));
+    }
 }

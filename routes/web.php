@@ -42,7 +42,9 @@ Route::resource('pcs', 'PcController')->except(['show']);
 Route::get('/monsters/sr/data','MonsterController@srList')->name('monsters.srdata');
 Route::get('/monsters/custom/data','MonsterController@customList')->name('monsters.customdata');
 Route::get('/monsters/search', 'MonsterController@monsterSearch')->name('monsters.search');
-Route::resource('monsters', 'MonsterController')->except(['show']);
+Route::get('/monsters/show-sr/{monster_id}', 'MonsterController@showSrMonster')->name('monsters.show.sr');
+Route::get('/monsters/create/{monster_idx?}', 'MonsterController@create')->name('monsters.create');
+Route::resource('monsters', 'MonsterController')->except(['show', 'create']);
 
 Route::get('/encounters/data','EncounterController@encounterList')->name('encounters.data');
 Route::resource('encounters', 'EncounterController')->except(['show']);
@@ -56,6 +58,7 @@ Route::get('/modules/encounter-data','ModuleController@encounterList')->name('mo
 Route::resource('modules', 'ModuleController')->except(['show']);
 
 
+Route::get('/adventure/party/create/{play_session}/{party_id?}', 'PlaySessionController@showCreateParty')->name('adventure.party.create.show');
 Route::post('/adventure/party/create/{play_session}', 'PlaySessionController@createParty')->name('adventure.party.create');
 Route::post('/adventure/party/assign/{play_session}', 'PlaySessionController@assignParty')->name('adventure.party.assign');
 Route::get('/adventure/pcs', 'PlaySessionController@pcList')->name('adventure.pcs');
@@ -75,6 +78,10 @@ Route::get('/play/{adventure_encounter}/party', 'PlayController@editAdventurePar
 Route::post('/play/{adventure_encounter}/party', 'PlayController@updateAdventureParty')->name('play.party.update');
 Route::get('/play/{adventure_encounter}/monsters', 'PlayController@editAdventureMonsters')->name('play.monsters.edit');
 Route::post('/play/{adventure_encounter}/monsters', 'PlayController@updateAdventureMonsters')->name('play.monsters.update');
+Route::get('/play/{adventure_encounter}/monsters/{actor_id}', 'PlayController@editAdventureMonster')->name('play.monster.edit');
+Route::post('/play/{adventure_encounter}/monsters/{actor_id}', 'PlayController@updateAdventureMonster')->name('play.monster.update');
+Route::get('/play/{adventure_encounter}/pc/{actor_id}', 'PlayController@editAdventurePc')->name('play.pc.edit');
+Route::post('/play/{adventure_encounter}/pc/{actor_id}', 'PlayController@updateAdventurePc')->name('play.pc.update');
 
 
 Route::get('/play/{adventure_encounter}', 'PlayController@playEncounter')->name('play');

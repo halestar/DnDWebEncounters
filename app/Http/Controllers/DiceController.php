@@ -24,11 +24,14 @@ class DiceController extends Controller
 	{
 		$data = $request->validate(
 			[
-				'num_dice' => 'required|numeric|min:1|max:10',
+				'num_dice' => 'required|numeric|min:1|max:11',
 				'dice_type' => 'required|numeric|min:4|max:20',
-				'mod' => 'required|numeric'
+				'mod' => 'required|numeric',
+				'other_dice_num' => 'nullable|numeric',
 			]
 		);
+		if($data['num_dice'] == "11")
+			$data['num_dice'] = $data['other_dice_num'];
 		$diceRoller = new DiceRoller($data['dice_type'], $data['num_dice']);
 		$diceRoller->setModifier($data['mod']);
 		return $diceRoller->roll();

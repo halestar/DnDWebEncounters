@@ -204,11 +204,22 @@ class PlayController extends Controller
 	{
 		$rules = [];
 		foreach($adventureEncounter->pcActors() as $actor)
+		{
 			$rules['initiative_' . $actor->id] = 'required|numeric';
+			$rules['initiative_pos_' . $actor->id] = 'required|numeric';
+			$rules['ac_' . $actor->id] = 'required|numeric';
+			$rules['pp_' . $actor->id] = 'required|numeric';
+			$rules['spell_dc_' . $actor->id] = 'nullable|numeric';
+		}
 		$data = $request->validate($rules);
 		foreach($adventureEncounter->pcActors() as $actor)
 		{
 			$actor->initiative = $data['initiative_' . $actor->id];
+			$actor->initiative_pos = $data['initiative_pos_' . $actor->id];
+			$actor->pc->ac = $data['ac_' . $actor->id];
+			$actor->pc->pp = $data['pp_' . $actor->id];
+			$actor->pc->spellDc = $data['spell_dc_' . $actor->id];
+			$actor->pc->save();
 			$actor->save();
 		}
 		$adventureEncounter->reloadInitiative();
@@ -227,6 +238,7 @@ class PlayController extends Controller
 		foreach($adventureEncounter->allMonsterActors() as $actor)
 		{
 			$rules['initiative_' . $actor->id] = 'required|numeric';
+			$rules['initiative_pos_' . $actor->id] = 'required|numeric';
 			$rules['hp_' . $actor->id] = 'required|numeric';
 			$rules['token_' . $actor->id] = 'required|numeric';
 			$rules['remove_' . $actor->id] = 'required|numeric';
@@ -243,6 +255,7 @@ class PlayController extends Controller
 			else
 			{
 				$actor->initiative = $data['initiative_' . $actor->id];
+				$actor->initiative_pos = $data['initiative_pos_' . $actor->id];
 				$actor->current_hp = $data['hp_' . $actor->id];
 				$actor->token_id = $data['token_' . $actor->id];
 				$actor->status = ($data['dead_' . $actor->id] == "1")? AdventureActor::DEAD : AdventureActor::ALIVE;
@@ -250,6 +263,69 @@ class PlayController extends Controller
 				$actor->save();
 			}
 		}
+		$adventureEncounter->reloadInitiative();
+		return redirect()->route('play', ['id' => $adventureEncounter->id]);
+	}
+	
+	public function editAdventureMonster(Request $request, AdventureEncounter $adventureEncounter, $actor_id)
+	{
+		$actor = AdventureActor::findOrFail($actor_id);
+		$tokens = $request->user()->monsterTokens;
+		return view('adventure_encounter.edit_adventure_monster', compact('adventureEncounter', 'tokens', 'actor'));
+	}
+	
+	public function updateAdventureMonster(Request $request, AdventureEncounter $adventureEncounter, $actor_id)
+	{
+		$actor = AdventureActor::findOrFail($actor_id);
+		$data = $request->validate(
+			[
+				'initiative' => 'required|numeric',
+				'initiative_pos' => 'required|numeric',
+				'hp' => 'required|numeric',
+				'token' => 'required|numeric',
+				'dead' => 'required|numeric',
+				'acted' => 'required|numeric',
+				'initiative' => 'required|numeric',
+				'initiative' => 'required|numeric',
+			]
+		);
+		
+		$actor->initiative = $data['initiative'];
+		$actor->initiative_pos = $data['initiative_pos'];
+		$actor->current_hp = $data['hp'];
+		$actor->token_id = $data['token'];
+		$actor->status = ($data['dead'] == "1")? AdventureActor::DEAD : AdventureActor::ALIVE;
+		$actor->has_acted = ($data['acted'] == "1");
+		$actor->save();
+		$adventureEncounter->reloadInitiative();
+		return redirect()->route('play', ['id' => $adventureEncounter->id]);
+	}
+	
+	public function editAdventurePc(Request $request, AdventureEncounter $adventureEncounter, $actor_id)
+	{
+		$actor = AdventureActor::findOrFail($actor_id);
+		return view('adventure_encounter.edit_adventure_pc', compact('adventureEncounter', 'actor'));
+	}
+	
+	public function updateAdventurePc(Request $request, AdventureEncounter $adventureEncounter, $actor_id)
+	{
+		$actor = AdventureActor::findOrFail($actor_id);
+		$data = $request->validate(
+			[
+				'initiative' => 'required|numeric',
+				'initiative_pos' => 'required|numeric',
+				'ac' => 'required|numeric',
+				'pp' => 'required|numeric',
+				'spell_dc' => 'nullable|numeric',
+			]
+		);
+		$actor->initiative = $data['initiative'];
+		$actor->initiative_pos = $data['initiative_pos'];
+		$actor->pc->ac = $data['ac'];
+		$actor->pc->pp = $data['pp'];
+		$actor->pc->spellDc = $data['spell_dc'];
+		$actor->pc->save();
+		$actor->save();
 		$adventureEncounter->reloadInitiative();
 		return redirect()->route('play', ['id' => $adventureEncounter->id]);
 	}

@@ -10933,3 +10933,7 @@ a.text-dark:focus {
   height: 16px;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
