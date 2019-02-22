@@ -187,7 +187,7 @@
 @if(($currentActor->isSrMonster() && count($currentActor->srMonster()->actions) > 0) || ($currentActor->isCustomMonster() && $currentActor->customMonster->actions->count() > 0))
 <h5>Actions</h5>
 @if($currentActor->isSrMonster())
-    @foreach($actor->srMonster()->actions as $ability)
+    @foreach($currentActor->srMonster()->actions as $ability)
         <div class="alert alert-info">
             <h4 class="alert-heading border-bottom">
                 {{ $ability['name'] }}
@@ -227,7 +227,7 @@
 @if(($currentActor->isSrMonster() && count($currentActor->srMonster()->legendaryAbilities) > 0) || ($currentActor->isCustomMonster() && $currentActor->customMonster->legendaryAbilities->count() > 0))
     <h5>Legendary Abilities</h5>
     @if($currentActor->isSrMonster())
-        @foreach($actor->srMonster()->legendaryAbilities as $ability)
+        @foreach($currentActor->srMonster()->legendaryAbilities as $ability)
             <div class="alert alert-info">
                 <h4 class="alert-heading border-bottom">
                     {{ $ability['name'] }}
