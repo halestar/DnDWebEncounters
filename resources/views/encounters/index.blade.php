@@ -2,25 +2,19 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col-5">
-                <h3>
-                    Encounters
-                    <a href="{{ route('encounters.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
-                </h3>
-                <table class="table table-bordered" id="encounters-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>CR</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-
-
+        <h3>
+            Encounters
+            <a href="{{ route('encounters.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
+        </h3>
+        <table class="table table-bordered" id="encounters-table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>CR</th>
+                <th></th>
+            </tr>
+            </thead>
+        </table>
     </div>
 @endsection
 
