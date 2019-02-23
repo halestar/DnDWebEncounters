@@ -31,6 +31,12 @@
                 <label class="form-check-label" for="dice_num_5">5</label>
             </div>
         </div>
+        <div class="col-2 border-top border-left border-right rounded p-1">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="dice_num" id="other_num" value="11">
+                <label class="form-check-label" for="other_num">Other</label>
+            </div>
+        </div>
     </div>
     <div class="row mb-3">
         <div class="col-2">
@@ -61,6 +67,11 @@
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="dice_num" id="dice_num_10" value="10">
                 <label class="form-check-label" for="dice_num_10">10</label>
+            </div>
+        </div>
+        <div class="col-2 border-bottom border-left border-right rounded p-1">
+            <div class="form-group">
+                <input class="form-control" type="text" name="other_dice_num" id="other_dice_num" value="">
             </div>
         </div>
     </div>

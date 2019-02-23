@@ -3,7 +3,6 @@
 use App\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class UsersTableSeeder extends Seeder
 {
@@ -15,10 +14,10 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
 	    DB::table('users')->insert([
-	    	'id' => 100,
-		    'name' => "German Kalinec",
-		    'email' => 'gkalinec@gmail.com',
-		    'password' => bcrypt('secret'),
+                                       'id'       => 100,
+                                       'name'     => "German Kalinec",
+                                       'email'    => 'gkalinec@gmail.com',
+                                       'password' => bcrypt('nalin2d'),
 	    ]);
 	
 	    $adminPermission = Permission::create(['name' => 'admin']);

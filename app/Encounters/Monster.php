@@ -90,6 +90,7 @@ class Monster
 		$monster->monsterType = $stats['type'];
 		$monster->monsterSize = $stats['size'];
 		$monster->alignment = $stats['alignment'];
+        $monster->speed = isset($stats['speed'])? $stats['speed']: "ukn.";
 		$monster->resistances = isset($stats['damage_resistances'])? $stats['damage_resistances']: "NONE";
 		$monster->immunities = (isset($stats['damage_immunities'])? $stats['damage_immunities']: "");
 		if(isset($stats['condition_immunities']))

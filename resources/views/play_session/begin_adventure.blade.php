@@ -24,7 +24,9 @@
                             <h6>Import Existing Party</h6>
                             <div class="input-group">
                                 <select class="custom-select form-control" id="party_id" name="party_id">
+                                    @if($playSession->party == null)
                                     <option value=""></option>
+                                    @endif
                                     @foreach($parties as $party)
                                     <option value="{{ $party->id }}" @if($playSession->party != null && $playSession->party->id == $party->id) selected @endif>{{ $party->name }}</option>
                                     @endforeach
@@ -32,48 +34,22 @@
                                 <div class="input-group-append">
                                     <input type="submit" class="btn btn-outline-primary" value="Assign" />
                                 </div>
+                                <div class="input-group-append">
+                                    <button type="button" onclick="buildCreateParty(jQuery('#party_id').val())"
+                                            class="btn btn-outline-secondary">Edit
+                                    </button>
+                                </div>
                             </div>
                         </form>
                         <p class="text-center my-3">
                             &mdash; OR &mdash;
                         </p>
-                        <h6>Select Party Members</h6>
-                        <form action="{{ route('adventure.party.create', ['play_session_id' => $playSession->id]) }}" method="POST">
-                            @csrf
-                            @if($playSession->party != null)
-                                <input type="hidden" name="party_id" id="party_id" value="{{ $playSession->party->id }}" />
-                            @endif
-                            <div class="form-group">
-                                <label for="name">Party Name</label>
-                                <input type="text" name="name" id="name" class="form-control" @if($playSession->party != null) value="{{ $playSession->party->name }}" @endif />
-                            </div>
-                            <p class="border-bottom">Party Members</p>
-                            <ul class="list-group mb-3" style="max-height: 600px; overflow:auto;">
-                                @foreach($pcs as $pc)
-                                <li class="list-group-item @if($playSession->party != null && $playSession->party->pcs->contains('id', $pc->id)) active @endif" pc_id="{{ $pc->id }}" >
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="form-check">
-                                            <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                name="pcs[]"
-                                                @if($playSession->party != null && $playSession->party->pcs->contains('id', $pc->id)) checked @endif
-                                                id="pc_{{ $pc->id }}"
-                                                value="{{ $pc->id }}"
-                                                onclick="toggleActive(this)"
-                                            />
-                                            <label class="form-check-label" for="pc_{{ $pc->id }}">{{ $pc->name }}</label>
-                                        </div>
-                                        <span class="level-span"><strong>Level: </strong>{{ $pc->level }}</span>
-                                    </div>
-                                </li>
-                                @endforeach
-                            </ul>
-                            <input type="submit" class="btn btn-primary btn-block" value="Use this Party" />
-                            @if($playSession->party != null)
-                                <button type="button" class="btn btn-danger btn-block" onclick="jQuery('#party_builder').hide();jQuery('#party_display').show();">Cancel</button>
-                            @endif
-                        </form>
+                        <button type="button" class="btn btn-primary btn-block" onclick="buildCreateParty()">Create New
+                            Party
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-block mt-3"
+                                onclick="jQuery('#party_builder').hide();jQuery('#party_display').show()">Cancel
+                        </button>
                     </div>
                     @if($playSession->party != null)
                     <div id="party_display">
@@ -214,9 +190,23 @@
         function toggleActive(element)
         {
             if(jQuery(element).is(':checked'))
-                jQuery('li[pc_id=' + jQuery(element).val() + ']').addClass('active');
+                jQuery('label[pc_id=' + jQuery(element).val() + ']').addClass('active');
             else
-                jQuery('li[pc_id=' + jQuery(element).val() + ']').removeClass('active');
+                jQuery('label[pc_id=' + jQuery(element).val() + ']').removeClass('active');
+        }
+
+        function buildCreateParty(id = null) {
+            let url = "/adventure/party/create/{{ $playSession->id }}";
+            if (id != null)
+                url += "/" + id;
+            axios.get(url)
+                .then(function (response) {
+                    jQuery('#modal_dialog_body').html(response.data);
+                    jQuery('#global_modal_dialog').modal();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     </script>
 @endpush

@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateAdventureActorTable extends Migration
 {
@@ -22,6 +22,7 @@ class CreateAdventureActorTable extends Migration
             $table->mediumText('sr_monster')->nullable();
             $table->enum('status', ['ALIVE', 'DEAD'])->default('ALIVE');
             $table->tinyInteger('initiative')->unsigned();
+            $table->tinyInteger('initiative_pos')->unsigned()->default(1);
             $table->boolean('has_acted')->default(false);
             $table->integer('current_hp')->unsigned();
             $table->integer('max_hp')->unsigned();

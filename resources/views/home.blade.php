@@ -34,7 +34,7 @@
                                     <a href="{{ route('adventure.continue', ['play_session_id' => $pSession->id]) }}" class="list-group-item list-group-item-action d-flex justify-content-between">
                                 <span class="party-name font-weight-bold">
                                 @if($pSession->party != null)
-                                        {{ $pSession->party->name }}
+                                        {{ $pSession->party->name }} Adventure
                                     @else
                                         No Party Created
                                     @endif

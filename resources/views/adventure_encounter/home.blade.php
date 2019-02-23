@@ -54,24 +54,31 @@
                             <a href="{{ route('play.monsters.edit', ['id' => $adventureEncounter->id]) }}" class="text-danger"><span class="fa fa-edit"></span></a>
                         </h5>
                     </div>
-                    <ul class="list-group mb-2" id="encounter-initiative-display">
-                        @foreach($adventureEncounter->actors()->orderBy('initiative', 'DESC')->get() as $actor)
-                            <li
+                    <div class="list-group mb-2" id="encounter-initiative-display">
+                        @foreach($adventureEncounter->actors()->orderBy('initiative', 'DESC')->orderBy('initiative_pos', 'ASC')->get() as $actor)
+                            <a
+                                @if($actor->isSrMonster() || $actor->isCustomMonster())
+                                href="{{ route('play.monster.edit', ['adventure_encounter' => $adventureEncounter->id, 'actor_id' => $actor->id]) }}"
+                                @else
+                                href="{{ route('play.pc.edit', ['adventure_encounter' => $adventureEncounter->id, 'actor_id' => $actor->id]) }}"
+                                @endif
                                 class="list-group-item d-flex justify-content-between align-items-center @if(!$actor->isAlive()) list-group-item-danger @elseif($actor->has_acted) list-group-item-secondary @elseif($adventureEncounter->isCurrentActor($actor)) list-group-item-success @endif"
                                 actor_id="{{$actor->id}}"
                             >
-                            <span class="actor-info">
-                                @if($actor->isSrMonster() || $actor->isCustomMonster())
-                                    <img src="{{ route('monster_tokens.show', ['id' => $actor->token->id]) }}" class="img-thumbnail" style="width: 32px;">
-                                @else
-                                    <img src="/players/{{ $actor->pc->player_id }}" class='img-thumbnail' style="width: 32px;">
-                                @endif
-                                {{ $actor->name }}
-                            </span>
+                                <span class="actor-info">
+                                    @if($actor->isSrMonster() || $actor->isCustomMonster())
+                                        <img src="{{ route('monster_tokens.show', ['id' => $actor->token->id]) }}"
+                                             class="img-thumbnail" style="width: 32px;">
+                                    @else
+                                        <img src="/players/{{ $actor->pc->player_id }}" class='img-thumbnail'
+                                             style="width: 32px;">
+                                    @endif
+                                    {{ $actor->name }}
+                                </span>
                                 <span class="initiative-container"><strong>Initiative:</strong> {{ $actor->initiative }}</span>
-                            </li>
+                            </a>
                         @endforeach
-                    </ul>
+                    </div>
                     <h5>Legend</h5>
                     <div class="d-flex align-self-center">
                         <div class="bg-success border border-dark legend-box mx-2">&nbsp;</div>: Up Next
@@ -129,7 +136,7 @@
             axios.post(url, data)
                 .then(function (response)
                 {
-                    jQuery('#turn_display_container').html(response.data)
+                    jQuery('#turn_display_container').html(response.data);
                     jQuery('#monster-target-container').hide();
                     jQuery('#current-player-container').show();
                 })

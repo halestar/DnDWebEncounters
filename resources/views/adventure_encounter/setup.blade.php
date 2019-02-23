@@ -72,11 +72,14 @@
                     <div class="card-header">Encounter Options</div>
                     <div class="card-body">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="monster_initiative" id="monster_initiative" value="1" />
+                            <input type="checkbox" class="form-check-input" name="monster_initiative"
+                                   id="monster_initiative" value="1"
+                                   @if(Auth::user()->monster_initiative) checked @endif />
                             <label for="monster_initiative" class="form-check-label">Assign Individual Monster Initiative</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="monster_hp" id="monster_hp" value="1" />
+                            <input type="checkbox" class="form-check-input" name="monster_hp" id="monster_hp" value="1"
+                                   @if(Auth::user()->monster_hp) checked @endif />
                             <label for="monster_hp" class="form-check-label">Roll for Each Monster's HP</label>
                         </div>
                     </div>

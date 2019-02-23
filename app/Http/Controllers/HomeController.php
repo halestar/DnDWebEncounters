@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Players\Pc;
-use App\PlaySessions\PlaySession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,7 +33,9 @@ class HomeController extends Controller
 	    $numModules = Auth::user()->modules()->count();
 	    $numEncounters = Auth::user()->encounters()->count();
 	    $lastActiveSession = Auth::user()->lastActiveSession();
-	    $playSessions = Auth::user()->playSessions()->whereNull('ended')->get();
+        $playSessions = Auth::user()->playSessions()->whereNull('ended');
+        if($lastActiveSession != null) $playSessions = $playSessions->where('id', '<>', $lastActiveSession->id);
+        $playSessions = $playSessions->get();
         return view('home',
 	        [
 		        'numPlayers' => $numPlayers,

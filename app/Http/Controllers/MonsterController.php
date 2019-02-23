@@ -31,9 +31,11 @@ class MonsterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($idx = null)
     {
-        return view('monsters.create');
+        $monster = null;
+        if($idx != null) $monster = Monster::allSrMonsters()->get($idx);
+        return view('monsters.create')->with('monster', $monster);
     }
 
     /**
@@ -303,5 +305,11 @@ class MonsterController extends Controller
         $monsters = $monsters->merge($custom_monsters);
         
         return response()->json($monsters);
+    }
+    
+    public function showSrMonster(Request $request, $idx)
+    {
+        $monster = Monster::allSrMonsters()->get($idx);
+        return view('monsters.show', compact('monster'));
     }
 }

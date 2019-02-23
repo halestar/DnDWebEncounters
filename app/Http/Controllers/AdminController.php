@@ -33,12 +33,13 @@ class AdminController extends Controller
 	{
 		$data = $request->validate(
 			[
-				'name' => 'required|max:255',
-				'email' => 'required|email',
-				'password' => 'nullable|min:8',
-				'avatar_url' => 'nullable|url',
-				'monster_initiative' => 'checkbox',
-				'monster_hp' => 'checkbox',
+                'name'               => 'required|max:255',
+                'email'              => 'required|email',
+                'password'           => 'nullable|min:8',
+                'avatar_url'         => 'nullable|url',
+                'monster_initiative' => 'checkbox',
+                'monster_hp'         => 'checkbox',
+                'make_admin'         => 'checkbox',
 			]
 		);
 		$user->name = $data['name'];
@@ -49,11 +50,9 @@ class AdminController extends Controller
 		if($data['password'] != "")
 			$user->password = bcrypt($data['password']);
 		$user->save();
+        if($data['make_admin'] == "1") $user->givePermissionTo('admin');
+        else
+            $user->revokePermissionTo('admin');
 		return redirect()->route('admin.users')->with('success_message', 'User Updated');
-	}
-	
-	public function permissions()
-	{
-	
 	}
 }
