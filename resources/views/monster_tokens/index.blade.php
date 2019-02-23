@@ -2,25 +2,20 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col-5">
-                <h3>
-                    Monster Tokens
-                    <a href="{{ route('monster_tokens.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
-                </h3>
-                <table class="table table-bordered" id="tokens-table">
-                    <thead>
-                        <tr>
-                            <th>Token</th>
-                            <th>Name</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-
-
+        <h3>
+            Monster Tokens
+            <a href="{{ route('monster_tokens.create') }}" class="text-primary small"><span
+                    class="fa fa-plus"></span></a>
+        </h3>
+        <table class="table table-bordered" id="tokens-table">
+            <thead>
+            <tr>
+                <th>Token</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+            </thead>
+        </table>
     </div>
 @endsection
 

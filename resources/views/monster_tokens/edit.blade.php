@@ -2,107 +2,104 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-5">
-            <form action="{{ route('monster_tokens.update', ['id' => $token->id]) }}" method="POST">
-                @method('PUT')
-                @csrf
-                <div class="card">
-                    <div class="card-header">
-                        Update Monster Token
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="name">Token Name</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ $token->name }}">
-                        </div>
-                        <div class="form-check">
-                            <input
-                                class="form-check-input"
-                                type="radio"
-                                name="token_type"
-                                id="token_type_number"
-                                value="NUMBER"
-                                onclick="determineInputs(jQuery(this).val())"
-                                @if($token->token_type == \App\Encounters\MonsterToken::$TOKEN_TYPE_NUMBER) checked @endif
-                            >
-                            <label class="form-check-label" for="token_type_number">
-                                Number Token
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input
-                                class="form-check-input"
-                                type="radio"
-                                name="token_type"
-                                id="token_type_color"
-                                value="COLOR"
-                                onclick="determineInputs(jQuery(this).val())"
-                                @if($token->token_type == \App\Encounters\MonsterToken::$TOKEN_TYPE_COLOR) checked @endif
-                            >
-                            <label class="form-check-label" for="token_type_color">
-                                Colored Token
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input
-                                class="form-check-input"
-                                type="radio"
-                                name="token_type"
-                                id="token_type_colored_number"
-                                value="COLORED_NUMBER"
-                                onclick="determineInputs(jQuery(this).val())"
-                                @if($token->token_type == \App\Encounters\MonsterToken::$TOKEN_TYPE_COLORED_NUMBER) checked @endif
-                            >
-                            <label class="form-check-label" for="token_type_colored_number">
-                                Colored Number Token
-                            </label>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input
-                                class="form-check-input"
-                                type="radio"
-                                name="token_type"
-                                id="token_type_mini"
-                                value="MINI"
-                                onclick="determineInputs(jQuery(this).val())"
-                                @if($token->token_type == \App\Encounters\MonsterToken::$TOKEN_TYPE_MINI) checked @endif
-                            >
-                            <label class="form-check-label" for="token_type_mini">
-                                Picture of Mini
-                            </label>
-                        </div>
-
-                        <div id="number_display" class="form-group">
-                            <label for="name">Number</label>
-                            <input type="text" class="form-control" id="token_number" name="token_number" value="{{ $token->token_number }}">
-                        </div>
-
-                        <div id="color_display" class="form-group mb-3" style="display: none;">
-                            <label for="name">Color</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="token_color"
-                                name="token_color"
-                                onchange="jQuery(this).css('backgroundColor', jQuery(this).val())"
-                                value="{{ $token->token_color }}"
-                                style="background-color: {{ $token->token_color }};"
-                            >
-                        </div>
-
-                        <div class="custom-file" id="img_display" style="display: none;">
-                            <input type="file" class="custom-file-input" id="portrait" name="portrait">
-                            <label class="custom-file-label" for="portrait">Picture of Mini</label>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <input type="submit" class="btn btn-primary btn-block" value="Update Monster Token">
-                    </div>
+    <form action="{{ route('monster_tokens.update', ['id' => $token->id]) }}" method="POST">
+        @method('PUT')
+        @csrf
+        <div class="card">
+            <div class="card-header">
+                Update Monster Token
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="name">Token Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ $token->name }}">
                 </div>
-            </form>
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="token_type"
+                        id="token_type_number"
+                        value="NUMBER"
+                        onclick="determineInputs(jQuery(this).val())"
+                        @if($token->token_type == \App\Encounters\MonsterToken::$TOKEN_TYPE_NUMBER) checked @endif
+                    >
+                    <label class="form-check-label" for="token_type_number">
+                        Number Token
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="token_type"
+                        id="token_type_color"
+                        value="COLOR"
+                        onclick="determineInputs(jQuery(this).val())"
+                        @if($token->token_type == \App\Encounters\MonsterToken::$TOKEN_TYPE_COLOR) checked @endif
+                    >
+                    <label class="form-check-label" for="token_type_color">
+                        Colored Token
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="token_type"
+                        id="token_type_colored_number"
+                        value="COLORED_NUMBER"
+                        onclick="determineInputs(jQuery(this).val())"
+                        @if($token->token_type == \App\Encounters\MonsterToken::$TOKEN_TYPE_COLORED_NUMBER) checked @endif
+                    >
+                    <label class="form-check-label" for="token_type_colored_number">
+                        Colored Number Token
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="token_type"
+                        id="token_type_mini"
+                        value="MINI"
+                        onclick="determineInputs(jQuery(this).val())"
+                        @if($token->token_type == \App\Encounters\MonsterToken::$TOKEN_TYPE_MINI) checked @endif
+                    >
+                    <label class="form-check-label" for="token_type_mini">
+                        Picture of Mini
+                    </label>
+                </div>
+
+                <div id="number_display" class="form-group">
+                    <label for="name">Number</label>
+                    <input type="text" class="form-control" id="token_number" name="token_number"
+                           value="{{ $token->token_number }}">
+                </div>
+
+                <div id="color_display" class="form-group mb-3" style="display: none;">
+                    <label for="name">Color</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="token_color"
+                        name="token_color"
+                        onchange="jQuery(this).css('backgroundColor', jQuery(this).val())"
+                        value="{{ $token->token_color }}"
+                        style="background-color: {{ $token->token_color }};"
+                    >
+                </div>
+
+                <div class="custom-file" id="img_display" style="display: none;">
+                    <input type="file" class="custom-file-input" id="portrait" name="portrait">
+                    <label class="custom-file-label" for="portrait">Picture of Mini</label>
+                </div>
+            </div>
+            <div class="card-footer">
+                <input type="submit" class="btn btn-primary btn-block" value="Update Monster Token">
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 @endsection
 @push('scripts')

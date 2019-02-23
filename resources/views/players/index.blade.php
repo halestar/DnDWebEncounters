@@ -2,23 +2,20 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col-5">
-                <h3>
-                    Players
-                    <a href="{{ route('players.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
-                </h3>
-                <table class="table table-bordered" id="players-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>DCI</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+        <h3>
+            Players
+            <a href="{{ route('players.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
+        </h3>
+        <table class="table table-bordered" id="players-table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>DCI</th>
+                <th></th>
+            </tr>
+            </thead>
+        </table>
         </div>
 
 
