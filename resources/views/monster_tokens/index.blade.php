@@ -3,24 +3,22 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-md-center">
-            <div class="col-5">
-                <h3>
+            <div class="col col-lg-8">
+                <h3 class="d-flex justify-content-between border-bottom pb-1 mb-3">
                     Monster Tokens
-                    <a href="{{ route('monster_tokens.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
+                    <a href="{{ route('monster_tokens.create') }}" role="button" class="btn btn-primary btn-sm"><span class="fa fa-plus border-right pr-1 mr-1"></span>Add New Monster Token</a>
                 </h3>
-                <table class="table table-bordered" id="tokens-table">
+                <table class="table table-bordered" id="tokens-table" style="width: 100%;">
                     <thead>
-                        <tr>
-                            <th>Token</th>
-                            <th>Name</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>Token</th>
+                        <th>Name</th>
+                        <th></th>
+                    </tr>
                     </thead>
                 </table>
             </div>
         </div>
-
-
     </div>
 @endsection
 
@@ -52,8 +50,8 @@
                 data: 'id',
                 render: function(id)
                 {
-                    return "<a href='/monster_tokens/" + id + "/edit' class='text-primary mr-1'><span class='fa fa-edit'></span></a>" +
-                        "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger mr-1'><span class='fa fa-trash'></span></a>";
+                    return "<a href='/monster_tokens/" + id + "/edit' class='text-primary mr-2 h4'><span class='fa fa-edit'></span></a>" +
+                        "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger h4'><span class='fa fa-trash'></span></a>";
                 }
             }
         ]

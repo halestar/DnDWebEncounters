@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-5">
+        <div class="col col-lg-8">
             <form action="{{ route('pcs.update', ['id' => $pc->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
@@ -18,11 +18,13 @@
                         </div>
                         <div class="form-group">
                             <label for="characterRace">Race</label>
-                            <input type="text" class="form-control" id="characterRace" name="characterRace" value="{{ $pc->characterRace }}">
+                            <input type="text" class="form-control" id="characterRace" name="characterRace"
+                                   value="{{ $pc->characterRace }}">
                         </div>
                         <div class="form-group">
                             <label for="characterClass">Class</label>
-                            <input type="text" class="form-control" id="characterClass" name="characterClass" value="{{ $pc->characterClass }}">
+                            <input type="text" class="form-control" id="characterClass" name="characterClass"
+                                   value="{{ $pc->characterClass }}">
                         </div>
                         <div class="row">
                             <div class="col-4">
@@ -54,7 +56,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="spellDc">Spell DC</label>
-                                    <input type="text" class="form-control" id="spellDc" name="spellDc" value="{{ $pc->spellDc }}">
+                                    <input type="text" class="form-control" id="spellDc" name="spellDc"
+                                           value="{{ $pc->spellDc }}">
                                 </div>
                             </div>
                         </div>

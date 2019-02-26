@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-md-center">
-            <div class="col-12">
+            <div class="col col-lg-8">
                 <ul class="nav nav-tabs" id="monsterTabs" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="custom-monsters" data-toggle="tab" href="#custom_monsters" role="tab" aria-control="custom_monsters" aria-selected="true">
@@ -16,13 +16,13 @@
                         </a>
                     </li>
                 </ul>
-                <div class="tab-content" id="monsterTabContent">
+                <div class="tab-content pt-3" id="monsterTabContent">
                     <div class="tab-pane fade show active" id="custom_monsters" role="tabpanel" aria-labelledby="custom-monsters">
-                        <h3>
+                        <h3 class="d-flex justify-content-between border-bottom pb-1 mb-3">
                             Custom Monsters
-                            <a href="{{ route('monsters.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
+                            <a href="{{ route('monsters.create') }}" role="button" class="btn btn-primary btn-sm"><span class="fa fa-plus border-right pr-1 mr-1"></span>Add New Custom Monster</a>
                         </h3>
-                        <table class="table table-bordered" id="custom_monster_table">
+                        <table class="table table-bordered" id="custom_monster_table" style="width: 100%;">
                             <thead>
                             <tr>
                                 <th>Name</th>
@@ -33,7 +33,7 @@
                         </table>
                     </div>
                     <div class="tab-pane fade" id="sr_monsters" role="tabpanel" aria-labelledby="sr-monsters">
-                        <table class="table table-bordered" id="sr_monster_table">
+                        <table class="table table-bordered" id="sr_monster_table" style="width: 100%;">
                             <thead>
                             <tr>
                                 <th>Name</th>
@@ -89,8 +89,8 @@
                 data: 'id',
                 render: function(id)
                 {
-                    return "<a href='/monsters/" + id + "/edit' class='text-primary mr-2'><span class='fa fa-edit'></span></a>" +
-                        "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger'><span class='fa fa-trash'></span></a>";
+                    return "<a href='/monsters/" + id + "/edit' class='text-primary mr-2 h4'><span class='fa fa-edit'></span></a>" +
+                        "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger h4'><span class='fa fa-trash'></span></a>";
                 }
             }
         ]

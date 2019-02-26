@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-5">
+        <div class="col col-lg-8">
             <form action="{{ route('players.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="card">
@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="name">Player Name</label>
+                            <label for="name">Player Name *</label>
                             <input type="text" class="form-control" id="name" name="name">
                         </div>
                         <div class="form-group">
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <input type="submit" class="btn btn-primary btn-block">
+                        <button type="submit" class="btn btn-primary btn-block">Add New Player</button>
                     </div>
                 </div>
             </form>

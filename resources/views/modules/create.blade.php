@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-8">
+        <div class="col col-lg-8">
             <form action="{{ route('modules.store') }}" method="post" id="create_form">
                 @csrf
                 <div class="card">
@@ -44,7 +44,7 @@
                         <div id="encounter_manager_containter" style="max-height: 600px; overflow: auto;"></div>
                     </div>
                     <div class="card-footer">
-                        <input type="submit" class="btn btn-primary btn-block" value="Add Module" />
+                        <input type="submit" class="btn btn-primary btn-block" value="Add Module"/>
                     </div>
                 </div>
             </form>

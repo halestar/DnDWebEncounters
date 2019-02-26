@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-5">
+        <div class="col col-lg-8">
             <form action="{{ route('monster_tokens.update', ['id' => $token->id]) }}" method="POST">
                 @method('PUT')
                 @csrf
@@ -75,7 +75,8 @@
 
                         <div id="number_display" class="form-group">
                             <label for="name">Number</label>
-                            <input type="text" class="form-control" id="token_number" name="token_number" value="{{ $token->token_number }}">
+                            <input type="text" class="form-control" id="token_number" name="token_number"
+                                   value="{{ $token->token_number }}">
                         </div>
 
                         <div id="color_display" class="form-group mb-3" style="display: none;">

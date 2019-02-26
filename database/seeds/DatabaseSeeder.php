@@ -12,11 +12,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 	    $this->call([
-                        UsersTableSeeder::class,
-                        //PlayerAndPcSeeder::class,
-                        MonsterTokensSeeder::class,
-                        //CustomMonsterSeeder::class,
-                        //EncounterSeeder::class,
+		    UsersTableSeeder::class,
+		    //PlayerAndPcSeeder::class,
+		    //MonsterTokensSeeder::class,
+		    //CustomMonsterSeeder::class,
+		    //EncounterSeeder::class,
 	    ]);
     }
 }

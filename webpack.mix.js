@@ -23,6 +23,7 @@ mix.scripts(
         'resources/js/ability_manager.js',
         'resources/js/monster_manager.js',
         'resources/js/encounter_manager.js',
+        'resources/js/jquery.tocify.js',
 ],
 'public/js/dnd-tools.js'
 );

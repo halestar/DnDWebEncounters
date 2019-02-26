@@ -3,12 +3,12 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-8">
+        <div class="col col-lg-8">
             <form action="{{ route('encounters.update', ['id' => $encounter->id]) }}" method="POST" id="update_form">
                 @method('PUT')
                 @csrf
-                <input type="hidden" name="monsters" id="monsters" />
-                <input type="hidden" name="cr" id="cr" />
+                <input type="hidden" name="monsters" id="monsters"/>
+                <input type="hidden" name="cr" id="cr"/>
                 <div class="card">
                     <div class="card-header">
                         Update Encounter
@@ -25,9 +25,10 @@
                                 <span id="cr_display">{{ $encounter->cr }}</span>
                             </small>
                         </h4>
-                            <label class="font-weight-bold">Search for Monster to Add: </label>
-                            <input type="text" id="monster_search" class="form-control" placeholder="Monster Name" aria-label="Monster Name" aria-describedby="add_prepend">
-                            <div class="list-group mt-3" id="encounter_monster_container"></div>
+                        <label class="font-weight-bold">Search for Monster to Add: </label>
+                        <input type="text" id="monster_search" class="form-control" placeholder="Monster Name"
+                               aria-label="Monster Name" aria-describedby="add_prepend">
+                        <div class="list-group mt-3" id="encounter_monster_container"></div>
                     </div>
                     <div class="card-footer">
                         <button type="button" class="btn btn-primary btn-block" onclick="submitForm()">Update Encounter</button>

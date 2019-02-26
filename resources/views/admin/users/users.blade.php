@@ -1,22 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-    <table class="table table-bordered" id="user-table">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Last Logon</th>
-            <th></th>
-        </tr>
-        </thead>
-    </table>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-8">
+            <h3 class="d-flex justify-content-between border-bottom pb-1 mb-3">
+                Users
+                <a href="{{ route('admin.users.create') }}" role="button" class="btn btn-primary btn-sm"><span class="fa fa-plus border-right pr-1 mr-1"></span>Add New User</a>
+            </h3>
+            <table class="table table-bordered" id="user-table" style="width: 100%;">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Last Logon</th>
+                    <th></th>
+                </tr>
+                </thead>
+            </table>
+        </div>
     </div>
+</div>
 @endsection
 @push('scripts')
     <script>
+        function promptDelete(id)
+        {
+            if(confirm('Are you sure you wish to delete this user?'))
+            {
+                var form = makeDeleteForm('/admin/users/delete/'+ id);
+                form.submit();
+            }
+        }
+
         jQuery('#user-table').DataTable({
             processing: true,
             serverSide: true,
@@ -25,10 +42,9 @@
                 {
                     className: 'dt-body-center',
                     data: 'avatar_url',
-                    name: 'portrait',
                     render: function(data)
                     {
-                        if (data == null)
+                        if(data == null)
                             return "<img src='/img/players_icon.png' class='img-thumbnail' style='width: 32px;'>";
                         return "<img src='"+ data + "' class='img-thumbnail' style='width: 32px;'>";
                     }
@@ -49,8 +65,8 @@
                     data: 'id',
                     render: function(id)
                     {
-                        return "<a href='/admin/users/edit/" + id + "' class='text-primary mr-1'><span class='fa fa-edit'></span></a>" +
-                            "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger mr-1'><span class='fa fa-trash'></span></a>";
+                        return "<a href='/admin/users/edit/" + id + "' class='text-primary mr-2 h4'><span class='fa fa-edit'></span></a>" +
+                            "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger h4'><span class='fa fa-trash'></span></a>";
                     }
                 }
             ]
