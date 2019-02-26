@@ -61,6 +61,9 @@
                     @endauth
                 @endif
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('help') }}">Documentation</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href=""><img src="/img/github_logo.png" style="width: 24px;"></a>
                 </li>
             </ul>

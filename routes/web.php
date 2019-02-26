@@ -12,28 +12,26 @@
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
+Route::view('/help', 'help')->name('help');
+Route::view('/register', 'auth.registration_closed')->name('register');
 
-Route::get('/register', function()
-{
-	return view('auth.registration_closed');
-})->name('register');
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'HomeController@settings')->name('settings');
 Route::post('/settings', 'HomeController@saveSettings')->name('settings.save');
 
-Route::get('/admin', function () {
-	return redirect()->route('admin.users');
-})->name('admin');
+Route::redirect('/admin', '/admin/users')->name('admin');
 Route::get('/admin/users', 'AdminController@users')->name('admin.users');
 Route::get('/admin/permissions', 'AdminController@permissions')->name('admin.permissions');
 Route::get('/admin/users/table','AdminController@usersTable')->name('admin.users.table');
 Route::get('/admin/users/edit/{user}','AdminController@editUser')->name('admin.users.edit');
+Route::get('/admin/users/create','AdminController@createUser')->name('admin.users.create');
+Route::post('/admin/users/store','AdminController@storeUser')->name('admin.users.store');
 Route::post('/admin/users/update/{user}','AdminController@updateUser')->name('admin.users.update');
+Route::post('/admin/users/update/{user}','AdminController@updateUser')->name('admin.users.update');
+Route::delete('/admin/users/delete/{user}','AdminController@deleteUser')->name('admin.users.delete');
 
 Route::get('/players/data','PlayerController@playerList')->name('players.data');
 Route::get('/players/pcs/{player}','PcController@playerIndex')->name('players.characters');

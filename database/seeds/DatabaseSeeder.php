@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
 	    $this->call([
 		    UsersTableSeeder::class,
 		    //PlayerAndPcSeeder::class,
-		    MonsterTokensSeeder::class,
+		    //MonsterTokensSeeder::class,
 		    //CustomMonsterSeeder::class,
 		    //EncounterSeeder::class,
 	    ]);

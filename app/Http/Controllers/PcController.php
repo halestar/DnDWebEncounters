@@ -6,6 +6,8 @@ use App\Players\Pc;
 use App\Players\Player;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
+use Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class PcController extends Controller
@@ -45,9 +47,10 @@ class PcController extends Controller
      */
     public function store(Request $request)
     {
-    	$player = Player::findOrFail($request->input('player_id'));
-	    $data = $request->validate(
+    	
+	    $v = Validator::make($request->all(),
 		    [
+		    	'player_type' => ['required', Rule::in('EXISTING', 'NEW')],
 			    'name' => 'required|max:255',
 			    'characterRace' => 'nullable',
 			    'characterClass' => 'nullable',
@@ -58,6 +61,24 @@ class PcController extends Controller
 			    'spellDc' => 'nullable|numeric',
 		    ]
 	    );
+	    $v->sometimes('player_id', 'required|numeric', function($input)
+	    {
+	    	return ($input->player_type == "EXISTING");
+	    });
+	    $v->sometimes('new_player_name', 'required', function($input)
+	    {
+		    return ($input->player_type == "NEW");
+	    });
+	    $data = $v->validate();
+	    $player = null;
+	    if($data['player_type'] == "NEW")
+	    {
+	        $player = new Player();
+	        $player->name = $data['new_player_name'];
+	        $request->user()->players()->save($player);
+	    }
+	    else
+		    $player = Player::findOrFail($data['player_id']);
 	    $pc = new Pc();
 	    $pc->fill($data);
 	    $player->pcs()->save($pc);
