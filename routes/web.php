@@ -96,6 +96,7 @@ Route::get('/play/{adventure_encounter}/finish/player/{adventure_actor}', 'PlayC
 Route::post('/play/{adventure_encounter}/finish/monster-turn/{adventure_actor}', 'PlayController@finishMonsterTurn')->name('play.finish.monster_turn');
 Route::get('/play/{adventure_encounter}/finish/turn', 'PlayController@finishTurn')->name('play.finish.turn');
 Route::get('/play/{adventure_encounter}/finish/encounter', 'PlayController@finishEncounter')->name('play.finish.encounter');
+Route::post('/play/{adventure_encounter}/update-positions', 'PlayController@updateInitiativePositions')->name('play.update_positions');
 
 Route::get('/dice/dialog', 'DiceController@showDialog')->name('dice.dialog');
 Route::post('/dice/roll', 'DiceController@rollDice')->name('dice.roll');

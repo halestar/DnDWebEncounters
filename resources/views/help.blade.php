@@ -485,6 +485,10 @@
                 will make the player go first and the monster go second.
             </p>
             <p class="text-justify">
+                <strong>UPDATE!</strong>  It is now possible to drag-organize the initiatives.  The position field will remain there as a backup, especially
+                since the reorder might be funky on the mobile platforms.
+            </p>
+            <p class="text-justify">
                 You can edit individual information from the edit icons at the top.  The <span class="text-primary fa fa-edit"></span> icon will edit player information,
                 while the <span class="text-danger fa fa-edit"></span> icon will edit monster information.  You can also click on each individual monster or player
                 to edit information for that monster/player only.
