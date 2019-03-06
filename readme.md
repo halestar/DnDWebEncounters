@@ -315,6 +315,9 @@ so they might go first.  But you, as the DM, decide to let the player go first. 
 monster name or the Edit Icon icon at the top, and changing the position for that monster to 2.  This
 will make the player go first and the monster go second.
 
+**UPDATE!** It is now possible to drag-organize the initiatives.  The position field will remain there as a backup, especially
+since the reorder might be funky on the mobile platforms.
+
 You can edit individual information from the edit icons at the top.  The Edit Icon icon will edit player information,
 while the Edit Icon icon will edit monster information.  You can also click on each individual monster or player
 to edit information for that monster/player only.

@@ -127,7 +127,19 @@ class PlayController extends Controller
         if(!$adventureEncounter->encounter_setup)
         	return redirect()->route('play.setup', ['adventure_encounter' => $adventureEncounter->id]);
         $currentActor = $adventureEncounter->getCurrentActor();
-        return view('adventure_encounter.home', compact('adventureEncounter', 'currentActor'));
+        $initiative_actors = $adventureEncounter->actors()->orderBy('initiative', 'DESC')->orderBy('initiative_pos', 'ASC')->get();
+        $initiativeGroups = [];
+        $last_inititative = "";
+        foreach($initiative_actors as $actor)
+        {
+        	if($last_inititative != $actor->initiative)
+	        {
+		        $last_inititative = $actor->initiative;
+		        $initiativeGroups[$last_inititative] = [];
+	        }
+        	$initiativeGroups[$last_inititative][] = $actor;
+        }
+        return view('adventure_encounter.home', compact('adventureEncounter', 'currentActor', 'initiativeGroups'));
     }
     
     public function loadMonsterTarget(Request $request, AdventureEncounter $adventureEncounter, AdventureActor $actor)
@@ -328,5 +340,17 @@ class PlayController extends Controller
 		$actor->save();
 		$adventureEncounter->reloadInitiative();
 		return redirect()->route('play', ['id' => $adventureEncounter->id]);
+	}
+	
+	public function updateInitiativePositions(Request $request, AdventureEncounter $adventureEncounter)
+	{
+		$positions = json_decode($request->positions, true);
+		foreach($positions as $position_info)
+		{
+			$actor = AdventureActor::findOrFail($position_info['actor_id']);
+			$actor->initiative_pos = $position_info['position'];
+			$actor->save();
+		}
+		return redirect()->route('play', ['adventure_encounter' => $adventureEncounter->id]);
 	}
 }
