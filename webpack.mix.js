@@ -25,6 +25,7 @@ mix.scripts(
         'resources/js/encounter_manager.js',
         'resources/js/jquery.tocify.js',
         'resources/js/jquery.ui.touch-punch.js',
+        'node_modules/bs-custom-file-input/dist/bs-custom-file-input.js',
 ],
 'public/js/dnd-tools.js'
 );

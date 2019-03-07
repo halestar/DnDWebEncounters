@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Players\Pc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class HomeController extends Controller
 {
@@ -61,18 +63,30 @@ class HomeController extends Controller
         	[
         	    'name' => 'required|max:255',
 		        'password' => 'nullable|confirmed|min:8',
-		        'avatar_url' => 'nullable|url',
+		        'avatar' => 'mimes:jpeg,bmp,png|nullable',
 		        'monster_initiative' => 'checkbox',
 		        'monster_hp' => 'checkbox',
 	        ]
         );
         $user = $request->user();
         $user->name = $data['name'];
-        $user->avatar_url = $data['avatar_url'];
 	    $user->monster_initiative = $data['monster_initiative'];
 	    $user->monster_hp = $data['monster_hp'];
 	    if(isset($data['password']))
 	        $user->password = bcrypt($data['password']);
+	    $avatar_file = $request->file('avatar');
+	    if($avatar_file)
+	    {
+		    $avatar_img = Image::make($avatar_file)->fit(64)->encode('png');
+		    $fname = hash('sha256', $avatar_img . strval(time())) . ".png";
+		    Storage::disk('avatars')->put($fname, $avatar_img);
+		    if($user->avatar_url != "" && filter_var($user->avatar_url, FILTER_VALIDATE_URL))
+		    {
+		    	$delFname = basename($user->avatar_url);
+			    Storage::disk('avatars')->delete($delFname);
+		    }
+		    $user->avatar_url = Storage::disk('avatars')->url($fname);
+	    }
 	    $user->save();
 	    return redirect()->route('settings')->with('success_message', 'Settings Updated');
     }
