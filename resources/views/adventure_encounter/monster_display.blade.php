@@ -2,7 +2,7 @@
     <div class="col-2">
         <img src="{{ route('monster_tokens.show', ['id' => $actor->token->id]) }}" class="img-thumbnail" style="width: 64px;">
     </div>
-    <div class="col-7 font-weight-bold">
+    <div class="col-6 font-weight-bold">
         {{ $actor->name }}
         <br>
         @if($actor->isSrMonster())
@@ -11,7 +11,7 @@
         {{ $actor->customMonster->monsterSize }} {{ $actor->customMonster->monsterType }}
         @endif
     </div>
-    <div class="col-3 h2">
+    <div class="col-4 h2">
         <strong>AC: </strong>
         @if($actor->isSrMonster())
             {{ $actor->srMonster()->ac }}

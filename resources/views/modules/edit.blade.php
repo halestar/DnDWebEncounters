@@ -44,7 +44,7 @@
                             <h4 class="d-flex justify-content-between border-bottom border-dark">
                                 Encounters
                             </h4>
-                            <div id="encounter_manager_containter" style="max-height: 600px; overflow: auto;"></div>
+                            <div id="encounter_manager_container" style="max-height: 600px; overflow: auto;"></div>
                         </div>
                         <div class="card-footer">
                             <input type="submit" class="btn btn-primary btn-block" value="Update Module"/>
@@ -58,7 +58,7 @@
 
 @push('scripts')
     <script>
-        var encounterManager = new EncounterManager('encounter_manager_containter', "{{ route('modules.encounter_data') }}");
+        var encounterManager = new EncounterManager('encounter_manager_container', "{{ route('modules.encounter_data') }}");
         encounterManager.loadSelection({{ $module->encounters()->pluck('id') }});
     </script>
 @endpush

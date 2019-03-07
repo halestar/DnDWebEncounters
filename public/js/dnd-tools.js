@@ -1,1 +1,24646 @@
-function makeDeleteForm(t){var e=document.createElement("form");e.method="POST",e.action=t;var n=document.createElement("input");n.type="hidden",n.name="_method",n.value="DELETE",e.appendChild(n);var r=document.createElement("input");return r.type="hidden",r.name="_token",r.value=jQuery('meta[name="csrf-token"]').attr("content"),e.appendChild(r),document.body.appendChild(e),e}function debounce(t,e=300){var n=null;return function(){clearTimeout(n);var r=arguments,i=this;n=setTimeout(function(){t.apply(i,r)},e)}}function showDiceRoller(){jQuery("#modal_dialog_title").text("Dice Roller"),axios.get("/dice/dialog").then(function(t){jQuery("#modal_dialog_body").html(t.data),jQuery("#global_modal_dialog").modal()}).catch(function(t){console.log(t)})}function rollDice(){let t=jQuery('input[name="dice_num"]:checked').val(),e=jQuery('input[name="dice_type"]:checked').val(),n=jQuery("#other_dice_num").val(),r=jQuery("#dice_mod").val(),i={num_dice:t,dice_type:e,other_dice_num:n,mod:r};axios.post("/dice/roll",i).then(function(i){jQuery("#global_modal_dialog").modal("hide");let o="";o=11==t?"Rolled "+n+"d"+e:"Rolled "+t+"d"+e,r>0?o+="+"+r:r<0&&(o+=r),o+=": "+i.data,alert(o)}).catch(function(t){console.log(t)})}function quickRoll(t){let e={roll:t};axios.post("/dice/quick",e).then(function(e){alert("Rolled "+t+": "+e.data)}).catch(function(t){console.log(t)})}function showSpellSearch(){jQuery("#modal_dialog_title").text("Spell Search"),axios.get("/spells/dialog").then(function(t){jQuery("#modal_dialog_body").html(t.data),jQuery("#global_modal_dialog").modal()}).catch(function(t){console.log(t)})}function searchSpells(t){let e={query:t};axios.post("/spells/search",e).then(function(t){jQuery("#modal_dialog_body").html(t.data)}).catch(function(t){console.log(t)})}function selectSpell(t){let e="/spells/show/"+t;axios.get(e).then(function(t){jQuery("#spell_display_container").html(t.data),jQuery("#spell_display_container").show(),jQuery("#spell_search_container").hide()}).catch(function(t){console.log(t)})}!function(t){"use strict";"function"==typeof define&&define.amd?define(["jquery"],function(e){return t(e,window,document)}):"object"==typeof exports?module.exports=function(e,n){return e||(e=window),n||(n="undefined"!=typeof window?require("jquery"):require("jquery")(e)),t(n,e,e.document)}:t(jQuery,window,document)}(function(t,e,n,r){"use strict";var i,o,a,s,l=function(e){this.$=function(t,e){return this.api(!0).$(t,e)},this._=function(t,e){return this.api(!0).rows(t,e).data()},this.api=function(t){return new o(t?oe(this[i.iApiIndex]):this)},this.fnAddData=function(e,n){var i=this.api(!0),o=t.isArray(e)&&(t.isArray(e[0])||t.isPlainObject(e[0]))?i.rows.add(e):i.row.add(e);return(n===r||n)&&i.draw(),o.flatten().toArray()},this.fnAdjustColumnSizing=function(t){var e=this.api(!0).columns.adjust(),n=e.settings()[0],i=n.oScroll;t===r||t?e.draw(!1):""===i.sX&&""===i.sY||qt(n)},this.fnClearTable=function(t){var e=this.api(!0).clear();(t===r||t)&&e.draw()},this.fnClose=function(t){this.api(!0).row(t).child.hide()},this.fnDeleteRow=function(t,e,n){var i=this.api(!0),o=i.rows(t),a=o.settings()[0],s=a.aoData[o[0][0]];return o.remove(),e&&e.call(this,a,s),(n===r||n)&&i.draw(),s},this.fnDestroy=function(t){this.api(!0).destroy(t)},this.fnDraw=function(t){this.api(!0).draw(t)},this.fnFilter=function(t,e,n,i,o,a){var s=this.api(!0);null===e||e===r?s.search(t,n,i,a):s.column(e).search(t,n,i,a),s.draw()},this.fnGetData=function(t,e){var n=this.api(!0);if(t!==r){var i=t.nodeName?t.nodeName.toLowerCase():"";return e!==r||"td"==i||"th"==i?n.cell(t,e).data():n.row(t).data()||null}return n.data().toArray()},this.fnGetNodes=function(t){var e=this.api(!0);return t!==r?e.row(t).node():e.rows().nodes().flatten().toArray()},this.fnGetPosition=function(t){var e=this.api(!0),n=t.nodeName.toUpperCase();if("TR"==n)return e.row(t).index();if("TD"==n||"TH"==n){var r=e.cell(t).index();return[r.row,r.columnVisible,r.column]}return null},this.fnIsOpen=function(t){return this.api(!0).row(t).child.isShown()},this.fnOpen=function(t,e,n){return this.api(!0).row(t).child(e,n).show().child()[0]},this.fnPageChange=function(t,e){var n=this.api(!0).page(t);(e===r||e)&&n.draw(!1)},this.fnSetColumnVis=function(t,e,n){var i=this.api(!0).column(t).visible(e);(n===r||n)&&i.columns.adjust().draw()},this.fnSettings=function(){return oe(this[i.iApiIndex])},this.fnSort=function(t){this.api(!0).order(t).draw()},this.fnSortListener=function(t,e,n){this.api(!0).order.listener(t,e,n)},this.fnUpdate=function(t,e,n,i,o){var a=this.api(!0);return n===r||null===n?a.row(e).data(t):a.cell(e,n).data(t),(o===r||o)&&a.columns.adjust(),(i===r||i)&&a.draw(),0},this.fnVersionCheck=i.fnVersionCheck;var n=this,a=e===r,s=this.length;for(var c in a&&(e={}),this.oApi=this.internal=i.internal,l.ext.internal)c&&(this[c]=Me(c));return this.each(function(){var i,o=s>1?le({},e,!0):e,c=0,u=this.getAttribute("id"),h=!1,d=l.defaults,f=t(this);if("table"==this.nodeName.toLowerCase()){j(d),O(d.column),T(d,d,!0),T(d.column,d.column,!0),T(d,t.extend(o,f.data()));var p=l.settings;for(c=0,i=p.length;c<i;c++){var g=p[c];if(g.nTable==this||g.nTHead&&g.nTHead.parentNode==this||g.nTFoot&&g.nTFoot.parentNode==this){var v=o.bRetrieve!==r?o.bRetrieve:d.bRetrieve,y=o.bDestroy!==r?o.bDestroy:d.bDestroy;if(a||v)return g.oInstance;if(y){g.oInstance.fnDestroy();break}return void ae(g,0,"Cannot reinitialise DataTable",3)}if(g.sTableId==this.id){p.splice(c,1);break}}null!==u&&""!==u||(u="DataTables_Table_"+l.ext._unique++,this.id=u);var b=t.extend(!0,{},l.models.oSettings,{sDestroyWidth:f[0].style.width,sInstance:u,sTableId:u});b.nTable=this,b.oApi=n.internal,b.oInit=o,p.push(b),b.oInstance=1===n.length?n:f.dataTable(),j(o),A(o.oLanguage),o.aLengthMenu&&!o.iDisplayLength&&(o.iDisplayLength=t.isArray(o.aLengthMenu[0])?o.aLengthMenu[0][0]:o.aLengthMenu[0]),o=le(t.extend(!0,{},d),o),se(b.oFeatures,o,["bPaginate","bLengthChange","bFilter","bSort","bSortMulti","bInfo","bProcessing","bAutoWidth","bSortClasses","bServerSide","bDeferRender"]),se(b,o,["asStripeClasses","ajax","fnServerData","fnFormatNumber","sServerMethod","aaSorting","aaSortingFixed","aLengthMenu","sPaginationType","sAjaxSource","sAjaxDataProp","iStateDuration","sDom","bSortCellsTop","iTabIndex","fnStateLoadCallback","fnStateSaveCallback","renderer","searchDelay","rowId",["iCookieDuration","iStateDuration"],["oSearch","oPreviousSearch"],["aoSearchCols","aoPreSearchCols"],["iDisplayLength","_iDisplayLength"]]),se(b.oScroll,o,[["sScrollX","sX"],["sScrollXInner","sXInner"],["sScrollY","sY"],["bScrollCollapse","bCollapse"]]),se(b.oLanguage,o,"fnInfoCallback"),ue(b,"aoDrawCallback",o.fnDrawCallback,"user"),ue(b,"aoServerParams",o.fnServerParams,"user"),ue(b,"aoStateSaveParams",o.fnStateSaveParams,"user"),ue(b,"aoStateLoadParams",o.fnStateLoadParams,"user"),ue(b,"aoStateLoaded",o.fnStateLoaded,"user"),ue(b,"aoRowCallback",o.fnRowCallback,"user"),ue(b,"aoRowCreatedCallback",o.fnCreatedRow,"user"),ue(b,"aoHeaderCallback",o.fnHeaderCallback,"user"),ue(b,"aoFooterCallback",o.fnFooterCallback,"user"),ue(b,"aoInitComplete",o.fnInitComplete,"user"),ue(b,"aoPreDrawCallback",o.fnPreDrawCallback,"user"),b.rowIdFn=K(o.rowId),M(b);var m=b.oClasses;if(t.extend(m,l.ext.classes,o.oClasses),f.addClass(m.sTable),b.iInitDisplayStart===r&&(b.iInitDisplayStart=o.iDisplayStart,b._iDisplayStart=o.iDisplayStart),null!==o.iDeferLoading){b.bDeferLoading=!0;var _=t.isArray(o.iDeferLoading);b._iRecordsDisplay=_?o.iDeferLoading[0]:o.iDeferLoading,b._iRecordsTotal=_?o.iDeferLoading[1]:o.iDeferLoading}var k=b.oLanguage;t.extend(!0,k,o.oLanguage),k.sUrl&&(t.ajax({dataType:"json",url:k.sUrl,success:function(e){A(e),T(d.oLanguage,e),t.extend(!0,k,e),Mt(b)},error:function(){Mt(b)}}),h=!0),null===o.asStripeClasses&&(b.asStripeClasses=[m.sStripeOdd,m.sStripeEven]);var w=b.asStripeClasses,S=f.children("tbody").find("tr").eq(0);-1!==t.inArray(!0,t.map(w,function(t,e){return S.hasClass(t)}))&&(t("tbody tr",this).removeClass(w.join(" ")),b.asDestroyStripes=w.slice());var x,C=[],D=this.getElementsByTagName("thead");if(0!==D.length&&(ut(b.aoHeader,D[0]),C=ht(b)),null===o.aoColumns)for(x=[],c=0,i=C.length;c<i;c++)x.push(null);else x=o.aoColumns;for(c=0,i=x.length;c<i;c++)P(b,C?C[c]:null);if(Q(b,o.aoColumnDefs,x,function(t,e){H(b,t,e)}),S.length){var I=function(t,e){return null!==t.getAttribute("data-"+e)?e:null};t(S[0]).children("th, td").each(function(t,e){var n=b.aoColumns[t];if(n.mData===t){var i=I(e,"sort")||I(e,"order"),o=I(e,"filter")||I(e,"search");null===i&&null===o||(n.mData={_:t+".display",sort:null!==i?t+".@data-"+i:r,type:null!==i?t+".@data-"+i:r,filter:null!==o?t+".@data-"+o:r},H(b,t))}})}var F=b.oFeatures,L=function(){if(o.aaSorting===r){var e=b.aaSorting;for(c=0,i=e.length;c<i;c++)e[c][1]=b.aoColumns[c].asSorting[0]}ee(b),F.bSort&&ue(b,"aoDrawCallback",function(){if(b.bSorted){var e=Kt(b),n={};t.each(e,function(t,e){n[e.src]=e.dir}),he(b,null,"order",[b,e,n]),Yt(b)}}),ue(b,"aoDrawCallback",function(){(b.bSorted||"ssp"===pe(b)||F.bDeferRender)&&ee(b)},"sc");var n=f.children("caption").each(function(){this._captionSide=t(this).css("caption-side")}),a=f.children("thead");0===a.length&&(a=t("<thead/>").appendTo(f)),b.nTHead=a[0];var s=f.children("tbody");0===s.length&&(s=t("<tbody/>").appendTo(f)),b.nTBody=s[0];var l=f.children("tfoot");if(0===l.length&&n.length>0&&(""!==b.oScroll.sX||""!==b.oScroll.sY)&&(l=t("<tfoot/>").appendTo(f)),0===l.length||0===l.children().length?f.addClass(m.sNoFooter):l.length>0&&(b.nTFoot=l[0],ut(b.aoFooter,b.nTFoot)),o.aaData)for(c=0;c<o.aaData.length;c++)B(b,o.aaData[c]);else(b.bDeferLoading||"dom"==pe(b))&&V(b,t(b.nTBody).children("tr"));b.aiDisplay=b.aiDisplayMaster.slice(),b.bInitialised=!0,!1===h&&Mt(b)};o.bStateSave?(F.bStateSave=!0,ue(b,"aoDrawCallback",re,"state_save"),ie(b,o,L)):L()}else ae(null,0,"Non-table node initialisation ("+this.nodeName+")",2)}),n=null,this},c={},u=/[\r\n]/g,h=/<.*?>/g,d=/^\d{2,4}[\.\/\-]\d{1,2}[\.\/\-]\d{1,2}([T ]{1}\d{1,2}[:\.]\d{2}([\.:]\d{2})?)?$/,f=new RegExp("(\\"+["/",".","*","+","?","|","(",")","[","]","{","}","\\","$","^","-"].join("|\\")+")","g"),p=/[',$£€¥%\u2009\u202F\u20BD\u20a9\u20BArfkɃΞ]/gi,g=function(t){return!t||!0===t||"-"===t},v=function(t){var e=parseInt(t,10);return!isNaN(e)&&isFinite(t)?e:null},y=function(t,e){return c[e]||(c[e]=new RegExp(St(e),"g")),"string"==typeof t&&"."!==e?t.replace(/\./g,"").replace(c[e],"."):t},b=function(t,e,n){var r="string"==typeof t;return!!g(t)||(e&&r&&(t=y(t,e)),n&&r&&(t=t.replace(p,"")),!isNaN(parseFloat(t))&&isFinite(t))},m=function(t,e,n){return!!g(t)||(function(t){return g(t)||"string"==typeof t}(t)&&!!b(x(t),e,n)||null)},_=function(t,e,n){var i=[],o=0,a=t.length;if(n!==r)for(;o<a;o++)t[o]&&t[o][e]&&i.push(t[o][e][n]);else for(;o<a;o++)t[o]&&i.push(t[o][e]);return i},k=function(t,e,n,i){var o=[],a=0,s=e.length;if(i!==r)for(;a<s;a++)t[e[a]][n]&&o.push(t[e[a]][n][i]);else for(;a<s;a++)o.push(t[e[a]][n]);return o},w=function(t,e){var n,i=[];e===r?(e=0,n=t):(n=e,e=t);for(var o=e;o<n;o++)i.push(o);return i},S=function(t){for(var e=[],n=0,r=t.length;n<r;n++)t[n]&&e.push(t[n]);return e},x=function(t){return t.replace(h,"")},C=function(t){if(function(t){if(t.length<2)return!0;for(var e=t.slice().sort(),n=e[0],r=1,i=e.length;r<i;r++){if(e[r]===n)return!1;n=e[r]}return!0}(t))return t.slice();var e,n,r,i=[],o=t.length,a=0;t:for(n=0;n<o;n++){for(e=t[n],r=0;r<a;r++)if(i[r]===e)continue t;i.push(e),a++}return i};function D(e){var n,r,i={};t.each(e,function(t,o){(n=t.match(/^([^A-Z]+?)([A-Z])/))&&-1!=="a aa ai ao as b fn i m o s ".indexOf(n[1]+" ")&&(r=t.replace(n[0],n[2].toLowerCase()),i[r]=t,"o"===n[1]&&D(e[t]))}),e._hungarianMap=i}function T(e,n,i){var o;e._hungarianMap||D(e),t.each(n,function(a,s){(o=e._hungarianMap[a])===r||!i&&n[o]!==r||("o"===o.charAt(0)?(n[o]||(n[o]={}),t.extend(!0,n[o],n[a]),T(e[o],n[o],i)):n[o]=n[a])})}function A(t){var e=l.defaults.oLanguage,n=e.sDecimal;if(n&&je(n),t){var r=t.sZeroRecords;!t.sEmptyTable&&r&&"No data available in table"===e.sEmptyTable&&se(t,t,"sZeroRecords","sEmptyTable"),!t.sLoadingRecords&&r&&"Loading..."===e.sLoadingRecords&&se(t,t,"sZeroRecords","sLoadingRecords"),t.sInfoThousands&&(t.sThousands=t.sInfoThousands);var i=t.sDecimal;i&&n!==i&&je(i)}}l.util={throttle:function(t,e){var n,i,o=e!==r?e:200;return function(){var e=this,a=+new Date,s=arguments;n&&a<n+o?(clearTimeout(i),i=setTimeout(function(){n=r,t.apply(e,s)},o)):(n=a,t.apply(e,s))}},escapeRegex:function(t){return t.replace(f,"\\$1")}};var I=function(t,e,n){t[e]!==r&&(t[n]=t[e])};function j(t){I(t,"ordering","bSort"),I(t,"orderMulti","bSortMulti"),I(t,"orderClasses","bSortClasses"),I(t,"orderCellsTop","bSortCellsTop"),I(t,"order","aaSorting"),I(t,"orderFixed","aaSortingFixed"),I(t,"paging","bPaginate"),I(t,"pagingType","sPaginationType"),I(t,"pageLength","iDisplayLength"),I(t,"searching","bFilter"),"boolean"==typeof t.sScrollX&&(t.sScrollX=t.sScrollX?"100%":""),"boolean"==typeof t.scrollX&&(t.scrollX=t.scrollX?"100%":"");var e=t.aoSearchCols;if(e)for(var n=0,r=e.length;n<r;n++)e[n]&&T(l.models.oSearch,e[n])}function O(e){I(e,"orderable","bSortable"),I(e,"orderData","aDataSort"),I(e,"orderSequence","asSorting"),I(e,"orderDataType","sortDataType");var n=e.aDataSort;"number"!=typeof n||t.isArray(n)||(e.aDataSort=[n])}function M(n){if(!l.__browser){var r={};l.__browser=r;var i=t("<div/>").css({position:"fixed",top:0,left:-1*t(e).scrollLeft(),height:1,width:1,overflow:"hidden"}).append(t("<div/>").css({position:"absolute",top:1,left:1,width:100,overflow:"scroll"}).append(t("<div/>").css({width:"100%",height:10}))).appendTo("body"),o=i.children(),a=o.children();r.barWidth=o[0].offsetWidth-o[0].clientWidth,r.bScrollOversize=100===a[0].offsetWidth&&100!==o[0].clientWidth,r.bScrollbarLeft=1!==Math.round(a.offset().left),r.bBounding=!!i[0].getBoundingClientRect().width,i.remove()}t.extend(n.oBrowser,l.__browser),n.oScroll.iBarWidth=l.__browser.barWidth}function F(t,e,n,i,o,a){var s,l=i,c=!1;for(n!==r&&(s=n,c=!0);l!==o;)t.hasOwnProperty(l)&&(s=c?e(s,t[l],l,t):t[l],c=!0,l+=a);return s}function P(e,r){var i=l.defaults.column,o=e.aoColumns.length,a=t.extend({},l.models.oColumn,i,{nTh:r||n.createElement("th"),sTitle:i.sTitle?i.sTitle:r?r.innerHTML:"",aDataSort:i.aDataSort?i.aDataSort:[o],mData:i.mData?i.mData:o,idx:o});e.aoColumns.push(a);var s=e.aoPreSearchCols;s[o]=t.extend({},l.models.oSearch,s[o]),H(e,o,t(r).data())}function H(e,n,i){var o=e.aoColumns[n],a=e.oClasses,s=t(o.nTh);if(!o.sWidthOrig){o.sWidthOrig=s.attr("width")||null;var c=(s.attr("style")||"").match(/width:\s*(\d+[pxem%]+)/);c&&(o.sWidthOrig=c[1])}i!==r&&null!==i&&(O(i),T(l.defaults.column,i),i.mDataProp===r||i.mData||(i.mData=i.mDataProp),i.sType&&(o._sManualType=i.sType),i.className&&!i.sClass&&(i.sClass=i.className),i.sClass&&s.addClass(i.sClass),t.extend(o,i),se(o,i,"sWidth","sWidthOrig"),i.iDataSort!==r&&(o.aDataSort=[i.iDataSort]),se(o,i,"aDataSort"));var u=o.mData,h=K(u),d=o.mRender?K(o.mRender):null,f=function(t){return"string"==typeof t&&-1!==t.indexOf("@")};o._bAttrSrc=t.isPlainObject(u)&&(f(u.sort)||f(u.type)||f(u.filter)),o._setter=null,o.fnGetData=function(t,e,n){var i=h(t,e,r,n);return d&&e?d(i,e,t,n):i},o.fnSetData=function(t,e,n){return G(u)(t,e,n)},"number"!=typeof u&&(e._rowReadObject=!0),e.oFeatures.bSort||(o.bSortable=!1,s.addClass(a.sSortableNone));var p=-1!==t.inArray("asc",o.asSorting),g=-1!==t.inArray("desc",o.asSorting);o.bSortable&&(p||g)?p&&!g?(o.sSortingClass=a.sSortableAsc,o.sSortingClassJUI=a.sSortJUIAscAllowed):!p&&g?(o.sSortingClass=a.sSortableDesc,o.sSortingClassJUI=a.sSortJUIDescAllowed):(o.sSortingClass=a.sSortable,o.sSortingClassJUI=a.sSortJUI):(o.sSortingClass=a.sSortableNone,o.sSortingClassJUI="")}function L(t){if(!1!==t.oFeatures.bAutoWidth){var e=t.aoColumns;Vt(t);for(var n=0,r=e.length;n<r;n++)e[n].nTh.style.width=e[n].sWidth}var i=t.oScroll;""===i.sY&&""===i.sX||qt(t),he(t,null,"column-sizing",[t])}function E(t,e){var n=$(t,"bVisible");return"number"==typeof n[e]?n[e]:null}function R(e,n){var r=$(e,"bVisible"),i=t.inArray(n,r);return-1!==i?i:null}function N(e){var n=0;return t.each(e.aoColumns,function(e,r){r.bVisible&&"none"!==t(r.nTh).css("display")&&n++}),n}function $(e,n){var r=[];return t.map(e.aoColumns,function(t,e){t[n]&&r.push(e)}),r}function q(t){var e,n,i,o,a,s,c,u,h,d=t.aoColumns,f=t.aoData,p=l.ext.type.detect;for(e=0,n=d.length;e<n;e++)if(h=[],!(c=d[e]).sType&&c._sManualType)c.sType=c._sManualType;else if(!c.sType){for(i=0,o=p.length;i<o;i++){for(a=0,s=f.length;a<s&&(h[a]===r&&(h[a]=U(t,a,e,"type")),(u=p[i](h[a],t))||i===p.length-1)&&"html"!==u;a++);if(u){c.sType=u;break}}c.sType||(c.sType="string")}}function Q(e,n,i,o){var a,s,l,c,u,h,d,f=e.aoColumns;if(n)for(a=n.length-1;a>=0;a--){var p=(d=n[a]).targets!==r?d.targets:d.aTargets;for(t.isArray(p)||(p=[p]),l=0,c=p.length;l<c;l++)if("number"==typeof p[l]&&p[l]>=0){for(;f.length<=p[l];)P(e);o(p[l],d)}else if("number"==typeof p[l]&&p[l]<0)o(f.length+p[l],d);else if("string"==typeof p[l])for(u=0,h=f.length;u<h;u++)("_all"==p[l]||t(f[u].nTh).hasClass(p[l]))&&o(u,d)}if(i)for(a=0,s=i.length;a<s;a++)o(a,i[a])}function B(e,n,i,o){var a=e.aoData.length,s=t.extend(!0,{},l.models.oRow,{src:i?"dom":"data",idx:a});s._aData=n,e.aoData.push(s);for(var c=e.aoColumns,u=0,h=c.length;u<h;u++)c[u].sType=null;e.aiDisplayMaster.push(a);var d=e.rowIdFn(n);return d!==r&&(e.aIds[d]=s),!i&&e.oFeatures.bDeferRender||rt(e,a,i,o),a}function V(e,n){var r;return n instanceof t||(n=t(n)),n.map(function(t,n){return r=nt(e,n),B(e,r.data,n,r.cells)})}function U(t,e,n,i){var o=t.iDraw,a=t.aoColumns[n],s=t.aoData[e]._aData,l=a.sDefaultContent,c=a.fnGetData(s,i,{settings:t,row:e,col:n});if(c===r)return t.iDrawError!=o&&null===l&&(ae(t,0,"Requested unknown parameter "+("function"==typeof a.mData?"{function}":"'"+a.mData+"'")+" for row "+e+", column "+n,4),t.iDrawError=o),l;if(c!==s&&null!==c||null===l||i===r){if("function"==typeof c)return c.call(s)}else c=l;return null===c&&"display"==i?"":c}function W(t,e,n,r){var i=t.aoColumns[n],o=t.aoData[e]._aData;i.fnSetData(o,r,{settings:t,row:e,col:n})}var z=/\[.*?\]$/,X=/\(\)$/;function J(e){return t.map(e.match(/(\\.|[^\.])+/g)||[""],function(t){return t.replace(/\\\./g,".")})}function K(e){if(t.isPlainObject(e)){var n={};return t.each(e,function(t,e){e&&(n[t]=K(e))}),function(t,e,i,o){var a=n[e]||n._;return a!==r?a(t,e,i,o):t}}if(null===e)return function(t){return t};if("function"==typeof e)return function(t,n,r,i){return e(t,n,r,i)};if("string"!=typeof e||-1===e.indexOf(".")&&-1===e.indexOf("[")&&-1===e.indexOf("("))return function(t,n){return t[e]};var i=function(e,n,o){var a,s,l,c;if(""!==o)for(var u=J(o),h=0,d=u.length;h<d;h++){if(a=u[h].match(z),s=u[h].match(X),a){if(u[h]=u[h].replace(z,""),""!==u[h]&&(e=e[u[h]]),l=[],u.splice(0,h+1),c=u.join("."),t.isArray(e))for(var f=0,p=e.length;f<p;f++)l.push(i(e[f],n,c));var g=a[0].substring(1,a[0].length-1);e=""===g?l:l.join(g);break}if(s)u[h]=u[h].replace(X,""),e=e[u[h]]();else{if(null===e||e[u[h]]===r)return r;e=e[u[h]]}}return e};return function(t,n){return i(t,n,e)}}function G(e){if(t.isPlainObject(e))return G(e._);if(null===e)return function(){};if("function"==typeof e)return function(t,n,r){e(t,"set",n,r)};if("string"!=typeof e||-1===e.indexOf(".")&&-1===e.indexOf("[")&&-1===e.indexOf("("))return function(t,n){t[e]=n};var n=function(e,i,o){for(var a,s,l,c,u,h=J(o),d=h[h.length-1],f=0,p=h.length-1;f<p;f++){if(s=h[f].match(z),l=h[f].match(X),s){if(h[f]=h[f].replace(z,""),e[h[f]]=[],(a=h.slice()).splice(0,f+1),u=a.join("."),t.isArray(i))for(var g=0,v=i.length;g<v;g++)n(c={},i[g],u),e[h[f]].push(c);else e[h[f]]=i;return}l&&(h[f]=h[f].replace(X,""),e=e[h[f]](i)),null!==e[h[f]]&&e[h[f]]!==r||(e[h[f]]={}),e=e[h[f]]}d.match(X)?e=e[d.replace(X,"")](i):e[d.replace(z,"")]=i};return function(t,r){return n(t,r,e)}}function Y(t){return _(t.aoData,"_aData")}function Z(t){t.aoData.length=0,t.aiDisplayMaster.length=0,t.aiDisplay.length=0,t.aIds={}}function tt(t,e,n){for(var i=-1,o=0,a=t.length;o<a;o++)t[o]==e?i=o:t[o]>e&&t[o]--;-1!=i&&n===r&&t.splice(i,1)}function et(t,e,n,i){var o,a,s=t.aoData[e],l=function(n,r){for(;n.childNodes.length;)n.removeChild(n.firstChild);n.innerHTML=U(t,e,r,"display")};if("dom"!==n&&(n&&"auto"!==n||"dom"!==s.src)){var c=s.anCells;if(c)if(i!==r)l(c[i],i);else for(o=0,a=c.length;o<a;o++)l(c[o],o)}else s._aData=nt(t,s,i,i===r?r:s._aData).data;s._aSortData=null,s._aFilterData=null;var u=t.aoColumns;if(i!==r)u[i].sType=null;else{for(o=0,a=u.length;o<a;o++)u[o].sType=null;it(t,s)}}function nt(e,n,i,o){var a,s,l,c=[],u=n.firstChild,h=0,d=e.aoColumns,f=e._rowReadObject;o=o!==r?o:f?{}:[];var p=function(t,e){if("string"==typeof t){var n=t.indexOf("@");if(-1!==n){var r=t.substring(n+1);G(t)(o,e.getAttribute(r))}}},g=function(e){i!==r&&i!==h||(s=d[h],l=t.trim(e.innerHTML),s&&s._bAttrSrc?(G(s.mData._)(o,l),p(s.mData.sort,e),p(s.mData.type,e),p(s.mData.filter,e)):f?(s._setter||(s._setter=G(s.mData)),s._setter(o,l)):o[h]=l);h++};if(u)for(;u;)"TD"!=(a=u.nodeName.toUpperCase())&&"TH"!=a||(g(u),c.push(u)),u=u.nextSibling;else for(var v=0,y=(c=n.anCells).length;v<y;v++)g(c[v]);var b=n.firstChild?n:n.nTr;if(b){var m=b.getAttribute("id");m&&G(e.rowId)(o,m)}return{data:o,cells:c}}function rt(e,r,i,o){var a,s,l,c,u,h=e.aoData[r],d=h._aData,f=[];if(null===h.nTr){for(a=i||n.createElement("tr"),h.nTr=a,h.anCells=f,a._DT_RowIndex=r,it(e,h),c=0,u=e.aoColumns.length;c<u;c++)l=e.aoColumns[c],(s=i?o[c]:n.createElement(l.sCellType))._DT_CellIndex={row:r,column:c},f.push(s),i&&!l.mRender&&l.mData===c||t.isPlainObject(l.mData)&&l.mData._===c+".display"||(s.innerHTML=U(e,r,c,"display")),l.sClass&&(s.className+=" "+l.sClass),l.bVisible&&!i?a.appendChild(s):!l.bVisible&&i&&s.parentNode.removeChild(s),l.fnCreatedCell&&l.fnCreatedCell.call(e.oInstance,s,U(e,r,c),d,r,c);he(e,"aoRowCreatedCallback",null,[a,d,r,f])}h.nTr.setAttribute("role","row")}function it(e,n){var r=n.nTr,i=n._aData;if(r){var o=e.rowIdFn(i);if(o&&(r.id=o),i.DT_RowClass){var a=i.DT_RowClass.split(" ");n.__rowc=n.__rowc?C(n.__rowc.concat(a)):a,t(r).removeClass(n.__rowc.join(" ")).addClass(i.DT_RowClass)}i.DT_RowAttr&&t(r).attr(i.DT_RowAttr),i.DT_RowData&&t(r).data(i.DT_RowData)}}function ot(e){var n,r,i,o,a,s=e.nTHead,l=e.nTFoot,c=0===t("th, td",s).length,u=e.oClasses,h=e.aoColumns;for(c&&(o=t("<tr/>").appendTo(s)),n=0,r=h.length;n<r;n++)a=h[n],i=t(a.nTh).addClass(a.sClass),c&&i.appendTo(o),e.oFeatures.bSort&&(i.addClass(a.sSortingClass),!1!==a.bSortable&&(i.attr("tabindex",e.iTabIndex).attr("aria-controls",e.sTableId),te(e,a.nTh,n))),a.sTitle!=i[0].innerHTML&&i.html(a.sTitle),fe(e,"header")(e,i,a,u);if(c&&ut(e.aoHeader,s),t(s).find(">tr").attr("role","row"),t(s).find(">tr>th, >tr>td").addClass(u.sHeaderTH),t(l).find(">tr>th, >tr>td").addClass(u.sFooterTH),null!==l){var d=e.aoFooter[0];for(n=0,r=d.length;n<r;n++)(a=h[n]).nTf=d[n].cell,a.sClass&&t(a.nTf).addClass(a.sClass)}}function at(e,n,i){var o,a,s,l,c,u,h,d,f,p=[],g=[],v=e.aoColumns.length;if(n){for(i===r&&(i=!1),o=0,a=n.length;o<a;o++){for(p[o]=n[o].slice(),p[o].nTr=n[o].nTr,s=v-1;s>=0;s--)e.aoColumns[s].bVisible||i||p[o].splice(s,1);g.push([])}for(o=0,a=p.length;o<a;o++){if(h=p[o].nTr)for(;u=h.firstChild;)h.removeChild(u);for(s=0,l=p[o].length;s<l;s++)if(d=1,f=1,g[o][s]===r){for(h.appendChild(p[o][s].cell),g[o][s]=1;p[o+d]!==r&&p[o][s].cell==p[o+d][s].cell;)g[o+d][s]=1,d++;for(;p[o][s+f]!==r&&p[o][s].cell==p[o][s+f].cell;){for(c=0;c<d;c++)g[o+c][s+f]=1;f++}t(p[o][s].cell).attr("rowspan",d).attr("colspan",f)}}}}function st(e){var n=he(e,"aoPreDrawCallback","preDraw",[e]);if(-1===t.inArray(!1,n)){var i=[],o=0,a=e.asStripeClasses,s=a.length,l=(e.aoOpenRows.length,e.oLanguage),c=e.iInitDisplayStart,u="ssp"==pe(e),h=e.aiDisplay;e.bDrawing=!0,c!==r&&-1!==c&&(e._iDisplayStart=u?c:c>=e.fnRecordsDisplay()?0:c,e.iInitDisplayStart=-1);var d=e._iDisplayStart,f=e.fnDisplayEnd();if(e.bDeferLoading)e.bDeferLoading=!1,e.iDraw++,Nt(e,!1);else if(u){if(!e.bDestroying&&!ft(e))return}else e.iDraw++;if(0!==h.length)for(var p=u?0:d,g=u?e.aoData.length:f,v=p;v<g;v++){var y=h[v],b=e.aoData[y];null===b.nTr&&rt(e,y);var m=b.nTr;if(0!==s){var _=a[o%s];b._sRowStripe!=_&&(t(m).removeClass(b._sRowStripe).addClass(_),b._sRowStripe=_)}he(e,"aoRowCallback",null,[m,b._aData,o,v,y]),i.push(m),o++}else{var k=l.sZeroRecords;1==e.iDraw&&"ajax"==pe(e)?k=l.sLoadingRecords:l.sEmptyTable&&0===e.fnRecordsTotal()&&(k=l.sEmptyTable),i[0]=t("<tr/>",{class:s?a[0]:""}).append(t("<td />",{valign:"top",colSpan:N(e),class:e.oClasses.sRowEmpty}).html(k))[0]}he(e,"aoHeaderCallback","header",[t(e.nTHead).children("tr")[0],Y(e),d,f,h]),he(e,"aoFooterCallback","footer",[t(e.nTFoot).children("tr")[0],Y(e),d,f,h]);var w=t(e.nTBody);w.children().detach(),w.append(t(i)),he(e,"aoDrawCallback","draw",[e]),e.bSorted=!1,e.bFiltered=!1,e.bDrawing=!1}else Nt(e,!1)}function lt(t,e){var n=t.oFeatures,r=n.bSort,i=n.bFilter;r&&Gt(t),i?bt(t,t.oPreviousSearch):t.aiDisplay=t.aiDisplayMaster.slice(),!0!==e&&(t._iDisplayStart=0),t._drawHold=e,st(t),t._drawHold=!1}function ct(e){var n=e.oClasses,r=t(e.nTable),i=t("<div/>").insertBefore(r),o=e.oFeatures,a=t("<div/>",{id:e.sTableId+"_wrapper",class:n.sWrapper+(e.nTFoot?"":" "+n.sNoFooter)});e.nHolding=i[0],e.nTableWrapper=a[0],e.nTableReinsertBefore=e.nTable.nextSibling;for(var s,c,u,h,d,f,p=e.sDom.split(""),g=0;g<p.length;g++){if(s=null,"<"==(c=p[g])){if(u=t("<div/>")[0],"'"==(h=p[g+1])||'"'==h){for(d="",f=2;p[g+f]!=h;)d+=p[g+f],f++;if("H"==d?d=n.sJUIHeader:"F"==d&&(d=n.sJUIFooter),-1!=d.indexOf(".")){var v=d.split(".");u.id=v[0].substr(1,v[0].length-1),u.className=v[1]}else"#"==d.charAt(0)?u.id=d.substr(1,d.length-1):u.className=d;g+=f}a.append(u),a=t(u)}else if(">"==c)a=a.parent();else if("l"==c&&o.bPaginate&&o.bLengthChange)s=Ht(e);else if("f"==c&&o.bFilter)s=yt(e);else if("r"==c&&o.bProcessing)s=Rt(e);else if("t"==c)s=$t(e);else if("i"==c&&o.bInfo)s=It(e);else if("p"==c&&o.bPaginate)s=Lt(e);else if(0!==l.ext.feature.length)for(var y=l.ext.feature,b=0,m=y.length;b<m;b++)if(c==y[b].cFeature){s=y[b].fnInit(e);break}if(s){var _=e.aanFeatures;_[c]||(_[c]=[]),_[c].push(s),a.append(s)}}i.replaceWith(a),e.nHolding=null}function ut(e,n){var r,i,o,a,s,l,c,u,h,d,f=t(n).children("tr"),p=function(t,e,n){for(var r=t[e];r[n];)n++;return n};for(e.splice(0,e.length),o=0,l=f.length;o<l;o++)e.push([]);for(o=0,l=f.length;o<l;o++)for(0,i=(r=f[o]).firstChild;i;){if("TD"==i.nodeName.toUpperCase()||"TH"==i.nodeName.toUpperCase())for(u=(u=1*i.getAttribute("colspan"))&&0!==u&&1!==u?u:1,h=(h=1*i.getAttribute("rowspan"))&&0!==h&&1!==h?h:1,c=p(e,o,0),d=1===u,s=0;s<u;s++)for(a=0;a<h;a++)e[o+a][c+s]={cell:i,unique:d},e[o+a].nTr=r;i=i.nextSibling}}function ht(t,e,n){var r=[];n||(n=t.aoHeader,e&&ut(n=[],e));for(var i=0,o=n.length;i<o;i++)for(var a=0,s=n[i].length;a<s;a++)!n[i][a].unique||r[a]&&t.bSortCellsTop||(r[a]=n[i][a].cell);return r}function dt(e,n,r){if(he(e,"aoServerParams","serverParams",[n]),n&&t.isArray(n)){var i={},o=/(.*?)\[\]$/;t.each(n,function(t,e){var n=e.name.match(o);if(n){var r=n[0];i[r]||(i[r]=[]),i[r].push(e.value)}else i[e.name]=e.value}),n=i}var a,s=e.ajax,l=e.oInstance,c=function(t){he(e,null,"xhr",[e,t,e.jqXHR]),r(t)};if(t.isPlainObject(s)&&s.data){var u="function"==typeof(a=s.data)?a(n,e):a;n="function"==typeof a&&u?u:t.extend(!0,n,u),delete s.data}var h={data:n,success:function(t){var n=t.error||t.sError;n&&ae(e,0,n),e.json=t,c(t)},dataType:"json",cache:!1,type:e.sServerMethod,error:function(n,r,i){var o=he(e,null,"xhr",[e,null,e.jqXHR]);-1===t.inArray(!0,o)&&("parsererror"==r?ae(e,0,"Invalid JSON response",1):4===n.readyState&&ae(e,0,"Ajax error",7)),Nt(e,!1)}};e.oAjaxData=n,he(e,null,"preXhr",[e,n]),e.fnServerData?e.fnServerData.call(l,e.sAjaxSource,t.map(n,function(t,e){return{name:e,value:t}}),c,e):e.sAjaxSource||"string"==typeof s?e.jqXHR=t.ajax(t.extend(h,{url:s||e.sAjaxSource})):"function"==typeof s?e.jqXHR=s.call(l,n,c,e):(e.jqXHR=t.ajax(t.extend(h,s)),s.data=a)}function ft(t){return!t.bAjaxDataGet||(t.iDraw++,Nt(t,!0),dt(t,pt(t),function(e){gt(t,e)}),!1)}function pt(e){var n,r,i,o,a=e.aoColumns,s=a.length,c=e.oFeatures,u=e.oPreviousSearch,h=e.aoPreSearchCols,d=[],f=Kt(e),p=e._iDisplayStart,g=!1!==c.bPaginate?e._iDisplayLength:-1,v=function(t,e){d.push({name:t,value:e})};v("sEcho",e.iDraw),v("iColumns",s),v("sColumns",_(a,"sName").join(",")),v("iDisplayStart",p),v("iDisplayLength",g);var y={draw:e.iDraw,columns:[],order:[],start:p,length:g,search:{value:u.sSearch,regex:u.bRegex}};for(n=0;n<s;n++)i=a[n],o=h[n],r="function"==typeof i.mData?"function":i.mData,y.columns.push({data:r,name:i.sName,searchable:i.bSearchable,orderable:i.bSortable,search:{value:o.sSearch,regex:o.bRegex}}),v("mDataProp_"+n,r),c.bFilter&&(v("sSearch_"+n,o.sSearch),v("bRegex_"+n,o.bRegex),v("bSearchable_"+n,i.bSearchable)),c.bSort&&v("bSortable_"+n,i.bSortable);c.bFilter&&(v("sSearch",u.sSearch),v("bRegex",u.bRegex)),c.bSort&&(t.each(f,function(t,e){y.order.push({column:e.col,dir:e.dir}),v("iSortCol_"+t,e.col),v("sSortDir_"+t,e.dir)}),v("iSortingCols",f.length));var b=l.ext.legacy.ajax;return null===b?e.sAjaxSource?d:y:b?d:y}function gt(t,e){var n=function(t,n){return e[t]!==r?e[t]:e[n]},i=vt(t,e),o=n("sEcho","draw"),a=n("iTotalRecords","recordsTotal"),s=n("iTotalDisplayRecords","recordsFiltered");if(o){if(1*o<t.iDraw)return;t.iDraw=1*o}Z(t),t._iRecordsTotal=parseInt(a,10),t._iRecordsDisplay=parseInt(s,10);for(var l=0,c=i.length;l<c;l++)B(t,i[l]);t.aiDisplay=t.aiDisplayMaster.slice(),t.bAjaxDataGet=!1,st(t),t._bInitComplete||Ft(t,e),t.bAjaxDataGet=!0,Nt(t,!1)}function vt(e,n){var i=t.isPlainObject(e.ajax)&&e.ajax.dataSrc!==r?e.ajax.dataSrc:e.sAjaxDataProp;return"data"===i?n.aaData||n[i]:""!==i?K(i)(n):n}function yt(e){var r=e.oClasses,i=e.sTableId,o=e.oLanguage,a=e.oPreviousSearch,s=e.aanFeatures,l='<input type="search" class="'+r.sFilterInput+'"/>',c=o.sSearch;c=c.match(/_INPUT_/)?c.replace("_INPUT_",l):c+l;var u=t("<div/>",{id:s.f?null:i+"_filter",class:r.sFilter}).append(t("<label/>").append(c)),h=function(){s.f;var t=this.value?this.value:"";t!=a.sSearch&&(bt(e,{sSearch:t,bRegex:a.bRegex,bSmart:a.bSmart,bCaseInsensitive:a.bCaseInsensitive}),e._iDisplayStart=0,st(e))},d=null!==e.searchDelay?e.searchDelay:"ssp"===pe(e)?400:0,f=t("input",u).val(a.sSearch).attr("placeholder",o.sSearchPlaceholder).on("keyup.DT search.DT input.DT paste.DT cut.DT",d?Ut(h,d):h).on("keypress.DT",function(t){if(13==t.keyCode)return!1}).attr("aria-controls",i);return t(e.nTable).on("search.dt.DT",function(t,r){if(e===r)try{f[0]!==n.activeElement&&f.val(a.sSearch)}catch(t){}}),u[0]}function bt(t,e,n){var i=t.oPreviousSearch,o=t.aoPreSearchCols,a=function(t){i.sSearch=t.sSearch,i.bRegex=t.bRegex,i.bSmart=t.bSmart,i.bCaseInsensitive=t.bCaseInsensitive},s=function(t){return t.bEscapeRegex!==r?!t.bEscapeRegex:t.bRegex};if(q(t),"ssp"!=pe(t)){kt(t,e.sSearch,n,s(e),e.bSmart,e.bCaseInsensitive),a(e);for(var l=0;l<o.length;l++)_t(t,o[l].sSearch,l,s(o[l]),o[l].bSmart,o[l].bCaseInsensitive);mt(t)}else a(e);t.bFiltered=!0,he(t,null,"search",[t])}function mt(e){for(var n,r,i=l.ext.search,o=e.aiDisplay,a=0,s=i.length;a<s;a++){for(var c=[],u=0,h=o.length;u<h;u++)r=o[u],n=e.aoData[r],i[a](e,n._aFilterData,r,n._aData,u)&&c.push(r);o.length=0,t.merge(o,c)}}function _t(t,e,n,r,i,o){if(""!==e){for(var a,s=[],l=t.aiDisplay,c=wt(e,r,i,o),u=0;u<l.length;u++)a=t.aoData[l[u]]._aFilterData[n],c.test(a)&&s.push(l[u]);t.aiDisplay=s}}function kt(t,e,n,r,i,o){var a,s,c,u=wt(e,r,i,o),h=t.oPreviousSearch.sSearch,d=t.aiDisplayMaster,f=[];if(0!==l.ext.search.length&&(n=!0),s=Dt(t),e.length<=0)t.aiDisplay=d.slice();else{for((s||n||h.length>e.length||0!==e.indexOf(h)||t.bSorted)&&(t.aiDisplay=d.slice()),a=t.aiDisplay,c=0;c<a.length;c++)u.test(t.aoData[a[c]]._sFilterRow)&&f.push(a[c]);t.aiDisplay=f}}function wt(e,n,r,i){if(e=n?e:St(e),r){var o=t.map(e.match(/"[^"]+"|[^ ]+/g)||[""],function(t){if('"'===t.charAt(0)){var e=t.match(/^"(.*)"$/);t=e?e[1]:t}return t.replace('"',"")});e="^(?=.*?"+o.join(")(?=.*?")+").*$"}return new RegExp(e,i?"i":"")}var St=l.util.escapeRegex,xt=t("<div>")[0],Ct=xt.textContent!==r;function Dt(t){var e,n,r,i,o,a,s,c,u=t.aoColumns,h=l.ext.type.search,d=!1;for(n=0,i=t.aoData.length;n<i;n++)if(!(c=t.aoData[n])._aFilterData){for(a=[],r=0,o=u.length;r<o;r++)(e=u[r]).bSearchable?(s=U(t,n,r,"filter"),h[e.sType]&&(s=h[e.sType](s)),null===s&&(s=""),"string"!=typeof s&&s.toString&&(s=s.toString())):s="",s.indexOf&&-1!==s.indexOf("&")&&(xt.innerHTML=s,s=Ct?xt.textContent:xt.innerText),s.replace&&(s=s.replace(/[\r\n]/g,"")),a.push(s);c._aFilterData=a,c._sFilterRow=a.join("  "),d=!0}return d}function Tt(t){return{search:t.sSearch,smart:t.bSmart,regex:t.bRegex,caseInsensitive:t.bCaseInsensitive}}function At(t){return{sSearch:t.search,bSmart:t.smart,bRegex:t.regex,bCaseInsensitive:t.caseInsensitive}}function It(e){var n=e.sTableId,r=e.aanFeatures.i,i=t("<div/>",{class:e.oClasses.sInfo,id:r?null:n+"_info"});return r||(e.aoDrawCallback.push({fn:jt,sName:"information"}),i.attr("role","status").attr("aria-live","polite"),t(e.nTable).attr("aria-describedby",n+"_info")),i[0]}function jt(e){var n=e.aanFeatures.i;if(0!==n.length){var r=e.oLanguage,i=e._iDisplayStart+1,o=e.fnDisplayEnd(),a=e.fnRecordsTotal(),s=e.fnRecordsDisplay(),l=s?r.sInfo:r.sInfoEmpty;s!==a&&(l+=" "+r.sInfoFiltered),l=Ot(e,l+=r.sInfoPostFix);var c=r.fnInfoCallback;null!==c&&(l=c.call(e.oInstance,e,i,o,a,s,l)),t(n).html(l)}}function Ot(t,e){var n=t.fnFormatNumber,r=t._iDisplayStart+1,i=t._iDisplayLength,o=t.fnRecordsDisplay(),a=-1===i;return e.replace(/_START_/g,n.call(t,r)).replace(/_END_/g,n.call(t,t.fnDisplayEnd())).replace(/_MAX_/g,n.call(t,t.fnRecordsTotal())).replace(/_TOTAL_/g,n.call(t,o)).replace(/_PAGE_/g,n.call(t,a?1:Math.ceil(r/i))).replace(/_PAGES_/g,n.call(t,a?1:Math.ceil(o/i)))}function Mt(t){var e,n,r,i=t.iInitDisplayStart,o=t.aoColumns,a=t.oFeatures,s=t.bDeferLoading;if(t.bInitialised){for(ct(t),ot(t),at(t,t.aoHeader),at(t,t.aoFooter),Nt(t,!0),a.bAutoWidth&&Vt(t),e=0,n=o.length;e<n;e++)(r=o[e]).sWidth&&(r.nTh.style.width=Jt(r.sWidth));he(t,null,"preInit",[t]),lt(t);var l=pe(t);("ssp"!=l||s)&&("ajax"==l?dt(t,[],function(n){var r=vt(t,n);for(e=0;e<r.length;e++)B(t,r[e]);t.iInitDisplayStart=i,lt(t),Nt(t,!1),Ft(t,n)}):(Nt(t,!1),Ft(t)))}else setTimeout(function(){Mt(t)},200)}function Ft(t,e){t._bInitComplete=!0,(e||t.oInit.aaData)&&L(t),he(t,null,"plugin-init",[t,e]),he(t,"aoInitComplete","init",[t,e])}function Pt(t,e){var n=parseInt(e,10);t._iDisplayLength=n,de(t),he(t,null,"length",[t,n])}function Ht(e){for(var n=e.oClasses,r=e.sTableId,i=e.aLengthMenu,o=t.isArray(i[0]),a=o?i[0]:i,s=o?i[1]:i,l=t("<select/>",{name:r+"_length","aria-controls":r,class:n.sLengthSelect}),c=0,u=a.length;c<u;c++)l[0][c]=new Option("number"==typeof s[c]?e.fnFormatNumber(s[c]):s[c],a[c]);var h=t("<div><label/></div>").addClass(n.sLength);return e.aanFeatures.l||(h[0].id=r+"_length"),h.children().append(e.oLanguage.sLengthMenu.replace("_MENU_",l[0].outerHTML)),t("select",h).val(e._iDisplayLength).on("change.DT",function(n){Pt(e,t(this).val()),st(e)}),t(e.nTable).on("length.dt.DT",function(n,r,i){e===r&&t("select",h).val(i)}),h[0]}function Lt(e){var n=e.sPaginationType,r=l.ext.pager[n],i="function"==typeof r,o=function(t){st(t)},a=t("<div/>").addClass(e.oClasses.sPaging+n)[0],s=e.aanFeatures;return i||r.fnInit(e,a,o),s.p||(a.id=e.sTableId+"_paginate",e.aoDrawCallback.push({fn:function(t){if(i){var e,n,a=t._iDisplayStart,l=t._iDisplayLength,c=t.fnRecordsDisplay(),u=-1===l,h=u?0:Math.ceil(a/l),d=u?1:Math.ceil(c/l),f=r(h,d);for(e=0,n=s.p.length;e<n;e++)fe(t,"pageButton")(t,s.p[e],e,f,h,d)}else r.fnUpdate(t,o)},sName:"pagination"})),a}function Et(t,e,n){var r=t._iDisplayStart,i=t._iDisplayLength,o=t.fnRecordsDisplay();0===o||-1===i?r=0:"number"==typeof e?(r=e*i)>o&&(r=0):"first"==e?r=0:"previous"==e?(r=i>=0?r-i:0)<0&&(r=0):"next"==e?r+i<o&&(r+=i):"last"==e?r=Math.floor((o-1)/i)*i:ae(t,0,"Unknown paging action: "+e,5);var a=t._iDisplayStart!==r;return t._iDisplayStart=r,a&&(he(t,null,"page",[t]),n&&st(t)),a}function Rt(e){return t("<div/>",{id:e.aanFeatures.r?null:e.sTableId+"_processing",class:e.oClasses.sProcessing}).html(e.oLanguage.sProcessing).insertBefore(e.nTable)[0]}function Nt(e,n){e.oFeatures.bProcessing&&t(e.aanFeatures.r).css("display",n?"block":"none"),he(e,null,"processing",[e,n])}function $t(e){var n=t(e.nTable);n.attr("role","grid");var r=e.oScroll;if(""===r.sX&&""===r.sY)return e.nTable;var i=r.sX,o=r.sY,a=e.oClasses,s=n.children("caption"),l=s.length?s[0]._captionSide:null,c=t(n[0].cloneNode(!1)),u=t(n[0].cloneNode(!1)),h=n.children("tfoot"),d="<div/>",f=function(t){return t?Jt(t):null};h.length||(h=null);var p=t(d,{class:a.sScrollWrapper}).append(t(d,{class:a.sScrollHead}).css({overflow:"hidden",position:"relative",border:0,width:i?f(i):"100%"}).append(t(d,{class:a.sScrollHeadInner}).css({"box-sizing":"content-box",width:r.sXInner||"100%"}).append(c.removeAttr("id").css("margin-left",0).append("top"===l?s:null).append(n.children("thead"))))).append(t(d,{class:a.sScrollBody}).css({position:"relative",overflow:"auto",width:f(i)}).append(n));h&&p.append(t(d,{class:a.sScrollFoot}).css({overflow:"hidden",border:0,width:i?f(i):"100%"}).append(t(d,{class:a.sScrollFootInner}).append(u.removeAttr("id").css("margin-left",0).append("bottom"===l?s:null).append(n.children("tfoot")))));var g=p.children(),v=g[0],y=g[1],b=h?g[2]:null;return i&&t(y).on("scroll.DT",function(t){var e=this.scrollLeft;v.scrollLeft=e,h&&(b.scrollLeft=e)}),t(y).css(o&&r.bCollapse?"max-height":"height",o),e.nScrollHead=v,e.nScrollBody=y,e.nScrollFoot=b,e.aoDrawCallback.push({fn:qt,sName:"scrolling"}),p[0]}function qt(e){var n,i,o,a,s,l,c,u,h,d=e.oScroll,f=d.sX,p=d.sXInner,g=d.sY,v=d.iBarWidth,y=t(e.nScrollHead),b=y[0].style,m=y.children("div"),k=m[0].style,w=m.children("table"),S=e.nScrollBody,x=t(S),C=S.style,D=t(e.nScrollFoot).children("div"),T=D.children("table"),A=t(e.nTHead),I=t(e.nTable),j=I[0],O=j.style,M=e.nTFoot?t(e.nTFoot):null,F=e.oBrowser,P=F.bScrollOversize,H=_(e.aoColumns,"nTh"),R=[],N=[],$=[],q=[],Q=function(t){var e=t.style;e.paddingTop="0",e.paddingBottom="0",e.borderTopWidth="0",e.borderBottomWidth="0",e.height=0},B=S.scrollHeight>S.clientHeight;if(e.scrollBarVis!==B&&e.scrollBarVis!==r)return e.scrollBarVis=B,void L(e);e.scrollBarVis=B,I.children("thead, tfoot").remove(),M&&(l=M.clone().prependTo(I),i=M.find("tr"),a=l.find("tr")),s=A.clone().prependTo(I),n=A.find("tr"),o=s.find("tr"),s.find("th, td").removeAttr("tabindex"),f||(C.width="100%",y[0].style.width="100%"),t.each(ht(e,s),function(t,n){c=E(e,t),n.style.width=e.aoColumns[c].sWidth}),M&&Qt(function(t){t.style.width=""},a),h=I.outerWidth(),""===f?(O.width="100%",P&&(I.find("tbody").height()>S.offsetHeight||"scroll"==x.css("overflow-y"))&&(O.width=Jt(I.outerWidth()-v)),h=I.outerWidth()):""!==p&&(O.width=Jt(p),h=I.outerWidth()),Qt(Q,o),Qt(function(e){$.push(e.innerHTML),R.push(Jt(t(e).css("width")))},o),Qt(function(e,n){-1!==t.inArray(e,H)&&(e.style.width=R[n])},n),t(o).height(0),M&&(Qt(Q,a),Qt(function(e){q.push(e.innerHTML),N.push(Jt(t(e).css("width")))},a),Qt(function(t,e){t.style.width=N[e]},i),t(a).height(0)),Qt(function(t,e){t.innerHTML='<div class="dataTables_sizing">'+$[e]+"</div>",t.childNodes[0].style.height="0",t.childNodes[0].style.overflow="hidden",t.style.width=R[e]},o),M&&Qt(function(t,e){t.innerHTML='<div class="dataTables_sizing">'+q[e]+"</div>",t.childNodes[0].style.height="0",t.childNodes[0].style.overflow="hidden",t.style.width=N[e]},a),I.outerWidth()<h?(u=S.scrollHeight>S.offsetHeight||"scroll"==x.css("overflow-y")?h+v:h,P&&(S.scrollHeight>S.offsetHeight||"scroll"==x.css("overflow-y"))&&(O.width=Jt(u-v)),""!==f&&""===p||ae(e,1,"Possible column misalignment",6)):u="100%",C.width=Jt(u),b.width=Jt(u),M&&(e.nScrollFoot.style.width=Jt(u)),g||P&&(C.height=Jt(j.offsetHeight+v));var V=I.outerWidth();w[0].style.width=Jt(V),k.width=Jt(V);var U=I.height()>S.clientHeight||"scroll"==x.css("overflow-y"),W="padding"+(F.bScrollbarLeft?"Left":"Right");k[W]=U?v+"px":"0px",M&&(T[0].style.width=Jt(V),D[0].style.width=Jt(V),D[0].style[W]=U?v+"px":"0px"),I.children("colgroup").insertBefore(I.children("thead")),x.scroll(),!e.bSorted&&!e.bFiltered||e._drawHold||(S.scrollTop=0)}function Qt(t,e,n){for(var r,i,o=0,a=0,s=e.length;a<s;){for(r=e[a].firstChild,i=n?n[a].firstChild:null;r;)1===r.nodeType&&(n?t(r,i,o):t(r,o),o++),r=r.nextSibling,i=n?i.nextSibling:null;a++}}var Bt=/<.*?>/g;function Vt(n){var r,i,o,a=n.nTable,s=n.aoColumns,l=n.oScroll,c=l.sY,u=l.sX,h=l.sXInner,d=s.length,f=$(n,"bVisible"),p=t("th",n.nTHead),g=a.getAttribute("width"),v=a.parentNode,y=!1,b=n.oBrowser,m=b.bScrollOversize,_=a.style.width;for(_&&-1!==_.indexOf("%")&&(g=_),r=0;r<f.length;r++)null!==(i=s[f[r]]).sWidth&&(i.sWidth=Wt(i.sWidthOrig,v),y=!0);if(m||!y&&!u&&!c&&d==N(n)&&d==p.length)for(r=0;r<d;r++){var k=E(n,r);null!==k&&(s[k].sWidth=Jt(p.eq(r).width()))}else{var w=t(a).clone().css("visibility","hidden").removeAttr("id");w.find("tbody tr").remove();var S=t("<tr/>").appendTo(w.find("tbody"));for(w.find("thead, tfoot").remove(),w.append(t(n.nTHead).clone()).append(t(n.nTFoot).clone()),w.find("tfoot th, tfoot td").css("width",""),p=ht(n,w.find("thead")[0]),r=0;r<f.length;r++)i=s[f[r]],p[r].style.width=null!==i.sWidthOrig&&""!==i.sWidthOrig?Jt(i.sWidthOrig):"",i.sWidthOrig&&u&&t(p[r]).append(t("<div/>").css({width:i.sWidthOrig,margin:0,padding:0,border:0,height:1}));if(n.aoData.length)for(r=0;r<f.length;r++)i=s[o=f[r]],t(zt(n,o)).clone(!1).append(i.sContentPadding).appendTo(S);t("[name]",w).removeAttr("name");var x=t("<div/>").css(u||c?{position:"absolute",top:0,left:0,height:1,right:0,overflow:"hidden"}:{}).append(w).appendTo(v);u&&h?w.width(h):u?(w.css("width","auto"),w.removeAttr("width"),w.width()<v.clientWidth&&g&&w.width(v.clientWidth)):c?w.width(v.clientWidth):g&&w.width(g);var C=0;for(r=0;r<f.length;r++){var D=t(p[r]),T=D.outerWidth()-D.width(),A=b.bBounding?Math.ceil(p[r].getBoundingClientRect().width):D.outerWidth();C+=A,s[f[r]].sWidth=Jt(A-T)}a.style.width=Jt(C),x.remove()}if(g&&(a.style.width=Jt(g)),(g||u)&&!n._reszEvt){var I=function(){t(e).on("resize.DT-"+n.sInstance,Ut(function(){L(n)}))};m?setTimeout(I,1e3):I(),n._reszEvt=!0}}var Ut=l.util.throttle;function Wt(e,r){if(!e)return 0;var i=t("<div/>").css("width",Jt(e)).appendTo(r||n.body),o=i[0].offsetWidth;return i.remove(),o}function zt(e,n){var r=Xt(e,n);if(r<0)return null;var i=e.aoData[r];return i.nTr?i.anCells[n]:t("<td/>").html(U(e,r,n,"display"))[0]}function Xt(t,e){for(var n,r=-1,i=-1,o=0,a=t.aoData.length;o<a;o++)(n=(n=(n=U(t,o,e,"display")+"").replace(Bt,"")).replace(/&nbsp;/g," ")).length>r&&(r=n.length,i=o);return i}function Jt(t){return null===t?"0px":"number"==typeof t?t<0?"0px":t+"px":t.match(/\d$/)?t+"px":t}function Kt(e){var n,i,o,a,s,c,u,h=[],d=e.aoColumns,f=e.aaSortingFixed,p=t.isPlainObject(f),g=[],v=function(e){e.length&&!t.isArray(e[0])?g.push(e):t.merge(g,e)};for(t.isArray(f)&&v(f),p&&f.pre&&v(f.pre),v(e.aaSorting),p&&f.post&&v(f.post),n=0;n<g.length;n++)for(i=0,o=(a=d[u=g[n][0]].aDataSort).length;i<o;i++)c=d[s=a[i]].sType||"string",g[n]._idx===r&&(g[n]._idx=t.inArray(g[n][1],d[s].asSorting)),h.push({src:u,col:s,dir:g[n][1],index:g[n]._idx,type:c,formatter:l.ext.type.order[c+"-pre"]});return h}function Gt(t){var e,n,r,i,o,a=[],s=l.ext.type.order,c=t.aoData,u=(t.aoColumns,0),h=t.aiDisplayMaster;for(q(t),e=0,n=(o=Kt(t)).length;e<n;e++)(i=o[e]).formatter&&u++,ne(t,i.col);if("ssp"!=pe(t)&&0!==o.length){for(e=0,r=h.length;e<r;e++)a[h[e]]=e;u===o.length?h.sort(function(t,e){var n,r,i,s,l,u=o.length,h=c[t]._aSortData,d=c[e]._aSortData;for(i=0;i<u;i++)if(0!==(s=(n=h[(l=o[i]).col])<(r=d[l.col])?-1:n>r?1:0))return"asc"===l.dir?s:-s;return(n=a[t])<(r=a[e])?-1:n>r?1:0}):h.sort(function(t,e){var n,r,i,l,u,h=o.length,d=c[t]._aSortData,f=c[e]._aSortData;for(i=0;i<h;i++)if(n=d[(u=o[i]).col],r=f[u.col],0!==(l=(s[u.type+"-"+u.dir]||s["string-"+u.dir])(n,r)))return l;return(n=a[t])<(r=a[e])?-1:n>r?1:0})}t.bSorted=!0}function Yt(t){for(var e,n,r=t.aoColumns,i=Kt(t),o=t.oLanguage.oAria,a=0,s=r.length;a<s;a++){var l=r[a],c=l.asSorting,u=l.sTitle.replace(/<.*?>/g,""),h=l.nTh;h.removeAttribute("aria-sort"),l.bSortable?(i.length>0&&i[0].col==a?(h.setAttribute("aria-sort","asc"==i[0].dir?"ascending":"descending"),n=c[i[0].index+1]||c[0]):n=c[0],e=u+("asc"===n?o.sSortAscending:o.sSortDescending)):e=u,h.setAttribute("aria-label",e)}}function Zt(e,n,i,o){var a,s=e.aoColumns[n],l=e.aaSorting,c=s.asSorting,u=function(e,n){var i=e._idx;return i===r&&(i=t.inArray(e[1],c)),i+1<c.length?i+1:n?null:0};if("number"==typeof l[0]&&(l=e.aaSorting=[l]),i&&e.oFeatures.bSortMulti){var h=t.inArray(n,_(l,"0"));-1!==h?(null===(a=u(l[h],!0))&&1===l.length&&(a=0),null===a?l.splice(h,1):(l[h][1]=c[a],l[h]._idx=a)):(l.push([n,c[0],0]),l[l.length-1]._idx=0)}else l.length&&l[0][0]==n?(a=u(l[0]),l.length=1,l[0][1]=c[a],l[0]._idx=a):(l.length=0,l.push([n,c[0]]),l[0]._idx=0);lt(e),"function"==typeof o&&o(e)}function te(t,e,n,r){var i=t.aoColumns[n];ce(e,{},function(e){!1!==i.bSortable&&(t.oFeatures.bProcessing?(Nt(t,!0),setTimeout(function(){Zt(t,n,e.shiftKey,r),"ssp"!==pe(t)&&Nt(t,!1)},0)):Zt(t,n,e.shiftKey,r))})}function ee(e){var n,r,i,o=e.aLastSort,a=e.oClasses.sSortColumn,s=Kt(e),l=e.oFeatures;if(l.bSort&&l.bSortClasses){for(n=0,r=o.length;n<r;n++)i=o[n].src,t(_(e.aoData,"anCells",i)).removeClass(a+(n<2?n+1:3));for(n=0,r=s.length;n<r;n++)i=s[n].src,t(_(e.aoData,"anCells",i)).addClass(a+(n<2?n+1:3))}e.aLastSort=s}function ne(t,e){var n,r,i,o=t.aoColumns[e],a=l.ext.order[o.sSortDataType];a&&(n=a.call(t.oInstance,t,e,R(t,e)));for(var s=l.ext.type.order[o.sType+"-pre"],c=0,u=t.aoData.length;c<u;c++)(r=t.aoData[c])._aSortData||(r._aSortData=[]),r._aSortData[e]&&!a||(i=a?n[c]:U(t,c,e,"sort"),r._aSortData[e]=s?s(i):i)}function re(e){if(e.oFeatures.bStateSave&&!e.bDestroying){var n={time:+new Date,start:e._iDisplayStart,length:e._iDisplayLength,order:t.extend(!0,[],e.aaSorting),search:Tt(e.oPreviousSearch),columns:t.map(e.aoColumns,function(t,n){return{visible:t.bVisible,search:Tt(e.aoPreSearchCols[n])}})};he(e,"aoStateSaveParams","stateSaveParams",[e,n]),e.oSavedState=n,e.fnStateSaveCallback.call(e.oInstance,e,n)}}function ie(e,n,i){var o,a,s=e.aoColumns,l=function(n){if(n&&n.time){var l=he(e,"aoStateLoadParams","stateLoadParams",[e,n]);if(-1===t.inArray(!1,l)){var c=e.iStateDuration;if(c>0&&n.time<+new Date-1e3*c)i();else if(n.columns&&s.length!==n.columns.length)i();else{if(e.oLoadedState=t.extend(!0,{},n),n.start!==r&&(e._iDisplayStart=n.start,e.iInitDisplayStart=n.start),n.length!==r&&(e._iDisplayLength=n.length),n.order!==r&&(e.aaSorting=[],t.each(n.order,function(t,n){e.aaSorting.push(n[0]>=s.length?[0,n[1]]:n)})),n.search!==r&&t.extend(e.oPreviousSearch,At(n.search)),n.columns)for(o=0,a=n.columns.length;o<a;o++){var u=n.columns[o];u.visible!==r&&(s[o].bVisible=u.visible),u.search!==r&&t.extend(e.aoPreSearchCols[o],At(u.search))}he(e,"aoStateLoaded","stateLoaded",[e,n]),i()}}else i()}else i()};if(e.oFeatures.bStateSave){var c=e.fnStateLoadCallback.call(e.oInstance,e,l);c!==r&&l(c)}else i()}function oe(e){var n=l.settings,r=t.inArray(e,_(n,"nTable"));return-1!==r?n[r]:null}function ae(t,n,r,i){if(r="DataTables warning: "+(t?"table id="+t.sTableId+" - ":"")+r,i&&(r+=". For more information about this error, please see http://datatables.net/tn/"+i),n)e.console&&console.log&&console.log(r);else{var o=l.ext,a=o.sErrMode||o.errMode;if(t&&he(t,null,"error",[t,i,r]),"alert"==a)alert(r);else{if("throw"==a)throw new Error(r);"function"==typeof a&&a(t,i,r)}}}function se(e,n,i,o){t.isArray(i)?t.each(i,function(r,i){t.isArray(i)?se(e,n,i[0],i[1]):se(e,n,i)}):(o===r&&(o=i),n[i]!==r&&(e[o]=n[i]))}function le(e,n,r){var i;for(var o in n)n.hasOwnProperty(o)&&(i=n[o],t.isPlainObject(i)?(t.isPlainObject(e[o])||(e[o]={}),t.extend(!0,e[o],i)):r&&"data"!==o&&"aaData"!==o&&t.isArray(i)?e[o]=i.slice():e[o]=i);return e}function ce(e,n,r){t(e).on("click.DT",n,function(n){t(e).blur(),r(n)}).on("keypress.DT",n,function(t){13===t.which&&(t.preventDefault(),r(t))}).on("selectstart.DT",function(){return!1})}function ue(t,e,n,r){n&&t[e].push({fn:n,sName:r})}function he(e,n,r,i){var o=[];if(n&&(o=t.map(e[n].slice().reverse(),function(t,n){return t.fn.apply(e.oInstance,i)})),null!==r){var a=t.Event(r+".dt");t(e.nTable).trigger(a,i),o.push(a.result)}return o}function de(t){var e=t._iDisplayStart,n=t.fnDisplayEnd(),r=t._iDisplayLength;e>=n&&(e=n-r),e-=e%r,(-1===r||e<0)&&(e=0),t._iDisplayStart=e}function fe(e,n){var r=e.renderer,i=l.ext.renderer[n];return t.isPlainObject(r)&&r[n]?i[r[n]]||i._:"string"==typeof r&&i[r]||i._}function pe(t){return t.oFeatures.bServerSide?"ssp":t.ajax||t.sAjaxSource?"ajax":"dom"}var ge=[],ve=Array.prototype;o=function(e,n){if(!(this instanceof o))return new o(e,n);var r=[],i=function(e){var n=function(e){var n,r,i=l.settings,o=t.map(i,function(t,e){return t.nTable});return e?e.nTable&&e.oApi?[e]:e.nodeName&&"table"===e.nodeName.toLowerCase()?-1!==(n=t.inArray(e,o))?[i[n]]:null:e&&"function"==typeof e.settings?e.settings().toArray():("string"==typeof e?r=t(e):e instanceof t&&(r=e),r?r.map(function(e){return-1!==(n=t.inArray(this,o))?i[n]:null}).toArray():void 0):[]}(e);n&&(r=r.concat(n))};if(t.isArray(e))for(var a=0,s=e.length;a<s;a++)i(e[a]);else i(e);this.context=C(r),n&&t.merge(this,n),this.selector={rows:null,cols:null,opts:null},o.extend(this,this,ge)},l.Api=o,t.extend(o.prototype,{any:function(){return 0!==this.count()},concat:ve.concat,context:[],count:function(){return this.flatten().length},each:function(t){for(var e=0,n=this.length;e<n;e++)t.call(this,this[e],e,this);return this},eq:function(t){var e=this.context;return e.length>t?new o(e[t],this[t]):null},filter:function(t){var e=[];if(ve.filter)e=ve.filter.call(this,t,this);else for(var n=0,r=this.length;n<r;n++)t.call(this,this[n],n,this)&&e.push(this[n]);return new o(this.context,e)},flatten:function(){var t=[];return new o(this.context,t.concat.apply(t,this.toArray()))},join:ve.join,indexOf:ve.indexOf||function(t,e){for(var n=e||0,r=this.length;n<r;n++)if(this[n]===t)return n;return-1},iterator:function(t,e,n,i){var a,s,l,c,u,h,d,f,p=[],g=this.context,v=this.selector;for("string"==typeof t&&(i=n,n=e,e=t,t=!1),s=0,l=g.length;s<l;s++){var y=new o(g[s]);if("table"===e)(a=n.call(y,g[s],s))!==r&&p.push(a);else if("columns"===e||"rows"===e)(a=n.call(y,g[s],this[s],s))!==r&&p.push(a);else if("column"===e||"column-rows"===e||"row"===e||"cell"===e)for(d=this[s],"column-rows"===e&&(h=ke(g[s],v.opts)),c=0,u=d.length;c<u;c++)f=d[c],(a="cell"===e?n.call(y,g[s],f.row,f.column,s,c):n.call(y,g[s],f,s,c,h))!==r&&p.push(a)}if(p.length||i){var b=new o(g,t?p.concat.apply([],p):p),m=b.selector;return m.rows=v.rows,m.cols=v.cols,m.opts=v.opts,b}return this},lastIndexOf:ve.lastIndexOf||function(t,e){return this.indexOf.apply(this.toArray.reverse(),arguments)},length:0,map:function(t){var e=[];if(ve.map)e=ve.map.call(this,t,this);else for(var n=0,r=this.length;n<r;n++)e.push(t.call(this,this[n],n));return new o(this.context,e)},pluck:function(t){return this.map(function(e){return e[t]})},pop:ve.pop,push:ve.push,reduce:ve.reduce||function(t,e){return F(this,t,e,0,this.length,1)},reduceRight:ve.reduceRight||function(t,e){return F(this,t,e,this.length-1,-1,-1)},reverse:ve.reverse,selector:null,shift:ve.shift,slice:function(){return new o(this.context,this)},sort:ve.sort,splice:ve.splice,toArray:function(){return ve.slice.call(this)},to$:function(){return t(this)},toJQuery:function(){return t(this)},unique:function(){return new o(this.context,C(this))},unshift:ve.unshift}),o.extend=function(e,n,r){if(r.length&&n&&(n instanceof o||n.__dt_wrapper)){var i,a,s,l=function(t,e,n){return function(){var r=e.apply(t,arguments);return o.extend(r,r,n.methodExt),r}};for(i=0,a=r.length;i<a;i++)n[(s=r[i]).name]="function"==typeof s.val?l(e,s.val,s):t.isPlainObject(s.val)?{}:s.val,n[s.name].__dt_wrapper=!0,o.extend(e,n[s.name],s.propExt)}},o.register=a=function(e,n){if(t.isArray(e))for(var r=0,i=e.length;r<i;r++)o.register(e[r],n);else{var a,s,l,c,u=e.split("."),h=ge,d=function(t,e){for(var n=0,r=t.length;n<r;n++)if(t[n].name===e)return t[n];return null};for(a=0,s=u.length;a<s;a++){var f=d(h,l=(c=-1!==u[a].indexOf("()"))?u[a].replace("()",""):u[a]);f||(f={name:l,val:{},methodExt:[],propExt:[]},h.push(f)),a===s-1?f.val=n:h=c?f.methodExt:f.propExt}}},o.registerPlural=s=function(e,n,i){o.register(e,i),o.register(n,function(){var e=i.apply(this,arguments);return e===this?this:e instanceof o?e.length?t.isArray(e[0])?new o(e.context,e[0]):e[0]:r:e})};a("tables()",function(e){return e?new o(function(e,n){if("number"==typeof e)return[n[e]];var r=t.map(n,function(t,e){return t.nTable});return t(r).filter(e).map(function(e){var i=t.inArray(this,r);return n[i]}).toArray()}(e,this.context)):this}),a("table()",function(t){var e=this.tables(t),n=e.context;return n.length?new o(n[0]):e}),s("tables().nodes()","table().node()",function(){return this.iterator("table",function(t){return t.nTable},1)}),s("tables().body()","table().body()",function(){return this.iterator("table",function(t){return t.nTBody},1)}),s("tables().header()","table().header()",function(){return this.iterator("table",function(t){return t.nTHead},1)}),s("tables().footer()","table().footer()",function(){return this.iterator("table",function(t){return t.nTFoot},1)}),s("tables().containers()","table().container()",function(){return this.iterator("table",function(t){return t.nTableWrapper},1)}),a("draw()",function(t){return this.iterator("table",function(e){"page"===t?st(e):("string"==typeof t&&(t="full-hold"!==t),lt(e,!1===t))})}),a("page()",function(t){return t===r?this.page.info().page:this.iterator("table",function(e){Et(e,t)})}),a("page.info()",function(t){if(0===this.context.length)return r;var e=this.context[0],n=e._iDisplayStart,i=e.oFeatures.bPaginate?e._iDisplayLength:-1,o=e.fnRecordsDisplay(),a=-1===i;return{page:a?0:Math.floor(n/i),pages:a?1:Math.ceil(o/i),start:n,end:e.fnDisplayEnd(),length:i,recordsTotal:e.fnRecordsTotal(),recordsDisplay:o,serverSide:"ssp"===pe(e)}}),a("page.len()",function(t){return t===r?0!==this.context.length?this.context[0]._iDisplayLength:r:this.iterator("table",function(e){Pt(e,t)})});var ye=function(t,e,n){if(n){var r=new o(t);r.one("draw",function(){n(r.ajax.json())})}if("ssp"==pe(t))lt(t,e);else{Nt(t,!0);var i=t.jqXHR;i&&4!==i.readyState&&i.abort(),dt(t,[],function(n){Z(t);for(var r=vt(t,n),i=0,o=r.length;i<o;i++)B(t,r[i]);lt(t,e),Nt(t,!1)})}};a("ajax.json()",function(){var t=this.context;if(t.length>0)return t[0].json}),a("ajax.params()",function(){var t=this.context;if(t.length>0)return t[0].oAjaxData}),a("ajax.reload()",function(t,e){return this.iterator("table",function(n){ye(n,!1===e,t)})}),a("ajax.url()",function(e){var n=this.context;return e===r?0===n.length?r:(n=n[0]).ajax?t.isPlainObject(n.ajax)?n.ajax.url:n.ajax:n.sAjaxSource:this.iterator("table",function(n){t.isPlainObject(n.ajax)?n.ajax.url=e:n.ajax=e})}),a("ajax.url().load()",function(t,e){return this.iterator("table",function(n){ye(n,!1===e,t)})});var be=function(e,n,o,a,s){var l,c,u,h,d,f,p=[],g=typeof n;for(n&&"string"!==g&&"function"!==g&&n.length!==r||(n=[n]),u=0,h=n.length;u<h;u++)for(d=0,f=(c=n[u]&&n[u].split&&!n[u].match(/[\[\(:]/)?n[u].split(","):[n[u]]).length;d<f;d++)(l=o("string"==typeof c[d]?t.trim(c[d]):c[d]))&&l.length&&(p=p.concat(l));var v=i.selector[e];if(v.length)for(u=0,h=v.length;u<h;u++)p=v[u](a,s,p);return C(p)},me=function(e){return e||(e={}),e.filter&&e.search===r&&(e.search=e.filter),t.extend({search:"none",order:"current",page:"all"},e)},_e=function(t){for(var e=0,n=t.length;e<n;e++)if(t[e].length>0)return t[0]=t[e],t[0].length=1,t.length=1,t.context=[t.context[e]],t;return t.length=0,t},ke=function(e,n){var r,i=[],o=e.aiDisplay,a=e.aiDisplayMaster,s=n.search,l=n.order,c=n.page;if("ssp"==pe(e))return"removed"===s?[]:w(0,a.length);if("current"==c)for(h=e._iDisplayStart,d=e.fnDisplayEnd();h<d;h++)i.push(o[h]);else if("current"==l||"applied"==l){if("none"==s)i=a.slice();else if("applied"==s)i=o.slice();else if("removed"==s){for(var u={},h=0,d=o.length;h<d;h++)u[o[h]]=null;i=t.map(a,function(t){return u.hasOwnProperty(t)?null:t})}}else if("index"==l||"original"==l)for(h=0,d=e.aoData.length;h<d;h++)"none"==s?i.push(h):(-1===(r=t.inArray(h,o))&&"removed"==s||r>=0&&"applied"==s)&&i.push(h);return i};a("rows()",function(e,n){e===r?e="":t.isPlainObject(e)&&(n=e,e=""),n=me(n);var i=this.iterator("table",function(i){return function(e,n,i){var o;return be("row",n,function(n){var a=v(n),s=e.aoData;if(null!==a&&!i)return[a];if(o||(o=ke(e,i)),null!==a&&-1!==t.inArray(a,o))return[a];if(null===n||n===r||""===n)return o;if("function"==typeof n)return t.map(o,function(t){var e=s[t];return n(t,e._aData,e.nTr)?t:null});if(n.nodeName){var l=n._DT_RowIndex,c=n._DT_CellIndex;if(l!==r)return s[l]&&s[l].nTr===n?[l]:[];if(c)return s[c.row]&&s[c.row].nTr===n?[c.row]:[];var u=t(n).closest("*[data-dt-row]");return u.length?[u.data("dt-row")]:[]}if("string"==typeof n&&"#"===n.charAt(0)){var h=e.aIds[n.replace(/^#/,"")];if(h!==r)return[h.idx]}var d=S(k(e.aoData,o,"nTr"));return t(d).filter(n).map(function(){return this._DT_RowIndex}).toArray()},e,i)}(i,e,n)},1);return i.selector.rows=e,i.selector.opts=n,i}),a("rows().nodes()",function(){return this.iterator("row",function(t,e){return t.aoData[e].nTr||r},1)}),a("rows().data()",function(){return this.iterator(!0,"rows",function(t,e){return k(t.aoData,e,"_aData")},1)}),s("rows().cache()","row().cache()",function(t){return this.iterator("row",function(e,n){var r=e.aoData[n];return"search"===t?r._aFilterData:r._aSortData},1)}),s("rows().invalidate()","row().invalidate()",function(t){return this.iterator("row",function(e,n){et(e,n,t)})}),s("rows().indexes()","row().index()",function(){return this.iterator("row",function(t,e){return e},1)}),s("rows().ids()","row().id()",function(t){for(var e=[],n=this.context,r=0,i=n.length;r<i;r++)for(var a=0,s=this[r].length;a<s;a++){var l=n[r].rowIdFn(n[r].aoData[this[r][a]]._aData);e.push((!0===t?"#":"")+l)}return new o(n,e)}),s("rows().remove()","row().remove()",function(){var t=this;return this.iterator("row",function(e,n,i){var o,a,s,l,c,u,h=e.aoData,d=h[n];for(h.splice(n,1),o=0,a=h.length;o<a;o++)if(u=(c=h[o]).anCells,null!==c.nTr&&(c.nTr._DT_RowIndex=o),null!==u)for(s=0,l=u.length;s<l;s++)u[s]._DT_CellIndex.row=o;tt(e.aiDisplayMaster,n),tt(e.aiDisplay,n),tt(t[i],n,!1),e._iRecordsDisplay>0&&e._iRecordsDisplay--,de(e);var f=e.rowIdFn(d._aData);f!==r&&delete e.aIds[f]}),this.iterator("table",function(t){for(var e=0,n=t.aoData.length;e<n;e++)t.aoData[e].idx=e}),this}),a("rows.add()",function(e){var n=this.iterator("table",function(t){var n,r,i,o=[];for(r=0,i=e.length;r<i;r++)(n=e[r]).nodeName&&"TR"===n.nodeName.toUpperCase()?o.push(V(t,n)[0]):o.push(B(t,n));return o},1),r=this.rows(-1);return r.pop(),t.merge(r,n),r}),a("row()",function(t,e){return _e(this.rows(t,e))}),a("row().data()",function(e){var n=this.context;if(e===r)return n.length&&this.length?n[0].aoData[this[0]]._aData:r;var i=n[0].aoData[this[0]];return i._aData=e,t.isArray(e)&&i.nTr.id&&G(n[0].rowId)(e,i.nTr.id),et(n[0],this[0],"data"),this}),a("row().node()",function(){var t=this.context;return t.length&&this.length&&t[0].aoData[this[0]].nTr||null}),a("row.add()",function(e){e instanceof t&&e.length&&(e=e[0]);var n=this.iterator("table",function(t){return e.nodeName&&"TR"===e.nodeName.toUpperCase()?V(t,e)[0]:B(t,e)});return this.row(n[0])});var we=function(t,e){var n=t.context;if(n.length){var i=n[0].aoData[e!==r?e:t[0]];i&&i._details&&(i._details.remove(),i._detailsShow=r,i._details=r)}},Se=function(t,e){var n=t.context;if(n.length&&t.length){var r=n[0].aoData[t[0]];r._details&&(r._detailsShow=e,e?r._details.insertAfter(r.nTr):r._details.detach(),xe(n[0]))}},xe=function(t){var e=new o(t),n=t.aoData;e.off("draw.dt.DT_details column-visibility.dt.DT_details destroy.dt.DT_details"),_(n,"_details").length>0&&(e.on("draw.dt.DT_details",function(r,i){t===i&&e.rows({page:"current"}).eq(0).each(function(t){var e=n[t];e._detailsShow&&e._details.insertAfter(e.nTr)})}),e.on("column-visibility.dt.DT_details",function(e,r,i,o){if(t===r)for(var a,s=N(r),l=0,c=n.length;l<c;l++)(a=n[l])._details&&a._details.children("td[colspan]").attr("colspan",s)}),e.on("destroy.dt.DT_details",function(r,i){if(t===i)for(var o=0,a=n.length;o<a;o++)n[o]._details&&we(e,o)}))};a("row().child()",function(e,n){var i=this.context;return e===r?i.length&&this.length?i[0].aoData[this[0]]._details:r:(!0===e?this.child.show():!1===e?we(this):i.length&&this.length&&function(e,n,r,i){var o=[],a=function(n,r){if(t.isArray(n)||n instanceof t)for(var i=0,s=n.length;i<s;i++)a(n[i],r);else if(n.nodeName&&"tr"===n.nodeName.toLowerCase())o.push(n);else{var l=t("<tr><td/></tr>").addClass(r);t("td",l).addClass(r).html(n)[0].colSpan=N(e),o.push(l[0])}};a(r,i),n._details&&n._details.detach(),n._details=t(o),n._detailsShow&&n._details.insertAfter(n.nTr)}(i[0],i[0].aoData[this[0]],e,n),this)}),a(["row().child.show()","row().child().show()"],function(t){return Se(this,!0),this}),a(["row().child.hide()","row().child().hide()"],function(){return Se(this,!1),this}),a(["row().child.remove()","row().child().remove()"],function(){return we(this),this}),a("row().child.isShown()",function(){var t=this.context;return t.length&&this.length&&t[0].aoData[this[0]]._detailsShow||!1});var Ce=/^([^:]+):(name|visIdx|visible)$/,De=function(t,e,n,r,i){for(var o=[],a=0,s=i.length;a<s;a++)o.push(U(t,i[a],e));return o};a("columns()",function(e,n){e===r?e="":t.isPlainObject(e)&&(n=e,e=""),n=me(n);var i=this.iterator("table",function(r){return function(e,n,r){var i=e.aoColumns,o=_(i,"sName"),a=_(i,"nTh");return be("column",n,function(n){var s=v(n);if(""===n)return w(i.length);if(null!==s)return[s>=0?s:i.length+s];if("function"==typeof n){var l=ke(e,r);return t.map(i,function(t,r){return n(r,De(e,r,0,0,l),a[r])?r:null})}var c="string"==typeof n?n.match(Ce):"";if(c)switch(c[2]){case"visIdx":case"visible":var u=parseInt(c[1],10);if(u<0){var h=t.map(i,function(t,e){return t.bVisible?e:null});return[h[h.length+u]]}return[E(e,u)];case"name":return t.map(o,function(t,e){return t===c[1]?e:null});default:return[]}if(n.nodeName&&n._DT_CellIndex)return[n._DT_CellIndex.column];var d=t(a).filter(n).map(function(){return t.inArray(this,a)}).toArray();if(d.length||!n.nodeName)return d;var f=t(n).closest("*[data-dt-column]");return f.length?[f.data("dt-column")]:[]},e,r)}(r,e,n)},1);return i.selector.cols=e,i.selector.opts=n,i}),s("columns().header()","column().header()",function(t,e){return this.iterator("column",function(t,e){return t.aoColumns[e].nTh},1)}),s("columns().footer()","column().footer()",function(t,e){return this.iterator("column",function(t,e){return t.aoColumns[e].nTf},1)}),s("columns().data()","column().data()",function(){return this.iterator("column-rows",De,1)}),s("columns().dataSrc()","column().dataSrc()",function(){return this.iterator("column",function(t,e){return t.aoColumns[e].mData},1)}),s("columns().cache()","column().cache()",function(t){return this.iterator("column-rows",function(e,n,r,i,o){return k(e.aoData,o,"search"===t?"_aFilterData":"_aSortData",n)},1)}),s("columns().nodes()","column().nodes()",function(){return this.iterator("column-rows",function(t,e,n,r,i){return k(t.aoData,i,"anCells",e)},1)}),s("columns().visible()","column().visible()",function(e,n){var i=this.iterator("column",function(n,i){if(e===r)return n.aoColumns[i].bVisible;!function(e,n,i){var o,a,s,l,c=e.aoColumns,u=c[n],h=e.aoData;if(i===r)return u.bVisible;if(u.bVisible!==i){if(i){var d=t.inArray(!0,_(c,"bVisible"),n+1);for(a=0,s=h.length;a<s;a++)l=h[a].nTr,o=h[a].anCells,l&&l.insertBefore(o[n],o[d]||null)}else t(_(e.aoData,"anCells",n)).detach();u.bVisible=i,at(e,e.aoHeader),at(e,e.aoFooter),e.aiDisplay.length||t(e.nTBody).find("td[colspan]").attr("colspan",N(e)),re(e)}}(n,i,e)});return e!==r&&(this.iterator("column",function(t,r){he(t,null,"column-visibility",[t,r,e,n])}),(n===r||n)&&this.columns.adjust()),i}),s("columns().indexes()","column().index()",function(t){return this.iterator("column",function(e,n){return"visible"===t?R(e,n):n},1)}),a("columns.adjust()",function(){return this.iterator("table",function(t){L(t)},1)}),a("column.index()",function(t,e){if(0!==this.context.length){var n=this.context[0];if("fromVisible"===t||"toData"===t)return E(n,e);if("fromData"===t||"toVisible"===t)return R(n,e)}}),a("column()",function(t,e){return _e(this.columns(t,e))});a("cells()",function(e,n,i){if(t.isPlainObject(e)&&(e.row===r?(i=e,e=null):(i=n,n=null)),t.isPlainObject(n)&&(i=n,n=null),null===n||n===r)return this.iterator("table",function(n){return function(e,n,i){var o,a,s,l,c,u,h,d=e.aoData,f=ke(e,i),p=S(k(d,f,"anCells")),g=t([].concat.apply([],p)),v=e.aoColumns.length;return be("cell",n,function(n){var i="function"==typeof n;if(null===n||n===r||i){for(a=[],s=0,l=f.length;s<l;s++)for(o=f[s],c=0;c<v;c++)u={row:o,column:c},i?(h=d[o],n(u,U(e,o,c),h.anCells?h.anCells[c]:null)&&a.push(u)):a.push(u);return a}if(t.isPlainObject(n))return n.column!==r&&n.row!==r&&-1!==t.inArray(n.row,f)?[n]:[];var p=g.filter(n).map(function(t,e){return{row:e._DT_CellIndex.row,column:e._DT_CellIndex.column}}).toArray();return p.length||!n.nodeName?p:(h=t(n).closest("*[data-dt-row]")).length?[{row:h.data("dt-row"),column:h.data("dt-column")}]:[]},e,i)}(n,e,me(i))});var o,a,s,l,c,u=this.columns(n),h=this.rows(e);this.iterator("table",function(t,e){for(o=[],a=0,s=h[e].length;a<s;a++)for(l=0,c=u[e].length;l<c;l++)o.push({row:h[e][a],column:u[e][l]})},1);var d=this.cells(o,i);return t.extend(d.selector,{cols:n,rows:e,opts:i}),d}),s("cells().nodes()","cell().node()",function(){return this.iterator("cell",function(t,e,n){var i=t.aoData[e];return i&&i.anCells?i.anCells[n]:r},1)}),a("cells().data()",function(){return this.iterator("cell",function(t,e,n){return U(t,e,n)},1)}),s("cells().cache()","cell().cache()",function(t){return t="search"===t?"_aFilterData":"_aSortData",this.iterator("cell",function(e,n,r){return e.aoData[n][t][r]},1)}),s("cells().render()","cell().render()",function(t){return this.iterator("cell",function(e,n,r){return U(e,n,r,t)},1)}),s("cells().indexes()","cell().index()",function(){return this.iterator("cell",function(t,e,n){return{row:e,column:n,columnVisible:R(t,n)}},1)}),s("cells().invalidate()","cell().invalidate()",function(t){return this.iterator("cell",function(e,n,r){et(e,n,t,r)})}),a("cell()",function(t,e,n){return _e(this.cells(t,e,n))}),a("cell().data()",function(t){var e=this.context,n=this[0];return t===r?e.length&&n.length?U(e[0],n[0].row,n[0].column):r:(W(e[0],n[0].row,n[0].column,t),et(e[0],n[0].row,"data",n[0].column),this)}),a("order()",function(e,n){var i=this.context;return e===r?0!==i.length?i[0].aaSorting:r:("number"==typeof e?e=[[e,n]]:e.length&&!t.isArray(e[0])&&(e=Array.prototype.slice.call(arguments)),this.iterator("table",function(t){t.aaSorting=e.slice()}))}),a("order.listener()",function(t,e,n){return this.iterator("table",function(r){te(r,t,e,n)})}),a("order.fixed()",function(e){if(!e){var n=this.context,i=n.length?n[0].aaSortingFixed:r;return t.isArray(i)?{pre:i}:i}return this.iterator("table",function(n){n.aaSortingFixed=t.extend(!0,{},e)})}),a(["columns().order()","column().order()"],function(e){var n=this;return this.iterator("table",function(r,i){var o=[];t.each(n[i],function(t,n){o.push([n,e])}),r.aaSorting=o})}),a("search()",function(e,n,i,o){var a=this.context;return e===r?0!==a.length?a[0].oPreviousSearch.sSearch:r:this.iterator("table",function(r){r.oFeatures.bFilter&&bt(r,t.extend({},r.oPreviousSearch,{sSearch:e+"",bRegex:null!==n&&n,bSmart:null===i||i,bCaseInsensitive:null===o||o}),1)})}),s("columns().search()","column().search()",function(e,n,i,o){return this.iterator("column",function(a,s){var l=a.aoPreSearchCols;if(e===r)return l[s].sSearch;a.oFeatures.bFilter&&(t.extend(l[s],{sSearch:e+"",bRegex:null!==n&&n,bSmart:null===i||i,bCaseInsensitive:null===o||o}),bt(a,a.oPreviousSearch,1))})}),a("state()",function(){return this.context.length?this.context[0].oSavedState:null}),a("state.clear()",function(){return this.iterator("table",function(t){t.fnStateSaveCallback.call(t.oInstance,t,{})})}),a("state.loaded()",function(){return this.context.length?this.context[0].oLoadedState:null}),a("state.save()",function(){return this.iterator("table",function(t){re(t)})}),l.versionCheck=l.fnVersionCheck=function(t){for(var e,n,r=l.version.split("."),i=t.split("."),o=0,a=i.length;o<a;o++)if((e=parseInt(r[o],10)||0)!==(n=parseInt(i[o],10)||0))return e>n;return!0},l.isDataTable=l.fnIsDataTable=function(e){var n=t(e).get(0),r=!1;return e instanceof l.Api||(t.each(l.settings,function(e,i){var o=i.nScrollHead?t("table",i.nScrollHead)[0]:null,a=i.nScrollFoot?t("table",i.nScrollFoot)[0]:null;i.nTable!==n&&o!==n&&a!==n||(r=!0)}),r)},l.tables=l.fnTables=function(e){var n=!1;t.isPlainObject(e)&&(n=e.api,e=e.visible);var r=t.map(l.settings,function(n){if(!e||e&&t(n.nTable).is(":visible"))return n.nTable});return n?new o(r):r},l.camelToHungarian=T,a("$()",function(e,n){var r=this.rows(n).nodes(),i=t(r);return t([].concat(i.filter(e).toArray(),i.find(e).toArray()))}),t.each(["on","one","off"],function(e,n){a(n+"()",function(){var e=Array.prototype.slice.call(arguments);e[0]=t.map(e[0].split(/\s/),function(t){return t.match(/\.dt\b/)?t:t+".dt"}).join(" ");var r=t(this.tables().nodes());return r[n].apply(r,e),this})}),a("clear()",function(){return this.iterator("table",function(t){Z(t)})}),a("settings()",function(){return new o(this.context,this.context)}),a("init()",function(){var t=this.context;return t.length?t[0].oInit:null}),a("data()",function(){return this.iterator("table",function(t){return _(t.aoData,"_aData")}).flatten()}),a("destroy()",function(n){return n=n||!1,this.iterator("table",function(r){var i,a=r.nTableWrapper.parentNode,s=r.oClasses,c=r.nTable,u=r.nTBody,h=r.nTHead,d=r.nTFoot,f=t(c),p=t(u),g=t(r.nTableWrapper),v=t.map(r.aoData,function(t){return t.nTr});r.bDestroying=!0,he(r,"aoDestroyCallback","destroy",[r]),n||new o(r).columns().visible(!0),g.off(".DT").find(":not(tbody *)").off(".DT"),t(e).off(".DT-"+r.sInstance),c!=h.parentNode&&(f.children("thead").detach(),f.append(h)),d&&c!=d.parentNode&&(f.children("tfoot").detach(),f.append(d)),r.aaSorting=[],r.aaSortingFixed=[],ee(r),t(v).removeClass(r.asStripeClasses.join(" ")),t("th, td",h).removeClass(s.sSortable+" "+s.sSortableAsc+" "+s.sSortableDesc+" "+s.sSortableNone),p.children().detach(),p.append(v);var y=n?"remove":"detach";f[y](),g[y](),!n&&a&&(a.insertBefore(c,r.nTableReinsertBefore),f.css("width",r.sDestroyWidth).removeClass(s.sTable),(i=r.asDestroyStripes.length)&&p.children().each(function(e){t(this).addClass(r.asDestroyStripes[e%i])}));var b=t.inArray(r,l.settings);-1!==b&&l.settings.splice(b,1)})}),t.each(["column","row","cell"],function(t,e){a(e+"s().every()",function(t){var n=this.selector.opts,i=this;return this.iterator(e,function(o,a,s,l,c){t.call(i[e](a,"cell"===e?s:n,"cell"===e?n:r),a,s,l,c)})})}),a("i18n()",function(e,n,i){var o=this.context[0],a=K(e)(o.oLanguage);return a===r&&(a=n),i!==r&&t.isPlainObject(a)&&(a=a[i]!==r?a[i]:a._),a.replace("%d",i)}),l.version="1.10.19",l.settings=[],l.models={},l.models.oSearch={bCaseInsensitive:!0,sSearch:"",bRegex:!1,bSmart:!0},l.models.oRow={nTr:null,anCells:null,_aData:[],_aSortData:null,_aFilterData:null,_sFilterRow:null,_sRowStripe:"",src:null,idx:-1},l.models.oColumn={idx:null,aDataSort:null,asSorting:null,bSearchable:null,bSortable:null,bVisible:null,_sManualType:null,_bAttrSrc:!1,fnCreatedCell:null,fnGetData:null,fnSetData:null,mData:null,mRender:null,nTh:null,nTf:null,sClass:null,sContentPadding:null,sDefaultContent:null,sName:null,sSortDataType:"std",sSortingClass:null,sSortingClassJUI:null,sTitle:null,sType:null,sWidth:null,sWidthOrig:null},l.defaults={aaData:null,aaSorting:[[0,"asc"]],aaSortingFixed:[],ajax:null,aLengthMenu:[10,25,50,100],aoColumns:null,aoColumnDefs:null,aoSearchCols:[],asStripeClasses:null,bAutoWidth:!0,bDeferRender:!1,bDestroy:!1,bFilter:!0,bInfo:!0,bLengthChange:!0,bPaginate:!0,bProcessing:!1,bRetrieve:!1,bScrollCollapse:!1,bServerSide:!1,bSort:!0,bSortMulti:!0,bSortCellsTop:!1,bSortClasses:!0,bStateSave:!1,fnCreatedRow:null,fnDrawCallback:null,fnFooterCallback:null,fnFormatNumber:function(t){return t.toString().replace(/\B(?=(\d{3})+(?!\d))/g,this.oLanguage.sThousands)},fnHeaderCallback:null,fnInfoCallback:null,fnInitComplete:null,fnPreDrawCallback:null,fnRowCallback:null,fnServerData:null,fnServerParams:null,fnStateLoadCallback:function(t){try{return JSON.parse((-1===t.iStateDuration?sessionStorage:localStorage).getItem("DataTables_"+t.sInstance+"_"+location.pathname))}catch(t){}},fnStateLoadParams:null,fnStateLoaded:null,fnStateSaveCallback:function(t,e){try{(-1===t.iStateDuration?sessionStorage:localStorage).setItem("DataTables_"+t.sInstance+"_"+location.pathname,JSON.stringify(e))}catch(t){}},fnStateSaveParams:null,iStateDuration:7200,iDeferLoading:null,iDisplayLength:10,iDisplayStart:0,iTabIndex:0,oClasses:{},oLanguage:{oAria:{sSortAscending:": activate to sort column ascending",sSortDescending:": activate to sort column descending"},oPaginate:{sFirst:"First",sLast:"Last",sNext:"Next",sPrevious:"Previous"},sEmptyTable:"No data available in table",sInfo:"Showing _START_ to _END_ of _TOTAL_ entries",sInfoEmpty:"Showing 0 to 0 of 0 entries",sInfoFiltered:"(filtered from _MAX_ total entries)",sInfoPostFix:"",sDecimal:"",sThousands:",",sLengthMenu:"Show _MENU_ entries",sLoadingRecords:"Loading...",sProcessing:"Processing...",sSearch:"Search:",sSearchPlaceholder:"",sUrl:"",sZeroRecords:"No matching records found"},oSearch:t.extend({},l.models.oSearch),sAjaxDataProp:"data",sAjaxSource:null,sDom:"lfrtip",searchDelay:null,sPaginationType:"simple_numbers",sScrollX:"",sScrollXInner:"",sScrollY:"",sServerMethod:"GET",renderer:null,rowId:"DT_RowId"},D(l.defaults),l.defaults.column={aDataSort:null,iDataSort:-1,asSorting:["asc","desc"],bSearchable:!0,bSortable:!0,bVisible:!0,fnCreatedCell:null,mData:null,mRender:null,sCellType:"td",sClass:"",sContentPadding:"",sDefaultContent:null,sName:"",sSortDataType:"std",sTitle:null,sType:null,sWidth:null},D(l.defaults.column),l.models.oSettings={oFeatures:{bAutoWidth:null,bDeferRender:null,bFilter:null,bInfo:null,bLengthChange:null,bPaginate:null,bProcessing:null,bServerSide:null,bSort:null,bSortMulti:null,bSortClasses:null,bStateSave:null},oScroll:{bCollapse:null,iBarWidth:0,sX:null,sXInner:null,sY:null},oLanguage:{fnInfoCallback:null},oBrowser:{bScrollOversize:!1,bScrollbarLeft:!1,bBounding:!1,barWidth:0},ajax:null,aanFeatures:[],aoData:[],aiDisplay:[],aiDisplayMaster:[],aIds:{},aoColumns:[],aoHeader:[],aoFooter:[],oPreviousSearch:{},aoPreSearchCols:[],aaSorting:null,aaSortingFixed:[],asStripeClasses:null,asDestroyStripes:[],sDestroyWidth:0,aoRowCallback:[],aoHeaderCallback:[],aoFooterCallback:[],aoDrawCallback:[],aoRowCreatedCallback:[],aoPreDrawCallback:[],aoInitComplete:[],aoStateSaveParams:[],aoStateLoadParams:[],aoStateLoaded:[],sTableId:"",nTable:null,nTHead:null,nTFoot:null,nTBody:null,nTableWrapper:null,bDeferLoading:!1,bInitialised:!1,aoOpenRows:[],sDom:null,searchDelay:null,sPaginationType:"two_button",iStateDuration:0,aoStateSave:[],aoStateLoad:[],oSavedState:null,oLoadedState:null,sAjaxSource:null,sAjaxDataProp:null,bAjaxDataGet:!0,jqXHR:null,json:r,oAjaxData:r,fnServerData:null,aoServerParams:[],sServerMethod:null,fnFormatNumber:null,aLengthMenu:null,iDraw:0,bDrawing:!1,iDrawError:-1,_iDisplayLength:10,_iDisplayStart:0,_iRecordsTotal:0,_iRecordsDisplay:0,oClasses:{},bFiltered:!1,bSorted:!1,bSortCellsTop:null,oInit:null,aoDestroyCallback:[],fnRecordsTotal:function(){return"ssp"==pe(this)?1*this._iRecordsTotal:this.aiDisplayMaster.length},fnRecordsDisplay:function(){return"ssp"==pe(this)?1*this._iRecordsDisplay:this.aiDisplay.length},fnDisplayEnd:function(){var t=this._iDisplayLength,e=this._iDisplayStart,n=e+t,r=this.aiDisplay.length,i=this.oFeatures,o=i.bPaginate;return i.bServerSide?!1===o||-1===t?e+r:Math.min(e+t,this._iRecordsDisplay):!o||n>r||-1===t?r:n},oInstance:null,sInstance:null,iTabIndex:0,nScrollHead:null,nScrollFoot:null,aLastSort:[],oPlugins:{},rowIdFn:null,rowId:null},l.ext=i={buttons:{},classes:{},builder:"-source-",errMode:"alert",feature:[],search:[],selector:{cell:[],column:[],row:[]},internal:{},legacy:{ajax:null},pager:{},renderer:{pageButton:{},header:{}},order:{},type:{detect:[],search:{},order:{}},_unique:0,fnVersionCheck:l.fnVersionCheck,iApiIndex:0,oJUIClasses:{},sVersion:l.version},t.extend(i,{afnFiltering:i.search,aTypes:i.type.detect,ofnSearch:i.type.search,oSort:i.type.order,afnSortData:i.order,aoFeatures:i.feature,oApi:i.internal,oStdClasses:i.classes,oPagination:i.pager}),t.extend(l.ext.classes,{sTable:"dataTable",sNoFooter:"no-footer",sPageButton:"paginate_button",sPageButtonActive:"current",sPageButtonDisabled:"disabled",sStripeOdd:"odd",sStripeEven:"even",sRowEmpty:"dataTables_empty",sWrapper:"dataTables_wrapper",sFilter:"dataTables_filter",sInfo:"dataTables_info",sPaging:"dataTables_paginate paging_",sLength:"dataTables_length",sProcessing:"dataTables_processing",sSortAsc:"sorting_asc",sSortDesc:"sorting_desc",sSortable:"sorting",sSortableAsc:"sorting_asc_disabled",sSortableDesc:"sorting_desc_disabled",sSortableNone:"sorting_disabled",sSortColumn:"sorting_",sFilterInput:"",sLengthSelect:"",sScrollWrapper:"dataTables_scroll",sScrollHead:"dataTables_scrollHead",sScrollHeadInner:"dataTables_scrollHeadInner",sScrollBody:"dataTables_scrollBody",sScrollFoot:"dataTables_scrollFoot",sScrollFootInner:"dataTables_scrollFootInner",sHeaderTH:"",sFooterTH:"",sSortJUIAsc:"",sSortJUIDesc:"",sSortJUI:"",sSortJUIAscAllowed:"",sSortJUIDescAllowed:"",sSortJUIWrapper:"",sSortIcon:"",sJUIHeader:"",sJUIFooter:""});var Te=l.ext.pager;function Ae(t,e){var n=[],r=Te.numbers_length,i=Math.floor(r/2);return e<=r?n=w(0,e):t<=i?((n=w(0,r-2)).push("ellipsis"),n.push(e-1)):t>=e-1-i?((n=w(e-(r-2),e)).splice(0,0,"ellipsis"),n.splice(0,0,0)):((n=w(t-i+2,t+i-1)).push("ellipsis"),n.push(e-1),n.splice(0,0,"ellipsis"),n.splice(0,0,0)),n.DT_el="span",n}t.extend(Te,{simple:function(t,e){return["previous","next"]},full:function(t,e){return["first","previous","next","last"]},numbers:function(t,e){return[Ae(t,e)]},simple_numbers:function(t,e){return["previous",Ae(t,e),"next"]},full_numbers:function(t,e){return["first","previous",Ae(t,e),"next","last"]},first_last_numbers:function(t,e){return["first",Ae(t,e),"last"]},_numbers:Ae,numbers_length:7}),t.extend(!0,l.ext.renderer,{pageButton:{_:function(e,i,o,a,s,l){var c,u,h,d=e.oClasses,f=e.oLanguage.oPaginate,p=e.oLanguage.oAria.paginate||{},g=0,v=function(n,r){var i,a,h,y=function(t){Et(e,t.data.action,!0)};for(i=0,a=r.length;i<a;i++)if(h=r[i],t.isArray(h)){var b=t("<"+(h.DT_el||"div")+"/>").appendTo(n);v(b,h)}else{switch(c=null,u="",h){case"ellipsis":n.append('<span class="ellipsis">&#x2026;</span>');break;case"first":c=f.sFirst,u=h+(s>0?"":" "+d.sPageButtonDisabled);break;case"previous":c=f.sPrevious,u=h+(s>0?"":" "+d.sPageButtonDisabled);break;case"next":c=f.sNext,u=h+(s<l-1?"":" "+d.sPageButtonDisabled);break;case"last":c=f.sLast,u=h+(s<l-1?"":" "+d.sPageButtonDisabled);break;default:c=h+1,u=s===h?d.sPageButtonActive:""}null!==c&&(ce(t("<a>",{class:d.sPageButton+" "+u,"aria-controls":e.sTableId,"aria-label":p[h],"data-dt-idx":g,tabindex:e.iTabIndex,id:0===o&&"string"==typeof h?e.sTableId+"_"+h:null}).html(c).appendTo(n),{action:h},y),g++)}};try{h=t(i).find(n.activeElement).data("dt-idx")}catch(t){}v(t(i).empty(),a),h!==r&&t(i).find("[data-dt-idx="+h+"]").focus()}}}),t.extend(l.ext.type.detect,[function(t,e){var n=e.oLanguage.sDecimal;return b(t,n)?"num"+n:null},function(t,e){if(t&&!(t instanceof Date)&&!d.test(t))return null;var n=Date.parse(t);return null!==n&&!isNaN(n)||g(t)?"date":null},function(t,e){var n=e.oLanguage.sDecimal;return b(t,n,!0)?"num-fmt"+n:null},function(t,e){var n=e.oLanguage.sDecimal;return m(t,n)?"html-num"+n:null},function(t,e){var n=e.oLanguage.sDecimal;return m(t,n,!0)?"html-num-fmt"+n:null},function(t,e){return g(t)||"string"==typeof t&&-1!==t.indexOf("<")?"html":null}]),t.extend(l.ext.type.search,{html:function(t){return g(t)?t:"string"==typeof t?t.replace(u," ").replace(h,""):""},string:function(t){return g(t)?t:"string"==typeof t?t.replace(u," "):t}});var Ie=function(t,e,n,r){return 0===t||t&&"-"!==t?(e&&(t=y(t,e)),t.replace&&(n&&(t=t.replace(n,"")),r&&(t=t.replace(r,""))),1*t):-1/0};function je(e){t.each({num:function(t){return Ie(t,e)},"num-fmt":function(t){return Ie(t,e,p)},"html-num":function(t){return Ie(t,e,h)},"html-num-fmt":function(t){return Ie(t,e,h,p)}},function(t,n){i.type.order[t+e+"-pre"]=n,t.match(/^html\-/)&&(i.type.search[t+e]=i.type.search.html)})}t.extend(i.type.order,{"date-pre":function(t){var e=Date.parse(t);return isNaN(e)?-1/0:e},"html-pre":function(t){return g(t)?"":t.replace?t.replace(/<.*?>/g,"").toLowerCase():t+""},"string-pre":function(t){return g(t)?"":"string"==typeof t?t.toLowerCase():t.toString?t.toString():""},"string-asc":function(t,e){return t<e?-1:t>e?1:0},"string-desc":function(t,e){return t<e?1:t>e?-1:0}}),je(""),t.extend(!0,l.ext.renderer,{header:{_:function(e,n,r,i){t(e.nTable).on("order.dt.DT",function(t,o,a,s){if(e===o){var l=r.idx;n.removeClass(r.sSortingClass+" "+i.sSortAsc+" "+i.sSortDesc).addClass("asc"==s[l]?i.sSortAsc:"desc"==s[l]?i.sSortDesc:r.sSortingClass)}})},jqueryui:function(e,n,r,i){t("<div/>").addClass(i.sSortJUIWrapper).append(n.contents()).append(t("<span/>").addClass(i.sSortIcon+" "+r.sSortingClassJUI)).appendTo(n),t(e.nTable).on("order.dt.DT",function(t,o,a,s){if(e===o){var l=r.idx;n.removeClass(i.sSortAsc+" "+i.sSortDesc).addClass("asc"==s[l]?i.sSortAsc:"desc"==s[l]?i.sSortDesc:r.sSortingClass),n.find("span."+i.sSortIcon).removeClass(i.sSortJUIAsc+" "+i.sSortJUIDesc+" "+i.sSortJUI+" "+i.sSortJUIAscAllowed+" "+i.sSortJUIDescAllowed).addClass("asc"==s[l]?i.sSortJUIAsc:"desc"==s[l]?i.sSortJUIDesc:r.sSortingClassJUI)}})}}});var Oe=function(t){return"string"==typeof t?t.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"):t};function Me(t){return function(){var e=[oe(this[l.ext.iApiIndex])].concat(Array.prototype.slice.call(arguments));return l.ext.internal[t].apply(this,e)}}return l.render={number:function(t,e,n,r,i){return{display:function(o){if("number"!=typeof o&&"string"!=typeof o)return o;var a=o<0?"-":"",s=parseFloat(o);if(isNaN(s))return Oe(o);s=s.toFixed(n),o=Math.abs(s);var l=parseInt(o,10),c=n?e+(o-l).toFixed(n).substring(2):"";return a+(r||"")+l.toString().replace(/\B(?=(\d{3})+(?!\d))/g,t)+c+(i||"")}}},text:function(){return{display:Oe,filter:Oe}}},t.extend(l.ext.internal,{_fnExternApiFunc:Me,_fnBuildAjax:dt,_fnAjaxUpdate:ft,_fnAjaxParameters:pt,_fnAjaxUpdateDraw:gt,_fnAjaxDataSrc:vt,_fnAddColumn:P,_fnColumnOptions:H,_fnAdjustColumnSizing:L,_fnVisibleToColumnIndex:E,_fnColumnIndexToVisible:R,_fnVisbleColumns:N,_fnGetColumns:$,_fnColumnTypes:q,_fnApplyColumnDefs:Q,_fnHungarianMap:D,_fnCamelToHungarian:T,_fnLanguageCompat:A,_fnBrowserDetect:M,_fnAddData:B,_fnAddTr:V,_fnNodeToDataIndex:function(t,e){return e._DT_RowIndex!==r?e._DT_RowIndex:null},_fnNodeToColumnIndex:function(e,n,r){return t.inArray(r,e.aoData[n].anCells)},_fnGetCellData:U,_fnSetCellData:W,_fnSplitObjNotation:J,_fnGetObjectDataFn:K,_fnSetObjectDataFn:G,_fnGetDataMaster:Y,_fnClearTable:Z,_fnDeleteIndex:tt,_fnInvalidate:et,_fnGetRowElements:nt,_fnCreateTr:rt,_fnBuildHead:ot,_fnDrawHead:at,_fnDraw:st,_fnReDraw:lt,_fnAddOptionsHtml:ct,_fnDetectHeader:ut,_fnGetUniqueThs:ht,_fnFeatureHtmlFilter:yt,_fnFilterComplete:bt,_fnFilterCustom:mt,_fnFilterColumn:_t,_fnFilter:kt,_fnFilterCreateSearch:wt,_fnEscapeRegex:St,_fnFilterData:Dt,_fnFeatureHtmlInfo:It,_fnUpdateInfo:jt,_fnInfoMacros:Ot,_fnInitialise:Mt,_fnInitComplete:Ft,_fnLengthChange:Pt,_fnFeatureHtmlLength:Ht,_fnFeatureHtmlPaginate:Lt,_fnPageChange:Et,_fnFeatureHtmlProcessing:Rt,_fnProcessingDisplay:Nt,_fnFeatureHtmlTable:$t,_fnScrollDraw:qt,_fnApplyToChildren:Qt,_fnCalculateColumnWidths:Vt,_fnThrottle:Ut,_fnConvertToWidth:Wt,_fnGetWidestNode:zt,_fnGetMaxLenString:Xt,_fnStringToCss:Jt,_fnSortFlatten:Kt,_fnSort:Gt,_fnSortAria:Yt,_fnSortListener:Zt,_fnSortAttachListener:te,_fnSortingClasses:ee,_fnSortData:ne,_fnSaveState:re,_fnLoadState:ie,_fnSettingsFromNode:oe,_fnLog:ae,_fnMap:se,_fnBindAction:ce,_fnCallbackReg:ue,_fnCallbackFire:he,_fnLengthOverflow:de,_fnRenderer:fe,_fnDataSource:pe,_fnRowAttributes:it,_fnExtend:le,_fnCalculateEnd:function(){}}),t.fn.dataTable=l,l.$=t,t.fn.dataTableSettings=l.settings,t.fn.dataTableExt=l.ext,t.fn.DataTable=function(e){return t(this).dataTable(e).api()},t.each(l,function(e,n){t.fn.DataTable[e]=n}),t.fn.dataTable}),function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e(require("jQuery")):"function"==typeof define&&define.amd?define("bootstrap-colorpicker",["jQuery"],e):"object"==typeof exports?exports["bootstrap-colorpicker"]=e(require("jQuery")):t["bootstrap-colorpicker"]=e(t.jQuery)}("undefined"!=typeof self?self:this,function(t){return function(t){var e={};function n(r){if(e[r])return e[r].exports;var i=e[r]={i:r,l:!1,exports:{}};return t[r].call(i.exports,i,i.exports,n),i.l=!0,i.exports}return n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{configurable:!1,enumerable:!0,get:r})},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=7)}([function(e,n){e.exports=t},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r,i=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),o=n(0),a=(r=o)&&r.__esModule?r:{default:r};var s=function(){function t(e){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};if(function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.colorpicker=e,this.options=n,!this.colorpicker.element||!this.colorpicker.element.length)throw new Error("Extension: this.colorpicker.element is not valid");this.colorpicker.element.on("colorpickerCreate.colorpicker-ext",a.default.proxy(this.onCreate,this)),this.colorpicker.element.on("colorpickerDestroy.colorpicker-ext",a.default.proxy(this.onDestroy,this)),this.colorpicker.element.on("colorpickerUpdate.colorpicker-ext",a.default.proxy(this.onUpdate,this)),this.colorpicker.element.on("colorpickerChange.colorpicker-ext",a.default.proxy(this.onChange,this)),this.colorpicker.element.on("colorpickerInvalid.colorpicker-ext",a.default.proxy(this.onInvalid,this)),this.colorpicker.element.on("colorpickerShow.colorpicker-ext",a.default.proxy(this.onShow,this)),this.colorpicker.element.on("colorpickerHide.colorpicker-ext",a.default.proxy(this.onHide,this)),this.colorpicker.element.on("colorpickerEnable.colorpicker-ext",a.default.proxy(this.onEnable,this)),this.colorpicker.element.on("colorpickerDisable.colorpicker-ext",a.default.proxy(this.onDisable,this))}return i(t,[{key:"resolveColor",value:function(t){!(arguments.length>1&&void 0!==arguments[1])||arguments[1];return!1}},{key:"onCreate",value:function(t){}},{key:"onDestroy",value:function(t){this.colorpicker.element.off(".colorpicker-ext")}},{key:"onUpdate",value:function(t){}},{key:"onChange",value:function(t){}},{key:"onInvalid",value:function(t){}},{key:"onHide",value:function(t){}},{key:"onShow",value:function(t){}},{key:"onDisable",value:function(t){}},{key:"onEnable",value:function(t){}}]),t}();e.default=s},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.ColorItem=e.HSVAColor=void 0;var r,i=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),o=n(16),a=(r=o)&&r.__esModule?r:{default:r};function s(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}var l=function(){function t(e,n,r,i){s(this,t),this.h=isNaN(e)?0:e,this.s=isNaN(n)?0:n,this.v=isNaN(r)?0:r,this.a=isNaN(e)?1:i}return i(t,[{key:"toString",value:function(){return this.h+", "+this.s+"%, "+this.v+"%, "+this.a}}]),t}(),c=function(){function t(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;s(this,t),this.replace(e,n)}return i(t,[{key:"api",value:function(e){for(var n=arguments.length,r=Array(n>1?n-1:0),i=1;i<n;i++)r[i-1]=arguments[i];if(0===arguments.length)return this._color;var o=this._color[e].apply(this._color,r);return o instanceof a.default?new t(o,this.format):o}},{key:"original",get:function(){return this._original}}],[{key:"HSVAColor",get:function(){return l}}]),i(t,[{key:"replace",value:function(e){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;if(n=t.sanitizeFormat(n),this._original={color:e,format:n,valid:!0},this._color=t.parse(e),null===this._color)return this._color=(0,a.default)(null),void(this._original.valid=!1);this._format=n||(t.isHex(e)?"hex":this._color.model)}},{key:"isValid",value:function(){return!0===this._original.valid}},{key:"setHueRatio",value:function(t){this.hue=360*(1-t)}},{key:"setSaturationRatio",value:function(t){this.saturation=100*t}},{key:"setValueRatio",value:function(t){this.value=100*(1-t)}},{key:"setAlphaRatio",value:function(t){this.alpha=1-t}},{key:"isDesaturated",value:function(){return 0===this.saturation}},{key:"isTransparent",value:function(){return 0===this.alpha}},{key:"hasTransparency",value:function(){return this.hasAlpha()&&this.alpha<1}},{key:"hasAlpha",value:function(){return!isNaN(this.alpha)}},{key:"toObject",value:function(){return new l(this.hue,this.saturation,this.value,this.alpha)}},{key:"toHsva",value:function(){return this.toObject()}},{key:"toHsvaRatio",value:function(){return new l(this.hue/360,this.saturation/100,this.value/100,this.alpha)}},{key:"toString",value:function(){return this.string()}},{key:"string",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;if(!(e=t.sanitizeFormat(e||this.format)))return this._color.round().string();if(void 0===this._color[e])throw new Error("Unsupported color format: '"+e+"'");var n=this._color[e]();return n.round?n.round().string():n}},{key:"equals",value:function(e){return!(!(e=e instanceof t?e:new t(e)).isValid()||!this.isValid())&&(this.hue===e.hue&&this.saturation===e.saturation&&this.value===e.value&&this.alpha===e.alpha)}},{key:"getClone",value:function(){return new t(this._color,this.format)}},{key:"getCloneHueOnly",value:function(){return new t([this.hue,100,100,1],this.format)}},{key:"getCloneOpaque",value:function(){return new t(this._color.alpha(1),this.format)}},{key:"toRgbString",value:function(){return this.string("rgb")}},{key:"toHexString",value:function(){return this.string("hex")}},{key:"toHslString",value:function(){return this.string("hsl")}},{key:"isDark",value:function(){return this._color.isDark()}},{key:"isLight",value:function(){return this._color.isLight()}},{key:"generate",value:function(e){var n=[];if(Array.isArray(e))n=e;else{if(!t.colorFormulas.hasOwnProperty(e))throw new Error("No color formula found with the name '"+e+"'.");n=t.colorFormulas[e]}var r=[],i=this._color,o=this.format;return n.forEach(function(e){var n=[e?(i.hue()+e)%360:i.hue(),i.saturationv(),i.value(),i.alpha()];r.push(new t(n,o))}),r}},{key:"hue",get:function(){return this._color.hue()},set:function(t){this._color=this._color.hue(t)}},{key:"saturation",get:function(){return this._color.saturationv()},set:function(t){this._color=this._color.saturationv(t)}},{key:"value",get:function(){return this._color.value()},set:function(t){this._color=this._color.value(t)}},{key:"alpha",get:function(){var t=this._color.alpha();return isNaN(t)?1:t},set:function(t){this._color=this._color.alpha(Math.round(100*t)/100)}},{key:"format",get:function(){return this._format?this._format:this._color.model},set:function(e){this._format=t.sanitizeFormat(e)}}],[{key:"parse",value:function(e){if(e instanceof a.default)return e;if(e instanceof t)return e._color;var n=null;e=e instanceof l?[e.h,e.s,e.v,isNaN(e.a)?1:e.a]:t.sanitizeString(e),Array.isArray(e)&&(n="hsv");try{return(0,a.default)(e,n)}catch(t){return null}}},{key:"sanitizeString",value:function(t){return"string"==typeof t||t instanceof String?t.match(/^[0-9a-f]{2,}$/i)?"#"+t:"transparent"===t.toLowerCase()?"#FFFFFF00":t:t}},{key:"isHex",value:function(t){return("string"==typeof t||t instanceof String)&&!!t.match(/^#?[0-9a-f]{2,}$/i)}},{key:"sanitizeFormat",value:function(t){switch(t){case"hex":case"hex3":case"hex4":case"hex6":case"hex8":return"hex";case"rgb":case"rgba":case"keyword":case"name":return"rgb";case"hsl":case"hsla":case"hsv":case"hsva":case"hwb":case"hwba":return"hsl";default:return""}}}]),t}();c.colorFormulas={complementary:[180],triad:[0,120,240],tetrad:[0,90,180,270],splitcomplement:[0,72,216]},e.default=c,e.HSVAColor=l,e.ColorItem=c},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=6,i=16*r+6*(r-1);e.default={customClass:null,color:!1,fallbackColor:!1,format:null,horizontal:!1,inline:!1,container:!1,popover:{animation:!0,placement:"bottom",fallbackPlacement:"flip"},debug:!1,input:"input",addon:".colorpicker-input-addon",autoInputFallback:!0,useHashPrefix:!0,useAlpha:!0,template:'<div class="colorpicker">\n      <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>\n      <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>\n      <div class="colorpicker-alpha">\n        <div class="colorpicker-alpha-color"></div>\n        <i class="colorpicker-guide"></i>\n      </div>\n    </div>',extensions:[{name:"preview",options:{showText:!0}}],sliders:{saturation:{selector:".colorpicker-saturation",maxLeft:i,maxTop:i,callLeft:"setSaturationRatio",callTop:"setValueRatio"},hue:{selector:".colorpicker-hue",maxLeft:0,maxTop:i,callLeft:!1,callTop:"setHueRatio"},alpha:{selector:".colorpicker-alpha",childSelector:".colorpicker-alpha-color",maxLeft:0,maxTop:i,callLeft:!1,callTop:"setAlphaRatio"}},slidersHorz:{saturation:{selector:".colorpicker-saturation",maxLeft:i,maxTop:i,callLeft:"setSaturationRatio",callTop:"setValueRatio"},hue:{selector:".colorpicker-hue",maxLeft:i,maxTop:0,callLeft:"setHueRatio",callTop:!1},alpha:{selector:".colorpicker-alpha",childSelector:".colorpicker-alpha-color",maxLeft:i,maxTop:0,callLeft:"setAlphaRatio",callTop:!1}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},i=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),o=s(n(1)),a=s(n(0));function s(t){return t&&t.__esModule?t:{default:t}}var l={colors:null,namesAsValues:!0},c=function(t){function e(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,e);var i=function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,t,a.default.extend(!0,{},l,n)));return Array.isArray(i.options.colors)||"object"===r(i.options.colors)||(i.options.colors=null),i}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,o.default),i(e,[{key:"colors",get:function(){return this.options.colors}}]),i(e,[{key:"getLength",value:function(){return this.options.colors?Array.isArray(this.options.colors)?this.options.colors.length:"object"===r(this.options.colors)?Object.keys(this.options.colors).length:0:0}},{key:"resolveColor",value:function(t){var e=!(arguments.length>1&&void 0!==arguments[1])||arguments[1];return!(this.getLength()<=0)&&(Array.isArray(this.options.colors)?this.options.colors.indexOf(t)>=0?t:this.options.colors.indexOf(t.toUpperCase())>=0?t.toUpperCase():this.options.colors.indexOf(t.toLowerCase())>=0&&t.toLowerCase():"object"===r(this.options.colors)&&(!this.options.namesAsValues||e?this.getValue(t,!1):this.getName(t,this.getName("#"+t))))}},{key:"getName",value:function(t){var e=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if("string"!=typeof t||!this.options.colors)return e;for(var n in this.options.colors)if(this.options.colors.hasOwnProperty(n)&&this.options.colors[n].toLowerCase()===t.toLowerCase())return n;return e}},{key:"getValue",value:function(t){var e=arguments.length>1&&void 0!==arguments[1]&&arguments[1];return"string"==typeof t&&this.options.colors&&this.options.colors.hasOwnProperty(t)?this.options.colors[t]:e}}]),e}();e.default=c},function(t,e){t.exports={aliceblue:[240,248,255],antiquewhite:[250,235,215],aqua:[0,255,255],aquamarine:[127,255,212],azure:[240,255,255],beige:[245,245,220],bisque:[255,228,196],black:[0,0,0],blanchedalmond:[255,235,205],blue:[0,0,255],blueviolet:[138,43,226],brown:[165,42,42],burlywood:[222,184,135],cadetblue:[95,158,160],chartreuse:[127,255,0],chocolate:[210,105,30],coral:[255,127,80],cornflowerblue:[100,149,237],cornsilk:[255,248,220],crimson:[220,20,60],cyan:[0,255,255],darkblue:[0,0,139],darkcyan:[0,139,139],darkgoldenrod:[184,134,11],darkgray:[169,169,169],darkgreen:[0,100,0],darkgrey:[169,169,169],darkkhaki:[189,183,107],darkmagenta:[139,0,139],darkolivegreen:[85,107,47],darkorange:[255,140,0],darkorchid:[153,50,204],darkred:[139,0,0],darksalmon:[233,150,122],darkseagreen:[143,188,143],darkslateblue:[72,61,139],darkslategray:[47,79,79],darkslategrey:[47,79,79],darkturquoise:[0,206,209],darkviolet:[148,0,211],deeppink:[255,20,147],deepskyblue:[0,191,255],dimgray:[105,105,105],dimgrey:[105,105,105],dodgerblue:[30,144,255],firebrick:[178,34,34],floralwhite:[255,250,240],forestgreen:[34,139,34],fuchsia:[255,0,255],gainsboro:[220,220,220],ghostwhite:[248,248,255],gold:[255,215,0],goldenrod:[218,165,32],gray:[128,128,128],green:[0,128,0],greenyellow:[173,255,47],grey:[128,128,128],honeydew:[240,255,240],hotpink:[255,105,180],indianred:[205,92,92],indigo:[75,0,130],ivory:[255,255,240],khaki:[240,230,140],lavender:[230,230,250],lavenderblush:[255,240,245],lawngreen:[124,252,0],lemonchiffon:[255,250,205],lightblue:[173,216,230],lightcoral:[240,128,128],lightcyan:[224,255,255],lightgoldenrodyellow:[250,250,210],lightgray:[211,211,211],lightgreen:[144,238,144],lightgrey:[211,211,211],lightpink:[255,182,193],lightsalmon:[255,160,122],lightseagreen:[32,178,170],lightskyblue:[135,206,250],lightslategray:[119,136,153],lightslategrey:[119,136,153],lightsteelblue:[176,196,222],lightyellow:[255,255,224],lime:[0,255,0],limegreen:[50,205,50],linen:[250,240,230],magenta:[255,0,255],maroon:[128,0,0],mediumaquamarine:[102,205,170],mediumblue:[0,0,205],mediumorchid:[186,85,211],mediumpurple:[147,112,219],mediumseagreen:[60,179,113],mediumslateblue:[123,104,238],mediumspringgreen:[0,250,154],mediumturquoise:[72,209,204],mediumvioletred:[199,21,133],midnightblue:[25,25,112],mintcream:[245,255,250],mistyrose:[255,228,225],moccasin:[255,228,181],navajowhite:[255,222,173],navy:[0,0,128],oldlace:[253,245,230],olive:[128,128,0],olivedrab:[107,142,35],orange:[255,165,0],orangered:[255,69,0],orchid:[218,112,214],palegoldenrod:[238,232,170],palegreen:[152,251,152],paleturquoise:[175,238,238],palevioletred:[219,112,147],papayawhip:[255,239,213],peachpuff:[255,218,185],peru:[205,133,63],pink:[255,192,203],plum:[221,160,221],powderblue:[176,224,230],purple:[128,0,128],rebeccapurple:[102,51,153],red:[255,0,0],rosybrown:[188,143,143],royalblue:[65,105,225],saddlebrown:[139,69,19],salmon:[250,128,114],sandybrown:[244,164,96],seagreen:[46,139,87],seashell:[255,245,238],sienna:[160,82,45],silver:[192,192,192],skyblue:[135,206,235],slateblue:[106,90,205],slategray:[112,128,144],slategrey:[112,128,144],snow:[255,250,250],springgreen:[0,255,127],steelblue:[70,130,180],tan:[210,180,140],teal:[0,128,128],thistle:[216,191,216],tomato:[255,99,71],turquoise:[64,224,208],violet:[238,130,238],wheat:[245,222,179],white:[255,255,255],whitesmoke:[245,245,245],yellow:[255,255,0],yellowgreen:[154,205,50]}},function(t,e,n){var r=n(5),i={};for(var o in r)r.hasOwnProperty(o)&&(i[r[o]]=o);var a=t.exports={rgb:{channels:3,labels:"rgb"},hsl:{channels:3,labels:"hsl"},hsv:{channels:3,labels:"hsv"},hwb:{channels:3,labels:"hwb"},cmyk:{channels:4,labels:"cmyk"},xyz:{channels:3,labels:"xyz"},lab:{channels:3,labels:"lab"},lch:{channels:3,labels:"lch"},hex:{channels:1,labels:["hex"]},keyword:{channels:1,labels:["keyword"]},ansi16:{channels:1,labels:["ansi16"]},ansi256:{channels:1,labels:["ansi256"]},hcg:{channels:3,labels:["h","c","g"]},apple:{channels:3,labels:["r16","g16","b16"]},gray:{channels:1,labels:["gray"]}};for(var s in a)if(a.hasOwnProperty(s)){if(!("channels"in a[s]))throw new Error("missing channels property: "+s);if(!("labels"in a[s]))throw new Error("missing channel labels property: "+s);if(a[s].labels.length!==a[s].channels)throw new Error("channel and label counts mismatch: "+s);var l=a[s].channels,c=a[s].labels;delete a[s].channels,delete a[s].labels,Object.defineProperty(a[s],"channels",{value:l}),Object.defineProperty(a[s],"labels",{value:c})}a.rgb.hsl=function(t){var e,n,r=t[0]/255,i=t[1]/255,o=t[2]/255,a=Math.min(r,i,o),s=Math.max(r,i,o),l=s-a;return s===a?e=0:r===s?e=(i-o)/l:i===s?e=2+(o-r)/l:o===s&&(e=4+(r-i)/l),(e=Math.min(60*e,360))<0&&(e+=360),n=(a+s)/2,[e,100*(s===a?0:n<=.5?l/(s+a):l/(2-s-a)),100*n]},a.rgb.hsv=function(t){var e,n,r,i,o,a=t[0]/255,s=t[1]/255,l=t[2]/255,c=Math.max(a,s,l),u=c-Math.min(a,s,l),h=function(t){return(c-t)/6/u+.5};return 0===u?i=o=0:(o=u/c,e=h(a),n=h(s),r=h(l),a===c?i=r-n:s===c?i=1/3+e-r:l===c&&(i=2/3+n-e),i<0?i+=1:i>1&&(i-=1)),[360*i,100*o,100*c]},a.rgb.hwb=function(t){var e=t[0],n=t[1],r=t[2];return[a.rgb.hsl(t)[0],100*(1/255*Math.min(e,Math.min(n,r))),100*(r=1-1/255*Math.max(e,Math.max(n,r)))]},a.rgb.cmyk=function(t){var e,n=t[0]/255,r=t[1]/255,i=t[2]/255;return[100*((1-n-(e=Math.min(1-n,1-r,1-i)))/(1-e)||0),100*((1-r-e)/(1-e)||0),100*((1-i-e)/(1-e)||0),100*e]},a.rgb.keyword=function(t){var e=i[t];if(e)return e;var n,o,a,s=1/0;for(var l in r)if(r.hasOwnProperty(l)){var c=r[l],u=(o=t,a=c,Math.pow(o[0]-a[0],2)+Math.pow(o[1]-a[1],2)+Math.pow(o[2]-a[2],2));u<s&&(s=u,n=l)}return n},a.keyword.rgb=function(t){return r[t]},a.rgb.xyz=function(t){var e=t[0]/255,n=t[1]/255,r=t[2]/255;return[100*(.4124*(e=e>.04045?Math.pow((e+.055)/1.055,2.4):e/12.92)+.3576*(n=n>.04045?Math.pow((n+.055)/1.055,2.4):n/12.92)+.1805*(r=r>.04045?Math.pow((r+.055)/1.055,2.4):r/12.92)),100*(.2126*e+.7152*n+.0722*r),100*(.0193*e+.1192*n+.9505*r)]},a.rgb.lab=function(t){var e=a.rgb.xyz(t),n=e[0],r=e[1],i=e[2];return r/=100,i/=108.883,n=(n/=95.047)>.008856?Math.pow(n,1/3):7.787*n+16/116,[116*(r=r>.008856?Math.pow(r,1/3):7.787*r+16/116)-16,500*(n-r),200*(r-(i=i>.008856?Math.pow(i,1/3):7.787*i+16/116))]},a.hsl.rgb=function(t){var e,n,r,i,o,a=t[0]/360,s=t[1]/100,l=t[2]/100;if(0===s)return[o=255*l,o,o];e=2*l-(n=l<.5?l*(1+s):l+s-l*s),i=[0,0,0];for(var c=0;c<3;c++)(r=a+1/3*-(c-1))<0&&r++,r>1&&r--,o=6*r<1?e+6*(n-e)*r:2*r<1?n:3*r<2?e+(n-e)*(2/3-r)*6:e,i[c]=255*o;return i},a.hsl.hsv=function(t){var e=t[0],n=t[1]/100,r=t[2]/100,i=n,o=Math.max(r,.01);return n*=(r*=2)<=1?r:2-r,i*=o<=1?o:2-o,[e,100*(0===r?2*i/(o+i):2*n/(r+n)),100*((r+n)/2)]},a.hsv.rgb=function(t){var e=t[0]/60,n=t[1]/100,r=t[2]/100,i=Math.floor(e)%6,o=e-Math.floor(e),a=255*r*(1-n),s=255*r*(1-n*o),l=255*r*(1-n*(1-o));switch(r*=255,i){case 0:return[r,l,a];case 1:return[s,r,a];case 2:return[a,r,l];case 3:return[a,s,r];case 4:return[l,a,r];case 5:return[r,a,s]}},a.hsv.hsl=function(t){var e,n,r,i=t[0],o=t[1]/100,a=t[2]/100,s=Math.max(a,.01);return r=(2-o)*a,n=o*s,[i,100*(n=(n/=(e=(2-o)*s)<=1?e:2-e)||0),100*(r/=2)]},a.hwb.rgb=function(t){var e,n,r,i,o,a,s,l=t[0]/360,c=t[1]/100,u=t[2]/100,h=c+u;switch(h>1&&(c/=h,u/=h),r=6*l-(e=Math.floor(6*l)),0!=(1&e)&&(r=1-r),i=c+r*((n=1-u)-c),e){default:case 6:case 0:o=n,a=i,s=c;break;case 1:o=i,a=n,s=c;break;case 2:o=c,a=n,s=i;break;case 3:o=c,a=i,s=n;break;case 4:o=i,a=c,s=n;break;case 5:o=n,a=c,s=i}return[255*o,255*a,255*s]},a.cmyk.rgb=function(t){var e=t[0]/100,n=t[1]/100,r=t[2]/100,i=t[3]/100;return[255*(1-Math.min(1,e*(1-i)+i)),255*(1-Math.min(1,n*(1-i)+i)),255*(1-Math.min(1,r*(1-i)+i))]},a.xyz.rgb=function(t){var e,n,r,i=t[0]/100,o=t[1]/100,a=t[2]/100;return n=-.9689*i+1.8758*o+.0415*a,r=.0557*i+-.204*o+1.057*a,e=(e=3.2406*i+-1.5372*o+-.4986*a)>.0031308?1.055*Math.pow(e,1/2.4)-.055:12.92*e,n=n>.0031308?1.055*Math.pow(n,1/2.4)-.055:12.92*n,r=r>.0031308?1.055*Math.pow(r,1/2.4)-.055:12.92*r,[255*(e=Math.min(Math.max(0,e),1)),255*(n=Math.min(Math.max(0,n),1)),255*(r=Math.min(Math.max(0,r),1))]},a.xyz.lab=function(t){var e=t[0],n=t[1],r=t[2];return n/=100,r/=108.883,e=(e/=95.047)>.008856?Math.pow(e,1/3):7.787*e+16/116,[116*(n=n>.008856?Math.pow(n,1/3):7.787*n+16/116)-16,500*(e-n),200*(n-(r=r>.008856?Math.pow(r,1/3):7.787*r+16/116))]},a.lab.xyz=function(t){var e,n,r,i=t[0];e=t[1]/500+(n=(i+16)/116),r=n-t[2]/200;var o=Math.pow(n,3),a=Math.pow(e,3),s=Math.pow(r,3);return n=o>.008856?o:(n-16/116)/7.787,e=a>.008856?a:(e-16/116)/7.787,r=s>.008856?s:(r-16/116)/7.787,[e*=95.047,n*=100,r*=108.883]},a.lab.lch=function(t){var e,n=t[0],r=t[1],i=t[2];return(e=360*Math.atan2(i,r)/2/Math.PI)<0&&(e+=360),[n,Math.sqrt(r*r+i*i),e]},a.lch.lab=function(t){var e,n=t[0],r=t[1];return e=t[2]/360*2*Math.PI,[n,r*Math.cos(e),r*Math.sin(e)]},a.rgb.ansi16=function(t){var e=t[0],n=t[1],r=t[2],i=1 in arguments?arguments[1]:a.rgb.hsv(t)[2];if(0===(i=Math.round(i/50)))return 30;var o=30+(Math.round(r/255)<<2|Math.round(n/255)<<1|Math.round(e/255));return 2===i&&(o+=60),o},a.hsv.ansi16=function(t){return a.rgb.ansi16(a.hsv.rgb(t),t[2])},a.rgb.ansi256=function(t){var e=t[0],n=t[1],r=t[2];return e===n&&n===r?e<8?16:e>248?231:Math.round((e-8)/247*24)+232:16+36*Math.round(e/255*5)+6*Math.round(n/255*5)+Math.round(r/255*5)},a.ansi16.rgb=function(t){var e=t%10;if(0===e||7===e)return t>50&&(e+=3.5),[e=e/10.5*255,e,e];var n=.5*(1+~~(t>50));return[(1&e)*n*255,(e>>1&1)*n*255,(e>>2&1)*n*255]},a.ansi256.rgb=function(t){if(t>=232){var e=10*(t-232)+8;return[e,e,e]}var n;return t-=16,[Math.floor(t/36)/5*255,Math.floor((n=t%36)/6)/5*255,n%6/5*255]},a.rgb.hex=function(t){var e=(((255&Math.round(t[0]))<<16)+((255&Math.round(t[1]))<<8)+(255&Math.round(t[2]))).toString(16).toUpperCase();return"000000".substring(e.length)+e},a.hex.rgb=function(t){var e=t.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);if(!e)return[0,0,0];var n=e[0];3===e[0].length&&(n=n.split("").map(function(t){return t+t}).join(""));var r=parseInt(n,16);return[r>>16&255,r>>8&255,255&r]},a.rgb.hcg=function(t){var e,n=t[0]/255,r=t[1]/255,i=t[2]/255,o=Math.max(Math.max(n,r),i),a=Math.min(Math.min(n,r),i),s=o-a;return e=s<=0?0:o===n?(r-i)/s%6:o===r?2+(i-n)/s:4+(n-r)/s+4,e/=6,[360*(e%=1),100*s,100*(s<1?a/(1-s):0)]},a.hsl.hcg=function(t){var e=t[1]/100,n=t[2]/100,r=1,i=0;return(r=n<.5?2*e*n:2*e*(1-n))<1&&(i=(n-.5*r)/(1-r)),[t[0],100*r,100*i]},a.hsv.hcg=function(t){var e=t[1]/100,n=t[2]/100,r=e*n,i=0;return r<1&&(i=(n-r)/(1-r)),[t[0],100*r,100*i]},a.hcg.rgb=function(t){var e=t[0]/360,n=t[1]/100,r=t[2]/100;if(0===n)return[255*r,255*r,255*r];var i,o=[0,0,0],a=e%1*6,s=a%1,l=1-s;switch(Math.floor(a)){case 0:o[0]=1,o[1]=s,o[2]=0;break;case 1:o[0]=l,o[1]=1,o[2]=0;break;case 2:o[0]=0,o[1]=1,o[2]=s;break;case 3:o[0]=0,o[1]=l,o[2]=1;break;case 4:o[0]=s,o[1]=0,o[2]=1;break;default:o[0]=1,o[1]=0,o[2]=l}return i=(1-n)*r,[255*(n*o[0]+i),255*(n*o[1]+i),255*(n*o[2]+i)]},a.hcg.hsv=function(t){var e=t[1]/100,n=e+t[2]/100*(1-e),r=0;return n>0&&(r=e/n),[t[0],100*r,100*n]},a.hcg.hsl=function(t){var e=t[1]/100,n=t[2]/100*(1-e)+.5*e,r=0;return n>0&&n<.5?r=e/(2*n):n>=.5&&n<1&&(r=e/(2*(1-n))),[t[0],100*r,100*n]},a.hcg.hwb=function(t){var e=t[1]/100,n=e+t[2]/100*(1-e);return[t[0],100*(n-e),100*(1-n)]},a.hwb.hcg=function(t){var e=t[1]/100,n=1-t[2]/100,r=n-e,i=0;return r<1&&(i=(n-r)/(1-r)),[t[0],100*r,100*i]},a.apple.rgb=function(t){return[t[0]/65535*255,t[1]/65535*255,t[2]/65535*255]},a.rgb.apple=function(t){return[t[0]/255*65535,t[1]/255*65535,t[2]/255*65535]},a.gray.rgb=function(t){return[t[0]/100*255,t[0]/100*255,t[0]/100*255]},a.gray.hsl=a.gray.hsv=function(t){return[0,0,t[0]]},a.gray.hwb=function(t){return[0,100,t[0]]},a.gray.cmyk=function(t){return[0,0,0,t[0]]},a.gray.lab=function(t){return[t[0],0,0]},a.gray.hex=function(t){var e=255&Math.round(t[0]/100*255),n=((e<<16)+(e<<8)+e).toString(16).toUpperCase();return"000000".substring(n.length)+n},a.rgb.gray=function(t){return[(t[0]+t[1]+t[2])/3/255*100]}},function(t,e,n){"use strict";var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},i=a(n(8)),o=a(n(0));function a(t){return t&&t.__esModule?t:{default:t}}var s="colorpicker";o.default[s]=i.default,o.default.fn[s]=function(t){var e=Array.prototype.slice.call(arguments,1),n=1===this.length,a=null,l=this.each(function(){var l=(0,o.default)(this),c=l.data(s),u="object"===(void 0===t?"undefined":r(t))?t:{};c||(c=new i.default(this,u),l.data(s,c)),n&&(a=l,"string"==typeof t&&(a="colorpicker"===t?c:o.default.isFunction(c[t])?c[t].apply(c,e):c[t]))});return n?a:l},o.default.fn[s].constructor=i.default},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=g(n(1)),o=g(n(3)),a=g(n(9)),s=g(n(0)),l=g(n(13)),c=g(n(14)),u=g(n(15)),h=g(n(22)),d=g(n(23)),f=g(n(24)),p=g(n(2));function g(t){return t&&t.__esModule?t:{default:t}}var v=0,y="undefined"!=typeof self?self:void 0,b=function(){function t(e,n){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),v+=1,this.id=v,this.lastEvent={alias:null,e:null},this.element=(0,s.default)(e).addClass("colorpicker-element").attr("data-colorpicker-id",this.id),this.options=s.default.extend(!0,{},o.default,n,this.element.data()),this.disabled=!1,this.extensions=[],this.container=!0===this.options.container||!0!==this.options.container&&!0===this.options.inline?this.element:this.options.container,this.container=!1!==this.container&&(0,s.default)(this.container),this.inputHandler=new u.default(this),this.colorHandler=new h.default(this),this.sliderHandler=new l.default(this),this.popupHandler=new c.default(this,y),this.pickerHandler=new d.default(this),this.addonHandler=new f.default(this),this.init(),(0,s.default)(s.default.proxy(function(){this.trigger("colorpickerCreate")},this))}return r(t,[{key:"color",get:function(){return this.colorHandler.color}},{key:"format",get:function(){return this.colorHandler.format}},{key:"picker",get:function(){return this.pickerHandler.picker}}],[{key:"Color",get:function(){return p.default}},{key:"Extension",get:function(){return i.default}}]),r(t,[{key:"init",value:function(){this.addonHandler.bind(),this.inputHandler.bind(),this.initExtensions(),this.colorHandler.bind(),this.pickerHandler.bind(),this.sliderHandler.bind(),this.popupHandler.bind(),this.pickerHandler.attach(),this.update(),this.inputHandler.isDisabled()&&this.disable()}},{key:"initExtensions",value:function(){var e=this;Array.isArray(this.options.extensions)||(this.options.extensions=[]),this.options.debug&&this.options.extensions.push({name:"debugger"}),this.options.extensions.forEach(function(n){e.registerExtension(t.extensions[n.name.toLowerCase()],n.options||{})})}},{key:"registerExtension",value:function(t){var e=new t(this,arguments.length>1&&void 0!==arguments[1]?arguments[1]:{});return this.extensions.push(e),e}},{key:"destroy",value:function(){var t=this.color;this.sliderHandler.unbind(),this.inputHandler.unbind(),this.popupHandler.unbind(),this.colorHandler.unbind(),this.addonHandler.unbind(),this.pickerHandler.unbind(),this.element.removeClass("colorpicker-element").removeData("colorpicker","color").off(".colorpicker"),this.trigger("colorpickerDestroy",t)}},{key:"show",value:function(t){this.popupHandler.show(t)}},{key:"hide",value:function(t){this.popupHandler.hide(t)}},{key:"toggle",value:function(t){this.popupHandler.toggle(t)}},{key:"getValue",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,e=this.colorHandler.color;return(e=e instanceof p.default?e:t)instanceof p.default?e.string(this.format):e}},{key:"setValue",value:function(t){if(!this.isDisabled()){var e=this.colorHandler;e.hasColor()&&t&&e.color.equals(t)||!e.hasColor()&&!t||(e.color=t?e.createColor(t,this.options.autoInputFallback):null,this.trigger("colorpickerChange",e.color,t),this.update())}}},{key:"update",value:function(){this.colorHandler.hasColor()?this.inputHandler.update():this.colorHandler.assureColor(),this.addonHandler.update(),this.pickerHandler.update(),this.trigger("colorpickerUpdate")}},{key:"enable",value:function(){return this.inputHandler.enable(),this.disabled=!1,this.picker.removeClass("colorpicker-disabled"),this.trigger("colorpickerEnable"),!0}},{key:"disable",value:function(){return this.inputHandler.disable(),this.disabled=!0,this.picker.addClass("colorpicker-disabled"),this.trigger("colorpickerDisable"),!0}},{key:"isEnabled",value:function(){return!this.isDisabled()}},{key:"isDisabled",value:function(){return!0===this.disabled}},{key:"trigger",value:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null;this.element.trigger({type:t,colorpicker:this,color:e||this.color,value:n||this.getValue()})}}]),t}();b.extensions=a.default,e.default=b},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.Palette=e.Swatches=e.Preview=e.Debugger=void 0;var r=s(n(10)),i=s(n(11)),o=s(n(12)),a=s(n(4));function s(t){return t&&t.__esModule?t:{default:t}}e.Debugger=r.default,e.Preview=i.default,e.Swatches=o.default,e.Palette=a.default,e.default={debugger:r.default,preview:i.default,swatches:o.default,palette:a.default}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=function t(e,n,r){null===e&&(e=Function.prototype);var i=Object.getOwnPropertyDescriptor(e,n);if(void 0===i){var o=Object.getPrototypeOf(e);return null===o?void 0:t(o,n,r)}if("value"in i)return i.value;var a=i.get;return void 0!==a?a.call(r):void 0},o=s(n(1)),a=s(n(0));function s(t){return t&&t.__esModule?t:{default:t}}var l=function(t){function e(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,e);var r=function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,t,n));return r.eventCounter=0,r.colorpicker.inputHandler.hasInput()&&r.colorpicker.inputHandler.input.on("change.colorpicker-ext",a.default.proxy(r.onChangeInput,r)),r}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,o.default),r(e,[{key:"log",value:function(t){for(var e,n=arguments.length,r=Array(n>1?n-1:0),i=1;i<n;i++)r[i-1]=arguments[i];this.eventCounter+=1;var o="#"+this.eventCounter+": Colorpicker#"+this.colorpicker.id+" ["+t+"]";(e=console).debug.apply(e,[o].concat(r)),this.colorpicker.element.trigger({type:"colorpickerDebug",colorpicker:this.colorpicker,color:this.color,value:null,debug:{debugger:this,eventName:t,logArgs:r,logMessage:o}})}},{key:"resolveColor",value:function(t){var e=!(arguments.length>1&&void 0!==arguments[1])||arguments[1];return this.log("resolveColor()",t,e),!1}},{key:"onCreate",value:function(t){return this.log("colorpickerCreate"),i(e.prototype.__proto__||Object.getPrototypeOf(e.prototype),"onCreate",this).call(this,t)}},{key:"onDestroy",value:function(t){return this.log("colorpickerDestroy"),this.eventCounter=0,this.colorpicker.inputHandler.hasInput()&&this.colorpicker.inputHandler.input.off(".colorpicker-ext"),i(e.prototype.__proto__||Object.getPrototypeOf(e.prototype),"onDestroy",this).call(this,t)}},{key:"onUpdate",value:function(t){this.log("colorpickerUpdate")}},{key:"onChangeInput",value:function(t){this.log("input:change.colorpicker",t.value,t.color)}},{key:"onChange",value:function(t){this.log("colorpickerChange",t.value,t.color)}},{key:"onInvalid",value:function(t){this.log("colorpickerInvalid",t.value,t.color)}},{key:"onHide",value:function(t){this.log("colorpickerHide"),this.eventCounter=0}},{key:"onShow",value:function(t){this.log("colorpickerShow")}},{key:"onDisable",value:function(t){this.log("colorpickerDisable")}},{key:"onEnable",value:function(t){this.log("colorpickerEnable")}}]),e}();e.default=l},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=function t(e,n,r){null===e&&(e=Function.prototype);var i=Object.getOwnPropertyDescriptor(e,n);if(void 0===i){var o=Object.getPrototypeOf(e);return null===o?void 0:t(o,n,r)}if("value"in i)return i.value;var a=i.get;return void 0!==a?a.call(r):void 0},o=s(n(1)),a=s(n(0));function s(t){return t&&t.__esModule?t:{default:t}}var l=function(t){function e(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,e);var r=function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,t,a.default.extend(!0,{},{template:'<div class="colorpicker-bar colorpicker-preview"><div /></div>',showText:!0,format:t.format},n)));return r.element=(0,a.default)(r.options.template),r.elementInner=r.element.find("div"),r}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,o.default),r(e,[{key:"onCreate",value:function(t){i(e.prototype.__proto__||Object.getPrototypeOf(e.prototype),"onCreate",this).call(this,t),this.colorpicker.picker.append(this.element)}},{key:"onUpdate",value:function(t){i(e.prototype.__proto__||Object.getPrototypeOf(e.prototype),"onUpdate",this).call(this,t),t.color?(this.elementInner.css("backgroundColor",t.color.toRgbString()),this.options.showText&&(this.elementInner.html(t.color.string(this.options.format||this.colorpicker.format)),t.color.isDark()&&t.color.alpha>.5?this.elementInner.css("color","white"):this.elementInner.css("color","black"))):this.elementInner.css("backgroundColor",null).css("color",null).html("")}}]),e}();e.default=l},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=a(n(4)),o=a(n(0));function a(t){return t&&t.__esModule?t:{default:t}}var s={barTemplate:'<div class="colorpicker-bar colorpicker-swatches">\n                    <div class="colorpicker-swatches--inner"></div>\n                </div>',swatchTemplate:'<i class="colorpicker-swatch"><i class="colorpicker-swatch--inner"></i></i>'},l=function(t){function e(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,e);var r=function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,t,o.default.extend(!0,{},s,n)));return r.element=null,r}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,i.default),r(e,[{key:"isEnabled",value:function(){return this.getLength()>0}},{key:"onCreate",value:function(t){(function t(e,n,r){null===e&&(e=Function.prototype);var i=Object.getOwnPropertyDescriptor(e,n);if(void 0===i){var o=Object.getPrototypeOf(e);return null===o?void 0:t(o,n,r)}if("value"in i)return i.value;var a=i.get;return void 0!==a?a.call(r):void 0})(e.prototype.__proto__||Object.getPrototypeOf(e.prototype),"onCreate",this).call(this,t),this.isEnabled()&&(this.element=(0,o.default)(this.options.barTemplate),this.load(),this.colorpicker.picker.append(this.element))}},{key:"load",value:function(){var t=this,e=this.colorpicker,n=this.element.find(".colorpicker-swatches--inner"),r=!0===this.options.namesAsValues&&!Array.isArray(this.colors);n.empty(),o.default.each(this.colors,function(i,a){var s=(0,o.default)(t.options.swatchTemplate).attr("data-name",i).attr("data-value",a).attr("title",r?i+": "+a:a).on("mousedown.colorpicker touchstart.colorpicker",function(t){var n=(0,o.default)(this);e.setValue(r?n.attr("data-name"):n.attr("data-value"))});s.find(".colorpicker-swatch--inner").css("background-color",a),n.append(s)}),n.append((0,o.default)('<i class="colorpicker-clear"></i>'))}}]),e}();e.default=l},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r,i=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),o=n(0),a=(r=o)&&r.__esModule?r:{default:r};var s=function(){function t(e){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.colorpicker=e,this.currentSlider=null,this.mousePointer={left:0,top:0},this.onMove=a.default.proxy(this.defaultOnMove,this)}return i(t,[{key:"defaultOnMove",value:function(t,e){if(this.currentSlider){var n=this.currentSlider,r=this.colorpicker,i=r.colorHandler,o=i.hasColor()?i.color.getClone():i.getFallbackColor();n.guideStyle.left=e+"px",n.guideStyle.top=t+"px",n.callLeft&&o[n.callLeft].call(o,e/n.maxLeft),n.callTop&&o[n.callTop].call(o,t/n.maxTop),r.setValue(o),r.popupHandler.focus()}}},{key:"bind",value:function(){var t=this.colorpicker.options.horizontal?this.colorpicker.options.slidersHorz:this.colorpicker.options.sliders,e=[];for(var n in t)t.hasOwnProperty(n)&&e.push(t[n].selector);this.colorpicker.picker.find(e.join(", ")).on("mousedown.colorpicker touchstart.colorpicker",a.default.proxy(this.pressed,this))}},{key:"unbind",value:function(){(0,a.default)(this.colorpicker.picker).off({"mousemove.colorpicker":a.default.proxy(this.moved,this),"touchmove.colorpicker":a.default.proxy(this.moved,this),"mouseup.colorpicker":a.default.proxy(this.released,this),"touchend.colorpicker":a.default.proxy(this.released,this)})}},{key:"pressed",value:function(t){if(!this.colorpicker.isDisabled()){this.colorpicker.lastEvent.alias="pressed",this.colorpicker.lastEvent.e=t,!t.pageX&&!t.pageY&&t.originalEvent&&t.originalEvent.touches&&(t.pageX=t.originalEvent.touches[0].pageX,t.pageY=t.originalEvent.touches[0].pageY);var e=(0,a.default)(t.target).closest("div"),n=this.colorpicker.options.horizontal?this.colorpicker.options.slidersHorz:this.colorpicker.options.sliders;if(!e.is(".colorpicker")){for(var r in this.currentSlider=null,n)if(n.hasOwnProperty(r)){var i=n[r];if(e.is(i.selector)){this.currentSlider=a.default.extend({},i,{name:r});break}if(void 0!==i.childSelector&&e.is(i.childSelector)){this.currentSlider=a.default.extend({},i,{name:r}),e=e.parent();break}}var o=e.find(".colorpicker-guide").get(0);if(null!==this.currentSlider&&null!==o){var s=e.offset();this.currentSlider.guideStyle=o.style,this.currentSlider.left=t.pageX-s.left,this.currentSlider.top=t.pageY-s.top,this.mousePointer={left:t.pageX,top:t.pageY},(0,a.default)(this.colorpicker.picker).on({"mousemove.colorpicker":a.default.proxy(this.moved,this),"touchmove.colorpicker":a.default.proxy(this.moved,this),"mouseup.colorpicker":a.default.proxy(this.released,this),"touchend.colorpicker":a.default.proxy(this.released,this)}).trigger("mousemove")}}}}},{key:"moved",value:function(t){this.colorpicker.lastEvent.alias="moved",this.colorpicker.lastEvent.e=t,!t.pageX&&!t.pageY&&t.originalEvent&&t.originalEvent.touches&&(t.pageX=t.originalEvent.touches[0].pageX,t.pageY=t.originalEvent.touches[0].pageY),t.preventDefault();var e=Math.max(0,Math.min(this.currentSlider.maxLeft,this.currentSlider.left+((t.pageX||this.mousePointer.left)-this.mousePointer.left))),n=Math.max(0,Math.min(this.currentSlider.maxTop,this.currentSlider.top+((t.pageY||this.mousePointer.top)-this.mousePointer.top)));this.onMove(n,e)}},{key:"released",value:function(t){this.colorpicker.lastEvent.alias="released",this.colorpicker.lastEvent.e=t,(0,a.default)(this.colorpicker.picker).off({"mousemove.colorpicker":this.moved,"touchmove.colorpicker":this.moved,"mouseup.colorpicker":this.released,"touchend.colorpicker":this.released})}}]),t}();e.default=s},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=a(n(0)),o=a(n(3));function a(t){return t&&t.__esModule?t:{default:t}}var s=function(){function t(e,n){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.root=n,this.colorpicker=e,this.popoverTarget=null,this.popoverTip=null,this.clicking=!1,this.hidding=!1,this.showing=!1}return r(t,[{key:"bind",value:function(){var t=this.colorpicker;t.options.inline?t.picker.addClass("colorpicker-inline colorpicker-visible"):(t.picker.addClass("colorpicker-popup colorpicker-hidden"),(this.hasInput||this.hasAddon)&&(t.options.popover&&this.createPopover(),this.hasAddon&&(this.addon.attr("tabindex")||this.addon.attr("tabindex",0),this.addon.on({"mousedown.colorpicker touchstart.colorpicker":i.default.proxy(this.toggle,this)}),this.addon.on({"focus.colorpicker":i.default.proxy(this.show,this)}),this.addon.on({"focusout.colorpicker":i.default.proxy(this.hide,this)})),this.hasInput&&!this.hasAddon&&(this.input.on({"mousedown.colorpicker touchstart.colorpicker":i.default.proxy(this.show,this),"focus.colorpicker":i.default.proxy(this.show,this)}),this.input.on({"focusout.colorpicker":i.default.proxy(this.hide,this)})),(0,i.default)(this.root).on("resize.colorpicker",i.default.proxy(this.reposition,this))))}},{key:"unbind",value:function(){this.hasInput&&(this.input.off({"mousedown.colorpicker touchstart.colorpicker":i.default.proxy(this.show,this),"focus.colorpicker":i.default.proxy(this.show,this)}),this.input.off({"focusout.colorpicker":i.default.proxy(this.hide,this)})),this.hasAddon&&(this.addon.off({"mousedown.colorpicker touchstart.colorpicker":i.default.proxy(this.toggle,this)}),this.addon.off({"focus.colorpicker":i.default.proxy(this.show,this)}),this.addon.off({"focusout.colorpicker":i.default.proxy(this.hide,this)})),this.popoverTarget&&this.popoverTarget.popover("dispose"),(0,i.default)(this.root).off("resize.colorpicker",i.default.proxy(this.reposition,this)),(0,i.default)(this.root.document).off("mousedown.colorpicker touchstart.colorpicker",i.default.proxy(this.hide,this)),(0,i.default)(this.root.document).off("mousedown.colorpicker touchstart.colorpicker",i.default.proxy(this.onClickingInside,this))}},{key:"isClickingInside",value:function(t){return!!t&&(this.isOrIsInside(this.popoverTip,t.currentTarget)||this.isOrIsInside(this.popoverTip,t.target)||this.isOrIsInside(this.colorpicker.picker,t.currentTarget)||this.isOrIsInside(this.colorpicker.picker,t.target))}},{key:"isOrIsInside",value:function(t,e){return!(!t||!e)&&((e=(0,i.default)(e)).is(t)||t.find(e).length>0)}},{key:"onClickingInside",value:function(t){this.clicking=this.isClickingInside(t)}},{key:"createPopover",value:function(){var t=this.colorpicker;this.popoverTarget=this.hasAddon?this.addon:this.input,t.picker.addClass("colorpicker-bs-popover-content"),this.popoverTarget.popover(i.default.extend(!0,{},o.default.popover,t.options.popover,{trigger:"manual",content:t.picker,html:!0})),this.popoverTip=(0,i.default)(this.popoverTarget.popover("getTipElement").data("bs.popover").tip),this.popoverTip.addClass("colorpicker-bs-popover"),this.popoverTarget.on("shown.bs.popover",i.default.proxy(this.fireShow,this)),this.popoverTarget.on("hidden.bs.popover",i.default.proxy(this.fireHide,this))}},{key:"reposition",value:function(t){this.popoverTarget&&this.isVisible()&&this.popoverTarget.popover("update")}},{key:"toggle",value:function(t){this.isVisible()?this.hide(t):this.show(t)}},{key:"show",value:function(t){if(!(this.isVisible()||this.showing||this.hidding)){this.showing=!0,this.hidding=!1,this.clicking=!1;var e=this.colorpicker;e.lastEvent.alias="show",e.lastEvent.e=t,t&&(!this.hasInput||"color"===this.input.attr("type"))&&t&&t.preventDefault&&(t.stopPropagation(),t.preventDefault()),this.isPopover&&(0,i.default)(this.root).on("resize.colorpicker",i.default.proxy(this.reposition,this)),e.picker.addClass("colorpicker-visible").removeClass("colorpicker-hidden"),this.popoverTarget?this.popoverTarget.popover("show"):this.fireShow()}}},{key:"fireShow",value:function(){this.hidding=!1,this.showing=!1,this.isPopover&&((0,i.default)(this.root.document).on("mousedown.colorpicker touchstart.colorpicker",i.default.proxy(this.hide,this)),(0,i.default)(this.root.document).on("mousedown.colorpicker touchstart.colorpicker",i.default.proxy(this.onClickingInside,this))),this.colorpicker.trigger("colorpickerShow")}},{key:"hide",value:function(t){if(!(this.isHidden()||this.showing||this.hidding)){var e=this.colorpicker,n=this.clicking||this.isClickingInside(t);this.hidding=!0,this.showing=!1,this.clicking=!1,e.lastEvent.alias="hide",e.lastEvent.e=t,n?this.hidding=!1:this.popoverTarget?this.popoverTarget.popover("hide"):this.fireHide()}}},{key:"fireHide",value:function(){this.hidding=!1,this.showing=!1;var t=this.colorpicker;t.picker.addClass("colorpicker-hidden").removeClass("colorpicker-visible"),(0,i.default)(this.root).off("resize.colorpicker",i.default.proxy(this.reposition,this)),(0,i.default)(this.root.document).off("mousedown.colorpicker touchstart.colorpicker",i.default.proxy(this.hide,this)),(0,i.default)(this.root.document).off("mousedown.colorpicker touchstart.colorpicker",i.default.proxy(this.onClickingInside,this)),t.trigger("colorpickerHide")}},{key:"focus",value:function(){return this.hasAddon?this.addon.focus():!!this.hasInput&&this.input.focus()}},{key:"isVisible",value:function(){return this.colorpicker.picker.hasClass("colorpicker-visible")&&!this.colorpicker.picker.hasClass("colorpicker-hidden")}},{key:"isHidden",value:function(){return this.colorpicker.picker.hasClass("colorpicker-hidden")&&!this.colorpicker.picker.hasClass("colorpicker-visible")}},{key:"input",get:function(){return this.colorpicker.inputHandler.input}},{key:"hasInput",get:function(){return this.colorpicker.inputHandler.hasInput()}},{key:"addon",get:function(){return this.colorpicker.addonHandler.addon}},{key:"hasAddon",get:function(){return this.colorpicker.addonHandler.hasAddon()}},{key:"isPopover",get:function(){return!this.colorpicker.options.inline&&!!this.popoverTip}}]),t}();e.default=s},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=a(n(0)),o=a(n(2));function a(t){return t&&t.__esModule?t:{default:t}}var s=function(){function t(e){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.colorpicker=e,this.input=this.colorpicker.element.is("input")?this.colorpicker.element:!!this.colorpicker.options.input&&this.colorpicker.element.find(this.colorpicker.options.input),this.input&&0===this.input.length&&(this.input=!1),this._initValue()}return r(t,[{key:"bind",value:function(){this.hasInput()&&(this.input.on({"keyup.colorpicker":i.default.proxy(this.onkeyup,this)}),this.input.on({"change.colorpicker":i.default.proxy(this.onchange,this)}))}},{key:"unbind",value:function(){this.hasInput()&&this.input.off(".colorpicker")}},{key:"_initValue",value:function(){if(this.hasInput()){var t="";[this.input.val(),this.input.data("color"),this.input.attr("data-color")].map(function(e){e&&""===t&&(t=e)}),t instanceof o.default?t=this.getFormattedColor(t.string(this.colorpicker.format)):"string"==typeof t||t instanceof String||(t=""),this.input.prop("value",t)}}},{key:"getValue",value:function(){return!!this.hasInput()&&this.input.val()}},{key:"setValue",value:function(t){if(this.hasInput()){var e=this.input.prop("value");(t=t||"")!==(e||"")&&(this.input.prop("value",t),this.input.trigger({type:"change",colorpicker:this.colorpicker,color:this.colorpicker.color,value:t}))}}},{key:"getFormattedColor",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;return(t=t||this.colorpicker.colorHandler.getColorString())?(t=this.colorpicker.colorHandler.resolveColorDelegate(t,!1),!1===this.colorpicker.options.useHashPrefix&&(t=t.replace(/^#/g,"")),t):""}},{key:"hasInput",value:function(){return!1!==this.input}},{key:"isEnabled",value:function(){return this.hasInput()&&!this.isDisabled()}},{key:"isDisabled",value:function(){return this.hasInput()&&!0===this.input.prop("disabled")}},{key:"disable",value:function(){this.hasInput()&&this.input.prop("disabled",!0)}},{key:"enable",value:function(){this.hasInput()&&this.input.prop("disabled",!1)}},{key:"update",value:function(){this.hasInput()&&(!1===this.colorpicker.options.autoInputFallback&&this.colorpicker.colorHandler.isInvalidColor()||this.setValue(this.getFormattedColor()))}},{key:"onchange",value:function(t){this.colorpicker.lastEvent.alias="input.change",this.colorpicker.lastEvent.e=t;var e=this.getValue();e!==t.value&&this.colorpicker.setValue(e)}},{key:"onkeyup",value:function(t){this.colorpicker.lastEvent.alias="input.keyup",this.colorpicker.lastEvent.e=t;var e=this.getValue();e!==t.value&&this.colorpicker.setValue(e)}}]),t}();e.default=s},function(t,e,n){"use strict";var r=n(17),i=n(20),o=[].slice,a=["keyword","gray","hex"],s={};Object.keys(i).forEach(function(t){s[o.call(i[t].labels).sort().join("")]=t});var l={};function c(t,e){if(!(this instanceof c))return new c(t,e);if(e&&e in a&&(e=null),e&&!(e in i))throw new Error("Unknown model: "+e);var n,u;if(t)if(t instanceof c)this.model=t.model,this.color=t.color.slice(),this.valpha=t.valpha;else if("string"==typeof t){var h=r.get(t);if(null===h)throw new Error("Unable to parse color from string: "+t);this.model=h.model,u=i[this.model].channels,this.color=h.value.slice(0,u),this.valpha="number"==typeof h.value[u]?h.value[u]:1}else if(t.length){this.model=e||"rgb",u=i[this.model].channels;var f=o.call(t,0,u);this.color=d(f,u),this.valpha="number"==typeof t[u]?t[u]:1}else if("number"==typeof t)t&=16777215,this.model="rgb",this.color=[t>>16&255,t>>8&255,255&t],this.valpha=1;else{this.valpha=1;var p=Object.keys(t);"alpha"in t&&(p.splice(p.indexOf("alpha"),1),this.valpha="number"==typeof t.alpha?t.alpha:0);var g=p.sort().join("");if(!(g in s))throw new Error("Unable to parse color from object: "+JSON.stringify(t));this.model=s[g];var v=i[this.model].labels,y=[];for(n=0;n<v.length;n++)y.push(t[v[n]]);this.color=d(y)}else this.model="rgb",this.color=[0,0,0],this.valpha=1;if(l[this.model])for(u=i[this.model].channels,n=0;n<u;n++){var b=l[this.model][n];b&&(this.color[n]=b(this.color[n]))}this.valpha=Math.max(0,Math.min(1,this.valpha)),Object.freeze&&Object.freeze(this)}function u(t,e,n){return(t=Array.isArray(t)?t:[t]).forEach(function(t){(l[t]||(l[t]=[]))[e]=n}),t=t[0],function(r){var i;return arguments.length?(n&&(r=n(r)),(i=this[t]()).color[e]=r,i):(i=this[t]().color[e],n&&(i=n(i)),i)}}function h(t){return function(e){return Math.max(0,Math.min(t,e))}}function d(t,e){for(var n=0;n<e;n++)"number"!=typeof t[n]&&(t[n]=0);return t}c.prototype={toString:function(){return this.string()},toJSON:function(){return this[this.model]()},string:function(t){var e=this.model in r.to?this:this.rgb(),n=1===(e=e.round("number"==typeof t?t:1)).valpha?e.color:e.color.concat(this.valpha);return r.to[e.model](n)},percentString:function(t){var e=this.rgb().round("number"==typeof t?t:1),n=1===e.valpha?e.color:e.color.concat(this.valpha);return r.to.rgb.percent(n)},array:function(){return 1===this.valpha?this.color.slice():this.color.concat(this.valpha)},object:function(){for(var t={},e=i[this.model].channels,n=i[this.model].labels,r=0;r<e;r++)t[n[r]]=this.color[r];return 1!==this.valpha&&(t.alpha=this.valpha),t},unitArray:function(){var t=this.rgb().color;return t[0]/=255,t[1]/=255,t[2]/=255,1!==this.valpha&&t.push(this.valpha),t},unitObject:function(){var t=this.rgb().object();return t.r/=255,t.g/=255,t.b/=255,1!==this.valpha&&(t.alpha=this.valpha),t},round:function(t){return t=Math.max(t||0,0),new c(this.color.map(function(t){return function(e){return function(t,e){return Number(t.toFixed(e))}(e,t)}}(t)).concat(this.valpha),this.model)},alpha:function(t){return arguments.length?new c(this.color.concat(Math.max(0,Math.min(1,t))),this.model):this.valpha},red:u("rgb",0,h(255)),green:u("rgb",1,h(255)),blue:u("rgb",2,h(255)),hue:u(["hsl","hsv","hsl","hwb","hcg"],0,function(t){return(t%360+360)%360}),saturationl:u("hsl",1,h(100)),lightness:u("hsl",2,h(100)),saturationv:u("hsv",1,h(100)),value:u("hsv",2,h(100)),chroma:u("hcg",1,h(100)),gray:u("hcg",2,h(100)),white:u("hwb",1,h(100)),wblack:u("hwb",2,h(100)),cyan:u("cmyk",0,h(100)),magenta:u("cmyk",1,h(100)),yellow:u("cmyk",2,h(100)),black:u("cmyk",3,h(100)),x:u("xyz",0,h(100)),y:u("xyz",1,h(100)),z:u("xyz",2,h(100)),l:u("lab",0,h(100)),a:u("lab",1),b:u("lab",2),keyword:function(t){return arguments.length?new c(t):i[this.model].keyword(this.color)},hex:function(t){return arguments.length?new c(t):r.to.hex(this.rgb().round().color)},rgbNumber:function(){var t=this.rgb().color;return(255&t[0])<<16|(255&t[1])<<8|255&t[2]},luminosity:function(){for(var t=this.rgb().color,e=[],n=0;n<t.length;n++){var r=t[n]/255;e[n]=r<=.03928?r/12.92:Math.pow((r+.055)/1.055,2.4)}return.2126*e[0]+.7152*e[1]+.0722*e[2]},contrast:function(t){var e=this.luminosity(),n=t.luminosity();return e>n?(e+.05)/(n+.05):(n+.05)/(e+.05)},level:function(t){var e=this.contrast(t);return e>=7.1?"AAA":e>=4.5?"AA":""},isDark:function(){var t=this.rgb().color;return(299*t[0]+587*t[1]+114*t[2])/1e3<128},isLight:function(){return!this.isDark()},negate:function(){for(var t=this.rgb(),e=0;e<3;e++)t.color[e]=255-t.color[e];return t},lighten:function(t){var e=this.hsl();return e.color[2]+=e.color[2]*t,e},darken:function(t){var e=this.hsl();return e.color[2]-=e.color[2]*t,e},saturate:function(t){var e=this.hsl();return e.color[1]+=e.color[1]*t,e},desaturate:function(t){var e=this.hsl();return e.color[1]-=e.color[1]*t,e},whiten:function(t){var e=this.hwb();return e.color[1]+=e.color[1]*t,e},blacken:function(t){var e=this.hwb();return e.color[2]+=e.color[2]*t,e},grayscale:function(){var t=this.rgb().color,e=.3*t[0]+.59*t[1]+.11*t[2];return c.rgb(e,e,e)},fade:function(t){return this.alpha(this.valpha-this.valpha*t)},opaquer:function(t){return this.alpha(this.valpha+this.valpha*t)},rotate:function(t){var e=this.hsl(),n=e.color[0];return n=(n=(n+t)%360)<0?360+n:n,e.color[0]=n,e},mix:function(t,e){var n=t.rgb(),r=this.rgb(),i=void 0===e?.5:e,o=2*i-1,a=n.alpha()-r.alpha(),s=((o*a==-1?o:(o+a)/(1+o*a))+1)/2,l=1-s;return c.rgb(s*n.red()+l*r.red(),s*n.green()+l*r.green(),s*n.blue()+l*r.blue(),n.alpha()*i+r.alpha()*(1-i))}},Object.keys(i).forEach(function(t){if(-1===a.indexOf(t)){var e=i[t].channels;c.prototype[t]=function(){if(this.model===t)return new c(this);if(arguments.length)return new c(arguments,t);var n,r="number"==typeof arguments[e]?e:this.valpha;return new c((n=i[this.model][t].raw(this.color),Array.isArray(n)?n:[n]).concat(r),t)},c[t]=function(n){return"number"==typeof n&&(n=d(o.call(arguments),e)),new c(n,t)}}}),t.exports=c},function(t,e,n){var r=n(5),i=n(18),o={};for(var a in r)r.hasOwnProperty(a)&&(o[r[a]]=a);var s=t.exports={to:{}};function l(t,e,n){return Math.min(Math.max(e,t),n)}function c(t){var e=t.toString(16).toUpperCase();return e.length<2?"0"+e:e}s.get=function(t){var e,n;switch(t.substring(0,3).toLowerCase()){case"hsl":e=s.get.hsl(t),n="hsl";break;case"hwb":e=s.get.hwb(t),n="hwb";break;default:e=s.get.rgb(t),n="rgb"}return e?{model:n,value:e}:null},s.get.rgb=function(t){if(!t)return null;var e,n,i,o=[0,0,0,1];if(e=t.match(/^#([a-f0-9]{6})([a-f0-9]{2})?$/i)){for(i=e[2],e=e[1],n=0;n<3;n++){var a=2*n;o[n]=parseInt(e.slice(a,a+2),16)}i&&(o[3]=Math.round(parseInt(i,16)/255*100)/100)}else if(e=t.match(/^#([a-f0-9]{3,4})$/i)){for(i=(e=e[1])[3],n=0;n<3;n++)o[n]=parseInt(e[n]+e[n],16);i&&(o[3]=Math.round(parseInt(i+i,16)/255*100)/100)}else if(e=t.match(/^rgba?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/)){for(n=0;n<3;n++)o[n]=parseInt(e[n+1],0);e[4]&&(o[3]=parseFloat(e[4]))}else{if(!(e=t.match(/^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/)))return(e=t.match(/(\D+)/))?"transparent"===e[1]?[0,0,0,0]:(o=r[e[1]])?(o[3]=1,o):null:null;for(n=0;n<3;n++)o[n]=Math.round(2.55*parseFloat(e[n+1]));e[4]&&(o[3]=parseFloat(e[4]))}for(n=0;n<3;n++)o[n]=l(o[n],0,255);return o[3]=l(o[3],0,1),o},s.get.hsl=function(t){if(!t)return null;var e=t.match(/^hsla?\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/);if(e){var n=parseFloat(e[4]);return[(parseFloat(e[1])%360+360)%360,l(parseFloat(e[2]),0,100),l(parseFloat(e[3]),0,100),l(isNaN(n)?1:n,0,1)]}return null},s.get.hwb=function(t){if(!t)return null;var e=t.match(/^hwb\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/);if(e){var n=parseFloat(e[4]);return[(parseFloat(e[1])%360+360)%360,l(parseFloat(e[2]),0,100),l(parseFloat(e[3]),0,100),l(isNaN(n)?1:n,0,1)]}return null},s.to.hex=function(){var t=i(arguments);return"#"+c(t[0])+c(t[1])+c(t[2])+(t[3]<1?c(Math.round(255*t[3])):"")},s.to.rgb=function(){var t=i(arguments);return t.length<4||1===t[3]?"rgb("+Math.round(t[0])+", "+Math.round(t[1])+", "+Math.round(t[2])+")":"rgba("+Math.round(t[0])+", "+Math.round(t[1])+", "+Math.round(t[2])+", "+t[3]+")"},s.to.rgb.percent=function(){var t=i(arguments),e=Math.round(t[0]/255*100),n=Math.round(t[1]/255*100),r=Math.round(t[2]/255*100);return t.length<4||1===t[3]?"rgb("+e+"%, "+n+"%, "+r+"%)":"rgba("+e+"%, "+n+"%, "+r+"%, "+t[3]+")"},s.to.hsl=function(){var t=i(arguments);return t.length<4||1===t[3]?"hsl("+t[0]+", "+t[1]+"%, "+t[2]+"%)":"hsla("+t[0]+", "+t[1]+"%, "+t[2]+"%, "+t[3]+")"},s.to.hwb=function(){var t=i(arguments),e="";return t.length>=4&&1!==t[3]&&(e=", "+t[3]),"hwb("+t[0]+", "+t[1]+"%, "+t[2]+"%"+e+")"},s.to.keyword=function(t){return o[t.slice(0,3)]}},function(t,e,n){"use strict";var r=n(19),i=Array.prototype.concat,o=Array.prototype.slice,a=t.exports=function(t){for(var e=[],n=0,a=t.length;n<a;n++){var s=t[n];r(s)?e=i.call(e,o.call(s)):e.push(s)}return e};a.wrap=function(t){return function(){return t(a(arguments))}}},function(t,e,n){"use strict";t.exports=function(t){return!!t&&(t instanceof Array||Array.isArray(t)||t.length>=0&&t.splice instanceof Function)}},function(t,e,n){var r=n(6),i=n(21),o={};Object.keys(r).forEach(function(t){o[t]={},Object.defineProperty(o[t],"channels",{value:r[t].channels}),Object.defineProperty(o[t],"labels",{value:r[t].labels});var e=i(t);Object.keys(e).forEach(function(n){var r=e[n];o[t][n]=function(t){var e=function(e){if(null==e)return e;arguments.length>1&&(e=Array.prototype.slice.call(arguments));var n=t(e);if("object"==typeof n)for(var r=n.length,i=0;i<r;i++)n[i]=Math.round(n[i]);return n};return"conversion"in t&&(e.conversion=t.conversion),e}(r),o[t][n].raw=function(t){var e=function(e){return null==e?e:(arguments.length>1&&(e=Array.prototype.slice.call(arguments)),t(e))};return"conversion"in t&&(e.conversion=t.conversion),e}(r)})}),t.exports=o},function(t,e,n){var r=n(6);function i(t){var e=function(){for(var t={},e=Object.keys(r),n=e.length,i=0;i<n;i++)t[e[i]]={distance:-1,parent:null};return t}(),n=[t];for(e[t].distance=0;n.length;)for(var i=n.pop(),o=Object.keys(r[i]),a=o.length,s=0;s<a;s++){var l=o[s],c=e[l];-1===c.distance&&(c.distance=e[i].distance+1,c.parent=i,n.unshift(l))}return e}function o(t,e){return function(n){return e(t(n))}}function a(t,e){for(var n=[e[t].parent,t],i=r[e[t].parent][t],a=e[t].parent;e[a].parent;)n.unshift(e[a].parent),i=o(r[e[a].parent][a],i),a=e[a].parent;return i.conversion=n,i}t.exports=function(t){for(var e=i(t),n={},r=Object.keys(e),o=r.length,s=0;s<o;s++){var l=r[s];null!==e[l].parent&&(n[l]=a(l,e))}return n}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=a(n(0)),o=a(n(2));function a(t){return t&&t.__esModule?t:{default:t}}var s=function(){function t(e){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.colorpicker=e}return r(t,[{key:"bind",value:function(){this.colorpicker.options.color?this.color=this.createColor(this.colorpicker.options.color):!this.color&&this.colorpicker.inputHandler.getValue()&&(this.color=this.createColor(this.colorpicker.inputHandler.getValue(),this.colorpicker.options.autoInputFallback))}},{key:"unbind",value:function(){this.colorpicker.element.removeData("color")}},{key:"getColorString",value:function(){return this.hasColor()?this.color.string(this.format):""}},{key:"setColorString",value:function(t){var e=t?this.createColor(t):null;this.color=e||null}},{key:"createColor",value:function(t){var e=!(arguments.length>1&&void 0!==arguments[1])||arguments[1],n=new o.default(this.resolveColorDelegate(t),this.format);return n.isValid()||(e&&(n=this.getFallbackColor()),this.colorpicker.trigger("colorpickerInvalid",n,t)),this.isAlphaEnabled()||(n.alpha=1),n}},{key:"getFallbackColor",value:function(){if(this.fallback&&this.fallback===this.color)return this.color;var t=this.resolveColorDelegate(this.fallback),e=new o.default(t,this.format);if(!e.isValid())throw new Error("The fallback color is invalid.");return e}},{key:"assureColor",value:function(){return this.hasColor()||(this.color=this.getFallbackColor()),this.color}},{key:"resolveColorDelegate",value:function(t){var e=!(arguments.length>1&&void 0!==arguments[1])||arguments[1],n=!1;return i.default.each(this.colorpicker.extensions,function(r,i){!1===n&&(n=i.resolveColor(t,e))}),n||t}},{key:"isInvalidColor",value:function(){return!this.hasColor()||!this.color.isValid()}},{key:"isAlphaEnabled",value:function(){return!1!==this.colorpicker.options.useAlpha}},{key:"hasColor",value:function(){return this.color instanceof o.default}},{key:"fallback",get:function(){return this.colorpicker.options.fallbackColor?this.colorpicker.options.fallbackColor:this.hasColor()?this.color:null}},{key:"format",get:function(){return this.colorpicker.options.format?this.colorpicker.options.format:this.hasColor()&&this.color.hasTransparency()&&this.color.format.match(/^hex/)?this.isAlphaEnabled()?"rgba":"hex":this.hasColor()?this.color.format:"rgb"}},{key:"color",get:function(){return this.colorpicker.element.data("color")},set:function(t){this.colorpicker.element.data("color",t),t instanceof o.default&&"auto"===this.colorpicker.options.format&&(this.colorpicker.options.format=this.color.format)}}]),t}();e.default=s},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r,i=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),o=n(0),a=(r=o)&&r.__esModule?r:{default:r};var s=function(){function t(e){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.colorpicker=e,this.picker=null}return i(t,[{key:"bind",value:function(){var t=this.picker=(0,a.default)(this.options.template);this.options.customClass&&t.addClass(this.options.customClass),this.options.horizontal&&t.addClass("colorpicker-horizontal"),this._supportsAlphaBar()?(this.options.useAlpha=!0,t.addClass("colorpicker-with-alpha")):this.options.useAlpha=!1}},{key:"attach",value:function(){var t=this.colorpicker.container?this.colorpicker.container:null;t&&this.picker.appendTo(t)}},{key:"unbind",value:function(){this.picker.remove()}},{key:"_supportsAlphaBar",value:function(){return(this.options.useAlpha||this.colorpicker.colorHandler.hasColor()&&this.color.hasTransparency())&&!1!==this.options.useAlpha&&(!this.options.format||this.options.format&&!this.options.format.match(/^hex([36])?$/i))}},{key:"update",value:function(){if(this.colorpicker.colorHandler.hasColor()){var t=!0!==this.options.horizontal,e=t?this.options.sliders:this.options.slidersHorz,n=this.picker.find(".colorpicker-saturation .colorpicker-guide"),r=this.picker.find(".colorpicker-hue .colorpicker-guide"),i=this.picker.find(".colorpicker-alpha .colorpicker-guide"),o=this.color.toHsvaRatio();r.length&&r.css(t?"top":"left",(t?e.hue.maxTop:e.hue.maxLeft)*(1-o.h)),i.length&&i.css(t?"top":"left",(t?e.alpha.maxTop:e.alpha.maxLeft)*(1-o.a)),n.length&&n.css({top:e.saturation.maxTop-o.v*e.saturation.maxTop,left:o.s*e.saturation.maxLeft}),this.picker.find(".colorpicker-saturation").css("backgroundColor",this.color.getCloneHueOnly().toHexString());var a=this.color.toHexString(),s="";s=this.options.horizontal?"linear-gradient(to right, "+a+" 0%, transparent 100%)":"linear-gradient(to bottom, "+a+" 0%, transparent 100%)",this.picker.find(".colorpicker-alpha-color").css("background",s)}}},{key:"options",get:function(){return this.colorpicker.options}},{key:"color",get:function(){return this.colorpicker.colorHandler.color}}]),t}();e.default=s},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}();var i=function(){function t(e){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.colorpicker=e,this.addon=null}return r(t,[{key:"hasAddon",value:function(){return!!this.addon}},{key:"bind",value:function(){this.addon=this.colorpicker.options.addon?this.colorpicker.element.find(this.colorpicker.options.addon):null,this.addon&&0===this.addon.length&&(this.addon=null)}},{key:"unbind",value:function(){this.hasAddon()&&this.addon.off(".colorpicker")}},{key:"update",value:function(){if(this.colorpicker.colorHandler.hasColor()&&this.hasAddon()){var t={background:this.colorpicker.colorHandler.getColorString()},e=this.addon.find("i").eq(0);e.length>0?e.css(t):this.addon.css(t)}}}]),t}();e.default=i}])}),function(t,e){"function"==typeof define&&define.amd?define("typeahead.js",["jquery"],function(t){return e(t)}):"object"==typeof exports?module.exports=e(require("jquery")):e(jQuery)}(0,function(t){var e=function(){"use strict";return{isMsie:function(){return!!/(msie|trident)/i.test(navigator.userAgent)&&navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i)[2]},isBlankString:function(t){return!t||/^\s*$/.test(t)},escapeRegExChars:function(t){return t.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,"\\$&")},isString:function(t){return"string"==typeof t},isNumber:function(t){return"number"==typeof t},isArray:t.isArray,isFunction:t.isFunction,isObject:t.isPlainObject,isUndefined:function(t){return void 0===t},isElement:function(t){return!(!t||1!==t.nodeType)},isJQuery:function(e){return e instanceof t},toStr:function(t){return e.isUndefined(t)||null===t?"":t+""},bind:t.proxy,each:function(e,n){t.each(e,function(t,e){return n(e,t)})},map:t.map,filter:t.grep,every:function(e,n){var r=!0;return e?(t.each(e,function(t,i){if(!(r=n.call(null,i,t,e)))return!1}),!!r):r},some:function(e,n){var r=!1;return e?(t.each(e,function(t,i){if(r=n.call(null,i,t,e))return!1}),!!r):r},mixin:t.extend,identity:function(t){return t},clone:function(e){return t.extend(!0,{},e)},getIdGenerator:function(){var t=0;return function(){return t++}},templatify:function(e){return t.isFunction(e)?e:function(){return String(e)}},defer:function(t){setTimeout(t,0)},debounce:function(t,e,n){var r,i;return function(){var o,a,s=this,l=arguments;return o=function(){r=null,n||(i=t.apply(s,l))},a=n&&!r,clearTimeout(r),r=setTimeout(o,e),a&&(i=t.apply(s,l)),i}},throttle:function(t,e){var n,r,i,o,a,s;return a=0,s=function(){a=new Date,i=null,o=t.apply(n,r)},function(){var l=new Date,c=e-(l-a);return n=this,r=arguments,c<=0?(clearTimeout(i),i=null,a=l,o=t.apply(n,r)):i||(i=setTimeout(s,c)),o}},stringify:function(t){return e.isString(t)?t:JSON.stringify(t)},noop:function(){}}}(),n=function(){"use strict";var t={wrapper:"twitter-typeahead",input:"tt-input",hint:"tt-hint",menu:"tt-menu",dataset:"tt-dataset",suggestion:"tt-suggestion",selectable:"tt-selectable",empty:"tt-empty",open:"tt-open",cursor:"tt-cursor",highlight:"tt-highlight"};return function(i){var o,a;return a=e.mixin({},t,i),{css:(o={css:r(),classes:a,html:(s=a,{wrapper:'<span class="'+s.wrapper+'"></span>',menu:'<div class="'+s.menu+'"></div>'}),selectors:n(a)}).css,html:o.html,classes:o.classes,selectors:o.selectors,mixin:function(t){e.mixin(t,o)}};var s};function n(t){var n={};return e.each(t,function(t,e){n[e]="."+t}),n}function r(){var t={wrapper:{position:"relative",display:"inline-block"},hint:{position:"absolute",top:"0",left:"0",borderColor:"transparent",boxShadow:"none",opacity:"1"},input:{position:"relative",verticalAlign:"top",backgroundColor:"transparent"},inputWithNoHint:{position:"relative",verticalAlign:"top"},menu:{position:"absolute",top:"100%",left:"0",zIndex:"100",display:"none"},ltr:{left:"0",right:"auto"},rtl:{left:"auto",right:" 0"}};return e.isMsie()&&e.mixin(t.input,{backgroundImage:"url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)"}),t}}(),r=function(){"use strict";var n;function r(e){e&&e.el||t.error("EventBus initialized without el"),this.$el=t(e.el)}return"typeahead:",n={render:"rendered",cursorchange:"cursorchanged",select:"selected",autocomplete:"autocompleted"},e.mixin(r.prototype,{_trigger:function(e,n){var r;return r=t.Event("typeahead:"+e),(n=n||[]).unshift(r),this.$el.trigger.apply(this.$el,n),r},before:function(t){var e;return e=[].slice.call(arguments,1),this._trigger("before"+t,e).isDefaultPrevented()},trigger:function(t){var e;this._trigger(t,[].slice.call(arguments,1)),(e=n[t])&&this._trigger(e,[].slice.call(arguments,1))}}),r}(),i=function(){"use strict";var t=/\s+/,e=function(){var t;t=window.setImmediate?function(t){setImmediate(function(){t()})}:function(t){setTimeout(function(){t()},0)};return t}();return{onSync:function(t,e,r){return n.call(this,"sync",t,e,r)},onAsync:function(t,e,r){return n.call(this,"async",t,e,r)},off:function(e){var n;if(!this._callbacks)return this;e=e.split(t);for(;n=e.shift();)delete this._callbacks[n];return this},trigger:function(n){var i,o,a,s,l;if(!this._callbacks)return this;n=n.split(t),a=[].slice.call(arguments,1);for(;(i=n.shift())&&(o=this._callbacks[i]);)s=r(o.sync,this,[i].concat(a)),l=r(o.async,this,[i].concat(a)),s()&&e(l);return this}};function n(e,n,r,i){var o;if(!r)return this;for(n=n.split(t),r=i?function(t,e){return t.bind?t.bind(e):function(){t.apply(e,[].slice.call(arguments,0))}}(r,i):r,this._callbacks=this._callbacks||{};o=n.shift();)this._callbacks[o]=this._callbacks[o]||{sync:[],async:[]},this._callbacks[o][e].push(r);return this}function r(t,e,n){return function(){for(var r,i=0,o=t.length;!r&&i<o;i+=1)r=!1===t[i].apply(e,n);return!r}}}(),o=function(t){"use strict";var n={node:null,pattern:null,tagName:"strong",className:null,wordsOnly:!1,caseSensitive:!1};return function(r){var i;(r=e.mixin({},n,r)).node&&r.pattern&&(r.pattern=e.isArray(r.pattern)?r.pattern:[r.pattern],i=function(t,n,r){for(var i,o=[],a=0,s=t.length;a<s;a++)o.push(e.escapeRegExChars(t[a]));return i=r?"\\b("+o.join("|")+")\\b":"("+o.join("|")+")",n?new RegExp(i):new RegExp(i,"i")}(r.pattern,r.caseSensitive,r.wordsOnly),function t(e,n){var r;for(var i=0;i<e.childNodes.length;i++)3===(r=e.childNodes[i]).nodeType?i+=n(r)?1:0:t(r,n)}(r.node,function(e){var n,o,a;(n=i.exec(e.data))&&(a=t.createElement(r.tagName),r.className&&(a.className=r.className),(o=e.splitText(n.index)).splitText(n[0].length),a.appendChild(o.cloneNode(!0)),e.parentNode.replaceChild(a,o));return!!n}))}}(window.document),a=function(){"use strict";var n;function r(n,r){var i;(n=n||{}).input||t.error("input is missing"),r.mixin(this),this.$hint=t(n.hint),this.$input=t(n.input),this.query=this.$input.val(),this.queryWhenFocused=this.hasFocus()?this.query:null,this.$overflowHelper=(i=this.$input,t('<pre aria-hidden="true"></pre>').css({position:"absolute",visibility:"hidden",whiteSpace:"pre",fontFamily:i.css("font-family"),fontSize:i.css("font-size"),fontStyle:i.css("font-style"),fontVariant:i.css("font-variant"),fontWeight:i.css("font-weight"),wordSpacing:i.css("word-spacing"),letterSpacing:i.css("letter-spacing"),textIndent:i.css("text-indent"),textRendering:i.css("text-rendering"),textTransform:i.css("text-transform")}).insertAfter(i)),this._checkLanguageDirection(),0===this.$hint.length&&(this.setHint=this.getHint=this.clearHint=this.clearHintIfInvalid=e.noop)}return n={9:"tab",27:"esc",37:"left",39:"right",13:"enter",38:"up",40:"down"},r.normalizeQuery=function(t){return e.toStr(t).replace(/^\s*/g,"").replace(/\s{2,}/g," ")},e.mixin(r.prototype,i,{_onBlur:function(){this.resetInputValue(),this.trigger("blurred")},_onFocus:function(){this.queryWhenFocused=this.query,this.trigger("focused")},_onKeydown:function(t){var e=n[t.which||t.keyCode];this._managePreventDefault(e,t),e&&this._shouldTrigger(e,t)&&this.trigger(e+"Keyed",t)},_onInput:function(){this._setQuery(this.getInputValue()),this.clearHintIfInvalid(),this._checkLanguageDirection()},_managePreventDefault:function(t,e){var n;switch(t){case"up":case"down":n=!o(e);break;default:n=!1}n&&e.preventDefault()},_shouldTrigger:function(t,e){var n;switch(t){case"tab":n=!o(e);break;default:n=!0}return n},_checkLanguageDirection:function(){var t=(this.$input.css("direction")||"ltr").toLowerCase();this.dir!==t&&(this.dir=t,this.$hint.attr("dir",t),this.trigger("langDirChanged",t))},_setQuery:function(t,e){var n,i,o,a;o=t,a=this.query,i=!!(n=r.normalizeQuery(o)===r.normalizeQuery(a))&&this.query.length!==t.length,this.query=t,e||n?!e&&i&&this.trigger("whitespaceChanged",this.query):this.trigger("queryChanged",this.query)},bind:function(){var t,r,i,o,a=this;return t=e.bind(this._onBlur,this),r=e.bind(this._onFocus,this),i=e.bind(this._onKeydown,this),o=e.bind(this._onInput,this),this.$input.on("blur.tt",t).on("focus.tt",r).on("keydown.tt",i),!e.isMsie()||e.isMsie()>9?this.$input.on("input.tt",o):this.$input.on("keydown.tt keypress.tt cut.tt paste.tt",function(t){n[t.which||t.keyCode]||e.defer(e.bind(a._onInput,a,t))}),this},focus:function(){this.$input.focus()},blur:function(){this.$input.blur()},getLangDir:function(){return this.dir},getQuery:function(){return this.query||""},setQuery:function(t,e){this.setInputValue(t),this._setQuery(t,e)},hasQueryChangedSinceLastFocus:function(){return this.query!==this.queryWhenFocused},getInputValue:function(){return this.$input.val()},setInputValue:function(t){this.$input.val(t),this.clearHintIfInvalid(),this._checkLanguageDirection()},resetInputValue:function(){this.setInputValue(this.query)},getHint:function(){return this.$hint.val()},setHint:function(t){this.$hint.val(t)},clearHint:function(){this.setHint("")},clearHintIfInvalid:function(){var t,e,n;n=(t=this.getInputValue())!==(e=this.getHint())&&0===e.indexOf(t),!(""!==t&&n&&!this.hasOverflow())&&this.clearHint()},hasFocus:function(){return this.$input.is(":focus")},hasOverflow:function(){var t=this.$input.width()-2;return this.$overflowHelper.text(this.getInputValue()),this.$overflowHelper.width()>=t},isCursorAtEnd:function(){var t,n,r;return t=this.$input.val().length,n=this.$input[0].selectionStart,e.isNumber(n)?n===t:!document.selection||((r=document.selection.createRange()).moveStart("character",-t),t===r.text.length)},destroy:function(){this.$hint.off(".tt"),this.$input.off(".tt"),this.$overflowHelper.remove(),this.$hint=this.$input=this.$overflowHelper=t("<div>")}}),r;function o(t){return t.altKey||t.ctrlKey||t.metaKey||t.shiftKey}}(),s=function(){"use strict";var n,r;function a(n,i){var o;(n=n||{}).templates=n.templates||{},n.templates.notFound=n.templates.notFound||n.templates.empty,n.source||t.error("missing source"),n.node||t.error("missing node"),n.name&&(o=n.name,!/^[_a-zA-Z0-9-]+$/.test(o))&&t.error("invalid dataset name: "+n.name),i.mixin(this),this.highlight=!!n.highlight,this.name=n.name||r(),this.limit=n.limit||5,this.displayFn=function(t){return t=t||e.stringify,e.isFunction(t)?t:function(e){return e[t]}}(n.display||n.displayKey),this.templates=function(n,r){return{notFound:n.notFound&&e.templatify(n.notFound),pending:n.pending&&e.templatify(n.pending),header:n.header&&e.templatify(n.header),footer:n.footer&&e.templatify(n.footer),suggestion:n.suggestion||function(e){return t("<div>").text(r(e))}}}(n.templates,this.displayFn),this.source=n.source.__ttAdapter?n.source.__ttAdapter():n.source,this.async=e.isUndefined(n.async)?this.source.length>2:!!n.async,this._resetLastSuggestion(),this.$el=t(n.node).addClass(this.classes.dataset).addClass(this.classes.dataset+"-"+this.name)}return n={val:"tt-selectable-display",obj:"tt-selectable-object"},r=e.getIdGenerator(),a.extractData=function(e){var r=t(e);return r.data(n.obj)?{val:r.data(n.val)||"",obj:r.data(n.obj)||null}:null},e.mixin(a.prototype,i,{_overwrite:function(t,e){(e=e||[]).length?this._renderSuggestions(t,e):this.async&&this.templates.pending?this._renderPending(t):!this.async&&this.templates.notFound?this._renderNotFound(t):this._empty(),this.trigger("rendered",this.name,e,!1)},_append:function(t,e){(e=e||[]).length&&this.$lastSuggestion.length?this._appendSuggestions(t,e):e.length?this._renderSuggestions(t,e):!this.$lastSuggestion.length&&this.templates.notFound&&this._renderNotFound(t),this.trigger("rendered",this.name,e,!0)},_renderSuggestions:function(t,e){var n;n=this._getSuggestionsFragment(t,e),this.$lastSuggestion=n.children().last(),this.$el.html(n).prepend(this._getHeader(t,e)).append(this._getFooter(t,e))},_appendSuggestions:function(t,e){var n,r;r=(n=this._getSuggestionsFragment(t,e)).children().last(),this.$lastSuggestion.after(n),this.$lastSuggestion=r},_renderPending:function(t){var e=this.templates.pending;this._resetLastSuggestion(),e&&this.$el.html(e({query:t,dataset:this.name}))},_renderNotFound:function(t){var e=this.templates.notFound;this._resetLastSuggestion(),e&&this.$el.html(e({query:t,dataset:this.name}))},_empty:function(){this.$el.empty(),this._resetLastSuggestion()},_getSuggestionsFragment:function(r,i){var a,s=this;return a=document.createDocumentFragment(),e.each(i,function(e){var i,o;o=s._injectQuery(r,e),i=t(s.templates.suggestion(o)).data(n.obj,e).data(n.val,s.displayFn(e)).addClass(s.classes.suggestion+" "+s.classes.selectable),a.appendChild(i[0])}),this.highlight&&o({className:this.classes.highlight,node:a,pattern:r}),t(a)},_getFooter:function(t,e){return this.templates.footer?this.templates.footer({query:t,suggestions:e,dataset:this.name}):null},_getHeader:function(t,e){return this.templates.header?this.templates.header({query:t,suggestions:e,dataset:this.name}):null},_resetLastSuggestion:function(){this.$lastSuggestion=t()},_injectQuery:function(t,n){return e.isObject(n)?e.mixin({_query:t},n):n},update:function(e){var n=this,r=!1,i=!1,o=0;function a(t){i||(i=!0,t=(t||[]).slice(0,n.limit),o=t.length,n._overwrite(e,t),o<n.limit&&n.async&&n.trigger("asyncRequested",e))}this.cancel(),this.cancel=function(){r=!0,n.cancel=t.noop,n.async&&n.trigger("asyncCanceled",e)},this.source(e,a,function(i){i=i||[],!r&&o<n.limit&&(n.cancel=t.noop,o+=i.length,n._append(e,i.slice(0,n.limit-o)),n.async&&n.trigger("asyncReceived",e))}),!i&&a([])},cancel:t.noop,clear:function(){this._empty(),this.cancel(),this.trigger("cleared")},isEmpty:function(){return this.$el.is(":empty")},destroy:function(){this.$el=t("<div>")}}),a}(),l=function(){"use strict";function n(n,r){var i=this;(n=n||{}).node||t.error("node is required"),r.mixin(this),this.$node=t(n.node),this.query=null,this.datasets=e.map(n.datasets,function(e){var n=i.$node.find(e.node).first();return e.node=n.length?n:t("<div>").appendTo(i.$node),new s(e,r)})}return e.mixin(n.prototype,i,{_onSelectableClick:function(e){this.trigger("selectableClicked",t(e.currentTarget))},_onRendered:function(t,e,n,r){this.$node.toggleClass(this.classes.empty,this._allDatasetsEmpty()),this.trigger("datasetRendered",e,n,r)},_onCleared:function(){this.$node.toggleClass(this.classes.empty,this._allDatasetsEmpty()),this.trigger("datasetCleared")},_propagate:function(){this.trigger.apply(this,arguments)},_allDatasetsEmpty:function(){return e.every(this.datasets,function(t){return t.isEmpty()})},_getSelectables:function(){return this.$node.find(this.selectors.selectable)},_removeCursor:function(){var t=this.getActiveSelectable();t&&t.removeClass(this.classes.cursor)},_ensureVisible:function(t){var e,n,r,i;n=(e=t.position().top)+t.outerHeight(!0),r=this.$node.scrollTop(),i=this.$node.height()+parseInt(this.$node.css("paddingTop"),10)+parseInt(this.$node.css("paddingBottom"),10),e<0?this.$node.scrollTop(r+e):i<n&&this.$node.scrollTop(r+(n-i))},bind:function(){var t,n=this;return t=e.bind(this._onSelectableClick,this),this.$node.on("click.tt",this.selectors.selectable,t),e.each(this.datasets,function(t){t.onSync("asyncRequested",n._propagate,n).onSync("asyncCanceled",n._propagate,n).onSync("asyncReceived",n._propagate,n).onSync("rendered",n._onRendered,n).onSync("cleared",n._onCleared,n)}),this},isOpen:function(){return this.$node.hasClass(this.classes.open)},open:function(){this.$node.addClass(this.classes.open)},close:function(){this.$node.removeClass(this.classes.open),this._removeCursor()},setLanguageDirection:function(t){this.$node.attr("dir",t)},selectableRelativeToCursor:function(t){var e,n,r;return n=this.getActiveSelectable(),e=this._getSelectables(),-1===(r=(r=((r=(n?e.index(n):-1)+t)+1)%(e.length+1)-1)<-1?e.length-1:r)?null:e.eq(r)},setCursor:function(t){this._removeCursor(),(t=t&&t.first())&&(t.addClass(this.classes.cursor),this._ensureVisible(t))},getSelectableData:function(t){return t&&t.length?s.extractData(t):null},getActiveSelectable:function(){var t=this._getSelectables().filter(this.selectors.cursor).first();return t.length?t:null},getTopSelectable:function(){var t=this._getSelectables().first();return t.length?t:null},update:function(t){var n=t!==this.query;return n&&(this.query=t,e.each(this.datasets,function(e){e.update(t)})),n},empty:function(){e.each(this.datasets,function(t){t.clear()}),this.query=null,this.$node.addClass(this.classes.empty)},destroy:function(){this.$node.off(".tt"),this.$node=t("<div>"),e.each(this.datasets,function(t){t.destroy()})}}),n}(),c=function(){"use strict";var t=l.prototype;function n(){l.apply(this,[].slice.call(arguments,0))}return e.mixin(n.prototype,l.prototype,{open:function(){return!this._allDatasetsEmpty()&&this._show(),t.open.apply(this,[].slice.call(arguments,0))},close:function(){return this._hide(),t.close.apply(this,[].slice.call(arguments,0))},_onRendered:function(){return this._allDatasetsEmpty()?this._hide():this.isOpen()&&this._show(),t._onRendered.apply(this,[].slice.call(arguments,0))},_onCleared:function(){return this._allDatasetsEmpty()?this._hide():this.isOpen()&&this._show(),t._onCleared.apply(this,[].slice.call(arguments,0))},setLanguageDirection:function(e){return this.$node.css("ltr"===e?this.css.ltr:this.css.rtl),t.setLanguageDirection.apply(this,[].slice.call(arguments,0))},_hide:function(){this.$node.hide()},_show:function(){this.$node.css("display","block")}}),n}(),u=function(){"use strict";function n(n,i){var o,a,s,l,c,u,h,d,f,p,g;(n=n||{}).input||t.error("missing input"),n.menu||t.error("missing menu"),n.eventBus||t.error("missing event bus"),i.mixin(this),this.eventBus=n.eventBus,this.minLength=e.isNumber(n.minLength)?n.minLength:1,this.input=n.input,this.menu=n.menu,this.enabled=!0,this.active=!1,this.input.hasFocus()&&this.activate(),this.dir=this.input.getLangDir(),this._hacks(),this.menu.bind().onSync("selectableClicked",this._onSelectableClicked,this).onSync("asyncRequested",this._onAsyncRequested,this).onSync("asyncCanceled",this._onAsyncCanceled,this).onSync("asyncReceived",this._onAsyncReceived,this).onSync("datasetRendered",this._onDatasetRendered,this).onSync("datasetCleared",this._onDatasetCleared,this),o=r(this,"activate","open","_onFocused"),a=r(this,"deactivate","_onBlurred"),s=r(this,"isActive","isOpen","_onEnterKeyed"),l=r(this,"isActive","isOpen","_onTabKeyed"),c=r(this,"isActive","_onEscKeyed"),u=r(this,"isActive","open","_onUpKeyed"),h=r(this,"isActive","open","_onDownKeyed"),d=r(this,"isActive","isOpen","_onLeftKeyed"),f=r(this,"isActive","isOpen","_onRightKeyed"),p=r(this,"_openIfActive","_onQueryChanged"),g=r(this,"_openIfActive","_onWhitespaceChanged"),this.input.bind().onSync("focused",o,this).onSync("blurred",a,this).onSync("enterKeyed",s,this).onSync("tabKeyed",l,this).onSync("escKeyed",c,this).onSync("upKeyed",u,this).onSync("downKeyed",h,this).onSync("leftKeyed",d,this).onSync("rightKeyed",f,this).onSync("queryChanged",p,this).onSync("whitespaceChanged",g,this).onSync("langDirChanged",this._onLangDirChanged,this)}return e.mixin(n.prototype,{_hacks:function(){var n,r;n=this.input.$input||t("<div>"),r=this.menu.$node||t("<div>"),n.on("blur.tt",function(t){var i,o,a;i=document.activeElement,o=r.is(i),a=r.has(i).length>0,e.isMsie()&&(o||a)&&(t.preventDefault(),t.stopImmediatePropagation(),e.defer(function(){n.focus()}))}),r.on("mousedown.tt",function(t){t.preventDefault()})},_onSelectableClicked:function(t,e){this.select(e)},_onDatasetCleared:function(){this._updateHint()},_onDatasetRendered:function(t,e,n,r){this._updateHint(),this.eventBus.trigger("render",n,r,e)},_onAsyncRequested:function(t,e,n){this.eventBus.trigger("asyncrequest",n,e)},_onAsyncCanceled:function(t,e,n){this.eventBus.trigger("asynccancel",n,e)},_onAsyncReceived:function(t,e,n){this.eventBus.trigger("asyncreceive",n,e)},_onFocused:function(){this._minLengthMet()&&this.menu.update(this.input.getQuery())},_onBlurred:function(){this.input.hasQueryChangedSinceLastFocus()&&this.eventBus.trigger("change",this.input.getQuery())},_onEnterKeyed:function(t,e){var n;(n=this.menu.getActiveSelectable())&&this.select(n)&&e.preventDefault()},_onTabKeyed:function(t,e){var n;(n=this.menu.getActiveSelectable())?this.select(n)&&e.preventDefault():(n=this.menu.getTopSelectable())&&this.autocomplete(n)&&e.preventDefault()},_onEscKeyed:function(){this.close()},_onUpKeyed:function(){this.moveCursor(-1)},_onDownKeyed:function(){this.moveCursor(1)},_onLeftKeyed:function(){"rtl"===this.dir&&this.input.isCursorAtEnd()&&this.autocomplete(this.menu.getTopSelectable())},_onRightKeyed:function(){"ltr"===this.dir&&this.input.isCursorAtEnd()&&this.autocomplete(this.menu.getTopSelectable())},_onQueryChanged:function(t,e){this._minLengthMet(e)?this.menu.update(e):this.menu.empty()},_onWhitespaceChanged:function(){this._updateHint()},_onLangDirChanged:function(t,e){this.dir!==e&&(this.dir=e,this.menu.setLanguageDirection(e))},_openIfActive:function(){this.isActive()&&this.open()},_minLengthMet:function(t){return(t=e.isString(t)?t:this.input.getQuery()||"").length>=this.minLength},_updateHint:function(){var t,n,r,i,o,s;t=this.menu.getTopSelectable(),n=this.menu.getSelectableData(t),r=this.input.getInputValue(),!n||e.isBlankString(r)||this.input.hasOverflow()?this.input.clearHint():(i=a.normalizeQuery(r),o=e.escapeRegExChars(i),(s=new RegExp("^(?:"+o+")(.+$)","i").exec(n.val))&&this.input.setHint(r+s[1]))},isEnabled:function(){return this.enabled},enable:function(){this.enabled=!0},disable:function(){this.enabled=!1},isActive:function(){return this.active},activate:function(){return!!this.isActive()||!(!this.isEnabled()||this.eventBus.before("active"))&&(this.active=!0,this.eventBus.trigger("active"),!0)},deactivate:function(){return!this.isActive()||!this.eventBus.before("idle")&&(this.active=!1,this.close(),this.eventBus.trigger("idle"),!0)},isOpen:function(){return this.menu.isOpen()},open:function(){return this.isOpen()||this.eventBus.before("open")||(this.menu.open(),this._updateHint(),this.eventBus.trigger("open")),this.isOpen()},close:function(){return this.isOpen()&&!this.eventBus.before("close")&&(this.menu.close(),this.input.clearHint(),this.input.resetInputValue(),this.eventBus.trigger("close")),!this.isOpen()},setVal:function(t){this.input.setQuery(e.toStr(t))},getVal:function(){return this.input.getQuery()},select:function(t){var e=this.menu.getSelectableData(t);return!(!e||this.eventBus.before("select",e.obj))&&(this.input.setQuery(e.val,!0),this.eventBus.trigger("select",e.obj),this.close(),!0)},autocomplete:function(t){var e,n;return e=this.input.getQuery(),!(!((n=this.menu.getSelectableData(t))&&e!==n.val)||this.eventBus.before("autocomplete",n.obj))&&(this.input.setQuery(n.val),this.eventBus.trigger("autocomplete",n.obj),!0)},moveCursor:function(t){var e,n,r,i;return e=this.input.getQuery(),n=this.menu.selectableRelativeToCursor(t),i=(r=this.menu.getSelectableData(n))?r.obj:null,!(this._minLengthMet()&&this.menu.update(e))&&!this.eventBus.before("cursorchange",i)&&(this.menu.setCursor(n),r?this.input.setInputValue(r.val):(this.input.resetInputValue(),this._updateHint()),this.eventBus.trigger("cursorchange",i),!0)},destroy:function(){this.input.destroy(),this.menu.destroy()}}),n;function r(t){var n=[].slice.call(arguments,1);return function(){var r=[].slice.call(arguments);e.each(n,function(e){return t[e].apply(t,r)})}}}();!function(){"use strict";var i,o,s;function h(e,n){e.each(function(){var e,r=t(this);(e=r.data(o.typeahead))&&n(e,r)})}function d(n){var r;return(r=e.isJQuery(n)||e.isElement(n)?t(n).first():[]).length?r:null}i=t.fn.typeahead,o={www:"tt-www",attrs:"tt-attrs",typeahead:"tt-typeahead"},s={initialize:function(i,s){var h;return s=e.isArray(s)?s:[].slice.call(arguments,1),h=n((i=i||{}).classNames),this.each(function(){var n,f,p,g,v,y,b,m,_,k,w;e.each(s,function(t){t.highlight=!!i.highlight}),n=t(this),f=t(h.html.wrapper),p=d(i.hint),g=d(i.menu),v=!1!==i.hint&&!p,y=!1!==i.menu&&!g,v&&(p=function(t,e){return t.clone().addClass(e.classes.hint).removeData().css(e.css.hint).css((n=t,{backgroundAttachment:n.css("background-attachment"),backgroundClip:n.css("background-clip"),backgroundColor:n.css("background-color"),backgroundImage:n.css("background-image"),backgroundOrigin:n.css("background-origin"),backgroundPosition:n.css("background-position"),backgroundRepeat:n.css("background-repeat"),backgroundSize:n.css("background-size")})).prop("readonly",!0).removeAttr("id name placeholder required").attr({autocomplete:"off",spellcheck:"false",tabindex:-1});var n}(n,h)),y&&(g=t(h.html.menu).css(h.css.menu)),p&&p.val(""),n=function(t,e){t.data(o.attrs,{dir:t.attr("dir"),autocomplete:t.attr("autocomplete"),spellcheck:t.attr("spellcheck"),style:t.attr("style")}),t.addClass(e.classes.input).attr({autocomplete:"off",spellcheck:!1});try{!t.attr("dir")&&t.attr("dir","auto")}catch(t){}return t}(n,h),(v||y)&&(f.css(h.css.wrapper),n.css(v?h.css.input:h.css.inputWithNoHint),n.wrap(f).parent().prepend(v?p:null).append(y?g:null));w=y?c:l,b=new r({el:n}),m=new a({hint:p,input:n},h),_=new w({node:g,datasets:s},h),k=new u({input:m,menu:_,eventBus:b,minLength:i.minLength},h),n.data(o.www,h),n.data(o.typeahead,k)})},isEnabled:function(){var t;return h(this.first(),function(e){t=e.isEnabled()}),t},enable:function(){return h(this,function(t){t.enable()}),this},disable:function(){return h(this,function(t){t.disable()}),this},isActive:function(){var t;return h(this.first(),function(e){t=e.isActive()}),t},activate:function(){return h(this,function(t){t.activate()}),this},deactivate:function(){return h(this,function(t){t.deactivate()}),this},isOpen:function(){var t;return h(this.first(),function(e){t=e.isOpen()}),t},open:function(){return h(this,function(t){t.open()}),this},close:function(){return h(this,function(t){t.close()}),this},select:function(e){var n=!1,r=t(e);return h(this.first(),function(t){n=t.select(r)}),n},autocomplete:function(e){var n=!1,r=t(e);return h(this.first(),function(t){n=t.autocomplete(r)}),n},moveCursor:function(t){var e=!1;return h(this.first(),function(n){e=n.moveCursor(t)}),e},val:function(t){var e;return arguments.length?(h(this,function(e){e.setVal(t)}),this):(h(this.first(),function(t){e=t.getVal()}),e)},destroy:function(){return h(this,function(t,n){!function(t){var n,r;n=t.data(o.www),r=t.parent().filter(n.selectors.wrapper),e.each(t.data(o.attrs),function(n,r){e.isUndefined(n)?t.removeAttr(r):t.attr(r,n)}),t.removeData(o.typeahead).removeData(o.www).removeData(o.attr).removeClass(n.classes.input),r.length&&(t.detach().insertAfter(r),r.remove())}(n),t.destroy()}),this}},t.fn.typeahead=function(t){return s[t]?s[t].apply(this,[].slice.call(arguments,1)):s.initialize.apply(this,arguments)},t.fn.typeahead.noConflict=function(){return t.fn.typeahead=i,this}}()});let AbilityManager=function(){function t(t,e,n=!1){this.container=jQuery("#"+t),this.class_prefix=e,this.abilities=[],this.edit_only=n}return t.prototype.addAbility=function(){let t=this.abilities.length,e=jQuery('<div class="'+this.class_prefix+'_container border border-info rounded p-2 m-2" id="'+this.class_prefix+"_"+t+'"></div>');e.append('<input type="hidden" name="'+this.class_prefix+"_id_"+this.index+'_input" id="'+this.class_prefix+"_id_"+this.index+'_input" class="ability_id" />');let n=jQuery('<div class="form-group"></div>');n.append(jQuery('<label for="'+this.class_prefix+"_name_"+this.index+'_input">Name</label>')),n.append(jQuery('<input type="text" name="'+this.class_prefix+"_name_"+this.index+'_input" id="'+this.class_prefix+"_name_"+this.index+'_input" class="form-control ability_name" />')),e.append(n);let r=jQuery('<div class="form-group"></div>');r.append(jQuery('<label for="'+this.class_prefix+"_desc_"+this.index+'_input">Description</label>')),r.append(jQuery('<textarea name="'+this.class_prefix+"_desc_"+this.index+'_input" id="'+this.class_prefix+"_desc_"+this.index+'_input" class="form-control ability_description"></textarea>')),e.append(r);let i=jQuery('<button type="button" class="btn btn-danger btn-block">Remove This Ability</button>');i.click($.proxy(this.removeAbility,this,t)),e.append(i),this.container.append(e),this.abilities.push(e)},t.prototype.removeAbility=function(t){let e=this.abilities.splice(t,1);jQuery(e).remove(),jQuery("#"+this.class_prefix+"_"+t).remove()},t.prototype.getAbilities=function(){let t=[];for(let e=0;e<this.abilities.length;e++)t.push({name:this.abilities[e].find(".ability_name").val(),description:this.abilities[e].find(".ability_description").val(),id:this.abilities[e].find(".ability_id").val()});return t},t.prototype.loadAbilities=function(t){let e=this.abilities.length;for(var n=0;n<t.length;n++){let r=e+n,i="";if(this.edit_only)(i=jQuery('<div class="alert alert-info"></div>')).append(jQuery('<h4 class="alert-heading border-bottom">'+t[n].name+"</h4>")),i.append(jQuery("<p>"+t[n].description+"</p>"));else{(i=jQuery('<div class="'+this.class_prefix+'_container border border-info rounded p-2 m-2" id="'+this.class_prefix+"_"+r+'"></div>')).append('<input type="hidden" name="'+this.class_prefix+"_id_"+this.index+'_input" id="'+this.class_prefix+"_id_"+this.index+'_input" value="'+t[n].id+'" class="ability_id" />');let e=jQuery('<div class="form-group"></div>');e.append(jQuery('<label for="'+this.class_prefix+"_name_"+this.index+'_input">Name</label>')),e.append(jQuery('<input type="text" name="'+this.class_prefix+"_name_"+this.index+'_input" id="'+this.class_prefix+"_name_"+this.index+'_input" class="form-control ability_name" value="'+t[n].name+'"/>')),i.append(e);let o=jQuery('<div class="form-group"></div>');o.append(jQuery('<label for="'+this.class_prefix+"_desc_"+this.index+'_input">Description</label>')),o.append(jQuery('<textarea name="'+this.class_prefix+"_desc_"+this.index+'_input" id="'+this.class_prefix+"_desc_"+this.index+'_input" class="form-control ability_description">'+t[n].description+"</textarea>")),i.append(o);let a=jQuery('<button type="button" class="btn btn-danger btn-block">Remove This Ability</button>');a.click($.proxy(this.removeAbility,this,r)),i.append(a)}this.container.append(i),this.abilities.push(i)}},t}(),MonsterManager=function(){function MonsterManager(t,e,n,r){this.container=jQuery("#"+t),this.textInput=jQuery("#"+e),this.dataUrl=n,this.cr_container=jQuery("#"+r),this.monsters=[];let i=this;this.textInput.typeahead({minLength:3,highlight:!0},{name:"monsters",async:!0,limit:10,display:function(t){return t.name},source:function(t,e,n){return jQuery.get(i.dataUrl,{query:t},function(t){return n(t)})}}),this.textInput.bind("typeahead:select",function(t,e){i.addMonster(e)})}return MonsterManager.prototype.buildMonsterList=function(){this.monsters.sort((t,e)=>t.name>e.name?1:e.name>t.name?-1:0);let ul_container=jQuery('<ul class="list-group"></ul>'),cr=0;for(let i=0;i<this.monsters.length;i++){let il_container=jQuery('<li class="list-group-item d-flex justify-content-between align-items-center" idx="'+i+'"></li>');il_container.append("<h5>"+this.monsters[i].name);let control_span=jQuery('<span class="monster_control_span"></span>'),copy_button=jQuery('<button type="button" class="btn btn-primary btn-sm mr-2"><span class="fa fa-copy"></span></button>');copy_button.click($.proxy(this.copyMonster,this,i)),control_span.append(copy_button);let delete_button=jQuery('<button type="button" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></button>');delete_button.click($.proxy(this.removeMonster,this,i)),control_span.append(delete_button),il_container.append(control_span),ul_container.append(il_container),cr+=eval(this.monsters[i].cr)}this.container.empty(),this.container.append(ul_container),this.cr_container.html(Math.floor(cr).toString())},MonsterManager.prototype.addMonster=function(t){this.monsters.push(t),this.buildMonsterList(),this.textInput.typeahead("val",""),this.textInput.typeahead("close")},MonsterManager.prototype.removeMonster=function(t){this.monsters.splice(t,1),this.buildMonsterList()},MonsterManager.prototype.copyMonster=function(t){this.monsters.push(JSON.parse(JSON.stringify(this.monsters[t]))),this.buildMonsterList()},MonsterManager.prototype.getMonsters=function(){return this.monsters},MonsterManager.prototype.loadMonsters=function(t){this.monsters=t,this.buildMonsterList()},MonsterManager}(),EncounterManager=function(){function t(t,e){this.container=jQuery("#"+t),this.dataUrl=e,this.encounters=[],this.loaded=!1,this.selection=null;let n=jQuery('<div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" id="encounterSearchLabel">Filter Encounters: </span></div>');this.filterInput=jQuery('<input type="text" class="form-control" placeholder="Encounter" aria-label="Encounter" aria-describedby="encounterSearchLabel" name="encounterSearch" id="encounterSearch">'),this.filterInput.keyup(debounce($.proxy(this.filterEncounters,this))),n.append(this.filterInput),this.container.append(n),this.encounterContainer=jQuery('<div class="list-group"></div>'),this.container.append(this.encounterContainer);var r=this;axios.get(this.dataUrl).then(function(t){r.encounters=t.data,r.buildEncounters()}).catch(function(t){console.log(t)})}return t.prototype.buildEncounters=function(){this.encounterContainer.empty();for(let t=0;t<this.encounters.length;t++){let e=jQuery('<label class="list-group-item" encounter_id="'+this.encounters[t].id+'" for="encounters_'+this.encounters[t].id+'"></label>'),n=jQuery('<div class="d-flex justify-content-between align-items-center"></div>'),r=jQuery('<div class="form-check"></div>'),i=jQuery('<input class="form-check-input" type="checkbox" name="encounters[]" value="'+this.encounters[t].id+'" id="encounters_'+this.encounters[t].id+'">');r.append(i),r.append("<span>"+this.encounters[t].name+"</span>"),i.click(function(){jQuery(this).is(":checked")?jQuery("label[encounter_id="+jQuery(this).val()+"]").addClass("active"):jQuery("label[encounter_id="+jQuery(this).val()+"]").removeClass("active")}),n.append(r),n.append('<span class="tier_span"><strong>CR: </strong>'+this.encounters[t].cr+"</span>"),e.append(n),this.encounterContainer.append(e)}this.loaded=!0,this.selectEncounters()},t.prototype.selectEncounters=function(){if(this.loaded&&null!=this.selection){this.encounterContainer.find("label").removeClass("active"),this.encounterContainer.find("label input[type=checkbox]").removeAttr("checked");for(let t=0;t<this.selection.length;t++)this.encounterContainer.find("label[encounter_id="+this.selection[t]+"]").addClass("active"),this.encounterContainer.find("label[encounter_id="+this.selection[t]+"] input[type=checkbox]").attr("checked","checked")}},t.prototype.filterEncounters=function(){jQuery.expr[":"].contains=function(t,e,n){return jQuery(t).text().toUpperCase().indexOf(n[3].toUpperCase())>=0};let t=this.filterInput.val();this.encounterContainer.find("li").hide(),this.encounterContainer.find('label:contains("'+t+'")').show()},t.prototype.loadSelection=function(t){this.selection=t,this.selectEncounters()},t}();!function(t){"use strict";!function(t,e,n,r){var i=".tocify-subheader",o=".list-group-item";t.widget("toc.tocify",{version:"1.9.0",options:{context:"body",ignoreSelector:null,selectors:"h1, h2, h3",showAndHide:!0,showEffect:"slideDown",showEffectSpeed:"medium",hideEffect:"slideUp",hideEffectSpeed:"medium",smoothScroll:!0,smoothScrollSpeed:"medium",scrollTo:0,showAndHideOnScroll:!0,highlightOnScroll:!0,highlightOffset:40,theme:"bootstrap",extendPage:!0,extendPageOffset:100,history:!0,scrollHistory:!1,hashGenerator:"compact",highlightDefault:!0},_create:function(){var n=this;n.extendPageScroll=!0,n.items=[],n._generateToc(),n._addCSSClasses(),n.webkit=function(){for(var t in e)if(t&&-1!==t.toLowerCase().indexOf("webkit"))return!0;return!1}(),n._setEventHandlers(),t(e).on("load",function(){n._setActiveElement(!0),t("html, body").promise().done(function(){setTimeout(function(){n.extendPageScroll=!1},0)})})},_generateToc:function(){var e,n,r=this,i=r.options.ignoreSelector;(e=-1!==this.options.selectors.indexOf(",")?t(this.options.context).find(this.options.selectors.replace(/ /g,"").substr(0,this.options.selectors.indexOf(","))):t(this.options.context).find(this.options.selectors.replace(/ /g,""))).length?(r.element.addClass("tocify"),e.each(function(e){t(this).is(i)||(n=t("<ul/>",{id:"list-group"+e,class:"list-group"}).append(r._nestElements(t(this),e)),r.element.append(n),t(this).nextUntil(this.nodeName.toLowerCase()).each(function(){0===t(this).find(r.options.selectors).length?t(this).filter(r.options.selectors).each(function(){t(this).is(i)||r._appendSubheaders.call(this,r,n)}):t(this).find(r.options.selectors).each(function(){t(this).is(i)||r._appendSubheaders.call(this,r,n)})}))})):r.element.addClass("tocify-hide")},_setActiveElement:function(t){var n=e.location.hash.substring(1),r=this.element.find('li[data-unique="'+n+'"]');return n.length?(this.element.find("."+this.focusClass).removeClass(this.focusClass),r.addClass(this.focusClass),this.options.showAndHide&&r.click()):(this.element.find("."+this.focusClass).removeClass(this.focusClass),!n.length&&t&&this.options.highlightDefault&&this.element.find(o).first().addClass(this.focusClass)),this},_nestElements:function(e,n){var r,i,o;return(r=t.grep(this.items,function(t){return t===e.text()})).length?this.items.push(e.text()+n):this.items.push(e.text()),o=this._generateHashValue(r,e,n),i=t("<li/>",{class:"list-group-item list-group-item-action","data-unique":o}).append(t("<a/>",{text:e.text()})),e.before(t("<div/>",{name:o,"data-unique":o})),i},_generateHashValue:function(t,e,n){var r="",i=this.options.hashGenerator;if("pretty"===i){for(r=e.text().toLowerCase().replace(/\s/g,"-");r.indexOf("--")>-1;)r=r.replace(/--/g,"-");for(;r.indexOf(":-")>-1;)r=r.replace(/:-/g,"-")}else r="function"==typeof i?i(e.text(),e):e.text().replace(/\s/g,"");return t.length&&(r+=""+n),r},_appendSubheaders:function(e,n){var r=t(this).index(e.options.selectors),a=t(e.options.selectors).eq(r-1),s=+t(this).prop("tagName").charAt(1),l=+a.prop("tagName").charAt(1);s<l?e.element.find(i+"[data-tag="+s+"]").last().append(e._nestElements(t(this),r)):s===l?n.find(o).last().after(e._nestElements(t(this),r)):n.find(o).last().after(t("<ul/>",{class:"tocify-subheader","data-tag":s})).next(i).append(e._nestElements(t(this),r))},_setEventHandlers:function(){var r=this;this.element.on("click.tocify","li",function(n){if(r.options.history&&(e.location.hash=t(this).attr("data-unique")),r.element.find("."+r.focusClass).removeClass(r.focusClass),t(this).addClass(r.focusClass),r.options.showAndHide){var i=t('li[data-unique="'+t(this).attr("data-unique")+'"]');r._triggerShow(i)}r._scrollTo(t(this))}),this.element.find("li").on({"mouseenter.tocify":function(){t(this).addClass(r.hoverClass),t(this).css("cursor","pointer")},"mouseleave.tocify":function(){"bootstrap"!==r.options.theme&&t(this).removeClass(r.hoverClass)}}),(r.options.extendPage||r.options.highlightOnScroll||r.options.scrollHistory||r.options.showAndHideOnScroll)&&t(e).on("scroll.tocify",function(){t("html, body").promise().done(function(){var i,a,s,l,c=t(e).scrollTop(),u=t(e).height(),h=t(n).height(),d=t("body")[0].scrollHeight;if(r.options.extendPage&&(r.webkit&&c>=d-u-r.options.extendPageOffset||!r.webkit&&u+c>h-r.options.extendPageOffset)&&!t(".tocify-extend-page").length){if(!(a=t('div[data-unique="'+t(o).last().attr("data-unique")+'"]')).length)return;s=a.offset().top,t(r.options.context).append(t("<div />",{class:"tocify-extend-page",height:Math.abs(s-c)+"px","data-unique":"tocify-extend-page"})),r.extendPageScroll&&(l=r.element.find("li.active"),r._scrollTo(t('div[data-unique="'+l.attr("data-unique")+'"]')))}setTimeout(function(){var n,o=null,a=null,s=t(r.options.context).find("div[data-unique]");s.each(function(e){var n=Math.abs((t(this).next().length?t(this).next():t(this)).offset().top-c-r.options.highlightOffset);if(!(null==o||n<o))return!1;o=n,a=e}),n=t(s[a]).attr("data-unique"),i=t('li[data-unique="'+n+'"]'),r.options.highlightOnScroll&&i.length&&(r.element.find("."+r.focusClass).removeClass(r.focusClass),i.addClass(r.focusClass)),r.options.scrollHistory&&e.location.hash!=="#"+n&&e.location.replace("#"+n),r.options.showAndHideOnScroll&&r.options.showAndHide&&r._triggerShow(i,!0)},0)})})},show:function(e,n){if(!e.is(":visible"))switch(e.find(i).length||e.parent().is(".list-group")||e.parent().is(":visible")?e.children(i).length||e.parent().is(".list-group")||(e=e.closest(i)):e=e.parents(i).add(e),this.options.showEffect){case"none":e.show();break;case"show":e.show(this.options.showEffectSpeed);break;case"slideDown":e.slideDown(this.options.showEffectSpeed);break;case"fadeIn":e.fadeIn(this.options.showEffectSpeed);break;default:e.show()}return e.parent().is(".list-group")?this.hide(t(i).not(e)):this.hide(t(i).not(e.closest(".list-group").find(i).not(e.siblings()))),this},hide:function(t){switch(this.options.hideEffect){case"none":t.hide();break;case"hide":t.hide(this.options.hideEffectSpeed);break;case"slideUp":t.slideUp(this.options.hideEffectSpeed);break;case"fadeOut":t.fadeOut(this.options.hideEffectSpeed);break;default:t.hide()}return this},_triggerShow:function(t,e){return t.parent().is(".list-group")||t.next().is(i)?this.show(t.next(i),e):t.parent().is(i)&&this.show(t.parent(),e),this},_addCSSClasses:function(){return"jqueryui"===this.options.theme?(this.focusClass="ui-state-default",this.hoverClass="ui-state-hover",this.element.addClass("ui-widget").find(".toc-title").addClass("ui-widget-header").end().find("li").addClass("ui-widget-content")):"bootstrap"===this.options.theme?(this.element.find(".list-group,"+i).addClass("nav nav-list"),this.focusClass="active"):(this.focusClass="active",this.hoverClass="list-group-item-action"),this},setOption:function(){t.Widget.prototype._setOption.apply(this,arguments)},setOptions:function(){t.Widget.prototype._setOptions.apply(this,arguments)},_scrollTo:function(e){var n=this.options.smoothScroll||0,r=this.options.scrollTo,i=t('div[data-unique="'+e.attr("data-unique")+'"]');return i.length?(t("html, body").promise().done(function(){t("html, body").animate({scrollTop:i.offset().top-(t.isFunction(r)?r.call():r)+"px"},{duration:n})}),this):this}})}(window.jQuery,window,document)}();
+/*! DataTables 1.10.19
+ * ©2008-2018 SpryMedia Ltd - datatables.net/license
+ */
+
+/**
+ * @summary     DataTables
+ * @description Paginate, search and order HTML tables
+ * @version     1.10.19
+ * @file        jquery.dataTables.js
+ * @author      SpryMedia Ltd
+ * @contact     www.datatables.net
+ * @copyright   Copyright 2008-2018 SpryMedia Ltd.
+ *
+ * This source file is free software, available under the following license:
+ *   MIT license - http://datatables.net/license
+ *
+ * This source file is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
+ *
+ * For details please refer to: http://www.datatables.net
+ */
+
+/*jslint evil: true, undef: true, browser: true */
+/*globals $,require,jQuery,define,_selector_run,_selector_opts,_selector_first,_selector_row_indexes,_ext,_Api,_api_register,_api_registerPlural,_re_new_lines,_re_html,_re_formatted_numeric,_re_escape_regex,_empty,_intVal,_numToDecimal,_isNumber,_isHtml,_htmlNumeric,_pluck,_pluck_order,_range,_stripHtml,_unique,_fnBuildAjax,_fnAjaxUpdate,_fnAjaxParameters,_fnAjaxUpdateDraw,_fnAjaxDataSrc,_fnAddColumn,_fnColumnOptions,_fnAdjustColumnSizing,_fnVisibleToColumnIndex,_fnColumnIndexToVisible,_fnVisbleColumns,_fnGetColumns,_fnColumnTypes,_fnApplyColumnDefs,_fnHungarianMap,_fnCamelToHungarian,_fnLanguageCompat,_fnBrowserDetect,_fnAddData,_fnAddTr,_fnNodeToDataIndex,_fnNodeToColumnIndex,_fnGetCellData,_fnSetCellData,_fnSplitObjNotation,_fnGetObjectDataFn,_fnSetObjectDataFn,_fnGetDataMaster,_fnClearTable,_fnDeleteIndex,_fnInvalidate,_fnGetRowElements,_fnCreateTr,_fnBuildHead,_fnDrawHead,_fnDraw,_fnReDraw,_fnAddOptionsHtml,_fnDetectHeader,_fnGetUniqueThs,_fnFeatureHtmlFilter,_fnFilterComplete,_fnFilterCustom,_fnFilterColumn,_fnFilter,_fnFilterCreateSearch,_fnEscapeRegex,_fnFilterData,_fnFeatureHtmlInfo,_fnUpdateInfo,_fnInfoMacros,_fnInitialise,_fnInitComplete,_fnLengthChange,_fnFeatureHtmlLength,_fnFeatureHtmlPaginate,_fnPageChange,_fnFeatureHtmlProcessing,_fnProcessingDisplay,_fnFeatureHtmlTable,_fnScrollDraw,_fnApplyToChildren,_fnCalculateColumnWidths,_fnThrottle,_fnConvertToWidth,_fnGetWidestNode,_fnGetMaxLenString,_fnStringToCss,_fnSortFlatten,_fnSort,_fnSortAria,_fnSortListener,_fnSortAttachListener,_fnSortingClasses,_fnSortData,_fnSaveState,_fnLoadState,_fnSettingsFromNode,_fnLog,_fnMap,_fnBindAction,_fnCallbackReg,_fnCallbackFire,_fnLengthOverflow,_fnRenderer,_fnDataSource,_fnRowAttributes*/
+
+(function( factory ) {
+	"use strict";
+
+	if ( typeof define === 'function' && define.amd ) {
+		// AMD
+		define( ['jquery'], function ( $ ) {
+			return factory( $, window, document );
+		} );
+	}
+	else if ( typeof exports === 'object' ) {
+		// CommonJS
+		module.exports = function (root, $) {
+			if ( ! root ) {
+				// CommonJS environments without a window global must pass a
+				// root. This will give an error otherwise
+				root = window;
+			}
+
+			if ( ! $ ) {
+				$ = typeof window !== 'undefined' ? // jQuery's factory checks for a global window
+					require('jquery') :
+					require('jquery')( root );
+			}
+
+			return factory( $, root, root.document );
+		};
+	}
+	else {
+		// Browser
+		factory( jQuery, window, document );
+	}
+}
+(function( $, window, document, undefined ) {
+	"use strict";
+
+	/**
+	 * DataTables is a plug-in for the jQuery Javascript library. It is a highly
+	 * flexible tool, based upon the foundations of progressive enhancement,
+	 * which will add advanced interaction controls to any HTML table. For a
+	 * full list of features please refer to
+	 * [DataTables.net](href="http://datatables.net).
+	 *
+	 * Note that the `DataTable` object is not a global variable but is aliased
+	 * to `jQuery.fn.DataTable` and `jQuery.fn.dataTable` through which it may
+	 * be  accessed.
+	 *
+	 *  @class
+	 *  @param {object} [init={}] Configuration object for DataTables. Options
+	 *    are defined by {@link DataTable.defaults}
+	 *  @requires jQuery 1.7+
+	 *
+	 *  @example
+	 *    // Basic initialisation
+	 *    $(document).ready( function {
+	 *      $('#example').dataTable();
+	 *    } );
+	 *
+	 *  @example
+	 *    // Initialisation with configuration options - in this case, disable
+	 *    // pagination and sorting.
+	 *    $(document).ready( function {
+	 *      $('#example').dataTable( {
+	 *        "paginate": false,
+	 *        "sort": false
+	 *      } );
+	 *    } );
+	 */
+	var DataTable = function ( options )
+	{
+		/**
+		 * Perform a jQuery selector action on the table's TR elements (from the tbody) and
+		 * return the resulting jQuery object.
+		 *  @param {string|node|jQuery} sSelector jQuery selector or node collection to act on
+		 *  @param {object} [oOpts] Optional parameters for modifying the rows to be included
+		 *  @param {string} [oOpts.filter=none] Select TR elements that meet the current filter
+		 *    criterion ("applied") or all TR elements (i.e. no filter).
+		 *  @param {string} [oOpts.order=current] Order of the TR elements in the processed array.
+		 *    Can be either 'current', whereby the current sorting of the table is used, or
+		 *    'original' whereby the original order the data was read into the table is used.
+		 *  @param {string} [oOpts.page=all] Limit the selection to the currently displayed page
+		 *    ("current") or not ("all"). If 'current' is given, then order is assumed to be
+		 *    'current' and filter is 'applied', regardless of what they might be given as.
+		 *  @returns {object} jQuery object, filtered by the given selector.
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Highlight every second row
+		 *      oTable.$('tr:odd').css('backgroundColor', 'blue');
+		 *    } );
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Filter to rows with 'Webkit' in them, add a background colour and then
+		 *      // remove the filter, thus highlighting the 'Webkit' rows only.
+		 *      oTable.fnFilter('Webkit');
+		 *      oTable.$('tr', {"search": "applied"}).css('backgroundColor', 'blue');
+		 *      oTable.fnFilter('');
+		 *    } );
+		 */
+		this.$ = function ( sSelector, oOpts )
+		{
+			return this.api(true).$( sSelector, oOpts );
+		};
+		
+		
+		/**
+		 * Almost identical to $ in operation, but in this case returns the data for the matched
+		 * rows - as such, the jQuery selector used should match TR row nodes or TD/TH cell nodes
+		 * rather than any descendants, so the data can be obtained for the row/cell. If matching
+		 * rows are found, the data returned is the original data array/object that was used to
+		 * create the row (or a generated array if from a DOM source).
+		 *
+		 * This method is often useful in-combination with $ where both functions are given the
+		 * same parameters and the array indexes will match identically.
+		 *  @param {string|node|jQuery} sSelector jQuery selector or node collection to act on
+		 *  @param {object} [oOpts] Optional parameters for modifying the rows to be included
+		 *  @param {string} [oOpts.filter=none] Select elements that meet the current filter
+		 *    criterion ("applied") or all elements (i.e. no filter).
+		 *  @param {string} [oOpts.order=current] Order of the data in the processed array.
+		 *    Can be either 'current', whereby the current sorting of the table is used, or
+		 *    'original' whereby the original order the data was read into the table is used.
+		 *  @param {string} [oOpts.page=all] Limit the selection to the currently displayed page
+		 *    ("current") or not ("all"). If 'current' is given, then order is assumed to be
+		 *    'current' and filter is 'applied', regardless of what they might be given as.
+		 *  @returns {array} Data for the matched elements. If any elements, as a result of the
+		 *    selector, were not TR, TD or TH elements in the DataTable, they will have a null
+		 *    entry in the array.
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Get the data from the first row in the table
+		 *      var data = oTable._('tr:first');
+		 *
+		 *      // Do something useful with the data
+		 *      alert( "First cell is: "+data[0] );
+		 *    } );
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Filter to 'Webkit' and get all data for
+		 *      oTable.fnFilter('Webkit');
+		 *      var data = oTable._('tr', {"search": "applied"});
+		 *
+		 *      // Do something with the data
+		 *      alert( data.length+" rows matched the search" );
+		 *    } );
+		 */
+		this._ = function ( sSelector, oOpts )
+		{
+			return this.api(true).rows( sSelector, oOpts ).data();
+		};
+		
+		
+		/**
+		 * Create a DataTables Api instance, with the currently selected tables for
+		 * the Api's context.
+		 * @param {boolean} [traditional=false] Set the API instance's context to be
+		 *   only the table referred to by the `DataTable.ext.iApiIndex` option, as was
+		 *   used in the API presented by DataTables 1.9- (i.e. the traditional mode),
+		 *   or if all tables captured in the jQuery object should be used.
+		 * @return {DataTables.Api}
+		 */
+		this.api = function ( traditional )
+		{
+			return traditional ?
+				new _Api(
+					_fnSettingsFromNode( this[ _ext.iApiIndex ] )
+				) :
+				new _Api( this );
+		};
+		
+		
+		/**
+		 * Add a single new row or multiple rows of data to the table. Please note
+		 * that this is suitable for client-side processing only - if you are using
+		 * server-side processing (i.e. "bServerSide": true), then to add data, you
+		 * must add it to the data source, i.e. the server-side, through an Ajax call.
+		 *  @param {array|object} data The data to be added to the table. This can be:
+		 *    <ul>
+		 *      <li>1D array of data - add a single row with the data provided</li>
+		 *      <li>2D array of arrays - add multiple rows in a single call</li>
+		 *      <li>object - data object when using <i>mData</i></li>
+		 *      <li>array of objects - multiple data objects when using <i>mData</i></li>
+		 *    </ul>
+		 *  @param {bool} [redraw=true] redraw the table or not
+		 *  @returns {array} An array of integers, representing the list of indexes in
+		 *    <i>aoData</i> ({@link DataTable.models.oSettings}) that have been added to
+		 *    the table.
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    // Global var for counter
+		 *    var giCount = 2;
+		 *
+		 *    $(document).ready(function() {
+		 *      $('#example').dataTable();
+		 *    } );
+		 *
+		 *    function fnClickAddRow() {
+		 *      $('#example').dataTable().fnAddData( [
+		 *        giCount+".1",
+		 *        giCount+".2",
+		 *        giCount+".3",
+		 *        giCount+".4" ]
+		 *      );
+		 *
+		 *      giCount++;
+		 *    }
+		 */
+		this.fnAddData = function( data, redraw )
+		{
+			var api = this.api( true );
+		
+			/* Check if we want to add multiple rows or not */
+			var rows = $.isArray(data) && ( $.isArray(data[0]) || $.isPlainObject(data[0]) ) ?
+				api.rows.add( data ) :
+				api.row.add( data );
+		
+			if ( redraw === undefined || redraw ) {
+				api.draw();
+			}
+		
+			return rows.flatten().toArray();
+		};
+		
+		
+		/**
+		 * This function will make DataTables recalculate the column sizes, based on the data
+		 * contained in the table and the sizes applied to the columns (in the DOM, CSS or
+		 * through the sWidth parameter). This can be useful when the width of the table's
+		 * parent element changes (for example a window resize).
+		 *  @param {boolean} [bRedraw=true] Redraw the table or not, you will typically want to
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable( {
+		 *        "sScrollY": "200px",
+		 *        "bPaginate": false
+		 *      } );
+		 *
+		 *      $(window).on('resize', function () {
+		 *        oTable.fnAdjustColumnSizing();
+		 *      } );
+		 *    } );
+		 */
+		this.fnAdjustColumnSizing = function ( bRedraw )
+		{
+			var api = this.api( true ).columns.adjust();
+			var settings = api.settings()[0];
+			var scroll = settings.oScroll;
+		
+			if ( bRedraw === undefined || bRedraw ) {
+				api.draw( false );
+			}
+			else if ( scroll.sX !== "" || scroll.sY !== "" ) {
+				/* If not redrawing, but scrolling, we want to apply the new column sizes anyway */
+				_fnScrollDraw( settings );
+			}
+		};
+		
+		
+		/**
+		 * Quickly and simply clear a table
+		 *  @param {bool} [bRedraw=true] redraw the table or not
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Immediately 'nuke' the current rows (perhaps waiting for an Ajax callback...)
+		 *      oTable.fnClearTable();
+		 *    } );
+		 */
+		this.fnClearTable = function( bRedraw )
+		{
+			var api = this.api( true ).clear();
+		
+			if ( bRedraw === undefined || bRedraw ) {
+				api.draw();
+			}
+		};
+		
+		
+		/**
+		 * The exact opposite of 'opening' a row, this function will close any rows which
+		 * are currently 'open'.
+		 *  @param {node} nTr the table row to 'close'
+		 *  @returns {int} 0 on success, or 1 if failed (can't find the row)
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable;
+		 *
+		 *      // 'open' an information row when a row is clicked on
+		 *      $('#example tbody tr').click( function () {
+		 *        if ( oTable.fnIsOpen(this) ) {
+		 *          oTable.fnClose( this );
+		 *        } else {
+		 *          oTable.fnOpen( this, "Temporary row opened", "info_row" );
+		 *        }
+		 *      } );
+		 *
+		 *      oTable = $('#example').dataTable();
+		 *    } );
+		 */
+		this.fnClose = function( nTr )
+		{
+			this.api( true ).row( nTr ).child.hide();
+		};
+		
+		
+		/**
+		 * Remove a row for the table
+		 *  @param {mixed} target The index of the row from aoData to be deleted, or
+		 *    the TR element you want to delete
+		 *  @param {function|null} [callBack] Callback function
+		 *  @param {bool} [redraw=true] Redraw the table or not
+		 *  @returns {array} The row that was deleted
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Immediately remove the first row
+		 *      oTable.fnDeleteRow( 0 );
+		 *    } );
+		 */
+		this.fnDeleteRow = function( target, callback, redraw )
+		{
+			var api = this.api( true );
+			var rows = api.rows( target );
+			var settings = rows.settings()[0];
+			var data = settings.aoData[ rows[0][0] ];
+		
+			rows.remove();
+		
+			if ( callback ) {
+				callback.call( this, settings, data );
+			}
+		
+			if ( redraw === undefined || redraw ) {
+				api.draw();
+			}
+		
+			return data;
+		};
+		
+		
+		/**
+		 * Restore the table to it's original state in the DOM by removing all of DataTables
+		 * enhancements, alterations to the DOM structure of the table and event listeners.
+		 *  @param {boolean} [remove=false] Completely remove the table from the DOM
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      // This example is fairly pointless in reality, but shows how fnDestroy can be used
+		 *      var oTable = $('#example').dataTable();
+		 *      oTable.fnDestroy();
+		 *    } );
+		 */
+		this.fnDestroy = function ( remove )
+		{
+			this.api( true ).destroy( remove );
+		};
+		
+		
+		/**
+		 * Redraw the table
+		 *  @param {bool} [complete=true] Re-filter and resort (if enabled) the table before the draw.
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Re-draw the table - you wouldn't want to do it here, but it's an example :-)
+		 *      oTable.fnDraw();
+		 *    } );
+		 */
+		this.fnDraw = function( complete )
+		{
+			// Note that this isn't an exact match to the old call to _fnDraw - it takes
+			// into account the new data, but can hold position.
+			this.api( true ).draw( complete );
+		};
+		
+		
+		/**
+		 * Filter the input based on data
+		 *  @param {string} sInput String to filter the table on
+		 *  @param {int|null} [iColumn] Column to limit filtering to
+		 *  @param {bool} [bRegex=false] Treat as regular expression or not
+		 *  @param {bool} [bSmart=true] Perform smart filtering or not
+		 *  @param {bool} [bShowGlobal=true] Show the input global filter in it's input box(es)
+		 *  @param {bool} [bCaseInsensitive=true] Do case-insensitive matching (true) or not (false)
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Sometime later - filter...
+		 *      oTable.fnFilter( 'test string' );
+		 *    } );
+		 */
+		this.fnFilter = function( sInput, iColumn, bRegex, bSmart, bShowGlobal, bCaseInsensitive )
+		{
+			var api = this.api( true );
+		
+			if ( iColumn === null || iColumn === undefined ) {
+				api.search( sInput, bRegex, bSmart, bCaseInsensitive );
+			}
+			else {
+				api.column( iColumn ).search( sInput, bRegex, bSmart, bCaseInsensitive );
+			}
+		
+			api.draw();
+		};
+		
+		
+		/**
+		 * Get the data for the whole table, an individual row or an individual cell based on the
+		 * provided parameters.
+		 *  @param {int|node} [src] A TR row node, TD/TH cell node or an integer. If given as
+		 *    a TR node then the data source for the whole row will be returned. If given as a
+		 *    TD/TH cell node then iCol will be automatically calculated and the data for the
+		 *    cell returned. If given as an integer, then this is treated as the aoData internal
+		 *    data index for the row (see fnGetPosition) and the data for that row used.
+		 *  @param {int} [col] Optional column index that you want the data of.
+		 *  @returns {array|object|string} If mRow is undefined, then the data for all rows is
+		 *    returned. If mRow is defined, just data for that row, and is iCol is
+		 *    defined, only data for the designated cell is returned.
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    // Row data
+		 *    $(document).ready(function() {
+		 *      oTable = $('#example').dataTable();
+		 *
+		 *      oTable.$('tr').click( function () {
+		 *        var data = oTable.fnGetData( this );
+		 *        // ... do something with the array / object of data for the row
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Individual cell data
+		 *    $(document).ready(function() {
+		 *      oTable = $('#example').dataTable();
+		 *
+		 *      oTable.$('td').click( function () {
+		 *        var sData = oTable.fnGetData( this );
+		 *        alert( 'The cell clicked on had the value of '+sData );
+		 *      } );
+		 *    } );
+		 */
+		this.fnGetData = function( src, col )
+		{
+			var api = this.api( true );
+		
+			if ( src !== undefined ) {
+				var type = src.nodeName ? src.nodeName.toLowerCase() : '';
+		
+				return col !== undefined || type == 'td' || type == 'th' ?
+					api.cell( src, col ).data() :
+					api.row( src ).data() || null;
+			}
+		
+			return api.data().toArray();
+		};
+		
+		
+		/**
+		 * Get an array of the TR nodes that are used in the table's body. Note that you will
+		 * typically want to use the '$' API method in preference to this as it is more
+		 * flexible.
+		 *  @param {int} [iRow] Optional row index for the TR element you want
+		 *  @returns {array|node} If iRow is undefined, returns an array of all TR elements
+		 *    in the table's body, or iRow is defined, just the TR element requested.
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Get the nodes from the table
+		 *      var nNodes = oTable.fnGetNodes( );
+		 *    } );
+		 */
+		this.fnGetNodes = function( iRow )
+		{
+			var api = this.api( true );
+		
+			return iRow !== undefined ?
+				api.row( iRow ).node() :
+				api.rows().nodes().flatten().toArray();
+		};
+		
+		
+		/**
+		 * Get the array indexes of a particular cell from it's DOM element
+		 * and column index including hidden columns
+		 *  @param {node} node this can either be a TR, TD or TH in the table's body
+		 *  @returns {int} If nNode is given as a TR, then a single index is returned, or
+		 *    if given as a cell, an array of [row index, column index (visible),
+		 *    column index (all)] is given.
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      $('#example tbody td').click( function () {
+		 *        // Get the position of the current data from the node
+		 *        var aPos = oTable.fnGetPosition( this );
+		 *
+		 *        // Get the data array for this row
+		 *        var aData = oTable.fnGetData( aPos[0] );
+		 *
+		 *        // Update the data array and return the value
+		 *        aData[ aPos[1] ] = 'clicked';
+		 *        this.innerHTML = 'clicked';
+		 *      } );
+		 *
+		 *      // Init DataTables
+		 *      oTable = $('#example').dataTable();
+		 *    } );
+		 */
+		this.fnGetPosition = function( node )
+		{
+			var api = this.api( true );
+			var nodeName = node.nodeName.toUpperCase();
+		
+			if ( nodeName == 'TR' ) {
+				return api.row( node ).index();
+			}
+			else if ( nodeName == 'TD' || nodeName == 'TH' ) {
+				var cell = api.cell( node ).index();
+		
+				return [
+					cell.row,
+					cell.columnVisible,
+					cell.column
+				];
+			}
+			return null;
+		};
+		
+		
+		/**
+		 * Check to see if a row is 'open' or not.
+		 *  @param {node} nTr the table row to check
+		 *  @returns {boolean} true if the row is currently open, false otherwise
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable;
+		 *
+		 *      // 'open' an information row when a row is clicked on
+		 *      $('#example tbody tr').click( function () {
+		 *        if ( oTable.fnIsOpen(this) ) {
+		 *          oTable.fnClose( this );
+		 *        } else {
+		 *          oTable.fnOpen( this, "Temporary row opened", "info_row" );
+		 *        }
+		 *      } );
+		 *
+		 *      oTable = $('#example').dataTable();
+		 *    } );
+		 */
+		this.fnIsOpen = function( nTr )
+		{
+			return this.api( true ).row( nTr ).child.isShown();
+		};
+		
+		
+		/**
+		 * This function will place a new row directly after a row which is currently
+		 * on display on the page, with the HTML contents that is passed into the
+		 * function. This can be used, for example, to ask for confirmation that a
+		 * particular record should be deleted.
+		 *  @param {node} nTr The table row to 'open'
+		 *  @param {string|node|jQuery} mHtml The HTML to put into the row
+		 *  @param {string} sClass Class to give the new TD cell
+		 *  @returns {node} The row opened. Note that if the table row passed in as the
+		 *    first parameter, is not found in the table, this method will silently
+		 *    return.
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable;
+		 *
+		 *      // 'open' an information row when a row is clicked on
+		 *      $('#example tbody tr').click( function () {
+		 *        if ( oTable.fnIsOpen(this) ) {
+		 *          oTable.fnClose( this );
+		 *        } else {
+		 *          oTable.fnOpen( this, "Temporary row opened", "info_row" );
+		 *        }
+		 *      } );
+		 *
+		 *      oTable = $('#example').dataTable();
+		 *    } );
+		 */
+		this.fnOpen = function( nTr, mHtml, sClass )
+		{
+			return this.api( true )
+				.row( nTr )
+				.child( mHtml, sClass )
+				.show()
+				.child()[0];
+		};
+		
+		
+		/**
+		 * Change the pagination - provides the internal logic for pagination in a simple API
+		 * function. With this function you can have a DataTables table go to the next,
+		 * previous, first or last pages.
+		 *  @param {string|int} mAction Paging action to take: "first", "previous", "next" or "last"
+		 *    or page number to jump to (integer), note that page 0 is the first page.
+		 *  @param {bool} [bRedraw=true] Redraw the table or not
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *      oTable.fnPageChange( 'next' );
+		 *    } );
+		 */
+		this.fnPageChange = function ( mAction, bRedraw )
+		{
+			var api = this.api( true ).page( mAction );
+		
+			if ( bRedraw === undefined || bRedraw ) {
+				api.draw(false);
+			}
+		};
+		
+		
+		/**
+		 * Show a particular column
+		 *  @param {int} iCol The column whose display should be changed
+		 *  @param {bool} bShow Show (true) or hide (false) the column
+		 *  @param {bool} [bRedraw=true] Redraw the table or not
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Hide the second column after initialisation
+		 *      oTable.fnSetColumnVis( 1, false );
+		 *    } );
+		 */
+		this.fnSetColumnVis = function ( iCol, bShow, bRedraw )
+		{
+			var api = this.api( true ).column( iCol ).visible( bShow );
+		
+			if ( bRedraw === undefined || bRedraw ) {
+				api.columns.adjust().draw();
+			}
+		};
+		
+		
+		/**
+		 * Get the settings for a particular table for external manipulation
+		 *  @returns {object} DataTables settings object. See
+		 *    {@link DataTable.models.oSettings}
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *      var oSettings = oTable.fnSettings();
+		 *
+		 *      // Show an example parameter from the settings
+		 *      alert( oSettings._iDisplayStart );
+		 *    } );
+		 */
+		this.fnSettings = function()
+		{
+			return _fnSettingsFromNode( this[_ext.iApiIndex] );
+		};
+		
+		
+		/**
+		 * Sort the table by a particular column
+		 *  @param {int} iCol the data index to sort on. Note that this will not match the
+		 *    'display index' if you have hidden data entries
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Sort immediately with columns 0 and 1
+		 *      oTable.fnSort( [ [0,'asc'], [1,'asc'] ] );
+		 *    } );
+		 */
+		this.fnSort = function( aaSort )
+		{
+			this.api( true ).order( aaSort ).draw();
+		};
+		
+		
+		/**
+		 * Attach a sort listener to an element for a given column
+		 *  @param {node} nNode the element to attach the sort listener to
+		 *  @param {int} iColumn the column that a click on this node will sort on
+		 *  @param {function} [fnCallback] callback function when sort is run
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *
+		 *      // Sort on column 1, when 'sorter' is clicked on
+		 *      oTable.fnSortListener( document.getElementById('sorter'), 1 );
+		 *    } );
+		 */
+		this.fnSortListener = function( nNode, iColumn, fnCallback )
+		{
+			this.api( true ).order.listener( nNode, iColumn, fnCallback );
+		};
+		
+		
+		/**
+		 * Update a table cell or row - this method will accept either a single value to
+		 * update the cell with, an array of values with one element for each column or
+		 * an object in the same format as the original data source. The function is
+		 * self-referencing in order to make the multi column updates easier.
+		 *  @param {object|array|string} mData Data to update the cell/row with
+		 *  @param {node|int} mRow TR element you want to update or the aoData index
+		 *  @param {int} [iColumn] The column to update, give as null or undefined to
+		 *    update a whole row.
+		 *  @param {bool} [bRedraw=true] Redraw the table or not
+		 *  @param {bool} [bAction=true] Perform pre-draw actions or not
+		 *  @returns {int} 0 on success, 1 on error
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *      oTable.fnUpdate( 'Example update', 0, 0 ); // Single cell
+		 *      oTable.fnUpdate( ['a', 'b', 'c', 'd', 'e'], $('tbody tr')[0] ); // Row
+		 *    } );
+		 */
+		this.fnUpdate = function( mData, mRow, iColumn, bRedraw, bAction )
+		{
+			var api = this.api( true );
+		
+			if ( iColumn === undefined || iColumn === null ) {
+				api.row( mRow ).data( mData );
+			}
+			else {
+				api.cell( mRow, iColumn ).data( mData );
+			}
+		
+			if ( bAction === undefined || bAction ) {
+				api.columns.adjust();
+			}
+		
+			if ( bRedraw === undefined || bRedraw ) {
+				api.draw();
+			}
+			return 0;
+		};
+		
+		
+		/**
+		 * Provide a common method for plug-ins to check the version of DataTables being used, in order
+		 * to ensure compatibility.
+		 *  @param {string} sVersion Version string to check for, in the format "X.Y.Z". Note that the
+		 *    formats "X" and "X.Y" are also acceptable.
+		 *  @returns {boolean} true if this version of DataTables is greater or equal to the required
+		 *    version, or false if this version of DataTales is not suitable
+		 *  @method
+		 *  @dtopt API
+		 *  @deprecated Since v1.10
+		 *
+		 *  @example
+		 *    $(document).ready(function() {
+		 *      var oTable = $('#example').dataTable();
+		 *      alert( oTable.fnVersionCheck( '1.9.0' ) );
+		 *    } );
+		 */
+		this.fnVersionCheck = _ext.fnVersionCheck;
+		
+
+		var _that = this;
+		var emptyInit = options === undefined;
+		var len = this.length;
+
+		if ( emptyInit ) {
+			options = {};
+		}
+
+		this.oApi = this.internal = _ext.internal;
+
+		// Extend with old style plug-in API methods
+		for ( var fn in DataTable.ext.internal ) {
+			if ( fn ) {
+				this[fn] = _fnExternApiFunc(fn);
+			}
+		}
+
+		this.each(function() {
+			// For each initialisation we want to give it a clean initialisation
+			// object that can be bashed around
+			var o = {};
+			var oInit = len > 1 ? // optimisation for single table case
+				_fnExtend( o, options, true ) :
+				options;
+
+			/*global oInit,_that,emptyInit*/
+			var i=0, iLen, j, jLen, k, kLen;
+			var sId = this.getAttribute( 'id' );
+			var bInitHandedOff = false;
+			var defaults = DataTable.defaults;
+			var $this = $(this);
+			
+			
+			/* Sanity check */
+			if ( this.nodeName.toLowerCase() != 'table' )
+			{
+				_fnLog( null, 0, 'Non-table node initialisation ('+this.nodeName+')', 2 );
+				return;
+			}
+			
+			/* Backwards compatibility for the defaults */
+			_fnCompatOpts( defaults );
+			_fnCompatCols( defaults.column );
+			
+			/* Convert the camel-case defaults to Hungarian */
+			_fnCamelToHungarian( defaults, defaults, true );
+			_fnCamelToHungarian( defaults.column, defaults.column, true );
+			
+			/* Setting up the initialisation object */
+			_fnCamelToHungarian( defaults, $.extend( oInit, $this.data() ) );
+			
+			
+			
+			/* Check to see if we are re-initialising a table */
+			var allSettings = DataTable.settings;
+			for ( i=0, iLen=allSettings.length ; i<iLen ; i++ )
+			{
+				var s = allSettings[i];
+			
+				/* Base check on table node */
+				if (
+					s.nTable == this ||
+					(s.nTHead && s.nTHead.parentNode == this) ||
+					(s.nTFoot && s.nTFoot.parentNode == this)
+				) {
+					var bRetrieve = oInit.bRetrieve !== undefined ? oInit.bRetrieve : defaults.bRetrieve;
+					var bDestroy = oInit.bDestroy !== undefined ? oInit.bDestroy : defaults.bDestroy;
+			
+					if ( emptyInit || bRetrieve )
+					{
+						return s.oInstance;
+					}
+					else if ( bDestroy )
+					{
+						s.oInstance.fnDestroy();
+						break;
+					}
+					else
+					{
+						_fnLog( s, 0, 'Cannot reinitialise DataTable', 3 );
+						return;
+					}
+				}
+			
+				/* If the element we are initialising has the same ID as a table which was previously
+				 * initialised, but the table nodes don't match (from before) then we destroy the old
+				 * instance by simply deleting it. This is under the assumption that the table has been
+				 * destroyed by other methods. Anyone using non-id selectors will need to do this manually
+				 */
+				if ( s.sTableId == this.id )
+				{
+					allSettings.splice( i, 1 );
+					break;
+				}
+			}
+			
+			/* Ensure the table has an ID - required for accessibility */
+			if ( sId === null || sId === "" )
+			{
+				sId = "DataTables_Table_"+(DataTable.ext._unique++);
+				this.id = sId;
+			}
+			
+			/* Create the settings object for this table and set some of the default parameters */
+			var oSettings = $.extend( true, {}, DataTable.models.oSettings, {
+				"sDestroyWidth": $this[0].style.width,
+				"sInstance":     sId,
+				"sTableId":      sId
+			} );
+			oSettings.nTable = this;
+			oSettings.oApi   = _that.internal;
+			oSettings.oInit  = oInit;
+			
+			allSettings.push( oSettings );
+			
+			// Need to add the instance after the instance after the settings object has been added
+			// to the settings array, so we can self reference the table instance if more than one
+			oSettings.oInstance = (_that.length===1) ? _that : $this.dataTable();
+			
+			// Backwards compatibility, before we apply all the defaults
+			_fnCompatOpts( oInit );
+			_fnLanguageCompat( oInit.oLanguage );
+			
+			// If the length menu is given, but the init display length is not, use the length menu
+			if ( oInit.aLengthMenu && ! oInit.iDisplayLength )
+			{
+				oInit.iDisplayLength = $.isArray( oInit.aLengthMenu[0] ) ?
+					oInit.aLengthMenu[0][0] : oInit.aLengthMenu[0];
+			}
+			
+			// Apply the defaults and init options to make a single init object will all
+			// options defined from defaults and instance options.
+			oInit = _fnExtend( $.extend( true, {}, defaults ), oInit );
+			
+			
+			// Map the initialisation options onto the settings object
+			_fnMap( oSettings.oFeatures, oInit, [
+				"bPaginate",
+				"bLengthChange",
+				"bFilter",
+				"bSort",
+				"bSortMulti",
+				"bInfo",
+				"bProcessing",
+				"bAutoWidth",
+				"bSortClasses",
+				"bServerSide",
+				"bDeferRender"
+			] );
+			_fnMap( oSettings, oInit, [
+				"asStripeClasses",
+				"ajax",
+				"fnServerData",
+				"fnFormatNumber",
+				"sServerMethod",
+				"aaSorting",
+				"aaSortingFixed",
+				"aLengthMenu",
+				"sPaginationType",
+				"sAjaxSource",
+				"sAjaxDataProp",
+				"iStateDuration",
+				"sDom",
+				"bSortCellsTop",
+				"iTabIndex",
+				"fnStateLoadCallback",
+				"fnStateSaveCallback",
+				"renderer",
+				"searchDelay",
+				"rowId",
+				[ "iCookieDuration", "iStateDuration" ], // backwards compat
+				[ "oSearch", "oPreviousSearch" ],
+				[ "aoSearchCols", "aoPreSearchCols" ],
+				[ "iDisplayLength", "_iDisplayLength" ]
+			] );
+			_fnMap( oSettings.oScroll, oInit, [
+				[ "sScrollX", "sX" ],
+				[ "sScrollXInner", "sXInner" ],
+				[ "sScrollY", "sY" ],
+				[ "bScrollCollapse", "bCollapse" ]
+			] );
+			_fnMap( oSettings.oLanguage, oInit, "fnInfoCallback" );
+			
+			/* Callback functions which are array driven */
+			_fnCallbackReg( oSettings, 'aoDrawCallback',       oInit.fnDrawCallback,      'user' );
+			_fnCallbackReg( oSettings, 'aoServerParams',       oInit.fnServerParams,      'user' );
+			_fnCallbackReg( oSettings, 'aoStateSaveParams',    oInit.fnStateSaveParams,   'user' );
+			_fnCallbackReg( oSettings, 'aoStateLoadParams',    oInit.fnStateLoadParams,   'user' );
+			_fnCallbackReg( oSettings, 'aoStateLoaded',        oInit.fnStateLoaded,       'user' );
+			_fnCallbackReg( oSettings, 'aoRowCallback',        oInit.fnRowCallback,       'user' );
+			_fnCallbackReg( oSettings, 'aoRowCreatedCallback', oInit.fnCreatedRow,        'user' );
+			_fnCallbackReg( oSettings, 'aoHeaderCallback',     oInit.fnHeaderCallback,    'user' );
+			_fnCallbackReg( oSettings, 'aoFooterCallback',     oInit.fnFooterCallback,    'user' );
+			_fnCallbackReg( oSettings, 'aoInitComplete',       oInit.fnInitComplete,      'user' );
+			_fnCallbackReg( oSettings, 'aoPreDrawCallback',    oInit.fnPreDrawCallback,   'user' );
+			
+			oSettings.rowIdFn = _fnGetObjectDataFn( oInit.rowId );
+			
+			/* Browser support detection */
+			_fnBrowserDetect( oSettings );
+			
+			var oClasses = oSettings.oClasses;
+			
+			$.extend( oClasses, DataTable.ext.classes, oInit.oClasses );
+			$this.addClass( oClasses.sTable );
+			
+			
+			if ( oSettings.iInitDisplayStart === undefined )
+			{
+				/* Display start point, taking into account the save saving */
+				oSettings.iInitDisplayStart = oInit.iDisplayStart;
+				oSettings._iDisplayStart = oInit.iDisplayStart;
+			}
+			
+			if ( oInit.iDeferLoading !== null )
+			{
+				oSettings.bDeferLoading = true;
+				var tmp = $.isArray( oInit.iDeferLoading );
+				oSettings._iRecordsDisplay = tmp ? oInit.iDeferLoading[0] : oInit.iDeferLoading;
+				oSettings._iRecordsTotal = tmp ? oInit.iDeferLoading[1] : oInit.iDeferLoading;
+			}
+			
+			/* Language definitions */
+			var oLanguage = oSettings.oLanguage;
+			$.extend( true, oLanguage, oInit.oLanguage );
+			
+			if ( oLanguage.sUrl )
+			{
+				/* Get the language definitions from a file - because this Ajax call makes the language
+				 * get async to the remainder of this function we use bInitHandedOff to indicate that
+				 * _fnInitialise will be fired by the returned Ajax handler, rather than the constructor
+				 */
+				$.ajax( {
+					dataType: 'json',
+					url: oLanguage.sUrl,
+					success: function ( json ) {
+						_fnLanguageCompat( json );
+						_fnCamelToHungarian( defaults.oLanguage, json );
+						$.extend( true, oLanguage, json );
+						_fnInitialise( oSettings );
+					},
+					error: function () {
+						// Error occurred loading language file, continue on as best we can
+						_fnInitialise( oSettings );
+					}
+				} );
+				bInitHandedOff = true;
+			}
+			
+			/*
+			 * Stripes
+			 */
+			if ( oInit.asStripeClasses === null )
+			{
+				oSettings.asStripeClasses =[
+					oClasses.sStripeOdd,
+					oClasses.sStripeEven
+				];
+			}
+			
+			/* Remove row stripe classes if they are already on the table row */
+			var stripeClasses = oSettings.asStripeClasses;
+			var rowOne = $this.children('tbody').find('tr').eq(0);
+			if ( $.inArray( true, $.map( stripeClasses, function(el, i) {
+				return rowOne.hasClass(el);
+			} ) ) !== -1 ) {
+				$('tbody tr', this).removeClass( stripeClasses.join(' ') );
+				oSettings.asDestroyStripes = stripeClasses.slice();
+			}
+			
+			/*
+			 * Columns
+			 * See if we should load columns automatically or use defined ones
+			 */
+			var anThs = [];
+			var aoColumnsInit;
+			var nThead = this.getElementsByTagName('thead');
+			if ( nThead.length !== 0 )
+			{
+				_fnDetectHeader( oSettings.aoHeader, nThead[0] );
+				anThs = _fnGetUniqueThs( oSettings );
+			}
+			
+			/* If not given a column array, generate one with nulls */
+			if ( oInit.aoColumns === null )
+			{
+				aoColumnsInit = [];
+				for ( i=0, iLen=anThs.length ; i<iLen ; i++ )
+				{
+					aoColumnsInit.push( null );
+				}
+			}
+			else
+			{
+				aoColumnsInit = oInit.aoColumns;
+			}
+			
+			/* Add the columns */
+			for ( i=0, iLen=aoColumnsInit.length ; i<iLen ; i++ )
+			{
+				_fnAddColumn( oSettings, anThs ? anThs[i] : null );
+			}
+			
+			/* Apply the column definitions */
+			_fnApplyColumnDefs( oSettings, oInit.aoColumnDefs, aoColumnsInit, function (iCol, oDef) {
+				_fnColumnOptions( oSettings, iCol, oDef );
+			} );
+			
+			/* HTML5 attribute detection - build an mData object automatically if the
+			 * attributes are found
+			 */
+			if ( rowOne.length ) {
+				var a = function ( cell, name ) {
+					return cell.getAttribute( 'data-'+name ) !== null ? name : null;
+				};
+			
+				$( rowOne[0] ).children('th, td').each( function (i, cell) {
+					var col = oSettings.aoColumns[i];
+			
+					if ( col.mData === i ) {
+						var sort = a( cell, 'sort' ) || a( cell, 'order' );
+						var filter = a( cell, 'filter' ) || a( cell, 'search' );
+			
+						if ( sort !== null || filter !== null ) {
+							col.mData = {
+								_:      i+'.display',
+								sort:   sort !== null   ? i+'.@data-'+sort   : undefined,
+								type:   sort !== null   ? i+'.@data-'+sort   : undefined,
+								filter: filter !== null ? i+'.@data-'+filter : undefined
+							};
+			
+							_fnColumnOptions( oSettings, i );
+						}
+					}
+				} );
+			}
+			
+			var features = oSettings.oFeatures;
+			var loadedInit = function () {
+				/*
+				 * Sorting
+				 * @todo For modularisation (1.11) this needs to do into a sort start up handler
+				 */
+			
+				// If aaSorting is not defined, then we use the first indicator in asSorting
+				// in case that has been altered, so the default sort reflects that option
+				if ( oInit.aaSorting === undefined ) {
+					var sorting = oSettings.aaSorting;
+					for ( i=0, iLen=sorting.length ; i<iLen ; i++ ) {
+						sorting[i][1] = oSettings.aoColumns[ i ].asSorting[0];
+					}
+				}
+			
+				/* Do a first pass on the sorting classes (allows any size changes to be taken into
+				 * account, and also will apply sorting disabled classes if disabled
+				 */
+				_fnSortingClasses( oSettings );
+			
+				if ( features.bSort ) {
+					_fnCallbackReg( oSettings, 'aoDrawCallback', function () {
+						if ( oSettings.bSorted ) {
+							var aSort = _fnSortFlatten( oSettings );
+							var sortedColumns = {};
+			
+							$.each( aSort, function (i, val) {
+								sortedColumns[ val.src ] = val.dir;
+							} );
+			
+							_fnCallbackFire( oSettings, null, 'order', [oSettings, aSort, sortedColumns] );
+							_fnSortAria( oSettings );
+						}
+					} );
+				}
+			
+				_fnCallbackReg( oSettings, 'aoDrawCallback', function () {
+					if ( oSettings.bSorted || _fnDataSource( oSettings ) === 'ssp' || features.bDeferRender ) {
+						_fnSortingClasses( oSettings );
+					}
+				}, 'sc' );
+			
+			
+				/*
+				 * Final init
+				 * Cache the header, body and footer as required, creating them if needed
+				 */
+			
+				// Work around for Webkit bug 83867 - store the caption-side before removing from doc
+				var captions = $this.children('caption').each( function () {
+					this._captionSide = $(this).css('caption-side');
+				} );
+			
+				var thead = $this.children('thead');
+				if ( thead.length === 0 ) {
+					thead = $('<thead/>').appendTo($this);
+				}
+				oSettings.nTHead = thead[0];
+			
+				var tbody = $this.children('tbody');
+				if ( tbody.length === 0 ) {
+					tbody = $('<tbody/>').appendTo($this);
+				}
+				oSettings.nTBody = tbody[0];
+			
+				var tfoot = $this.children('tfoot');
+				if ( tfoot.length === 0 && captions.length > 0 && (oSettings.oScroll.sX !== "" || oSettings.oScroll.sY !== "") ) {
+					// If we are a scrolling table, and no footer has been given, then we need to create
+					// a tfoot element for the caption element to be appended to
+					tfoot = $('<tfoot/>').appendTo($this);
+				}
+			
+				if ( tfoot.length === 0 || tfoot.children().length === 0 ) {
+					$this.addClass( oClasses.sNoFooter );
+				}
+				else if ( tfoot.length > 0 ) {
+					oSettings.nTFoot = tfoot[0];
+					_fnDetectHeader( oSettings.aoFooter, oSettings.nTFoot );
+				}
+			
+				/* Check if there is data passing into the constructor */
+				if ( oInit.aaData ) {
+					for ( i=0 ; i<oInit.aaData.length ; i++ ) {
+						_fnAddData( oSettings, oInit.aaData[ i ] );
+					}
+				}
+				else if ( oSettings.bDeferLoading || _fnDataSource( oSettings ) == 'dom' ) {
+					/* Grab the data from the page - only do this when deferred loading or no Ajax
+					 * source since there is no point in reading the DOM data if we are then going
+					 * to replace it with Ajax data
+					 */
+					_fnAddTr( oSettings, $(oSettings.nTBody).children('tr') );
+				}
+			
+				/* Copy the data index array */
+				oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+			
+				/* Initialisation complete - table can be drawn */
+				oSettings.bInitialised = true;
+			
+				/* Check if we need to initialise the table (it might not have been handed off to the
+				 * language processor)
+				 */
+				if ( bInitHandedOff === false ) {
+					_fnInitialise( oSettings );
+				}
+			};
+			
+			/* Must be done after everything which can be overridden by the state saving! */
+			if ( oInit.bStateSave )
+			{
+				features.bStateSave = true;
+				_fnCallbackReg( oSettings, 'aoDrawCallback', _fnSaveState, 'state_save' );
+				_fnLoadState( oSettings, oInit, loadedInit );
+			}
+			else {
+				loadedInit();
+			}
+			
+		} );
+		_that = null;
+		return this;
+	};
+
+	
+	/*
+	 * It is useful to have variables which are scoped locally so only the
+	 * DataTables functions can access them and they don't leak into global space.
+	 * At the same time these functions are often useful over multiple files in the
+	 * core and API, so we list, or at least document, all variables which are used
+	 * by DataTables as private variables here. This also ensures that there is no
+	 * clashing of variable names and that they can easily referenced for reuse.
+	 */
+	
+	
+	// Defined else where
+	//  _selector_run
+	//  _selector_opts
+	//  _selector_first
+	//  _selector_row_indexes
+	
+	var _ext; // DataTable.ext
+	var _Api; // DataTable.Api
+	var _api_register; // DataTable.Api.register
+	var _api_registerPlural; // DataTable.Api.registerPlural
+	
+	var _re_dic = {};
+	var _re_new_lines = /[\r\n]/g;
+	var _re_html = /<.*?>/g;
+	
+	// This is not strict ISO8601 - Date.parse() is quite lax, although
+	// implementations differ between browsers.
+	var _re_date = /^\d{2,4}[\.\/\-]\d{1,2}[\.\/\-]\d{1,2}([T ]{1}\d{1,2}[:\.]\d{2}([\.:]\d{2})?)?$/;
+	
+	// Escape regular expression special characters
+	var _re_escape_regex = new RegExp( '(\\' + [ '/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\', '$', '^', '-' ].join('|\\') + ')', 'g' );
+	
+	// http://en.wikipedia.org/wiki/Foreign_exchange_market
+	// - \u20BD - Russian ruble.
+	// - \u20a9 - South Korean Won
+	// - \u20BA - Turkish Lira
+	// - \u20B9 - Indian Rupee
+	// - R - Brazil (R$) and South Africa
+	// - fr - Swiss Franc
+	// - kr - Swedish krona, Norwegian krone and Danish krone
+	// - \u2009 is thin space and \u202F is narrow no-break space, both used in many
+	// - Ƀ - Bitcoin
+	// - Ξ - Ethereum
+	//   standards as thousands separators.
+	var _re_formatted_numeric = /[',$£€¥%\u2009\u202F\u20BD\u20a9\u20BArfkɃΞ]/gi;
+	
+	
+	var _empty = function ( d ) {
+		return !d || d === true || d === '-' ? true : false;
+	};
+	
+	
+	var _intVal = function ( s ) {
+		var integer = parseInt( s, 10 );
+		return !isNaN(integer) && isFinite(s) ? integer : null;
+	};
+	
+	// Convert from a formatted number with characters other than `.` as the
+	// decimal place, to a Javascript number
+	var _numToDecimal = function ( num, decimalPoint ) {
+		// Cache created regular expressions for speed as this function is called often
+		if ( ! _re_dic[ decimalPoint ] ) {
+			_re_dic[ decimalPoint ] = new RegExp( _fnEscapeRegex( decimalPoint ), 'g' );
+		}
+		return typeof num === 'string' && decimalPoint !== '.' ?
+			num.replace( /\./g, '' ).replace( _re_dic[ decimalPoint ], '.' ) :
+			num;
+	};
+	
+	
+	var _isNumber = function ( d, decimalPoint, formatted ) {
+		var strType = typeof d === 'string';
+	
+		// If empty return immediately so there must be a number if it is a
+		// formatted string (this stops the string "k", or "kr", etc being detected
+		// as a formatted number for currency
+		if ( _empty( d ) ) {
+			return true;
+		}
+	
+		if ( decimalPoint && strType ) {
+			d = _numToDecimal( d, decimalPoint );
+		}
+	
+		if ( formatted && strType ) {
+			d = d.replace( _re_formatted_numeric, '' );
+		}
+	
+		return !isNaN( parseFloat(d) ) && isFinite( d );
+	};
+	
+	
+	// A string without HTML in it can be considered to be HTML still
+	var _isHtml = function ( d ) {
+		return _empty( d ) || typeof d === 'string';
+	};
+	
+	
+	var _htmlNumeric = function ( d, decimalPoint, formatted ) {
+		if ( _empty( d ) ) {
+			return true;
+		}
+	
+		var html = _isHtml( d );
+		return ! html ?
+			null :
+			_isNumber( _stripHtml( d ), decimalPoint, formatted ) ?
+				true :
+				null;
+	};
+	
+	
+	var _pluck = function ( a, prop, prop2 ) {
+		var out = [];
+		var i=0, ien=a.length;
+	
+		// Could have the test in the loop for slightly smaller code, but speed
+		// is essential here
+		if ( prop2 !== undefined ) {
+			for ( ; i<ien ; i++ ) {
+				if ( a[i] && a[i][ prop ] ) {
+					out.push( a[i][ prop ][ prop2 ] );
+				}
+			}
+		}
+		else {
+			for ( ; i<ien ; i++ ) {
+				if ( a[i] ) {
+					out.push( a[i][ prop ] );
+				}
+			}
+		}
+	
+		return out;
+	};
+	
+	
+	// Basically the same as _pluck, but rather than looping over `a` we use `order`
+	// as the indexes to pick from `a`
+	var _pluck_order = function ( a, order, prop, prop2 )
+	{
+		var out = [];
+		var i=0, ien=order.length;
+	
+		// Could have the test in the loop for slightly smaller code, but speed
+		// is essential here
+		if ( prop2 !== undefined ) {
+			for ( ; i<ien ; i++ ) {
+				if ( a[ order[i] ][ prop ] ) {
+					out.push( a[ order[i] ][ prop ][ prop2 ] );
+				}
+			}
+		}
+		else {
+			for ( ; i<ien ; i++ ) {
+				out.push( a[ order[i] ][ prop ] );
+			}
+		}
+	
+		return out;
+	};
+	
+	
+	var _range = function ( len, start )
+	{
+		var out = [];
+		var end;
+	
+		if ( start === undefined ) {
+			start = 0;
+			end = len;
+		}
+		else {
+			end = start;
+			start = len;
+		}
+	
+		for ( var i=start ; i<end ; i++ ) {
+			out.push( i );
+		}
+	
+		return out;
+	};
+	
+	
+	var _removeEmpty = function ( a )
+	{
+		var out = [];
+	
+		for ( var i=0, ien=a.length ; i<ien ; i++ ) {
+			if ( a[i] ) { // careful - will remove all falsy values!
+				out.push( a[i] );
+			}
+		}
+	
+		return out;
+	};
+	
+	
+	var _stripHtml = function ( d ) {
+		return d.replace( _re_html, '' );
+	};
+	
+	
+	/**
+	 * Determine if all values in the array are unique. This means we can short
+	 * cut the _unique method at the cost of a single loop. A sorted array is used
+	 * to easily check the values.
+	 *
+	 * @param  {array} src Source array
+	 * @return {boolean} true if all unique, false otherwise
+	 * @ignore
+	 */
+	var _areAllUnique = function ( src ) {
+		if ( src.length < 2 ) {
+			return true;
+		}
+	
+		var sorted = src.slice().sort();
+		var last = sorted[0];
+	
+		for ( var i=1, ien=sorted.length ; i<ien ; i++ ) {
+			if ( sorted[i] === last ) {
+				return false;
+			}
+	
+			last = sorted[i];
+		}
+	
+		return true;
+	};
+	
+	
+	/**
+	 * Find the unique elements in a source array.
+	 *
+	 * @param  {array} src Source array
+	 * @return {array} Array of unique items
+	 * @ignore
+	 */
+	var _unique = function ( src )
+	{
+		if ( _areAllUnique( src ) ) {
+			return src.slice();
+		}
+	
+		// A faster unique method is to use object keys to identify used values,
+		// but this doesn't work with arrays or objects, which we must also
+		// consider. See jsperf.com/compare-array-unique-versions/4 for more
+		// information.
+		var
+			out = [],
+			val,
+			i, ien=src.length,
+			j, k=0;
+	
+		again: for ( i=0 ; i<ien ; i++ ) {
+			val = src[i];
+	
+			for ( j=0 ; j<k ; j++ ) {
+				if ( out[j] === val ) {
+					continue again;
+				}
+			}
+	
+			out.push( val );
+			k++;
+		}
+	
+		return out;
+	};
+	
+	
+	/**
+	 * DataTables utility methods
+	 * 
+	 * This namespace provides helper methods that DataTables uses internally to
+	 * create a DataTable, but which are not exclusively used only for DataTables.
+	 * These methods can be used by extension authors to save the duplication of
+	 * code.
+	 *
+	 *  @namespace
+	 */
+	DataTable.util = {
+		/**
+		 * Throttle the calls to a function. Arguments and context are maintained
+		 * for the throttled function.
+		 *
+		 * @param {function} fn Function to be called
+		 * @param {integer} freq Call frequency in mS
+		 * @return {function} Wrapped function
+		 */
+		throttle: function ( fn, freq ) {
+			var
+				frequency = freq !== undefined ? freq : 200,
+				last,
+				timer;
+	
+			return function () {
+				var
+					that = this,
+					now  = +new Date(),
+					args = arguments;
+	
+				if ( last && now < last + frequency ) {
+					clearTimeout( timer );
+	
+					timer = setTimeout( function () {
+						last = undefined;
+						fn.apply( that, args );
+					}, frequency );
+				}
+				else {
+					last = now;
+					fn.apply( that, args );
+				}
+			};
+		},
+	
+	
+		/**
+		 * Escape a string such that it can be used in a regular expression
+		 *
+		 *  @param {string} val string to escape
+		 *  @returns {string} escaped string
+		 */
+		escapeRegex: function ( val ) {
+			return val.replace( _re_escape_regex, '\\$1' );
+		}
+	};
+	
+	
+	
+	/**
+	 * Create a mapping object that allows camel case parameters to be looked up
+	 * for their Hungarian counterparts. The mapping is stored in a private
+	 * parameter called `_hungarianMap` which can be accessed on the source object.
+	 *  @param {object} o
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnHungarianMap ( o )
+	{
+		var
+			hungarian = 'a aa ai ao as b fn i m o s ',
+			match,
+			newKey,
+			map = {};
+	
+		$.each( o, function (key, val) {
+			match = key.match(/^([^A-Z]+?)([A-Z])/);
+	
+			if ( match && hungarian.indexOf(match[1]+' ') !== -1 )
+			{
+				newKey = key.replace( match[0], match[2].toLowerCase() );
+				map[ newKey ] = key;
+	
+				if ( match[1] === 'o' )
+				{
+					_fnHungarianMap( o[key] );
+				}
+			}
+		} );
+	
+		o._hungarianMap = map;
+	}
+	
+	
+	/**
+	 * Convert from camel case parameters to Hungarian, based on a Hungarian map
+	 * created by _fnHungarianMap.
+	 *  @param {object} src The model object which holds all parameters that can be
+	 *    mapped.
+	 *  @param {object} user The object to convert from camel case to Hungarian.
+	 *  @param {boolean} force When set to `true`, properties which already have a
+	 *    Hungarian value in the `user` object will be overwritten. Otherwise they
+	 *    won't be.
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnCamelToHungarian ( src, user, force )
+	{
+		if ( ! src._hungarianMap ) {
+			_fnHungarianMap( src );
+		}
+	
+		var hungarianKey;
+	
+		$.each( user, function (key, val) {
+			hungarianKey = src._hungarianMap[ key ];
+	
+			if ( hungarianKey !== undefined && (force || user[hungarianKey] === undefined) )
+			{
+				// For objects, we need to buzz down into the object to copy parameters
+				if ( hungarianKey.charAt(0) === 'o' )
+				{
+					// Copy the camelCase options over to the hungarian
+					if ( ! user[ hungarianKey ] ) {
+						user[ hungarianKey ] = {};
+					}
+					$.extend( true, user[hungarianKey], user[key] );
+	
+					_fnCamelToHungarian( src[hungarianKey], user[hungarianKey], force );
+				}
+				else {
+					user[hungarianKey] = user[ key ];
+				}
+			}
+		} );
+	}
+	
+	
+	/**
+	 * Language compatibility - when certain options are given, and others aren't, we
+	 * need to duplicate the values over, in order to provide backwards compatibility
+	 * with older language files.
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnLanguageCompat( lang )
+	{
+		// Note the use of the Hungarian notation for the parameters in this method as
+		// this is called after the mapping of camelCase to Hungarian
+		var defaults = DataTable.defaults.oLanguage;
+	
+		// Default mapping
+		var defaultDecimal = defaults.sDecimal;
+		if ( defaultDecimal ) {
+			_addNumericSort( defaultDecimal );
+		}
+	
+		if ( lang ) {
+			var zeroRecords = lang.sZeroRecords;
+	
+			// Backwards compatibility - if there is no sEmptyTable given, then use the same as
+			// sZeroRecords - assuming that is given.
+			if ( ! lang.sEmptyTable && zeroRecords &&
+				defaults.sEmptyTable === "No data available in table" )
+			{
+				_fnMap( lang, lang, 'sZeroRecords', 'sEmptyTable' );
+			}
+	
+			// Likewise with loading records
+			if ( ! lang.sLoadingRecords && zeroRecords &&
+				defaults.sLoadingRecords === "Loading..." )
+			{
+				_fnMap( lang, lang, 'sZeroRecords', 'sLoadingRecords' );
+			}
+	
+			// Old parameter name of the thousands separator mapped onto the new
+			if ( lang.sInfoThousands ) {
+				lang.sThousands = lang.sInfoThousands;
+			}
+	
+			var decimal = lang.sDecimal;
+			if ( decimal && defaultDecimal !== decimal ) {
+				_addNumericSort( decimal );
+			}
+		}
+	}
+	
+	
+	/**
+	 * Map one parameter onto another
+	 *  @param {object} o Object to map
+	 *  @param {*} knew The new parameter name
+	 *  @param {*} old The old parameter name
+	 */
+	var _fnCompatMap = function ( o, knew, old ) {
+		if ( o[ knew ] !== undefined ) {
+			o[ old ] = o[ knew ];
+		}
+	};
+	
+	
+	/**
+	 * Provide backwards compatibility for the main DT options. Note that the new
+	 * options are mapped onto the old parameters, so this is an external interface
+	 * change only.
+	 *  @param {object} init Object to map
+	 */
+	function _fnCompatOpts ( init )
+	{
+		_fnCompatMap( init, 'ordering',      'bSort' );
+		_fnCompatMap( init, 'orderMulti',    'bSortMulti' );
+		_fnCompatMap( init, 'orderClasses',  'bSortClasses' );
+		_fnCompatMap( init, 'orderCellsTop', 'bSortCellsTop' );
+		_fnCompatMap( init, 'order',         'aaSorting' );
+		_fnCompatMap( init, 'orderFixed',    'aaSortingFixed' );
+		_fnCompatMap( init, 'paging',        'bPaginate' );
+		_fnCompatMap( init, 'pagingType',    'sPaginationType' );
+		_fnCompatMap( init, 'pageLength',    'iDisplayLength' );
+		_fnCompatMap( init, 'searching',     'bFilter' );
+	
+		// Boolean initialisation of x-scrolling
+		if ( typeof init.sScrollX === 'boolean' ) {
+			init.sScrollX = init.sScrollX ? '100%' : '';
+		}
+		if ( typeof init.scrollX === 'boolean' ) {
+			init.scrollX = init.scrollX ? '100%' : '';
+		}
+	
+		// Column search objects are in an array, so it needs to be converted
+		// element by element
+		var searchCols = init.aoSearchCols;
+	
+		if ( searchCols ) {
+			for ( var i=0, ien=searchCols.length ; i<ien ; i++ ) {
+				if ( searchCols[i] ) {
+					_fnCamelToHungarian( DataTable.models.oSearch, searchCols[i] );
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * Provide backwards compatibility for column options. Note that the new options
+	 * are mapped onto the old parameters, so this is an external interface change
+	 * only.
+	 *  @param {object} init Object to map
+	 */
+	function _fnCompatCols ( init )
+	{
+		_fnCompatMap( init, 'orderable',     'bSortable' );
+		_fnCompatMap( init, 'orderData',     'aDataSort' );
+		_fnCompatMap( init, 'orderSequence', 'asSorting' );
+		_fnCompatMap( init, 'orderDataType', 'sortDataType' );
+	
+		// orderData can be given as an integer
+		var dataSort = init.aDataSort;
+		if ( typeof dataSort === 'number' && ! $.isArray( dataSort ) ) {
+			init.aDataSort = [ dataSort ];
+		}
+	}
+	
+	
+	/**
+	 * Browser feature detection for capabilities, quirks
+	 *  @param {object} settings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnBrowserDetect( settings )
+	{
+		// We don't need to do this every time DataTables is constructed, the values
+		// calculated are specific to the browser and OS configuration which we
+		// don't expect to change between initialisations
+		if ( ! DataTable.__browser ) {
+			var browser = {};
+			DataTable.__browser = browser;
+	
+			// Scrolling feature / quirks detection
+			var n = $('<div/>')
+				.css( {
+					position: 'fixed',
+					top: 0,
+					left: $(window).scrollLeft()*-1, // allow for scrolling
+					height: 1,
+					width: 1,
+					overflow: 'hidden'
+				} )
+				.append(
+					$('<div/>')
+						.css( {
+							position: 'absolute',
+							top: 1,
+							left: 1,
+							width: 100,
+							overflow: 'scroll'
+						} )
+						.append(
+							$('<div/>')
+								.css( {
+									width: '100%',
+									height: 10
+								} )
+						)
+				)
+				.appendTo( 'body' );
+	
+			var outer = n.children();
+			var inner = outer.children();
+	
+			// Numbers below, in order, are:
+			// inner.offsetWidth, inner.clientWidth, outer.offsetWidth, outer.clientWidth
+			//
+			// IE6 XP:                           100 100 100  83
+			// IE7 Vista:                        100 100 100  83
+			// IE 8+ Windows:                     83  83 100  83
+			// Evergreen Windows:                 83  83 100  83
+			// Evergreen Mac with scrollbars:     85  85 100  85
+			// Evergreen Mac without scrollbars: 100 100 100 100
+	
+			// Get scrollbar width
+			browser.barWidth = outer[0].offsetWidth - outer[0].clientWidth;
+	
+			// IE6/7 will oversize a width 100% element inside a scrolling element, to
+			// include the width of the scrollbar, while other browsers ensure the inner
+			// element is contained without forcing scrolling
+			browser.bScrollOversize = inner[0].offsetWidth === 100 && outer[0].clientWidth !== 100;
+	
+			// In rtl text layout, some browsers (most, but not all) will place the
+			// scrollbar on the left, rather than the right.
+			browser.bScrollbarLeft = Math.round( inner.offset().left ) !== 1;
+	
+			// IE8- don't provide height and width for getBoundingClientRect
+			browser.bBounding = n[0].getBoundingClientRect().width ? true : false;
+	
+			n.remove();
+		}
+	
+		$.extend( settings.oBrowser, DataTable.__browser );
+		settings.oScroll.iBarWidth = DataTable.__browser.barWidth;
+	}
+	
+	
+	/**
+	 * Array.prototype reduce[Right] method, used for browsers which don't support
+	 * JS 1.6. Done this way to reduce code size, since we iterate either way
+	 *  @param {object} settings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnReduce ( that, fn, init, start, end, inc )
+	{
+		var
+			i = start,
+			value,
+			isSet = false;
+	
+		if ( init !== undefined ) {
+			value = init;
+			isSet = true;
+		}
+	
+		while ( i !== end ) {
+			if ( ! that.hasOwnProperty(i) ) {
+				continue;
+			}
+	
+			value = isSet ?
+				fn( value, that[i], i, that ) :
+				that[i];
+	
+			isSet = true;
+			i += inc;
+		}
+	
+		return value;
+	}
+	
+	/**
+	 * Add a column to the list used for the table with default values
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {node} nTh The th element for this column
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnAddColumn( oSettings, nTh )
+	{
+		// Add column to aoColumns array
+		var oDefaults = DataTable.defaults.column;
+		var iCol = oSettings.aoColumns.length;
+		var oCol = $.extend( {}, DataTable.models.oColumn, oDefaults, {
+			"nTh": nTh ? nTh : document.createElement('th'),
+			"sTitle":    oDefaults.sTitle    ? oDefaults.sTitle    : nTh ? nTh.innerHTML : '',
+			"aDataSort": oDefaults.aDataSort ? oDefaults.aDataSort : [iCol],
+			"mData": oDefaults.mData ? oDefaults.mData : iCol,
+			idx: iCol
+		} );
+		oSettings.aoColumns.push( oCol );
+	
+		// Add search object for column specific search. Note that the `searchCols[ iCol ]`
+		// passed into extend can be undefined. This allows the user to give a default
+		// with only some of the parameters defined, and also not give a default
+		var searchCols = oSettings.aoPreSearchCols;
+		searchCols[ iCol ] = $.extend( {}, DataTable.models.oSearch, searchCols[ iCol ] );
+	
+		// Use the default column options function to initialise classes etc
+		_fnColumnOptions( oSettings, iCol, $(nTh).data() );
+	}
+	
+	
+	/**
+	 * Apply options for a column
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {int} iCol column index to consider
+	 *  @param {object} oOptions object with sType, bVisible and bSearchable etc
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnColumnOptions( oSettings, iCol, oOptions )
+	{
+		var oCol = oSettings.aoColumns[ iCol ];
+		var oClasses = oSettings.oClasses;
+		var th = $(oCol.nTh);
+	
+		// Try to get width information from the DOM. We can't get it from CSS
+		// as we'd need to parse the CSS stylesheet. `width` option can override
+		if ( ! oCol.sWidthOrig ) {
+			// Width attribute
+			oCol.sWidthOrig = th.attr('width') || null;
+	
+			// Style attribute
+			var t = (th.attr('style') || '').match(/width:\s*(\d+[pxem%]+)/);
+			if ( t ) {
+				oCol.sWidthOrig = t[1];
+			}
+		}
+	
+		/* User specified column options */
+		if ( oOptions !== undefined && oOptions !== null )
+		{
+			// Backwards compatibility
+			_fnCompatCols( oOptions );
+	
+			// Map camel case parameters to their Hungarian counterparts
+			_fnCamelToHungarian( DataTable.defaults.column, oOptions );
+	
+			/* Backwards compatibility for mDataProp */
+			if ( oOptions.mDataProp !== undefined && !oOptions.mData )
+			{
+				oOptions.mData = oOptions.mDataProp;
+			}
+	
+			if ( oOptions.sType )
+			{
+				oCol._sManualType = oOptions.sType;
+			}
+	
+			// `class` is a reserved word in Javascript, so we need to provide
+			// the ability to use a valid name for the camel case input
+			if ( oOptions.className && ! oOptions.sClass )
+			{
+				oOptions.sClass = oOptions.className;
+			}
+			if ( oOptions.sClass ) {
+				th.addClass( oOptions.sClass );
+			}
+	
+			$.extend( oCol, oOptions );
+			_fnMap( oCol, oOptions, "sWidth", "sWidthOrig" );
+	
+			/* iDataSort to be applied (backwards compatibility), but aDataSort will take
+			 * priority if defined
+			 */
+			if ( oOptions.iDataSort !== undefined )
+			{
+				oCol.aDataSort = [ oOptions.iDataSort ];
+			}
+			_fnMap( oCol, oOptions, "aDataSort" );
+		}
+	
+		/* Cache the data get and set functions for speed */
+		var mDataSrc = oCol.mData;
+		var mData = _fnGetObjectDataFn( mDataSrc );
+		var mRender = oCol.mRender ? _fnGetObjectDataFn( oCol.mRender ) : null;
+	
+		var attrTest = function( src ) {
+			return typeof src === 'string' && src.indexOf('@') !== -1;
+		};
+		oCol._bAttrSrc = $.isPlainObject( mDataSrc ) && (
+			attrTest(mDataSrc.sort) || attrTest(mDataSrc.type) || attrTest(mDataSrc.filter)
+		);
+		oCol._setter = null;
+	
+		oCol.fnGetData = function (rowData, type, meta) {
+			var innerData = mData( rowData, type, undefined, meta );
+	
+			return mRender && type ?
+				mRender( innerData, type, rowData, meta ) :
+				innerData;
+		};
+		oCol.fnSetData = function ( rowData, val, meta ) {
+			return _fnSetObjectDataFn( mDataSrc )( rowData, val, meta );
+		};
+	
+		// Indicate if DataTables should read DOM data as an object or array
+		// Used in _fnGetRowElements
+		if ( typeof mDataSrc !== 'number' ) {
+			oSettings._rowReadObject = true;
+		}
+	
+		/* Feature sorting overrides column specific when off */
+		if ( !oSettings.oFeatures.bSort )
+		{
+			oCol.bSortable = false;
+			th.addClass( oClasses.sSortableNone ); // Have to add class here as order event isn't called
+		}
+	
+		/* Check that the class assignment is correct for sorting */
+		var bAsc = $.inArray('asc', oCol.asSorting) !== -1;
+		var bDesc = $.inArray('desc', oCol.asSorting) !== -1;
+		if ( !oCol.bSortable || (!bAsc && !bDesc) )
+		{
+			oCol.sSortingClass = oClasses.sSortableNone;
+			oCol.sSortingClassJUI = "";
+		}
+		else if ( bAsc && !bDesc )
+		{
+			oCol.sSortingClass = oClasses.sSortableAsc;
+			oCol.sSortingClassJUI = oClasses.sSortJUIAscAllowed;
+		}
+		else if ( !bAsc && bDesc )
+		{
+			oCol.sSortingClass = oClasses.sSortableDesc;
+			oCol.sSortingClassJUI = oClasses.sSortJUIDescAllowed;
+		}
+		else
+		{
+			oCol.sSortingClass = oClasses.sSortable;
+			oCol.sSortingClassJUI = oClasses.sSortJUI;
+		}
+	}
+	
+	
+	/**
+	 * Adjust the table column widths for new data. Note: you would probably want to
+	 * do a redraw after calling this function!
+	 *  @param {object} settings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnAdjustColumnSizing ( settings )
+	{
+		/* Not interested in doing column width calculation if auto-width is disabled */
+		if ( settings.oFeatures.bAutoWidth !== false )
+		{
+			var columns = settings.aoColumns;
+	
+			_fnCalculateColumnWidths( settings );
+			for ( var i=0 , iLen=columns.length ; i<iLen ; i++ )
+			{
+				columns[i].nTh.style.width = columns[i].sWidth;
+			}
+		}
+	
+		var scroll = settings.oScroll;
+		if ( scroll.sY !== '' || scroll.sX !== '')
+		{
+			_fnScrollDraw( settings );
+		}
+	
+		_fnCallbackFire( settings, null, 'column-sizing', [settings] );
+	}
+	
+	
+	/**
+	 * Covert the index of a visible column to the index in the data array (take account
+	 * of hidden columns)
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {int} iMatch Visible column index to lookup
+	 *  @returns {int} i the data index
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnVisibleToColumnIndex( oSettings, iMatch )
+	{
+		var aiVis = _fnGetColumns( oSettings, 'bVisible' );
+	
+		return typeof aiVis[iMatch] === 'number' ?
+			aiVis[iMatch] :
+			null;
+	}
+	
+	
+	/**
+	 * Covert the index of an index in the data array and convert it to the visible
+	 *   column index (take account of hidden columns)
+	 *  @param {int} iMatch Column index to lookup
+	 *  @param {object} oSettings dataTables settings object
+	 *  @returns {int} i the data index
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnColumnIndexToVisible( oSettings, iMatch )
+	{
+		var aiVis = _fnGetColumns( oSettings, 'bVisible' );
+		var iPos = $.inArray( iMatch, aiVis );
+	
+		return iPos !== -1 ? iPos : null;
+	}
+	
+	
+	/**
+	 * Get the number of visible columns
+	 *  @param {object} oSettings dataTables settings object
+	 *  @returns {int} i the number of visible columns
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnVisbleColumns( oSettings )
+	{
+		var vis = 0;
+	
+		// No reduce in IE8, use a loop for now
+		$.each( oSettings.aoColumns, function ( i, col ) {
+			if ( col.bVisible && $(col.nTh).css('display') !== 'none' ) {
+				vis++;
+			}
+		} );
+	
+		return vis;
+	}
+	
+	
+	/**
+	 * Get an array of column indexes that match a given property
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {string} sParam Parameter in aoColumns to look for - typically
+	 *    bVisible or bSearchable
+	 *  @returns {array} Array of indexes with matched properties
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnGetColumns( oSettings, sParam )
+	{
+		var a = [];
+	
+		$.map( oSettings.aoColumns, function(val, i) {
+			if ( val[sParam] ) {
+				a.push( i );
+			}
+		} );
+	
+		return a;
+	}
+	
+	
+	/**
+	 * Calculate the 'type' of a column
+	 *  @param {object} settings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnColumnTypes ( settings )
+	{
+		var columns = settings.aoColumns;
+		var data = settings.aoData;
+		var types = DataTable.ext.type.detect;
+		var i, ien, j, jen, k, ken;
+		var col, cell, detectedType, cache;
+	
+		// For each column, spin over the 
+		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
+			col = columns[i];
+			cache = [];
+	
+			if ( ! col.sType && col._sManualType ) {
+				col.sType = col._sManualType;
+			}
+			else if ( ! col.sType ) {
+				for ( j=0, jen=types.length ; j<jen ; j++ ) {
+					for ( k=0, ken=data.length ; k<ken ; k++ ) {
+						// Use a cache array so we only need to get the type data
+						// from the formatter once (when using multiple detectors)
+						if ( cache[k] === undefined ) {
+							cache[k] = _fnGetCellData( settings, k, i, 'type' );
+						}
+	
+						detectedType = types[j]( cache[k], settings );
+	
+						// If null, then this type can't apply to this column, so
+						// rather than testing all cells, break out. There is an
+						// exception for the last type which is `html`. We need to
+						// scan all rows since it is possible to mix string and HTML
+						// types
+						if ( ! detectedType && j !== types.length-1 ) {
+							break;
+						}
+	
+						// Only a single match is needed for html type since it is
+						// bottom of the pile and very similar to string
+						if ( detectedType === 'html' ) {
+							break;
+						}
+					}
+	
+					// Type is valid for all data points in the column - use this
+					// type
+					if ( detectedType ) {
+						col.sType = detectedType;
+						break;
+					}
+				}
+	
+				// Fall back - if no type was detected, always use string
+				if ( ! col.sType ) {
+					col.sType = 'string';
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * Take the column definitions and static columns arrays and calculate how
+	 * they relate to column indexes. The callback function will then apply the
+	 * definition found for a column to a suitable configuration object.
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {array} aoColDefs The aoColumnDefs array that is to be applied
+	 *  @param {array} aoCols The aoColumns array that defines columns individually
+	 *  @param {function} fn Callback function - takes two parameters, the calculated
+	 *    column index and the definition for that column.
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnApplyColumnDefs( oSettings, aoColDefs, aoCols, fn )
+	{
+		var i, iLen, j, jLen, k, kLen, def;
+		var columns = oSettings.aoColumns;
+	
+		// Column definitions with aTargets
+		if ( aoColDefs )
+		{
+			/* Loop over the definitions array - loop in reverse so first instance has priority */
+			for ( i=aoColDefs.length-1 ; i>=0 ; i-- )
+			{
+				def = aoColDefs[i];
+	
+				/* Each definition can target multiple columns, as it is an array */
+				var aTargets = def.targets !== undefined ?
+					def.targets :
+					def.aTargets;
+	
+				if ( ! $.isArray( aTargets ) )
+				{
+					aTargets = [ aTargets ];
+				}
+	
+				for ( j=0, jLen=aTargets.length ; j<jLen ; j++ )
+				{
+					if ( typeof aTargets[j] === 'number' && aTargets[j] >= 0 )
+					{
+						/* Add columns that we don't yet know about */
+						while( columns.length <= aTargets[j] )
+						{
+							_fnAddColumn( oSettings );
+						}
+	
+						/* Integer, basic index */
+						fn( aTargets[j], def );
+					}
+					else if ( typeof aTargets[j] === 'number' && aTargets[j] < 0 )
+					{
+						/* Negative integer, right to left column counting */
+						fn( columns.length+aTargets[j], def );
+					}
+					else if ( typeof aTargets[j] === 'string' )
+					{
+						/* Class name matching on TH element */
+						for ( k=0, kLen=columns.length ; k<kLen ; k++ )
+						{
+							if ( aTargets[j] == "_all" ||
+							     $(columns[k].nTh).hasClass( aTargets[j] ) )
+							{
+								fn( k, def );
+							}
+						}
+					}
+				}
+			}
+		}
+	
+		// Statically defined columns array
+		if ( aoCols )
+		{
+			for ( i=0, iLen=aoCols.length ; i<iLen ; i++ )
+			{
+				fn( i, aoCols[i] );
+			}
+		}
+	}
+	
+	/**
+	 * Add a data array to the table, creating DOM node etc. This is the parallel to
+	 * _fnGatherData, but for adding rows from a Javascript source, rather than a
+	 * DOM source.
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {array} aData data array to be added
+	 *  @param {node} [nTr] TR element to add to the table - optional. If not given,
+	 *    DataTables will create a row automatically
+	 *  @param {array} [anTds] Array of TD|TH elements for the row - must be given
+	 *    if nTr is.
+	 *  @returns {int} >=0 if successful (index of new aoData entry), -1 if failed
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnAddData ( oSettings, aDataIn, nTr, anTds )
+	{
+		/* Create the object for storing information about this new row */
+		var iRow = oSettings.aoData.length;
+		var oData = $.extend( true, {}, DataTable.models.oRow, {
+			src: nTr ? 'dom' : 'data',
+			idx: iRow
+		} );
+	
+		oData._aData = aDataIn;
+		oSettings.aoData.push( oData );
+	
+		/* Create the cells */
+		var nTd, sThisType;
+		var columns = oSettings.aoColumns;
+	
+		// Invalidate the column types as the new data needs to be revalidated
+		for ( var i=0, iLen=columns.length ; i<iLen ; i++ )
+		{
+			columns[i].sType = null;
+		}
+	
+		/* Add to the display array */
+		oSettings.aiDisplayMaster.push( iRow );
+	
+		var id = oSettings.rowIdFn( aDataIn );
+		if ( id !== undefined ) {
+			oSettings.aIds[ id ] = oData;
+		}
+	
+		/* Create the DOM information, or register it if already present */
+		if ( nTr || ! oSettings.oFeatures.bDeferRender )
+		{
+			_fnCreateTr( oSettings, iRow, nTr, anTds );
+		}
+	
+		return iRow;
+	}
+	
+	
+	/**
+	 * Add one or more TR elements to the table. Generally we'd expect to
+	 * use this for reading data from a DOM sourced table, but it could be
+	 * used for an TR element. Note that if a TR is given, it is used (i.e.
+	 * it is not cloned).
+	 *  @param {object} settings dataTables settings object
+	 *  @param {array|node|jQuery} trs The TR element(s) to add to the table
+	 *  @returns {array} Array of indexes for the added rows
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnAddTr( settings, trs )
+	{
+		var row;
+	
+		// Allow an individual node to be passed in
+		if ( ! (trs instanceof $) ) {
+			trs = $(trs);
+		}
+	
+		return trs.map( function (i, el) {
+			row = _fnGetRowElements( settings, el );
+			return _fnAddData( settings, row.data, el, row.cells );
+		} );
+	}
+	
+	
+	/**
+	 * Take a TR element and convert it to an index in aoData
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {node} n the TR element to find
+	 *  @returns {int} index if the node is found, null if not
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnNodeToDataIndex( oSettings, n )
+	{
+		return (n._DT_RowIndex!==undefined) ? n._DT_RowIndex : null;
+	}
+	
+	
+	/**
+	 * Take a TD element and convert it into a column data index (not the visible index)
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {int} iRow The row number the TD/TH can be found in
+	 *  @param {node} n The TD/TH element to find
+	 *  @returns {int} index if the node is found, -1 if not
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnNodeToColumnIndex( oSettings, iRow, n )
+	{
+		return $.inArray( n, oSettings.aoData[ iRow ].anCells );
+	}
+	
+	
+	/**
+	 * Get the data for a given cell from the internal cache, taking into account data mapping
+	 *  @param {object} settings dataTables settings object
+	 *  @param {int} rowIdx aoData row id
+	 *  @param {int} colIdx Column index
+	 *  @param {string} type data get type ('display', 'type' 'filter' 'sort')
+	 *  @returns {*} Cell data
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnGetCellData( settings, rowIdx, colIdx, type )
+	{
+		var draw           = settings.iDraw;
+		var col            = settings.aoColumns[colIdx];
+		var rowData        = settings.aoData[rowIdx]._aData;
+		var defaultContent = col.sDefaultContent;
+		var cellData       = col.fnGetData( rowData, type, {
+			settings: settings,
+			row:      rowIdx,
+			col:      colIdx
+		} );
+	
+		if ( cellData === undefined ) {
+			if ( settings.iDrawError != draw && defaultContent === null ) {
+				_fnLog( settings, 0, "Requested unknown parameter "+
+					(typeof col.mData=='function' ? '{function}' : "'"+col.mData+"'")+
+					" for row "+rowIdx+", column "+colIdx, 4 );
+				settings.iDrawError = draw;
+			}
+			return defaultContent;
+		}
+	
+		// When the data source is null and a specific data type is requested (i.e.
+		// not the original data), we can use default column data
+		if ( (cellData === rowData || cellData === null) && defaultContent !== null && type !== undefined ) {
+			cellData = defaultContent;
+		}
+		else if ( typeof cellData === 'function' ) {
+			// If the data source is a function, then we run it and use the return,
+			// executing in the scope of the data object (for instances)
+			return cellData.call( rowData );
+		}
+	
+		if ( cellData === null && type == 'display' ) {
+			return '';
+		}
+		return cellData;
+	}
+	
+	
+	/**
+	 * Set the value for a specific cell, into the internal data cache
+	 *  @param {object} settings dataTables settings object
+	 *  @param {int} rowIdx aoData row id
+	 *  @param {int} colIdx Column index
+	 *  @param {*} val Value to set
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnSetCellData( settings, rowIdx, colIdx, val )
+	{
+		var col     = settings.aoColumns[colIdx];
+		var rowData = settings.aoData[rowIdx]._aData;
+	
+		col.fnSetData( rowData, val, {
+			settings: settings,
+			row:      rowIdx,
+			col:      colIdx
+		}  );
+	}
+	
+	
+	// Private variable that is used to match action syntax in the data property object
+	var __reArray = /\[.*?\]$/;
+	var __reFn = /\(\)$/;
+	
+	/**
+	 * Split string on periods, taking into account escaped periods
+	 * @param  {string} str String to split
+	 * @return {array} Split string
+	 */
+	function _fnSplitObjNotation( str )
+	{
+		return $.map( str.match(/(\\.|[^\.])+/g) || [''], function ( s ) {
+			return s.replace(/\\\./g, '.');
+		} );
+	}
+	
+	
+	/**
+	 * Return a function that can be used to get data from a source object, taking
+	 * into account the ability to use nested objects as a source
+	 *  @param {string|int|function} mSource The data source for the object
+	 *  @returns {function} Data get function
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnGetObjectDataFn( mSource )
+	{
+		if ( $.isPlainObject( mSource ) )
+		{
+			/* Build an object of get functions, and wrap them in a single call */
+			var o = {};
+			$.each( mSource, function (key, val) {
+				if ( val ) {
+					o[key] = _fnGetObjectDataFn( val );
+				}
+			} );
+	
+			return function (data, type, row, meta) {
+				var t = o[type] || o._;
+				return t !== undefined ?
+					t(data, type, row, meta) :
+					data;
+			};
+		}
+		else if ( mSource === null )
+		{
+			/* Give an empty string for rendering / sorting etc */
+			return function (data) { // type, row and meta also passed, but not used
+				return data;
+			};
+		}
+		else if ( typeof mSource === 'function' )
+		{
+			return function (data, type, row, meta) {
+				return mSource( data, type, row, meta );
+			};
+		}
+		else if ( typeof mSource === 'string' && (mSource.indexOf('.') !== -1 ||
+			      mSource.indexOf('[') !== -1 || mSource.indexOf('(') !== -1) )
+		{
+			/* If there is a . in the source string then the data source is in a
+			 * nested object so we loop over the data for each level to get the next
+			 * level down. On each loop we test for undefined, and if found immediately
+			 * return. This allows entire objects to be missing and sDefaultContent to
+			 * be used if defined, rather than throwing an error
+			 */
+			var fetchData = function (data, type, src) {
+				var arrayNotation, funcNotation, out, innerSrc;
+	
+				if ( src !== "" )
+				{
+					var a = _fnSplitObjNotation( src );
+	
+					for ( var i=0, iLen=a.length ; i<iLen ; i++ )
+					{
+						// Check if we are dealing with special notation
+						arrayNotation = a[i].match(__reArray);
+						funcNotation = a[i].match(__reFn);
+	
+						if ( arrayNotation )
+						{
+							// Array notation
+							a[i] = a[i].replace(__reArray, '');
+	
+							// Condition allows simply [] to be passed in
+							if ( a[i] !== "" ) {
+								data = data[ a[i] ];
+							}
+							out = [];
+	
+							// Get the remainder of the nested object to get
+							a.splice( 0, i+1 );
+							innerSrc = a.join('.');
+	
+							// Traverse each entry in the array getting the properties requested
+							if ( $.isArray( data ) ) {
+								for ( var j=0, jLen=data.length ; j<jLen ; j++ ) {
+									out.push( fetchData( data[j], type, innerSrc ) );
+								}
+							}
+	
+							// If a string is given in between the array notation indicators, that
+							// is used to join the strings together, otherwise an array is returned
+							var join = arrayNotation[0].substring(1, arrayNotation[0].length-1);
+							data = (join==="") ? out : out.join(join);
+	
+							// The inner call to fetchData has already traversed through the remainder
+							// of the source requested, so we exit from the loop
+							break;
+						}
+						else if ( funcNotation )
+						{
+							// Function call
+							a[i] = a[i].replace(__reFn, '');
+							data = data[ a[i] ]();
+							continue;
+						}
+	
+						if ( data === null || data[ a[i] ] === undefined )
+						{
+							return undefined;
+						}
+						data = data[ a[i] ];
+					}
+				}
+	
+				return data;
+			};
+	
+			return function (data, type) { // row and meta also passed, but not used
+				return fetchData( data, type, mSource );
+			};
+		}
+		else
+		{
+			/* Array or flat object mapping */
+			return function (data, type) { // row and meta also passed, but not used
+				return data[mSource];
+			};
+		}
+	}
+	
+	
+	/**
+	 * Return a function that can be used to set data from a source object, taking
+	 * into account the ability to use nested objects as a source
+	 *  @param {string|int|function} mSource The data source for the object
+	 *  @returns {function} Data set function
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnSetObjectDataFn( mSource )
+	{
+		if ( $.isPlainObject( mSource ) )
+		{
+			/* Unlike get, only the underscore (global) option is used for for
+			 * setting data since we don't know the type here. This is why an object
+			 * option is not documented for `mData` (which is read/write), but it is
+			 * for `mRender` which is read only.
+			 */
+			return _fnSetObjectDataFn( mSource._ );
+		}
+		else if ( mSource === null )
+		{
+			/* Nothing to do when the data source is null */
+			return function () {};
+		}
+		else if ( typeof mSource === 'function' )
+		{
+			return function (data, val, meta) {
+				mSource( data, 'set', val, meta );
+			};
+		}
+		else if ( typeof mSource === 'string' && (mSource.indexOf('.') !== -1 ||
+			      mSource.indexOf('[') !== -1 || mSource.indexOf('(') !== -1) )
+		{
+			/* Like the get, we need to get data from a nested object */
+			var setData = function (data, val, src) {
+				var a = _fnSplitObjNotation( src ), b;
+				var aLast = a[a.length-1];
+				var arrayNotation, funcNotation, o, innerSrc;
+	
+				for ( var i=0, iLen=a.length-1 ; i<iLen ; i++ )
+				{
+					// Check if we are dealing with an array notation request
+					arrayNotation = a[i].match(__reArray);
+					funcNotation = a[i].match(__reFn);
+	
+					if ( arrayNotation )
+					{
+						a[i] = a[i].replace(__reArray, '');
+						data[ a[i] ] = [];
+	
+						// Get the remainder of the nested object to set so we can recurse
+						b = a.slice();
+						b.splice( 0, i+1 );
+						innerSrc = b.join('.');
+	
+						// Traverse each entry in the array setting the properties requested
+						if ( $.isArray( val ) )
+						{
+							for ( var j=0, jLen=val.length ; j<jLen ; j++ )
+							{
+								o = {};
+								setData( o, val[j], innerSrc );
+								data[ a[i] ].push( o );
+							}
+						}
+						else
+						{
+							// We've been asked to save data to an array, but it
+							// isn't array data to be saved. Best that can be done
+							// is to just save the value.
+							data[ a[i] ] = val;
+						}
+	
+						// The inner call to setData has already traversed through the remainder
+						// of the source and has set the data, thus we can exit here
+						return;
+					}
+					else if ( funcNotation )
+					{
+						// Function call
+						a[i] = a[i].replace(__reFn, '');
+						data = data[ a[i] ]( val );
+					}
+	
+					// If the nested object doesn't currently exist - since we are
+					// trying to set the value - create it
+					if ( data[ a[i] ] === null || data[ a[i] ] === undefined )
+					{
+						data[ a[i] ] = {};
+					}
+					data = data[ a[i] ];
+				}
+	
+				// Last item in the input - i.e, the actual set
+				if ( aLast.match(__reFn ) )
+				{
+					// Function call
+					data = data[ aLast.replace(__reFn, '') ]( val );
+				}
+				else
+				{
+					// If array notation is used, we just want to strip it and use the property name
+					// and assign the value. If it isn't used, then we get the result we want anyway
+					data[ aLast.replace(__reArray, '') ] = val;
+				}
+			};
+	
+			return function (data, val) { // meta is also passed in, but not used
+				return setData( data, val, mSource );
+			};
+		}
+		else
+		{
+			/* Array or flat object mapping */
+			return function (data, val) { // meta is also passed in, but not used
+				data[mSource] = val;
+			};
+		}
+	}
+	
+	
+	/**
+	 * Return an array with the full table data
+	 *  @param {object} oSettings dataTables settings object
+	 *  @returns array {array} aData Master data array
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnGetDataMaster ( settings )
+	{
+		return _pluck( settings.aoData, '_aData' );
+	}
+	
+	
+	/**
+	 * Nuke the table
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnClearTable( settings )
+	{
+		settings.aoData.length = 0;
+		settings.aiDisplayMaster.length = 0;
+		settings.aiDisplay.length = 0;
+		settings.aIds = {};
+	}
+	
+	
+	 /**
+	 * Take an array of integers (index array) and remove a target integer (value - not
+	 * the key!)
+	 *  @param {array} a Index array to target
+	 *  @param {int} iTarget value to find
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnDeleteIndex( a, iTarget, splice )
+	{
+		var iTargetIndex = -1;
+	
+		for ( var i=0, iLen=a.length ; i<iLen ; i++ )
+		{
+			if ( a[i] == iTarget )
+			{
+				iTargetIndex = i;
+			}
+			else if ( a[i] > iTarget )
+			{
+				a[i]--;
+			}
+		}
+	
+		if ( iTargetIndex != -1 && splice === undefined )
+		{
+			a.splice( iTargetIndex, 1 );
+		}
+	}
+	
+	
+	/**
+	 * Mark cached data as invalid such that a re-read of the data will occur when
+	 * the cached data is next requested. Also update from the data source object.
+	 *
+	 * @param {object} settings DataTables settings object
+	 * @param {int}    rowIdx   Row index to invalidate
+	 * @param {string} [src]    Source to invalidate from: undefined, 'auto', 'dom'
+	 *     or 'data'
+	 * @param {int}    [colIdx] Column index to invalidate. If undefined the whole
+	 *     row will be invalidated
+	 * @memberof DataTable#oApi
+	 *
+	 * @todo For the modularisation of v1.11 this will need to become a callback, so
+	 *   the sort and filter methods can subscribe to it. That will required
+	 *   initialisation options for sorting, which is why it is not already baked in
+	 */
+	function _fnInvalidate( settings, rowIdx, src, colIdx )
+	{
+		var row = settings.aoData[ rowIdx ];
+		var i, ien;
+		var cellWrite = function ( cell, col ) {
+			// This is very frustrating, but in IE if you just write directly
+			// to innerHTML, and elements that are overwritten are GC'ed,
+			// even if there is a reference to them elsewhere
+			while ( cell.childNodes.length ) {
+				cell.removeChild( cell.firstChild );
+			}
+	
+			cell.innerHTML = _fnGetCellData( settings, rowIdx, col, 'display' );
+		};
+	
+		// Are we reading last data from DOM or the data object?
+		if ( src === 'dom' || ((! src || src === 'auto') && row.src === 'dom') ) {
+			// Read the data from the DOM
+			row._aData = _fnGetRowElements(
+					settings, row, colIdx, colIdx === undefined ? undefined : row._aData
+				)
+				.data;
+		}
+		else {
+			// Reading from data object, update the DOM
+			var cells = row.anCells;
+	
+			if ( cells ) {
+				if ( colIdx !== undefined ) {
+					cellWrite( cells[colIdx], colIdx );
+				}
+				else {
+					for ( i=0, ien=cells.length ; i<ien ; i++ ) {
+						cellWrite( cells[i], i );
+					}
+				}
+			}
+		}
+	
+		// For both row and cell invalidation, the cached data for sorting and
+		// filtering is nulled out
+		row._aSortData = null;
+		row._aFilterData = null;
+	
+		// Invalidate the type for a specific column (if given) or all columns since
+		// the data might have changed
+		var cols = settings.aoColumns;
+		if ( colIdx !== undefined ) {
+			cols[ colIdx ].sType = null;
+		}
+		else {
+			for ( i=0, ien=cols.length ; i<ien ; i++ ) {
+				cols[i].sType = null;
+			}
+	
+			// Update DataTables special `DT_*` attributes for the row
+			_fnRowAttributes( settings, row );
+		}
+	}
+	
+	
+	/**
+	 * Build a data source object from an HTML row, reading the contents of the
+	 * cells that are in the row.
+	 *
+	 * @param {object} settings DataTables settings object
+	 * @param {node|object} TR element from which to read data or existing row
+	 *   object from which to re-read the data from the cells
+	 * @param {int} [colIdx] Optional column index
+	 * @param {array|object} [d] Data source object. If `colIdx` is given then this
+	 *   parameter should also be given and will be used to write the data into.
+	 *   Only the column in question will be written
+	 * @returns {object} Object with two parameters: `data` the data read, in
+	 *   document order, and `cells` and array of nodes (they can be useful to the
+	 *   caller, so rather than needing a second traversal to get them, just return
+	 *   them from here).
+	 * @memberof DataTable#oApi
+	 */
+	function _fnGetRowElements( settings, row, colIdx, d )
+	{
+		var
+			tds = [],
+			td = row.firstChild,
+			name, col, o, i=0, contents,
+			columns = settings.aoColumns,
+			objectRead = settings._rowReadObject;
+	
+		// Allow the data object to be passed in, or construct
+		d = d !== undefined ?
+			d :
+			objectRead ?
+				{} :
+				[];
+	
+		var attr = function ( str, td  ) {
+			if ( typeof str === 'string' ) {
+				var idx = str.indexOf('@');
+	
+				if ( idx !== -1 ) {
+					var attr = str.substring( idx+1 );
+					var setter = _fnSetObjectDataFn( str );
+					setter( d, td.getAttribute( attr ) );
+				}
+			}
+		};
+	
+		// Read data from a cell and store into the data object
+		var cellProcess = function ( cell ) {
+			if ( colIdx === undefined || colIdx === i ) {
+				col = columns[i];
+				contents = $.trim(cell.innerHTML);
+	
+				if ( col && col._bAttrSrc ) {
+					var setter = _fnSetObjectDataFn( col.mData._ );
+					setter( d, contents );
+	
+					attr( col.mData.sort, cell );
+					attr( col.mData.type, cell );
+					attr( col.mData.filter, cell );
+				}
+				else {
+					// Depending on the `data` option for the columns the data can
+					// be read to either an object or an array.
+					if ( objectRead ) {
+						if ( ! col._setter ) {
+							// Cache the setter function
+							col._setter = _fnSetObjectDataFn( col.mData );
+						}
+						col._setter( d, contents );
+					}
+					else {
+						d[i] = contents;
+					}
+				}
+			}
+	
+			i++;
+		};
+	
+		if ( td ) {
+			// `tr` element was passed in
+			while ( td ) {
+				name = td.nodeName.toUpperCase();
+	
+				if ( name == "TD" || name == "TH" ) {
+					cellProcess( td );
+					tds.push( td );
+				}
+	
+				td = td.nextSibling;
+			}
+		}
+		else {
+			// Existing row object passed in
+			tds = row.anCells;
+	
+			for ( var j=0, jen=tds.length ; j<jen ; j++ ) {
+				cellProcess( tds[j] );
+			}
+		}
+	
+		// Read the ID from the DOM if present
+		var rowNode = row.firstChild ? row : row.nTr;
+	
+		if ( rowNode ) {
+			var id = rowNode.getAttribute( 'id' );
+	
+			if ( id ) {
+				_fnSetObjectDataFn( settings.rowId )( d, id );
+			}
+		}
+	
+		return {
+			data: d,
+			cells: tds
+		};
+	}
+	/**
+	 * Create a new TR element (and it's TD children) for a row
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {int} iRow Row to consider
+	 *  @param {node} [nTrIn] TR element to add to the table - optional. If not given,
+	 *    DataTables will create a row automatically
+	 *  @param {array} [anTds] Array of TD|TH elements for the row - must be given
+	 *    if nTr is.
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnCreateTr ( oSettings, iRow, nTrIn, anTds )
+	{
+		var
+			row = oSettings.aoData[iRow],
+			rowData = row._aData,
+			cells = [],
+			nTr, nTd, oCol,
+			i, iLen;
+	
+		if ( row.nTr === null )
+		{
+			nTr = nTrIn || document.createElement('tr');
+	
+			row.nTr = nTr;
+			row.anCells = cells;
+	
+			/* Use a private property on the node to allow reserve mapping from the node
+			 * to the aoData array for fast look up
+			 */
+			nTr._DT_RowIndex = iRow;
+	
+			/* Special parameters can be given by the data source to be used on the row */
+			_fnRowAttributes( oSettings, row );
+	
+			/* Process each column */
+			for ( i=0, iLen=oSettings.aoColumns.length ; i<iLen ; i++ )
+			{
+				oCol = oSettings.aoColumns[i];
+	
+				nTd = nTrIn ? anTds[i] : document.createElement( oCol.sCellType );
+				nTd._DT_CellIndex = {
+					row: iRow,
+					column: i
+				};
+				
+				cells.push( nTd );
+	
+				// Need to create the HTML if new, or if a rendering function is defined
+				if ( (!nTrIn || oCol.mRender || oCol.mData !== i) &&
+					 (!$.isPlainObject(oCol.mData) || oCol.mData._ !== i+'.display')
+				) {
+					nTd.innerHTML = _fnGetCellData( oSettings, iRow, i, 'display' );
+				}
+	
+				/* Add user defined class */
+				if ( oCol.sClass )
+				{
+					nTd.className += ' '+oCol.sClass;
+				}
+	
+				// Visibility - add or remove as required
+				if ( oCol.bVisible && ! nTrIn )
+				{
+					nTr.appendChild( nTd );
+				}
+				else if ( ! oCol.bVisible && nTrIn )
+				{
+					nTd.parentNode.removeChild( nTd );
+				}
+	
+				if ( oCol.fnCreatedCell )
+				{
+					oCol.fnCreatedCell.call( oSettings.oInstance,
+						nTd, _fnGetCellData( oSettings, iRow, i ), rowData, iRow, i
+					);
+				}
+			}
+	
+			_fnCallbackFire( oSettings, 'aoRowCreatedCallback', null, [nTr, rowData, iRow, cells] );
+		}
+	
+		// Remove once webkit bug 131819 and Chromium bug 365619 have been resolved
+		// and deployed
+		row.nTr.setAttribute( 'role', 'row' );
+	}
+	
+	
+	/**
+	 * Add attributes to a row based on the special `DT_*` parameters in a data
+	 * source object.
+	 *  @param {object} settings DataTables settings object
+	 *  @param {object} DataTables row object for the row to be modified
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnRowAttributes( settings, row )
+	{
+		var tr = row.nTr;
+		var data = row._aData;
+	
+		if ( tr ) {
+			var id = settings.rowIdFn( data );
+	
+			if ( id ) {
+				tr.id = id;
+			}
+	
+			if ( data.DT_RowClass ) {
+				// Remove any classes added by DT_RowClass before
+				var a = data.DT_RowClass.split(' ');
+				row.__rowc = row.__rowc ?
+					_unique( row.__rowc.concat( a ) ) :
+					a;
+	
+				$(tr)
+					.removeClass( row.__rowc.join(' ') )
+					.addClass( data.DT_RowClass );
+			}
+	
+			if ( data.DT_RowAttr ) {
+				$(tr).attr( data.DT_RowAttr );
+			}
+	
+			if ( data.DT_RowData ) {
+				$(tr).data( data.DT_RowData );
+			}
+		}
+	}
+	
+	
+	/**
+	 * Create the HTML header for the table
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnBuildHead( oSettings )
+	{
+		var i, ien, cell, row, column;
+		var thead = oSettings.nTHead;
+		var tfoot = oSettings.nTFoot;
+		var createHeader = $('th, td', thead).length === 0;
+		var classes = oSettings.oClasses;
+		var columns = oSettings.aoColumns;
+	
+		if ( createHeader ) {
+			row = $('<tr/>').appendTo( thead );
+		}
+	
+		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
+			column = columns[i];
+			cell = $( column.nTh ).addClass( column.sClass );
+	
+			if ( createHeader ) {
+				cell.appendTo( row );
+			}
+	
+			// 1.11 move into sorting
+			if ( oSettings.oFeatures.bSort ) {
+				cell.addClass( column.sSortingClass );
+	
+				if ( column.bSortable !== false ) {
+					cell
+						.attr( 'tabindex', oSettings.iTabIndex )
+						.attr( 'aria-controls', oSettings.sTableId );
+	
+					_fnSortAttachListener( oSettings, column.nTh, i );
+				}
+			}
+	
+			if ( column.sTitle != cell[0].innerHTML ) {
+				cell.html( column.sTitle );
+			}
+	
+			_fnRenderer( oSettings, 'header' )(
+				oSettings, cell, column, classes
+			);
+		}
+	
+		if ( createHeader ) {
+			_fnDetectHeader( oSettings.aoHeader, thead );
+		}
+		
+		/* ARIA role for the rows */
+	 	$(thead).find('>tr').attr('role', 'row');
+	
+		/* Deal with the footer - add classes if required */
+		$(thead).find('>tr>th, >tr>td').addClass( classes.sHeaderTH );
+		$(tfoot).find('>tr>th, >tr>td').addClass( classes.sFooterTH );
+	
+		// Cache the footer cells. Note that we only take the cells from the first
+		// row in the footer. If there is more than one row the user wants to
+		// interact with, they need to use the table().foot() method. Note also this
+		// allows cells to be used for multiple columns using colspan
+		if ( tfoot !== null ) {
+			var cells = oSettings.aoFooter[0];
+	
+			for ( i=0, ien=cells.length ; i<ien ; i++ ) {
+				column = columns[i];
+				column.nTf = cells[i].cell;
+	
+				if ( column.sClass ) {
+					$(column.nTf).addClass( column.sClass );
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * Draw the header (or footer) element based on the column visibility states. The
+	 * methodology here is to use the layout array from _fnDetectHeader, modified for
+	 * the instantaneous column visibility, to construct the new layout. The grid is
+	 * traversed over cell at a time in a rows x columns grid fashion, although each
+	 * cell insert can cover multiple elements in the grid - which is tracks using the
+	 * aApplied array. Cell inserts in the grid will only occur where there isn't
+	 * already a cell in that position.
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param array {objects} aoSource Layout array from _fnDetectHeader
+	 *  @param {boolean} [bIncludeHidden=false] If true then include the hidden columns in the calc,
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnDrawHead( oSettings, aoSource, bIncludeHidden )
+	{
+		var i, iLen, j, jLen, k, kLen, n, nLocalTr;
+		var aoLocal = [];
+		var aApplied = [];
+		var iColumns = oSettings.aoColumns.length;
+		var iRowspan, iColspan;
+	
+		if ( ! aoSource )
+		{
+			return;
+		}
+	
+		if (  bIncludeHidden === undefined )
+		{
+			bIncludeHidden = false;
+		}
+	
+		/* Make a copy of the master layout array, but without the visible columns in it */
+		for ( i=0, iLen=aoSource.length ; i<iLen ; i++ )
+		{
+			aoLocal[i] = aoSource[i].slice();
+			aoLocal[i].nTr = aoSource[i].nTr;
+	
+			/* Remove any columns which are currently hidden */
+			for ( j=iColumns-1 ; j>=0 ; j-- )
+			{
+				if ( !oSettings.aoColumns[j].bVisible && !bIncludeHidden )
+				{
+					aoLocal[i].splice( j, 1 );
+				}
+			}
+	
+			/* Prep the applied array - it needs an element for each row */
+			aApplied.push( [] );
+		}
+	
+		for ( i=0, iLen=aoLocal.length ; i<iLen ; i++ )
+		{
+			nLocalTr = aoLocal[i].nTr;
+	
+			/* All cells are going to be replaced, so empty out the row */
+			if ( nLocalTr )
+			{
+				while( (n = nLocalTr.firstChild) )
+				{
+					nLocalTr.removeChild( n );
+				}
+			}
+	
+			for ( j=0, jLen=aoLocal[i].length ; j<jLen ; j++ )
+			{
+				iRowspan = 1;
+				iColspan = 1;
+	
+				/* Check to see if there is already a cell (row/colspan) covering our target
+				 * insert point. If there is, then there is nothing to do.
+				 */
+				if ( aApplied[i][j] === undefined )
+				{
+					nLocalTr.appendChild( aoLocal[i][j].cell );
+					aApplied[i][j] = 1;
+	
+					/* Expand the cell to cover as many rows as needed */
+					while ( aoLocal[i+iRowspan] !== undefined &&
+					        aoLocal[i][j].cell == aoLocal[i+iRowspan][j].cell )
+					{
+						aApplied[i+iRowspan][j] = 1;
+						iRowspan++;
+					}
+	
+					/* Expand the cell to cover as many columns as needed */
+					while ( aoLocal[i][j+iColspan] !== undefined &&
+					        aoLocal[i][j].cell == aoLocal[i][j+iColspan].cell )
+					{
+						/* Must update the applied array over the rows for the columns */
+						for ( k=0 ; k<iRowspan ; k++ )
+						{
+							aApplied[i+k][j+iColspan] = 1;
+						}
+						iColspan++;
+					}
+	
+					/* Do the actual expansion in the DOM */
+					$(aoLocal[i][j].cell)
+						.attr('rowspan', iRowspan)
+						.attr('colspan', iColspan);
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * Insert the required TR nodes into the table for display
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnDraw( oSettings )
+	{
+		/* Provide a pre-callback function which can be used to cancel the draw is false is returned */
+		var aPreDraw = _fnCallbackFire( oSettings, 'aoPreDrawCallback', 'preDraw', [oSettings] );
+		if ( $.inArray( false, aPreDraw ) !== -1 )
+		{
+			_fnProcessingDisplay( oSettings, false );
+			return;
+		}
+	
+		var i, iLen, n;
+		var anRows = [];
+		var iRowCount = 0;
+		var asStripeClasses = oSettings.asStripeClasses;
+		var iStripes = asStripeClasses.length;
+		var iOpenRows = oSettings.aoOpenRows.length;
+		var oLang = oSettings.oLanguage;
+		var iInitDisplayStart = oSettings.iInitDisplayStart;
+		var bServerSide = _fnDataSource( oSettings ) == 'ssp';
+		var aiDisplay = oSettings.aiDisplay;
+	
+		oSettings.bDrawing = true;
+	
+		/* Check and see if we have an initial draw position from state saving */
+		if ( iInitDisplayStart !== undefined && iInitDisplayStart !== -1 )
+		{
+			oSettings._iDisplayStart = bServerSide ?
+				iInitDisplayStart :
+				iInitDisplayStart >= oSettings.fnRecordsDisplay() ?
+					0 :
+					iInitDisplayStart;
+	
+			oSettings.iInitDisplayStart = -1;
+		}
+	
+		var iDisplayStart = oSettings._iDisplayStart;
+		var iDisplayEnd = oSettings.fnDisplayEnd();
+	
+		/* Server-side processing draw intercept */
+		if ( oSettings.bDeferLoading )
+		{
+			oSettings.bDeferLoading = false;
+			oSettings.iDraw++;
+			_fnProcessingDisplay( oSettings, false );
+		}
+		else if ( !bServerSide )
+		{
+			oSettings.iDraw++;
+		}
+		else if ( !oSettings.bDestroying && !_fnAjaxUpdate( oSettings ) )
+		{
+			return;
+		}
+	
+		if ( aiDisplay.length !== 0 )
+		{
+			var iStart = bServerSide ? 0 : iDisplayStart;
+			var iEnd = bServerSide ? oSettings.aoData.length : iDisplayEnd;
+	
+			for ( var j=iStart ; j<iEnd ; j++ )
+			{
+				var iDataIndex = aiDisplay[j];
+				var aoData = oSettings.aoData[ iDataIndex ];
+				if ( aoData.nTr === null )
+				{
+					_fnCreateTr( oSettings, iDataIndex );
+				}
+	
+				var nRow = aoData.nTr;
+	
+				/* Remove the old striping classes and then add the new one */
+				if ( iStripes !== 0 )
+				{
+					var sStripe = asStripeClasses[ iRowCount % iStripes ];
+					if ( aoData._sRowStripe != sStripe )
+					{
+						$(nRow).removeClass( aoData._sRowStripe ).addClass( sStripe );
+						aoData._sRowStripe = sStripe;
+					}
+				}
+	
+				// Row callback functions - might want to manipulate the row
+				// iRowCount and j are not currently documented. Are they at all
+				// useful?
+				_fnCallbackFire( oSettings, 'aoRowCallback', null,
+					[nRow, aoData._aData, iRowCount, j, iDataIndex] );
+	
+				anRows.push( nRow );
+				iRowCount++;
+			}
+		}
+		else
+		{
+			/* Table is empty - create a row with an empty message in it */
+			var sZero = oLang.sZeroRecords;
+			if ( oSettings.iDraw == 1 &&  _fnDataSource( oSettings ) == 'ajax' )
+			{
+				sZero = oLang.sLoadingRecords;
+			}
+			else if ( oLang.sEmptyTable && oSettings.fnRecordsTotal() === 0 )
+			{
+				sZero = oLang.sEmptyTable;
+			}
+	
+			anRows[ 0 ] = $( '<tr/>', { 'class': iStripes ? asStripeClasses[0] : '' } )
+				.append( $('<td />', {
+					'valign':  'top',
+					'colSpan': _fnVisbleColumns( oSettings ),
+					'class':   oSettings.oClasses.sRowEmpty
+				} ).html( sZero ) )[0];
+		}
+	
+		/* Header and footer callbacks */
+		_fnCallbackFire( oSettings, 'aoHeaderCallback', 'header', [ $(oSettings.nTHead).children('tr')[0],
+			_fnGetDataMaster( oSettings ), iDisplayStart, iDisplayEnd, aiDisplay ] );
+	
+		_fnCallbackFire( oSettings, 'aoFooterCallback', 'footer', [ $(oSettings.nTFoot).children('tr')[0],
+			_fnGetDataMaster( oSettings ), iDisplayStart, iDisplayEnd, aiDisplay ] );
+	
+		var body = $(oSettings.nTBody);
+	
+		body.children().detach();
+		body.append( $(anRows) );
+	
+		/* Call all required callback functions for the end of a draw */
+		_fnCallbackFire( oSettings, 'aoDrawCallback', 'draw', [oSettings] );
+	
+		/* Draw is complete, sorting and filtering must be as well */
+		oSettings.bSorted = false;
+		oSettings.bFiltered = false;
+		oSettings.bDrawing = false;
+	}
+	
+	
+	/**
+	 * Redraw the table - taking account of the various features which are enabled
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {boolean} [holdPosition] Keep the current paging position. By default
+	 *    the paging is reset to the first page
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnReDraw( settings, holdPosition )
+	{
+		var
+			features = settings.oFeatures,
+			sort     = features.bSort,
+			filter   = features.bFilter;
+	
+		if ( sort ) {
+			_fnSort( settings );
+		}
+	
+		if ( filter ) {
+			_fnFilterComplete( settings, settings.oPreviousSearch );
+		}
+		else {
+			// No filtering, so we want to just use the display master
+			settings.aiDisplay = settings.aiDisplayMaster.slice();
+		}
+	
+		if ( holdPosition !== true ) {
+			settings._iDisplayStart = 0;
+		}
+	
+		// Let any modules know about the draw hold position state (used by
+		// scrolling internally)
+		settings._drawHold = holdPosition;
+	
+		_fnDraw( settings );
+	
+		settings._drawHold = false;
+	}
+	
+	
+	/**
+	 * Add the options to the page HTML for the table
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnAddOptionsHtml ( oSettings )
+	{
+		var classes = oSettings.oClasses;
+		var table = $(oSettings.nTable);
+		var holding = $('<div/>').insertBefore( table ); // Holding element for speed
+		var features = oSettings.oFeatures;
+	
+		// All DataTables are wrapped in a div
+		var insert = $('<div/>', {
+			id:      oSettings.sTableId+'_wrapper',
+			'class': classes.sWrapper + (oSettings.nTFoot ? '' : ' '+classes.sNoFooter)
+		} );
+	
+		oSettings.nHolding = holding[0];
+		oSettings.nTableWrapper = insert[0];
+		oSettings.nTableReinsertBefore = oSettings.nTable.nextSibling;
+	
+		/* Loop over the user set positioning and place the elements as needed */
+		var aDom = oSettings.sDom.split('');
+		var featureNode, cOption, nNewNode, cNext, sAttr, j;
+		for ( var i=0 ; i<aDom.length ; i++ )
+		{
+			featureNode = null;
+			cOption = aDom[i];
+	
+			if ( cOption == '<' )
+			{
+				/* New container div */
+				nNewNode = $('<div/>')[0];
+	
+				/* Check to see if we should append an id and/or a class name to the container */
+				cNext = aDom[i+1];
+				if ( cNext == "'" || cNext == '"' )
+				{
+					sAttr = "";
+					j = 2;
+					while ( aDom[i+j] != cNext )
+					{
+						sAttr += aDom[i+j];
+						j++;
+					}
+	
+					/* Replace jQuery UI constants @todo depreciated */
+					if ( sAttr == "H" )
+					{
+						sAttr = classes.sJUIHeader;
+					}
+					else if ( sAttr == "F" )
+					{
+						sAttr = classes.sJUIFooter;
+					}
+	
+					/* The attribute can be in the format of "#id.class", "#id" or "class" This logic
+					 * breaks the string into parts and applies them as needed
+					 */
+					if ( sAttr.indexOf('.') != -1 )
+					{
+						var aSplit = sAttr.split('.');
+						nNewNode.id = aSplit[0].substr(1, aSplit[0].length-1);
+						nNewNode.className = aSplit[1];
+					}
+					else if ( sAttr.charAt(0) == "#" )
+					{
+						nNewNode.id = sAttr.substr(1, sAttr.length-1);
+					}
+					else
+					{
+						nNewNode.className = sAttr;
+					}
+	
+					i += j; /* Move along the position array */
+				}
+	
+				insert.append( nNewNode );
+				insert = $(nNewNode);
+			}
+			else if ( cOption == '>' )
+			{
+				/* End container div */
+				insert = insert.parent();
+			}
+			// @todo Move options into their own plugins?
+			else if ( cOption == 'l' && features.bPaginate && features.bLengthChange )
+			{
+				/* Length */
+				featureNode = _fnFeatureHtmlLength( oSettings );
+			}
+			else if ( cOption == 'f' && features.bFilter )
+			{
+				/* Filter */
+				featureNode = _fnFeatureHtmlFilter( oSettings );
+			}
+			else if ( cOption == 'r' && features.bProcessing )
+			{
+				/* pRocessing */
+				featureNode = _fnFeatureHtmlProcessing( oSettings );
+			}
+			else if ( cOption == 't' )
+			{
+				/* Table */
+				featureNode = _fnFeatureHtmlTable( oSettings );
+			}
+			else if ( cOption ==  'i' && features.bInfo )
+			{
+				/* Info */
+				featureNode = _fnFeatureHtmlInfo( oSettings );
+			}
+			else if ( cOption == 'p' && features.bPaginate )
+			{
+				/* Pagination */
+				featureNode = _fnFeatureHtmlPaginate( oSettings );
+			}
+			else if ( DataTable.ext.feature.length !== 0 )
+			{
+				/* Plug-in features */
+				var aoFeatures = DataTable.ext.feature;
+				for ( var k=0, kLen=aoFeatures.length ; k<kLen ; k++ )
+				{
+					if ( cOption == aoFeatures[k].cFeature )
+					{
+						featureNode = aoFeatures[k].fnInit( oSettings );
+						break;
+					}
+				}
+			}
+	
+			/* Add to the 2D features array */
+			if ( featureNode )
+			{
+				var aanFeatures = oSettings.aanFeatures;
+	
+				if ( ! aanFeatures[cOption] )
+				{
+					aanFeatures[cOption] = [];
+				}
+	
+				aanFeatures[cOption].push( featureNode );
+				insert.append( featureNode );
+			}
+		}
+	
+		/* Built our DOM structure - replace the holding div with what we want */
+		holding.replaceWith( insert );
+		oSettings.nHolding = null;
+	}
+	
+	
+	/**
+	 * Use the DOM source to create up an array of header cells. The idea here is to
+	 * create a layout grid (array) of rows x columns, which contains a reference
+	 * to the cell that that point in the grid (regardless of col/rowspan), such that
+	 * any column / row could be removed and the new grid constructed
+	 *  @param array {object} aLayout Array to store the calculated layout in
+	 *  @param {node} nThead The header/footer element for the table
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnDetectHeader ( aLayout, nThead )
+	{
+		var nTrs = $(nThead).children('tr');
+		var nTr, nCell;
+		var i, k, l, iLen, jLen, iColShifted, iColumn, iColspan, iRowspan;
+		var bUnique;
+		var fnShiftCol = function ( a, i, j ) {
+			var k = a[i];
+	                while ( k[j] ) {
+				j++;
+			}
+			return j;
+		};
+	
+		aLayout.splice( 0, aLayout.length );
+	
+		/* We know how many rows there are in the layout - so prep it */
+		for ( i=0, iLen=nTrs.length ; i<iLen ; i++ )
+		{
+			aLayout.push( [] );
+		}
+	
+		/* Calculate a layout array */
+		for ( i=0, iLen=nTrs.length ; i<iLen ; i++ )
+		{
+			nTr = nTrs[i];
+			iColumn = 0;
+	
+			/* For every cell in the row... */
+			nCell = nTr.firstChild;
+			while ( nCell ) {
+				if ( nCell.nodeName.toUpperCase() == "TD" ||
+				     nCell.nodeName.toUpperCase() == "TH" )
+				{
+					/* Get the col and rowspan attributes from the DOM and sanitise them */
+					iColspan = nCell.getAttribute('colspan') * 1;
+					iRowspan = nCell.getAttribute('rowspan') * 1;
+					iColspan = (!iColspan || iColspan===0 || iColspan===1) ? 1 : iColspan;
+					iRowspan = (!iRowspan || iRowspan===0 || iRowspan===1) ? 1 : iRowspan;
+	
+					/* There might be colspan cells already in this row, so shift our target
+					 * accordingly
+					 */
+					iColShifted = fnShiftCol( aLayout, i, iColumn );
+	
+					/* Cache calculation for unique columns */
+					bUnique = iColspan === 1 ? true : false;
+	
+					/* If there is col / rowspan, copy the information into the layout grid */
+					for ( l=0 ; l<iColspan ; l++ )
+					{
+						for ( k=0 ; k<iRowspan ; k++ )
+						{
+							aLayout[i+k][iColShifted+l] = {
+								"cell": nCell,
+								"unique": bUnique
+							};
+							aLayout[i+k].nTr = nTr;
+						}
+					}
+				}
+				nCell = nCell.nextSibling;
+			}
+		}
+	}
+	
+	
+	/**
+	 * Get an array of unique th elements, one for each column
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {node} nHeader automatically detect the layout from this node - optional
+	 *  @param {array} aLayout thead/tfoot layout from _fnDetectHeader - optional
+	 *  @returns array {node} aReturn list of unique th's
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnGetUniqueThs ( oSettings, nHeader, aLayout )
+	{
+		var aReturn = [];
+		if ( !aLayout )
+		{
+			aLayout = oSettings.aoHeader;
+			if ( nHeader )
+			{
+				aLayout = [];
+				_fnDetectHeader( aLayout, nHeader );
+			}
+		}
+	
+		for ( var i=0, iLen=aLayout.length ; i<iLen ; i++ )
+		{
+			for ( var j=0, jLen=aLayout[i].length ; j<jLen ; j++ )
+			{
+				if ( aLayout[i][j].unique &&
+					 (!aReturn[j] || !oSettings.bSortCellsTop) )
+				{
+					aReturn[j] = aLayout[i][j].cell;
+				}
+			}
+		}
+	
+		return aReturn;
+	}
+	
+	/**
+	 * Create an Ajax call based on the table's settings, taking into account that
+	 * parameters can have multiple forms, and backwards compatibility.
+	 *
+	 * @param {object} oSettings dataTables settings object
+	 * @param {array} data Data to send to the server, required by
+	 *     DataTables - may be augmented by developer callbacks
+	 * @param {function} fn Callback function to run when data is obtained
+	 */
+	function _fnBuildAjax( oSettings, data, fn )
+	{
+		// Compatibility with 1.9-, allow fnServerData and event to manipulate
+		_fnCallbackFire( oSettings, 'aoServerParams', 'serverParams', [data] );
+	
+		// Convert to object based for 1.10+ if using the old array scheme which can
+		// come from server-side processing or serverParams
+		if ( data && $.isArray(data) ) {
+			var tmp = {};
+			var rbracket = /(.*?)\[\]$/;
+	
+			$.each( data, function (key, val) {
+				var match = val.name.match(rbracket);
+	
+				if ( match ) {
+					// Support for arrays
+					var name = match[0];
+	
+					if ( ! tmp[ name ] ) {
+						tmp[ name ] = [];
+					}
+					tmp[ name ].push( val.value );
+				}
+				else {
+					tmp[val.name] = val.value;
+				}
+			} );
+			data = tmp;
+		}
+	
+		var ajaxData;
+		var ajax = oSettings.ajax;
+		var instance = oSettings.oInstance;
+		var callback = function ( json ) {
+			_fnCallbackFire( oSettings, null, 'xhr', [oSettings, json, oSettings.jqXHR] );
+			fn( json );
+		};
+	
+		if ( $.isPlainObject( ajax ) && ajax.data )
+		{
+			ajaxData = ajax.data;
+	
+			var newData = typeof ajaxData === 'function' ?
+				ajaxData( data, oSettings ) :  // fn can manipulate data or return
+				ajaxData;                      // an object object or array to merge
+	
+			// If the function returned something, use that alone
+			data = typeof ajaxData === 'function' && newData ?
+				newData :
+				$.extend( true, data, newData );
+	
+			// Remove the data property as we've resolved it already and don't want
+			// jQuery to do it again (it is restored at the end of the function)
+			delete ajax.data;
+		}
+	
+		var baseAjax = {
+			"data": data,
+			"success": function (json) {
+				var error = json.error || json.sError;
+				if ( error ) {
+					_fnLog( oSettings, 0, error );
+				}
+	
+				oSettings.json = json;
+				callback( json );
+			},
+			"dataType": "json",
+			"cache": false,
+			"type": oSettings.sServerMethod,
+			"error": function (xhr, error, thrown) {
+				var ret = _fnCallbackFire( oSettings, null, 'xhr', [oSettings, null, oSettings.jqXHR] );
+	
+				if ( $.inArray( true, ret ) === -1 ) {
+					if ( error == "parsererror" ) {
+						_fnLog( oSettings, 0, 'Invalid JSON response', 1 );
+					}
+					else if ( xhr.readyState === 4 ) {
+						_fnLog( oSettings, 0, 'Ajax error', 7 );
+					}
+				}
+	
+				_fnProcessingDisplay( oSettings, false );
+			}
+		};
+	
+		// Store the data submitted for the API
+		oSettings.oAjaxData = data;
+	
+		// Allow plug-ins and external processes to modify the data
+		_fnCallbackFire( oSettings, null, 'preXhr', [oSettings, data] );
+	
+		if ( oSettings.fnServerData )
+		{
+			// DataTables 1.9- compatibility
+			oSettings.fnServerData.call( instance,
+				oSettings.sAjaxSource,
+				$.map( data, function (val, key) { // Need to convert back to 1.9 trad format
+					return { name: key, value: val };
+				} ),
+				callback,
+				oSettings
+			);
+		}
+		else if ( oSettings.sAjaxSource || typeof ajax === 'string' )
+		{
+			// DataTables 1.9- compatibility
+			oSettings.jqXHR = $.ajax( $.extend( baseAjax, {
+				url: ajax || oSettings.sAjaxSource
+			} ) );
+		}
+		else if ( typeof ajax === 'function' )
+		{
+			// Is a function - let the caller define what needs to be done
+			oSettings.jqXHR = ajax.call( instance, data, callback, oSettings );
+		}
+		else
+		{
+			// Object to extend the base settings
+			oSettings.jqXHR = $.ajax( $.extend( baseAjax, ajax ) );
+	
+			// Restore for next time around
+			ajax.data = ajaxData;
+		}
+	}
+	
+	
+	/**
+	 * Update the table using an Ajax call
+	 *  @param {object} settings dataTables settings object
+	 *  @returns {boolean} Block the table drawing or not
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnAjaxUpdate( settings )
+	{
+		if ( settings.bAjaxDataGet ) {
+			settings.iDraw++;
+			_fnProcessingDisplay( settings, true );
+	
+			_fnBuildAjax(
+				settings,
+				_fnAjaxParameters( settings ),
+				function(json) {
+					_fnAjaxUpdateDraw( settings, json );
+				}
+			);
+	
+			return false;
+		}
+		return true;
+	}
+	
+	
+	/**
+	 * Build up the parameters in an object needed for a server-side processing
+	 * request. Note that this is basically done twice, is different ways - a modern
+	 * method which is used by default in DataTables 1.10 which uses objects and
+	 * arrays, or the 1.9- method with is name / value pairs. 1.9 method is used if
+	 * the sAjaxSource option is used in the initialisation, or the legacyAjax
+	 * option is set.
+	 *  @param {object} oSettings dataTables settings object
+	 *  @returns {bool} block the table drawing or not
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnAjaxParameters( settings )
+	{
+		var
+			columns = settings.aoColumns,
+			columnCount = columns.length,
+			features = settings.oFeatures,
+			preSearch = settings.oPreviousSearch,
+			preColSearch = settings.aoPreSearchCols,
+			i, data = [], dataProp, column, columnSearch,
+			sort = _fnSortFlatten( settings ),
+			displayStart = settings._iDisplayStart,
+			displayLength = features.bPaginate !== false ?
+				settings._iDisplayLength :
+				-1;
+	
+		var param = function ( name, value ) {
+			data.push( { 'name': name, 'value': value } );
+		};
+	
+		// DataTables 1.9- compatible method
+		param( 'sEcho',          settings.iDraw );
+		param( 'iColumns',       columnCount );
+		param( 'sColumns',       _pluck( columns, 'sName' ).join(',') );
+		param( 'iDisplayStart',  displayStart );
+		param( 'iDisplayLength', displayLength );
+	
+		// DataTables 1.10+ method
+		var d = {
+			draw:    settings.iDraw,
+			columns: [],
+			order:   [],
+			start:   displayStart,
+			length:  displayLength,
+			search:  {
+				value: preSearch.sSearch,
+				regex: preSearch.bRegex
+			}
+		};
+	
+		for ( i=0 ; i<columnCount ; i++ ) {
+			column = columns[i];
+			columnSearch = preColSearch[i];
+			dataProp = typeof column.mData=="function" ? 'function' : column.mData ;
+	
+			d.columns.push( {
+				data:       dataProp,
+				name:       column.sName,
+				searchable: column.bSearchable,
+				orderable:  column.bSortable,
+				search:     {
+					value: columnSearch.sSearch,
+					regex: columnSearch.bRegex
+				}
+			} );
+	
+			param( "mDataProp_"+i, dataProp );
+	
+			if ( features.bFilter ) {
+				param( 'sSearch_'+i,     columnSearch.sSearch );
+				param( 'bRegex_'+i,      columnSearch.bRegex );
+				param( 'bSearchable_'+i, column.bSearchable );
+			}
+	
+			if ( features.bSort ) {
+				param( 'bSortable_'+i, column.bSortable );
+			}
+		}
+	
+		if ( features.bFilter ) {
+			param( 'sSearch', preSearch.sSearch );
+			param( 'bRegex', preSearch.bRegex );
+		}
+	
+		if ( features.bSort ) {
+			$.each( sort, function ( i, val ) {
+				d.order.push( { column: val.col, dir: val.dir } );
+	
+				param( 'iSortCol_'+i, val.col );
+				param( 'sSortDir_'+i, val.dir );
+			} );
+	
+			param( 'iSortingCols', sort.length );
+		}
+	
+		// If the legacy.ajax parameter is null, then we automatically decide which
+		// form to use, based on sAjaxSource
+		var legacy = DataTable.ext.legacy.ajax;
+		if ( legacy === null ) {
+			return settings.sAjaxSource ? data : d;
+		}
+	
+		// Otherwise, if legacy has been specified then we use that to decide on the
+		// form
+		return legacy ? data : d;
+	}
+	
+	
+	/**
+	 * Data the data from the server (nuking the old) and redraw the table
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {object} json json data return from the server.
+	 *  @param {string} json.sEcho Tracking flag for DataTables to match requests
+	 *  @param {int} json.iTotalRecords Number of records in the data set, not accounting for filtering
+	 *  @param {int} json.iTotalDisplayRecords Number of records in the data set, accounting for filtering
+	 *  @param {array} json.aaData The data to display on this page
+	 *  @param {string} [json.sColumns] Column ordering (sName, comma separated)
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnAjaxUpdateDraw ( settings, json )
+	{
+		// v1.10 uses camelCase variables, while 1.9 uses Hungarian notation.
+		// Support both
+		var compat = function ( old, modern ) {
+			return json[old] !== undefined ? json[old] : json[modern];
+		};
+	
+		var data = _fnAjaxDataSrc( settings, json );
+		var draw            = compat( 'sEcho',                'draw' );
+		var recordsTotal    = compat( 'iTotalRecords',        'recordsTotal' );
+		var recordsFiltered = compat( 'iTotalDisplayRecords', 'recordsFiltered' );
+	
+		if ( draw ) {
+			// Protect against out of sequence returns
+			if ( draw*1 < settings.iDraw ) {
+				return;
+			}
+			settings.iDraw = draw * 1;
+		}
+	
+		_fnClearTable( settings );
+		settings._iRecordsTotal   = parseInt(recordsTotal, 10);
+		settings._iRecordsDisplay = parseInt(recordsFiltered, 10);
+	
+		for ( var i=0, ien=data.length ; i<ien ; i++ ) {
+			_fnAddData( settings, data[i] );
+		}
+		settings.aiDisplay = settings.aiDisplayMaster.slice();
+	
+		settings.bAjaxDataGet = false;
+		_fnDraw( settings );
+	
+		if ( ! settings._bInitComplete ) {
+			_fnInitComplete( settings, json );
+		}
+	
+		settings.bAjaxDataGet = true;
+		_fnProcessingDisplay( settings, false );
+	}
+	
+	
+	/**
+	 * Get the data from the JSON data source to use for drawing a table. Using
+	 * `_fnGetObjectDataFn` allows the data to be sourced from a property of the
+	 * source object, or from a processing function.
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param  {object} json Data source object / array from the server
+	 *  @return {array} Array of data to use
+	 */
+	function _fnAjaxDataSrc ( oSettings, json )
+	{
+		var dataSrc = $.isPlainObject( oSettings.ajax ) && oSettings.ajax.dataSrc !== undefined ?
+			oSettings.ajax.dataSrc :
+			oSettings.sAjaxDataProp; // Compatibility with 1.9-.
+	
+		// Compatibility with 1.9-. In order to read from aaData, check if the
+		// default has been changed, if not, check for aaData
+		if ( dataSrc === 'data' ) {
+			return json.aaData || json[dataSrc];
+		}
+	
+		return dataSrc !== "" ?
+			_fnGetObjectDataFn( dataSrc )( json ) :
+			json;
+	}
+	
+	/**
+	 * Generate the node required for filtering text
+	 *  @returns {node} Filter control element
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFeatureHtmlFilter ( settings )
+	{
+		var classes = settings.oClasses;
+		var tableId = settings.sTableId;
+		var language = settings.oLanguage;
+		var previousSearch = settings.oPreviousSearch;
+		var features = settings.aanFeatures;
+		var input = '<input type="search" class="'+classes.sFilterInput+'"/>';
+	
+		var str = language.sSearch;
+		str = str.match(/_INPUT_/) ?
+			str.replace('_INPUT_', input) :
+			str+input;
+	
+		var filter = $('<div/>', {
+				'id': ! features.f ? tableId+'_filter' : null,
+				'class': classes.sFilter
+			} )
+			.append( $('<label/>' ).append( str ) );
+	
+		var searchFn = function() {
+			/* Update all other filter input elements for the new display */
+			var n = features.f;
+			var val = !this.value ? "" : this.value; // mental IE8 fix :-(
+	
+			/* Now do the filter */
+			if ( val != previousSearch.sSearch ) {
+				_fnFilterComplete( settings, {
+					"sSearch": val,
+					"bRegex": previousSearch.bRegex,
+					"bSmart": previousSearch.bSmart ,
+					"bCaseInsensitive": previousSearch.bCaseInsensitive
+				} );
+	
+				// Need to redraw, without resorting
+				settings._iDisplayStart = 0;
+				_fnDraw( settings );
+			}
+		};
+	
+		var searchDelay = settings.searchDelay !== null ?
+			settings.searchDelay :
+			_fnDataSource( settings ) === 'ssp' ?
+				400 :
+				0;
+	
+		var jqFilter = $('input', filter)
+			.val( previousSearch.sSearch )
+			.attr( 'placeholder', language.sSearchPlaceholder )
+			.on(
+				'keyup.DT search.DT input.DT paste.DT cut.DT',
+				searchDelay ?
+					_fnThrottle( searchFn, searchDelay ) :
+					searchFn
+			)
+			.on( 'keypress.DT', function(e) {
+				/* Prevent form submission */
+				if ( e.keyCode == 13 ) {
+					return false;
+				}
+			} )
+			.attr('aria-controls', tableId);
+	
+		// Update the input elements whenever the table is filtered
+		$(settings.nTable).on( 'search.dt.DT', function ( ev, s ) {
+			if ( settings === s ) {
+				// IE9 throws an 'unknown error' if document.activeElement is used
+				// inside an iframe or frame...
+				try {
+					if ( jqFilter[0] !== document.activeElement ) {
+						jqFilter.val( previousSearch.sSearch );
+					}
+				}
+				catch ( e ) {}
+			}
+		} );
+	
+		return filter[0];
+	}
+	
+	
+	/**
+	 * Filter the table using both the global filter and column based filtering
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {object} oSearch search information
+	 *  @param {int} [iForce] force a research of the master array (1) or not (undefined or 0)
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFilterComplete ( oSettings, oInput, iForce )
+	{
+		var oPrevSearch = oSettings.oPreviousSearch;
+		var aoPrevSearch = oSettings.aoPreSearchCols;
+		var fnSaveFilter = function ( oFilter ) {
+			/* Save the filtering values */
+			oPrevSearch.sSearch = oFilter.sSearch;
+			oPrevSearch.bRegex = oFilter.bRegex;
+			oPrevSearch.bSmart = oFilter.bSmart;
+			oPrevSearch.bCaseInsensitive = oFilter.bCaseInsensitive;
+		};
+		var fnRegex = function ( o ) {
+			// Backwards compatibility with the bEscapeRegex option
+			return o.bEscapeRegex !== undefined ? !o.bEscapeRegex : o.bRegex;
+		};
+	
+		// Resolve any column types that are unknown due to addition or invalidation
+		// @todo As per sort - can this be moved into an event handler?
+		_fnColumnTypes( oSettings );
+	
+		/* In server-side processing all filtering is done by the server, so no point hanging around here */
+		if ( _fnDataSource( oSettings ) != 'ssp' )
+		{
+			/* Global filter */
+			_fnFilter( oSettings, oInput.sSearch, iForce, fnRegex(oInput), oInput.bSmart, oInput.bCaseInsensitive );
+			fnSaveFilter( oInput );
+	
+			/* Now do the individual column filter */
+			for ( var i=0 ; i<aoPrevSearch.length ; i++ )
+			{
+				_fnFilterColumn( oSettings, aoPrevSearch[i].sSearch, i, fnRegex(aoPrevSearch[i]),
+					aoPrevSearch[i].bSmart, aoPrevSearch[i].bCaseInsensitive );
+			}
+	
+			/* Custom filtering */
+			_fnFilterCustom( oSettings );
+		}
+		else
+		{
+			fnSaveFilter( oInput );
+		}
+	
+		/* Tell the draw function we have been filtering */
+		oSettings.bFiltered = true;
+		_fnCallbackFire( oSettings, null, 'search', [oSettings] );
+	}
+	
+	
+	/**
+	 * Apply custom filtering functions
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFilterCustom( settings )
+	{
+		var filters = DataTable.ext.search;
+		var displayRows = settings.aiDisplay;
+		var row, rowIdx;
+	
+		for ( var i=0, ien=filters.length ; i<ien ; i++ ) {
+			var rows = [];
+	
+			// Loop over each row and see if it should be included
+			for ( var j=0, jen=displayRows.length ; j<jen ; j++ ) {
+				rowIdx = displayRows[ j ];
+				row = settings.aoData[ rowIdx ];
+	
+				if ( filters[i]( settings, row._aFilterData, rowIdx, row._aData, j ) ) {
+					rows.push( rowIdx );
+				}
+			}
+	
+			// So the array reference doesn't break set the results into the
+			// existing array
+			displayRows.length = 0;
+			$.merge( displayRows, rows );
+		}
+	}
+	
+	
+	/**
+	 * Filter the table on a per-column basis
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {string} sInput string to filter on
+	 *  @param {int} iColumn column to filter
+	 *  @param {bool} bRegex treat search string as a regular expression or not
+	 *  @param {bool} bSmart use smart filtering or not
+	 *  @param {bool} bCaseInsensitive Do case insenstive matching or not
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFilterColumn ( settings, searchStr, colIdx, regex, smart, caseInsensitive )
+	{
+		if ( searchStr === '' ) {
+			return;
+		}
+	
+		var data;
+		var out = [];
+		var display = settings.aiDisplay;
+		var rpSearch = _fnFilterCreateSearch( searchStr, regex, smart, caseInsensitive );
+	
+		for ( var i=0 ; i<display.length ; i++ ) {
+			data = settings.aoData[ display[i] ]._aFilterData[ colIdx ];
+	
+			if ( rpSearch.test( data ) ) {
+				out.push( display[i] );
+			}
+		}
+	
+		settings.aiDisplay = out;
+	}
+	
+	
+	/**
+	 * Filter the data table based on user input and draw the table
+	 *  @param {object} settings dataTables settings object
+	 *  @param {string} input string to filter on
+	 *  @param {int} force optional - force a research of the master array (1) or not (undefined or 0)
+	 *  @param {bool} regex treat as a regular expression or not
+	 *  @param {bool} smart perform smart filtering or not
+	 *  @param {bool} caseInsensitive Do case insenstive matching or not
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFilter( settings, input, force, regex, smart, caseInsensitive )
+	{
+		var rpSearch = _fnFilterCreateSearch( input, regex, smart, caseInsensitive );
+		var prevSearch = settings.oPreviousSearch.sSearch;
+		var displayMaster = settings.aiDisplayMaster;
+		var display, invalidated, i;
+		var filtered = [];
+	
+		// Need to take account of custom filtering functions - always filter
+		if ( DataTable.ext.search.length !== 0 ) {
+			force = true;
+		}
+	
+		// Check if any of the rows were invalidated
+		invalidated = _fnFilterData( settings );
+	
+		// If the input is blank - we just want the full data set
+		if ( input.length <= 0 ) {
+			settings.aiDisplay = displayMaster.slice();
+		}
+		else {
+			// New search - start from the master array
+			if ( invalidated ||
+				 force ||
+				 prevSearch.length > input.length ||
+				 input.indexOf(prevSearch) !== 0 ||
+				 settings.bSorted // On resort, the display master needs to be
+				                  // re-filtered since indexes will have changed
+			) {
+				settings.aiDisplay = displayMaster.slice();
+			}
+	
+			// Search the display array
+			display = settings.aiDisplay;
+	
+			for ( i=0 ; i<display.length ; i++ ) {
+				if ( rpSearch.test( settings.aoData[ display[i] ]._sFilterRow ) ) {
+					filtered.push( display[i] );
+				}
+			}
+	
+			settings.aiDisplay = filtered;
+		}
+	}
+	
+	
+	/**
+	 * Build a regular expression object suitable for searching a table
+	 *  @param {string} sSearch string to search for
+	 *  @param {bool} bRegex treat as a regular expression or not
+	 *  @param {bool} bSmart perform smart filtering or not
+	 *  @param {bool} bCaseInsensitive Do case insensitive matching or not
+	 *  @returns {RegExp} constructed object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFilterCreateSearch( search, regex, smart, caseInsensitive )
+	{
+		search = regex ?
+			search :
+			_fnEscapeRegex( search );
+		
+		if ( smart ) {
+			/* For smart filtering we want to allow the search to work regardless of
+			 * word order. We also want double quoted text to be preserved, so word
+			 * order is important - a la google. So this is what we want to
+			 * generate:
+			 * 
+			 * ^(?=.*?\bone\b)(?=.*?\btwo three\b)(?=.*?\bfour\b).*$
+			 */
+			var a = $.map( search.match( /"[^"]+"|[^ ]+/g ) || [''], function ( word ) {
+				if ( word.charAt(0) === '"' ) {
+					var m = word.match( /^"(.*)"$/ );
+					word = m ? m[1] : word;
+				}
+	
+				return word.replace('"', '');
+			} );
+	
+			search = '^(?=.*?'+a.join( ')(?=.*?' )+').*$';
+		}
+	
+		return new RegExp( search, caseInsensitive ? 'i' : '' );
+	}
+	
+	
+	/**
+	 * Escape a string such that it can be used in a regular expression
+	 *  @param {string} sVal string to escape
+	 *  @returns {string} escaped string
+	 *  @memberof DataTable#oApi
+	 */
+	var _fnEscapeRegex = DataTable.util.escapeRegex;
+	
+	var __filter_div = $('<div>')[0];
+	var __filter_div_textContent = __filter_div.textContent !== undefined;
+	
+	// Update the filtering data for each row if needed (by invalidation or first run)
+	function _fnFilterData ( settings )
+	{
+		var columns = settings.aoColumns;
+		var column;
+		var i, j, ien, jen, filterData, cellData, row;
+		var fomatters = DataTable.ext.type.search;
+		var wasInvalidated = false;
+	
+		for ( i=0, ien=settings.aoData.length ; i<ien ; i++ ) {
+			row = settings.aoData[i];
+	
+			if ( ! row._aFilterData ) {
+				filterData = [];
+	
+				for ( j=0, jen=columns.length ; j<jen ; j++ ) {
+					column = columns[j];
+	
+					if ( column.bSearchable ) {
+						cellData = _fnGetCellData( settings, i, j, 'filter' );
+	
+						if ( fomatters[ column.sType ] ) {
+							cellData = fomatters[ column.sType ]( cellData );
+						}
+	
+						// Search in DataTables 1.10 is string based. In 1.11 this
+						// should be altered to also allow strict type checking.
+						if ( cellData === null ) {
+							cellData = '';
+						}
+	
+						if ( typeof cellData !== 'string' && cellData.toString ) {
+							cellData = cellData.toString();
+						}
+					}
+					else {
+						cellData = '';
+					}
+	
+					// If it looks like there is an HTML entity in the string,
+					// attempt to decode it so sorting works as expected. Note that
+					// we could use a single line of jQuery to do this, but the DOM
+					// method used here is much faster http://jsperf.com/html-decode
+					if ( cellData.indexOf && cellData.indexOf('&') !== -1 ) {
+						__filter_div.innerHTML = cellData;
+						cellData = __filter_div_textContent ?
+							__filter_div.textContent :
+							__filter_div.innerText;
+					}
+	
+					if ( cellData.replace ) {
+						cellData = cellData.replace(/[\r\n]/g, '');
+					}
+	
+					filterData.push( cellData );
+				}
+	
+				row._aFilterData = filterData;
+				row._sFilterRow = filterData.join('  ');
+				wasInvalidated = true;
+			}
+		}
+	
+		return wasInvalidated;
+	}
+	
+	
+	/**
+	 * Convert from the internal Hungarian notation to camelCase for external
+	 * interaction
+	 *  @param {object} obj Object to convert
+	 *  @returns {object} Inverted object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnSearchToCamel ( obj )
+	{
+		return {
+			search:          obj.sSearch,
+			smart:           obj.bSmart,
+			regex:           obj.bRegex,
+			caseInsensitive: obj.bCaseInsensitive
+		};
+	}
+	
+	
+	
+	/**
+	 * Convert from camelCase notation to the internal Hungarian. We could use the
+	 * Hungarian convert function here, but this is cleaner
+	 *  @param {object} obj Object to convert
+	 *  @returns {object} Inverted object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnSearchToHung ( obj )
+	{
+		return {
+			sSearch:          obj.search,
+			bSmart:           obj.smart,
+			bRegex:           obj.regex,
+			bCaseInsensitive: obj.caseInsensitive
+		};
+	}
+	
+	/**
+	 * Generate the node required for the info display
+	 *  @param {object} oSettings dataTables settings object
+	 *  @returns {node} Information element
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFeatureHtmlInfo ( settings )
+	{
+		var
+			tid = settings.sTableId,
+			nodes = settings.aanFeatures.i,
+			n = $('<div/>', {
+				'class': settings.oClasses.sInfo,
+				'id': ! nodes ? tid+'_info' : null
+			} );
+	
+		if ( ! nodes ) {
+			// Update display on each draw
+			settings.aoDrawCallback.push( {
+				"fn": _fnUpdateInfo,
+				"sName": "information"
+			} );
+	
+			n
+				.attr( 'role', 'status' )
+				.attr( 'aria-live', 'polite' );
+	
+			// Table is described by our info div
+			$(settings.nTable).attr( 'aria-describedby', tid+'_info' );
+		}
+	
+		return n[0];
+	}
+	
+	
+	/**
+	 * Update the information elements in the display
+	 *  @param {object} settings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnUpdateInfo ( settings )
+	{
+		/* Show information about the table */
+		var nodes = settings.aanFeatures.i;
+		if ( nodes.length === 0 ) {
+			return;
+		}
+	
+		var
+			lang  = settings.oLanguage,
+			start = settings._iDisplayStart+1,
+			end   = settings.fnDisplayEnd(),
+			max   = settings.fnRecordsTotal(),
+			total = settings.fnRecordsDisplay(),
+			out   = total ?
+				lang.sInfo :
+				lang.sInfoEmpty;
+	
+		if ( total !== max ) {
+			/* Record set after filtering */
+			out += ' ' + lang.sInfoFiltered;
+		}
+	
+		// Convert the macros
+		out += lang.sInfoPostFix;
+		out = _fnInfoMacros( settings, out );
+	
+		var callback = lang.fnInfoCallback;
+		if ( callback !== null ) {
+			out = callback.call( settings.oInstance,
+				settings, start, end, max, total, out
+			);
+		}
+	
+		$(nodes).html( out );
+	}
+	
+	
+	function _fnInfoMacros ( settings, str )
+	{
+		// When infinite scrolling, we are always starting at 1. _iDisplayStart is used only
+		// internally
+		var
+			formatter  = settings.fnFormatNumber,
+			start      = settings._iDisplayStart+1,
+			len        = settings._iDisplayLength,
+			vis        = settings.fnRecordsDisplay(),
+			all        = len === -1;
+	
+		return str.
+			replace(/_START_/g, formatter.call( settings, start ) ).
+			replace(/_END_/g,   formatter.call( settings, settings.fnDisplayEnd() ) ).
+			replace(/_MAX_/g,   formatter.call( settings, settings.fnRecordsTotal() ) ).
+			replace(/_TOTAL_/g, formatter.call( settings, vis ) ).
+			replace(/_PAGE_/g,  formatter.call( settings, all ? 1 : Math.ceil( start / len ) ) ).
+			replace(/_PAGES_/g, formatter.call( settings, all ? 1 : Math.ceil( vis / len ) ) );
+	}
+	
+	
+	
+	/**
+	 * Draw the table for the first time, adding all required features
+	 *  @param {object} settings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnInitialise ( settings )
+	{
+		var i, iLen, iAjaxStart=settings.iInitDisplayStart;
+		var columns = settings.aoColumns, column;
+		var features = settings.oFeatures;
+		var deferLoading = settings.bDeferLoading; // value modified by the draw
+	
+		/* Ensure that the table data is fully initialised */
+		if ( ! settings.bInitialised ) {
+			setTimeout( function(){ _fnInitialise( settings ); }, 200 );
+			return;
+		}
+	
+		/* Show the display HTML options */
+		_fnAddOptionsHtml( settings );
+	
+		/* Build and draw the header / footer for the table */
+		_fnBuildHead( settings );
+		_fnDrawHead( settings, settings.aoHeader );
+		_fnDrawHead( settings, settings.aoFooter );
+	
+		/* Okay to show that something is going on now */
+		_fnProcessingDisplay( settings, true );
+	
+		/* Calculate sizes for columns */
+		if ( features.bAutoWidth ) {
+			_fnCalculateColumnWidths( settings );
+		}
+	
+		for ( i=0, iLen=columns.length ; i<iLen ; i++ ) {
+			column = columns[i];
+	
+			if ( column.sWidth ) {
+				column.nTh.style.width = _fnStringToCss( column.sWidth );
+			}
+		}
+	
+		_fnCallbackFire( settings, null, 'preInit', [settings] );
+	
+		// If there is default sorting required - let's do it. The sort function
+		// will do the drawing for us. Otherwise we draw the table regardless of the
+		// Ajax source - this allows the table to look initialised for Ajax sourcing
+		// data (show 'loading' message possibly)
+		_fnReDraw( settings );
+	
+		// Server-side processing init complete is done by _fnAjaxUpdateDraw
+		var dataSrc = _fnDataSource( settings );
+		if ( dataSrc != 'ssp' || deferLoading ) {
+			// if there is an ajax source load the data
+			if ( dataSrc == 'ajax' ) {
+				_fnBuildAjax( settings, [], function(json) {
+					var aData = _fnAjaxDataSrc( settings, json );
+	
+					// Got the data - add it to the table
+					for ( i=0 ; i<aData.length ; i++ ) {
+						_fnAddData( settings, aData[i] );
+					}
+	
+					// Reset the init display for cookie saving. We've already done
+					// a filter, and therefore cleared it before. So we need to make
+					// it appear 'fresh'
+					settings.iInitDisplayStart = iAjaxStart;
+	
+					_fnReDraw( settings );
+	
+					_fnProcessingDisplay( settings, false );
+					_fnInitComplete( settings, json );
+				}, settings );
+			}
+			else {
+				_fnProcessingDisplay( settings, false );
+				_fnInitComplete( settings );
+			}
+		}
+	}
+	
+	
+	/**
+	 * Draw the table for the first time, adding all required features
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {object} [json] JSON from the server that completed the table, if using Ajax source
+	 *    with client-side processing (optional)
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnInitComplete ( settings, json )
+	{
+		settings._bInitComplete = true;
+	
+		// When data was added after the initialisation (data or Ajax) we need to
+		// calculate the column sizing
+		if ( json || settings.oInit.aaData ) {
+			_fnAdjustColumnSizing( settings );
+		}
+	
+		_fnCallbackFire( settings, null, 'plugin-init', [settings, json] );
+		_fnCallbackFire( settings, 'aoInitComplete', 'init', [settings, json] );
+	}
+	
+	
+	function _fnLengthChange ( settings, val )
+	{
+		var len = parseInt( val, 10 );
+		settings._iDisplayLength = len;
+	
+		_fnLengthOverflow( settings );
+	
+		// Fire length change event
+		_fnCallbackFire( settings, null, 'length', [settings, len] );
+	}
+	
+	
+	/**
+	 * Generate the node required for user display length changing
+	 *  @param {object} settings dataTables settings object
+	 *  @returns {node} Display length feature node
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFeatureHtmlLength ( settings )
+	{
+		var
+			classes  = settings.oClasses,
+			tableId  = settings.sTableId,
+			menu     = settings.aLengthMenu,
+			d2       = $.isArray( menu[0] ),
+			lengths  = d2 ? menu[0] : menu,
+			language = d2 ? menu[1] : menu;
+	
+		var select = $('<select/>', {
+			'name':          tableId+'_length',
+			'aria-controls': tableId,
+			'class':         classes.sLengthSelect
+		} );
+	
+		for ( var i=0, ien=lengths.length ; i<ien ; i++ ) {
+			select[0][ i ] = new Option(
+				typeof language[i] === 'number' ?
+					settings.fnFormatNumber( language[i] ) :
+					language[i],
+				lengths[i]
+			);
+		}
+	
+		var div = $('<div><label/></div>').addClass( classes.sLength );
+		if ( ! settings.aanFeatures.l ) {
+			div[0].id = tableId+'_length';
+		}
+	
+		div.children().append(
+			settings.oLanguage.sLengthMenu.replace( '_MENU_', select[0].outerHTML )
+		);
+	
+		// Can't use `select` variable as user might provide their own and the
+		// reference is broken by the use of outerHTML
+		$('select', div)
+			.val( settings._iDisplayLength )
+			.on( 'change.DT', function(e) {
+				_fnLengthChange( settings, $(this).val() );
+				_fnDraw( settings );
+			} );
+	
+		// Update node value whenever anything changes the table's length
+		$(settings.nTable).on( 'length.dt.DT', function (e, s, len) {
+			if ( settings === s ) {
+				$('select', div).val( len );
+			}
+		} );
+	
+		return div[0];
+	}
+	
+	
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Note that most of the paging logic is done in
+	 * DataTable.ext.pager
+	 */
+	
+	/**
+	 * Generate the node required for default pagination
+	 *  @param {object} oSettings dataTables settings object
+	 *  @returns {node} Pagination feature node
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFeatureHtmlPaginate ( settings )
+	{
+		var
+			type   = settings.sPaginationType,
+			plugin = DataTable.ext.pager[ type ],
+			modern = typeof plugin === 'function',
+			redraw = function( settings ) {
+				_fnDraw( settings );
+			},
+			node = $('<div/>').addClass( settings.oClasses.sPaging + type )[0],
+			features = settings.aanFeatures;
+	
+		if ( ! modern ) {
+			plugin.fnInit( settings, node, redraw );
+		}
+	
+		/* Add a draw callback for the pagination on first instance, to update the paging display */
+		if ( ! features.p )
+		{
+			node.id = settings.sTableId+'_paginate';
+	
+			settings.aoDrawCallback.push( {
+				"fn": function( settings ) {
+					if ( modern ) {
+						var
+							start      = settings._iDisplayStart,
+							len        = settings._iDisplayLength,
+							visRecords = settings.fnRecordsDisplay(),
+							all        = len === -1,
+							page = all ? 0 : Math.ceil( start / len ),
+							pages = all ? 1 : Math.ceil( visRecords / len ),
+							buttons = plugin(page, pages),
+							i, ien;
+	
+						for ( i=0, ien=features.p.length ; i<ien ; i++ ) {
+							_fnRenderer( settings, 'pageButton' )(
+								settings, features.p[i], i, buttons, page, pages
+							);
+						}
+					}
+					else {
+						plugin.fnUpdate( settings, redraw );
+					}
+				},
+				"sName": "pagination"
+			} );
+		}
+	
+		return node;
+	}
+	
+	
+	/**
+	 * Alter the display settings to change the page
+	 *  @param {object} settings DataTables settings object
+	 *  @param {string|int} action Paging action to take: "first", "previous",
+	 *    "next" or "last" or page number to jump to (integer)
+	 *  @param [bool] redraw Automatically draw the update or not
+	 *  @returns {bool} true page has changed, false - no change
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnPageChange ( settings, action, redraw )
+	{
+		var
+			start     = settings._iDisplayStart,
+			len       = settings._iDisplayLength,
+			records   = settings.fnRecordsDisplay();
+	
+		if ( records === 0 || len === -1 )
+		{
+			start = 0;
+		}
+		else if ( typeof action === "number" )
+		{
+			start = action * len;
+	
+			if ( start > records )
+			{
+				start = 0;
+			}
+		}
+		else if ( action == "first" )
+		{
+			start = 0;
+		}
+		else if ( action == "previous" )
+		{
+			start = len >= 0 ?
+				start - len :
+				0;
+	
+			if ( start < 0 )
+			{
+			  start = 0;
+			}
+		}
+		else if ( action == "next" )
+		{
+			if ( start + len < records )
+			{
+				start += len;
+			}
+		}
+		else if ( action == "last" )
+		{
+			start = Math.floor( (records-1) / len) * len;
+		}
+		else
+		{
+			_fnLog( settings, 0, "Unknown paging action: "+action, 5 );
+		}
+	
+		var changed = settings._iDisplayStart !== start;
+		settings._iDisplayStart = start;
+	
+		if ( changed ) {
+			_fnCallbackFire( settings, null, 'page', [settings] );
+	
+			if ( redraw ) {
+				_fnDraw( settings );
+			}
+		}
+	
+		return changed;
+	}
+	
+	
+	
+	/**
+	 * Generate the node required for the processing node
+	 *  @param {object} settings dataTables settings object
+	 *  @returns {node} Processing element
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFeatureHtmlProcessing ( settings )
+	{
+		return $('<div/>', {
+				'id': ! settings.aanFeatures.r ? settings.sTableId+'_processing' : null,
+				'class': settings.oClasses.sProcessing
+			} )
+			.html( settings.oLanguage.sProcessing )
+			.insertBefore( settings.nTable )[0];
+	}
+	
+	
+	/**
+	 * Display or hide the processing indicator
+	 *  @param {object} settings dataTables settings object
+	 *  @param {bool} show Show the processing indicator (true) or not (false)
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnProcessingDisplay ( settings, show )
+	{
+		if ( settings.oFeatures.bProcessing ) {
+			$(settings.aanFeatures.r).css( 'display', show ? 'block' : 'none' );
+		}
+	
+		_fnCallbackFire( settings, null, 'processing', [settings, show] );
+	}
+	
+	/**
+	 * Add any control elements for the table - specifically scrolling
+	 *  @param {object} settings dataTables settings object
+	 *  @returns {node} Node to add to the DOM
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnFeatureHtmlTable ( settings )
+	{
+		var table = $(settings.nTable);
+	
+		// Add the ARIA grid role to the table
+		table.attr( 'role', 'grid' );
+	
+		// Scrolling from here on in
+		var scroll = settings.oScroll;
+	
+		if ( scroll.sX === '' && scroll.sY === '' ) {
+			return settings.nTable;
+		}
+	
+		var scrollX = scroll.sX;
+		var scrollY = scroll.sY;
+		var classes = settings.oClasses;
+		var caption = table.children('caption');
+		var captionSide = caption.length ? caption[0]._captionSide : null;
+		var headerClone = $( table[0].cloneNode(false) );
+		var footerClone = $( table[0].cloneNode(false) );
+		var footer = table.children('tfoot');
+		var _div = '<div/>';
+		var size = function ( s ) {
+			return !s ? null : _fnStringToCss( s );
+		};
+	
+		if ( ! footer.length ) {
+			footer = null;
+		}
+	
+		/*
+		 * The HTML structure that we want to generate in this function is:
+		 *  div - scroller
+		 *    div - scroll head
+		 *      div - scroll head inner
+		 *        table - scroll head table
+		 *          thead - thead
+		 *    div - scroll body
+		 *      table - table (master table)
+		 *        thead - thead clone for sizing
+		 *        tbody - tbody
+		 *    div - scroll foot
+		 *      div - scroll foot inner
+		 *        table - scroll foot table
+		 *          tfoot - tfoot
+		 */
+		var scroller = $( _div, { 'class': classes.sScrollWrapper } )
+			.append(
+				$(_div, { 'class': classes.sScrollHead } )
+					.css( {
+						overflow: 'hidden',
+						position: 'relative',
+						border: 0,
+						width: scrollX ? size(scrollX) : '100%'
+					} )
+					.append(
+						$(_div, { 'class': classes.sScrollHeadInner } )
+							.css( {
+								'box-sizing': 'content-box',
+								width: scroll.sXInner || '100%'
+							} )
+							.append(
+								headerClone
+									.removeAttr('id')
+									.css( 'margin-left', 0 )
+									.append( captionSide === 'top' ? caption : null )
+									.append(
+										table.children('thead')
+									)
+							)
+					)
+			)
+			.append(
+				$(_div, { 'class': classes.sScrollBody } )
+					.css( {
+						position: 'relative',
+						overflow: 'auto',
+						width: size( scrollX )
+					} )
+					.append( table )
+			);
+	
+		if ( footer ) {
+			scroller.append(
+				$(_div, { 'class': classes.sScrollFoot } )
+					.css( {
+						overflow: 'hidden',
+						border: 0,
+						width: scrollX ? size(scrollX) : '100%'
+					} )
+					.append(
+						$(_div, { 'class': classes.sScrollFootInner } )
+							.append(
+								footerClone
+									.removeAttr('id')
+									.css( 'margin-left', 0 )
+									.append( captionSide === 'bottom' ? caption : null )
+									.append(
+										table.children('tfoot')
+									)
+							)
+					)
+			);
+		}
+	
+		var children = scroller.children();
+		var scrollHead = children[0];
+		var scrollBody = children[1];
+		var scrollFoot = footer ? children[2] : null;
+	
+		// When the body is scrolled, then we also want to scroll the headers
+		if ( scrollX ) {
+			$(scrollBody).on( 'scroll.DT', function (e) {
+				var scrollLeft = this.scrollLeft;
+	
+				scrollHead.scrollLeft = scrollLeft;
+	
+				if ( footer ) {
+					scrollFoot.scrollLeft = scrollLeft;
+				}
+			} );
+		}
+	
+		$(scrollBody).css(
+			scrollY && scroll.bCollapse ? 'max-height' : 'height', 
+			scrollY
+		);
+	
+		settings.nScrollHead = scrollHead;
+		settings.nScrollBody = scrollBody;
+		settings.nScrollFoot = scrollFoot;
+	
+		// On redraw - align columns
+		settings.aoDrawCallback.push( {
+			"fn": _fnScrollDraw,
+			"sName": "scrolling"
+		} );
+	
+		return scroller[0];
+	}
+	
+	
+	
+	/**
+	 * Update the header, footer and body tables for resizing - i.e. column
+	 * alignment.
+	 *
+	 * Welcome to the most horrible function DataTables. The process that this
+	 * function follows is basically:
+	 *   1. Re-create the table inside the scrolling div
+	 *   2. Take live measurements from the DOM
+	 *   3. Apply the measurements to align the columns
+	 *   4. Clean up
+	 *
+	 *  @param {object} settings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnScrollDraw ( settings )
+	{
+		// Given that this is such a monster function, a lot of variables are use
+		// to try and keep the minimised size as small as possible
+		var
+			scroll         = settings.oScroll,
+			scrollX        = scroll.sX,
+			scrollXInner   = scroll.sXInner,
+			scrollY        = scroll.sY,
+			barWidth       = scroll.iBarWidth,
+			divHeader      = $(settings.nScrollHead),
+			divHeaderStyle = divHeader[0].style,
+			divHeaderInner = divHeader.children('div'),
+			divHeaderInnerStyle = divHeaderInner[0].style,
+			divHeaderTable = divHeaderInner.children('table'),
+			divBodyEl      = settings.nScrollBody,
+			divBody        = $(divBodyEl),
+			divBodyStyle   = divBodyEl.style,
+			divFooter      = $(settings.nScrollFoot),
+			divFooterInner = divFooter.children('div'),
+			divFooterTable = divFooterInner.children('table'),
+			header         = $(settings.nTHead),
+			table          = $(settings.nTable),
+			tableEl        = table[0],
+			tableStyle     = tableEl.style,
+			footer         = settings.nTFoot ? $(settings.nTFoot) : null,
+			browser        = settings.oBrowser,
+			ie67           = browser.bScrollOversize,
+			dtHeaderCells  = _pluck( settings.aoColumns, 'nTh' ),
+			headerTrgEls, footerTrgEls,
+			headerSrcEls, footerSrcEls,
+			headerCopy, footerCopy,
+			headerWidths=[], footerWidths=[],
+			headerContent=[], footerContent=[],
+			idx, correction, sanityWidth,
+			zeroOut = function(nSizer) {
+				var style = nSizer.style;
+				style.paddingTop = "0";
+				style.paddingBottom = "0";
+				style.borderTopWidth = "0";
+				style.borderBottomWidth = "0";
+				style.height = 0;
+			};
+	
+		// If the scrollbar visibility has changed from the last draw, we need to
+		// adjust the column sizes as the table width will have changed to account
+		// for the scrollbar
+		var scrollBarVis = divBodyEl.scrollHeight > divBodyEl.clientHeight;
+		
+		if ( settings.scrollBarVis !== scrollBarVis && settings.scrollBarVis !== undefined ) {
+			settings.scrollBarVis = scrollBarVis;
+			_fnAdjustColumnSizing( settings );
+			return; // adjust column sizing will call this function again
+		}
+		else {
+			settings.scrollBarVis = scrollBarVis;
+		}
+	
+		/*
+		 * 1. Re-create the table inside the scrolling div
+		 */
+	
+		// Remove the old minimised thead and tfoot elements in the inner table
+		table.children('thead, tfoot').remove();
+	
+		if ( footer ) {
+			footerCopy = footer.clone().prependTo( table );
+			footerTrgEls = footer.find('tr'); // the original tfoot is in its own table and must be sized
+			footerSrcEls = footerCopy.find('tr');
+		}
+	
+		// Clone the current header and footer elements and then place it into the inner table
+		headerCopy = header.clone().prependTo( table );
+		headerTrgEls = header.find('tr'); // original header is in its own table
+		headerSrcEls = headerCopy.find('tr');
+		headerCopy.find('th, td').removeAttr('tabindex');
+	
+	
+		/*
+		 * 2. Take live measurements from the DOM - do not alter the DOM itself!
+		 */
+	
+		// Remove old sizing and apply the calculated column widths
+		// Get the unique column headers in the newly created (cloned) header. We want to apply the
+		// calculated sizes to this header
+		if ( ! scrollX )
+		{
+			divBodyStyle.width = '100%';
+			divHeader[0].style.width = '100%';
+		}
+	
+		$.each( _fnGetUniqueThs( settings, headerCopy ), function ( i, el ) {
+			idx = _fnVisibleToColumnIndex( settings, i );
+			el.style.width = settings.aoColumns[idx].sWidth;
+		} );
+	
+		if ( footer ) {
+			_fnApplyToChildren( function(n) {
+				n.style.width = "";
+			}, footerSrcEls );
+		}
+	
+		// Size the table as a whole
+		sanityWidth = table.outerWidth();
+		if ( scrollX === "" ) {
+			// No x scrolling
+			tableStyle.width = "100%";
+	
+			// IE7 will make the width of the table when 100% include the scrollbar
+			// - which is shouldn't. When there is a scrollbar we need to take this
+			// into account.
+			if ( ie67 && (table.find('tbody').height() > divBodyEl.offsetHeight ||
+				divBody.css('overflow-y') == "scroll")
+			) {
+				tableStyle.width = _fnStringToCss( table.outerWidth() - barWidth);
+			}
+	
+			// Recalculate the sanity width
+			sanityWidth = table.outerWidth();
+		}
+		else if ( scrollXInner !== "" ) {
+			// legacy x scroll inner has been given - use it
+			tableStyle.width = _fnStringToCss(scrollXInner);
+	
+			// Recalculate the sanity width
+			sanityWidth = table.outerWidth();
+		}
+	
+		// Hidden header should have zero height, so remove padding and borders. Then
+		// set the width based on the real headers
+	
+		// Apply all styles in one pass
+		_fnApplyToChildren( zeroOut, headerSrcEls );
+	
+		// Read all widths in next pass
+		_fnApplyToChildren( function(nSizer) {
+			headerContent.push( nSizer.innerHTML );
+			headerWidths.push( _fnStringToCss( $(nSizer).css('width') ) );
+		}, headerSrcEls );
+	
+		// Apply all widths in final pass
+		_fnApplyToChildren( function(nToSize, i) {
+			// Only apply widths to the DataTables detected header cells - this
+			// prevents complex headers from having contradictory sizes applied
+			if ( $.inArray( nToSize, dtHeaderCells ) !== -1 ) {
+				nToSize.style.width = headerWidths[i];
+			}
+		}, headerTrgEls );
+	
+		$(headerSrcEls).height(0);
+	
+		/* Same again with the footer if we have one */
+		if ( footer )
+		{
+			_fnApplyToChildren( zeroOut, footerSrcEls );
+	
+			_fnApplyToChildren( function(nSizer) {
+				footerContent.push( nSizer.innerHTML );
+				footerWidths.push( _fnStringToCss( $(nSizer).css('width') ) );
+			}, footerSrcEls );
+	
+			_fnApplyToChildren( function(nToSize, i) {
+				nToSize.style.width = footerWidths[i];
+			}, footerTrgEls );
+	
+			$(footerSrcEls).height(0);
+		}
+	
+	
+		/*
+		 * 3. Apply the measurements
+		 */
+	
+		// "Hide" the header and footer that we used for the sizing. We need to keep
+		// the content of the cell so that the width applied to the header and body
+		// both match, but we want to hide it completely. We want to also fix their
+		// width to what they currently are
+		_fnApplyToChildren( function(nSizer, i) {
+			nSizer.innerHTML = '<div class="dataTables_sizing">'+headerContent[i]+'</div>';
+			nSizer.childNodes[0].style.height = "0";
+			nSizer.childNodes[0].style.overflow = "hidden";
+			nSizer.style.width = headerWidths[i];
+		}, headerSrcEls );
+	
+		if ( footer )
+		{
+			_fnApplyToChildren( function(nSizer, i) {
+				nSizer.innerHTML = '<div class="dataTables_sizing">'+footerContent[i]+'</div>';
+				nSizer.childNodes[0].style.height = "0";
+				nSizer.childNodes[0].style.overflow = "hidden";
+				nSizer.style.width = footerWidths[i];
+			}, footerSrcEls );
+		}
+	
+		// Sanity check that the table is of a sensible width. If not then we are going to get
+		// misalignment - try to prevent this by not allowing the table to shrink below its min width
+		if ( table.outerWidth() < sanityWidth )
+		{
+			// The min width depends upon if we have a vertical scrollbar visible or not */
+			correction = ((divBodyEl.scrollHeight > divBodyEl.offsetHeight ||
+				divBody.css('overflow-y') == "scroll")) ?
+					sanityWidth+barWidth :
+					sanityWidth;
+	
+			// IE6/7 are a law unto themselves...
+			if ( ie67 && (divBodyEl.scrollHeight >
+				divBodyEl.offsetHeight || divBody.css('overflow-y') == "scroll")
+			) {
+				tableStyle.width = _fnStringToCss( correction-barWidth );
+			}
+	
+			// And give the user a warning that we've stopped the table getting too small
+			if ( scrollX === "" || scrollXInner !== "" ) {
+				_fnLog( settings, 1, 'Possible column misalignment', 6 );
+			}
+		}
+		else
+		{
+			correction = '100%';
+		}
+	
+		// Apply to the container elements
+		divBodyStyle.width = _fnStringToCss( correction );
+		divHeaderStyle.width = _fnStringToCss( correction );
+	
+		if ( footer ) {
+			settings.nScrollFoot.style.width = _fnStringToCss( correction );
+		}
+	
+	
+		/*
+		 * 4. Clean up
+		 */
+		if ( ! scrollY ) {
+			/* IE7< puts a vertical scrollbar in place (when it shouldn't be) due to subtracting
+			 * the scrollbar height from the visible display, rather than adding it on. We need to
+			 * set the height in order to sort this. Don't want to do it in any other browsers.
+			 */
+			if ( ie67 ) {
+				divBodyStyle.height = _fnStringToCss( tableEl.offsetHeight+barWidth );
+			}
+		}
+	
+		/* Finally set the width's of the header and footer tables */
+		var iOuterWidth = table.outerWidth();
+		divHeaderTable[0].style.width = _fnStringToCss( iOuterWidth );
+		divHeaderInnerStyle.width = _fnStringToCss( iOuterWidth );
+	
+		// Figure out if there are scrollbar present - if so then we need a the header and footer to
+		// provide a bit more space to allow "overflow" scrolling (i.e. past the scrollbar)
+		var bScrolling = table.height() > divBodyEl.clientHeight || divBody.css('overflow-y') == "scroll";
+		var padding = 'padding' + (browser.bScrollbarLeft ? 'Left' : 'Right' );
+		divHeaderInnerStyle[ padding ] = bScrolling ? barWidth+"px" : "0px";
+	
+		if ( footer ) {
+			divFooterTable[0].style.width = _fnStringToCss( iOuterWidth );
+			divFooterInner[0].style.width = _fnStringToCss( iOuterWidth );
+			divFooterInner[0].style[padding] = bScrolling ? barWidth+"px" : "0px";
+		}
+	
+		// Correct DOM ordering for colgroup - comes before the thead
+		table.children('colgroup').insertBefore( table.children('thead') );
+	
+		/* Adjust the position of the header in case we loose the y-scrollbar */
+		divBody.scroll();
+	
+		// If sorting or filtering has occurred, jump the scrolling back to the top
+		// only if we aren't holding the position
+		if ( (settings.bSorted || settings.bFiltered) && ! settings._drawHold ) {
+			divBodyEl.scrollTop = 0;
+		}
+	}
+	
+	
+	
+	/**
+	 * Apply a given function to the display child nodes of an element array (typically
+	 * TD children of TR rows
+	 *  @param {function} fn Method to apply to the objects
+	 *  @param array {nodes} an1 List of elements to look through for display children
+	 *  @param array {nodes} an2 Another list (identical structure to the first) - optional
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnApplyToChildren( fn, an1, an2 )
+	{
+		var index=0, i=0, iLen=an1.length;
+		var nNode1, nNode2;
+	
+		while ( i < iLen ) {
+			nNode1 = an1[i].firstChild;
+			nNode2 = an2 ? an2[i].firstChild : null;
+	
+			while ( nNode1 ) {
+				if ( nNode1.nodeType === 1 ) {
+					if ( an2 ) {
+						fn( nNode1, nNode2, index );
+					}
+					else {
+						fn( nNode1, index );
+					}
+	
+					index++;
+				}
+	
+				nNode1 = nNode1.nextSibling;
+				nNode2 = an2 ? nNode2.nextSibling : null;
+			}
+	
+			i++;
+		}
+	}
+	
+	
+	
+	var __re_html_remove = /<.*?>/g;
+	
+	
+	/**
+	 * Calculate the width of columns for the table
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnCalculateColumnWidths ( oSettings )
+	{
+		var
+			table = oSettings.nTable,
+			columns = oSettings.aoColumns,
+			scroll = oSettings.oScroll,
+			scrollY = scroll.sY,
+			scrollX = scroll.sX,
+			scrollXInner = scroll.sXInner,
+			columnCount = columns.length,
+			visibleColumns = _fnGetColumns( oSettings, 'bVisible' ),
+			headerCells = $('th', oSettings.nTHead),
+			tableWidthAttr = table.getAttribute('width'), // from DOM element
+			tableContainer = table.parentNode,
+			userInputs = false,
+			i, column, columnIdx, width, outerWidth,
+			browser = oSettings.oBrowser,
+			ie67 = browser.bScrollOversize;
+	
+		var styleWidth = table.style.width;
+		if ( styleWidth && styleWidth.indexOf('%') !== -1 ) {
+			tableWidthAttr = styleWidth;
+		}
+	
+		/* Convert any user input sizes into pixel sizes */
+		for ( i=0 ; i<visibleColumns.length ; i++ ) {
+			column = columns[ visibleColumns[i] ];
+	
+			if ( column.sWidth !== null ) {
+				column.sWidth = _fnConvertToWidth( column.sWidthOrig, tableContainer );
+	
+				userInputs = true;
+			}
+		}
+	
+		/* If the number of columns in the DOM equals the number that we have to
+		 * process in DataTables, then we can use the offsets that are created by
+		 * the web- browser. No custom sizes can be set in order for this to happen,
+		 * nor scrolling used
+		 */
+		if ( ie67 || ! userInputs && ! scrollX && ! scrollY &&
+		     columnCount == _fnVisbleColumns( oSettings ) &&
+		     columnCount == headerCells.length
+		) {
+			for ( i=0 ; i<columnCount ; i++ ) {
+				var colIdx = _fnVisibleToColumnIndex( oSettings, i );
+	
+				if ( colIdx !== null ) {
+					columns[ colIdx ].sWidth = _fnStringToCss( headerCells.eq(i).width() );
+				}
+			}
+		}
+		else
+		{
+			// Otherwise construct a single row, worst case, table with the widest
+			// node in the data, assign any user defined widths, then insert it into
+			// the DOM and allow the browser to do all the hard work of calculating
+			// table widths
+			var tmpTable = $(table).clone() // don't use cloneNode - IE8 will remove events on the main table
+				.css( 'visibility', 'hidden' )
+				.removeAttr( 'id' );
+	
+			// Clean up the table body
+			tmpTable.find('tbody tr').remove();
+			var tr = $('<tr/>').appendTo( tmpTable.find('tbody') );
+	
+			// Clone the table header and footer - we can't use the header / footer
+			// from the cloned table, since if scrolling is active, the table's
+			// real header and footer are contained in different table tags
+			tmpTable.find('thead, tfoot').remove();
+			tmpTable
+				.append( $(oSettings.nTHead).clone() )
+				.append( $(oSettings.nTFoot).clone() );
+	
+			// Remove any assigned widths from the footer (from scrolling)
+			tmpTable.find('tfoot th, tfoot td').css('width', '');
+	
+			// Apply custom sizing to the cloned header
+			headerCells = _fnGetUniqueThs( oSettings, tmpTable.find('thead')[0] );
+	
+			for ( i=0 ; i<visibleColumns.length ; i++ ) {
+				column = columns[ visibleColumns[i] ];
+	
+				headerCells[i].style.width = column.sWidthOrig !== null && column.sWidthOrig !== '' ?
+					_fnStringToCss( column.sWidthOrig ) :
+					'';
+	
+				// For scrollX we need to force the column width otherwise the
+				// browser will collapse it. If this width is smaller than the
+				// width the column requires, then it will have no effect
+				if ( column.sWidthOrig && scrollX ) {
+					$( headerCells[i] ).append( $('<div/>').css( {
+						width: column.sWidthOrig,
+						margin: 0,
+						padding: 0,
+						border: 0,
+						height: 1
+					} ) );
+				}
+			}
+	
+			// Find the widest cell for each column and put it into the table
+			if ( oSettings.aoData.length ) {
+				for ( i=0 ; i<visibleColumns.length ; i++ ) {
+					columnIdx = visibleColumns[i];
+					column = columns[ columnIdx ];
+	
+					$( _fnGetWidestNode( oSettings, columnIdx ) )
+						.clone( false )
+						.append( column.sContentPadding )
+						.appendTo( tr );
+				}
+			}
+	
+			// Tidy the temporary table - remove name attributes so there aren't
+			// duplicated in the dom (radio elements for example)
+			$('[name]', tmpTable).removeAttr('name');
+	
+			// Table has been built, attach to the document so we can work with it.
+			// A holding element is used, positioned at the top of the container
+			// with minimal height, so it has no effect on if the container scrolls
+			// or not. Otherwise it might trigger scrolling when it actually isn't
+			// needed
+			var holder = $('<div/>').css( scrollX || scrollY ?
+					{
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						height: 1,
+						right: 0,
+						overflow: 'hidden'
+					} :
+					{}
+				)
+				.append( tmpTable )
+				.appendTo( tableContainer );
+	
+			// When scrolling (X or Y) we want to set the width of the table as 
+			// appropriate. However, when not scrolling leave the table width as it
+			// is. This results in slightly different, but I think correct behaviour
+			if ( scrollX && scrollXInner ) {
+				tmpTable.width( scrollXInner );
+			}
+			else if ( scrollX ) {
+				tmpTable.css( 'width', 'auto' );
+				tmpTable.removeAttr('width');
+	
+				// If there is no width attribute or style, then allow the table to
+				// collapse
+				if ( tmpTable.width() < tableContainer.clientWidth && tableWidthAttr ) {
+					tmpTable.width( tableContainer.clientWidth );
+				}
+			}
+			else if ( scrollY ) {
+				tmpTable.width( tableContainer.clientWidth );
+			}
+			else if ( tableWidthAttr ) {
+				tmpTable.width( tableWidthAttr );
+			}
+	
+			// Get the width of each column in the constructed table - we need to
+			// know the inner width (so it can be assigned to the other table's
+			// cells) and the outer width so we can calculate the full width of the
+			// table. This is safe since DataTables requires a unique cell for each
+			// column, but if ever a header can span multiple columns, this will
+			// need to be modified.
+			var total = 0;
+			for ( i=0 ; i<visibleColumns.length ; i++ ) {
+				var cell = $(headerCells[i]);
+				var border = cell.outerWidth() - cell.width();
+	
+				// Use getBounding... where possible (not IE8-) because it can give
+				// sub-pixel accuracy, which we then want to round up!
+				var bounding = browser.bBounding ?
+					Math.ceil( headerCells[i].getBoundingClientRect().width ) :
+					cell.outerWidth();
+	
+				// Total is tracked to remove any sub-pixel errors as the outerWidth
+				// of the table might not equal the total given here (IE!).
+				total += bounding;
+	
+				// Width for each column to use
+				columns[ visibleColumns[i] ].sWidth = _fnStringToCss( bounding - border );
+			}
+	
+			table.style.width = _fnStringToCss( total );
+	
+			// Finished with the table - ditch it
+			holder.remove();
+		}
+	
+		// If there is a width attr, we want to attach an event listener which
+		// allows the table sizing to automatically adjust when the window is
+		// resized. Use the width attr rather than CSS, since we can't know if the
+		// CSS is a relative value or absolute - DOM read is always px.
+		if ( tableWidthAttr ) {
+			table.style.width = _fnStringToCss( tableWidthAttr );
+		}
+	
+		if ( (tableWidthAttr || scrollX) && ! oSettings._reszEvt ) {
+			var bindResize = function () {
+				$(window).on('resize.DT-'+oSettings.sInstance, _fnThrottle( function () {
+					_fnAdjustColumnSizing( oSettings );
+				} ) );
+			};
+	
+			// IE6/7 will crash if we bind a resize event handler on page load.
+			// To be removed in 1.11 which drops IE6/7 support
+			if ( ie67 ) {
+				setTimeout( bindResize, 1000 );
+			}
+			else {
+				bindResize();
+			}
+	
+			oSettings._reszEvt = true;
+		}
+	}
+	
+	
+	/**
+	 * Throttle the calls to a function. Arguments and context are maintained for
+	 * the throttled function
+	 *  @param {function} fn Function to be called
+	 *  @param {int} [freq=200] call frequency in mS
+	 *  @returns {function} wrapped function
+	 *  @memberof DataTable#oApi
+	 */
+	var _fnThrottle = DataTable.util.throttle;
+	
+	
+	/**
+	 * Convert a CSS unit width to pixels (e.g. 2em)
+	 *  @param {string} width width to be converted
+	 *  @param {node} parent parent to get the with for (required for relative widths) - optional
+	 *  @returns {int} width in pixels
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnConvertToWidth ( width, parent )
+	{
+		if ( ! width ) {
+			return 0;
+		}
+	
+		var n = $('<div/>')
+			.css( 'width', _fnStringToCss( width ) )
+			.appendTo( parent || document.body );
+	
+		var val = n[0].offsetWidth;
+		n.remove();
+	
+		return val;
+	}
+	
+	
+	/**
+	 * Get the widest node
+	 *  @param {object} settings dataTables settings object
+	 *  @param {int} colIdx column of interest
+	 *  @returns {node} widest table node
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnGetWidestNode( settings, colIdx )
+	{
+		var idx = _fnGetMaxLenString( settings, colIdx );
+		if ( idx < 0 ) {
+			return null;
+		}
+	
+		var data = settings.aoData[ idx ];
+		return ! data.nTr ? // Might not have been created when deferred rendering
+			$('<td/>').html( _fnGetCellData( settings, idx, colIdx, 'display' ) )[0] :
+			data.anCells[ colIdx ];
+	}
+	
+	
+	/**
+	 * Get the maximum strlen for each data column
+	 *  @param {object} settings dataTables settings object
+	 *  @param {int} colIdx column of interest
+	 *  @returns {string} max string length for each column
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnGetMaxLenString( settings, colIdx )
+	{
+		var s, max=-1, maxIdx = -1;
+	
+		for ( var i=0, ien=settings.aoData.length ; i<ien ; i++ ) {
+			s = _fnGetCellData( settings, i, colIdx, 'display' )+'';
+			s = s.replace( __re_html_remove, '' );
+			s = s.replace( /&nbsp;/g, ' ' );
+	
+			if ( s.length > max ) {
+				max = s.length;
+				maxIdx = i;
+			}
+		}
+	
+		return maxIdx;
+	}
+	
+	
+	/**
+	 * Append a CSS unit (only if required) to a string
+	 *  @param {string} value to css-ify
+	 *  @returns {string} value with css unit
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnStringToCss( s )
+	{
+		if ( s === null ) {
+			return '0px';
+		}
+	
+		if ( typeof s == 'number' ) {
+			return s < 0 ?
+				'0px' :
+				s+'px';
+		}
+	
+		// Check it has a unit character already
+		return s.match(/\d$/) ?
+			s+'px' :
+			s;
+	}
+	
+	
+	
+	function _fnSortFlatten ( settings )
+	{
+		var
+			i, iLen, k, kLen,
+			aSort = [],
+			aiOrig = [],
+			aoColumns = settings.aoColumns,
+			aDataSort, iCol, sType, srcCol,
+			fixed = settings.aaSortingFixed,
+			fixedObj = $.isPlainObject( fixed ),
+			nestedSort = [],
+			add = function ( a ) {
+				if ( a.length && ! $.isArray( a[0] ) ) {
+					// 1D array
+					nestedSort.push( a );
+				}
+				else {
+					// 2D array
+					$.merge( nestedSort, a );
+				}
+			};
+	
+		// Build the sort array, with pre-fix and post-fix options if they have been
+		// specified
+		if ( $.isArray( fixed ) ) {
+			add( fixed );
+		}
+	
+		if ( fixedObj && fixed.pre ) {
+			add( fixed.pre );
+		}
+	
+		add( settings.aaSorting );
+	
+		if (fixedObj && fixed.post ) {
+			add( fixed.post );
+		}
+	
+		for ( i=0 ; i<nestedSort.length ; i++ )
+		{
+			srcCol = nestedSort[i][0];
+			aDataSort = aoColumns[ srcCol ].aDataSort;
+	
+			for ( k=0, kLen=aDataSort.length ; k<kLen ; k++ )
+			{
+				iCol = aDataSort[k];
+				sType = aoColumns[ iCol ].sType || 'string';
+	
+				if ( nestedSort[i]._idx === undefined ) {
+					nestedSort[i]._idx = $.inArray( nestedSort[i][1], aoColumns[iCol].asSorting );
+				}
+	
+				aSort.push( {
+					src:       srcCol,
+					col:       iCol,
+					dir:       nestedSort[i][1],
+					index:     nestedSort[i]._idx,
+					type:      sType,
+					formatter: DataTable.ext.type.order[ sType+"-pre" ]
+				} );
+			}
+		}
+	
+		return aSort;
+	}
+	
+	/**
+	 * Change the order of the table
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 *  @todo This really needs split up!
+	 */
+	function _fnSort ( oSettings )
+	{
+		var
+			i, ien, iLen, j, jLen, k, kLen,
+			sDataType, nTh,
+			aiOrig = [],
+			oExtSort = DataTable.ext.type.order,
+			aoData = oSettings.aoData,
+			aoColumns = oSettings.aoColumns,
+			aDataSort, data, iCol, sType, oSort,
+			formatters = 0,
+			sortCol,
+			displayMaster = oSettings.aiDisplayMaster,
+			aSort;
+	
+		// Resolve any column types that are unknown due to addition or invalidation
+		// @todo Can this be moved into a 'data-ready' handler which is called when
+		//   data is going to be used in the table?
+		_fnColumnTypes( oSettings );
+	
+		aSort = _fnSortFlatten( oSettings );
+	
+		for ( i=0, ien=aSort.length ; i<ien ; i++ ) {
+			sortCol = aSort[i];
+	
+			// Track if we can use the fast sort algorithm
+			if ( sortCol.formatter ) {
+				formatters++;
+			}
+	
+			// Load the data needed for the sort, for each cell
+			_fnSortData( oSettings, sortCol.col );
+		}
+	
+		/* No sorting required if server-side or no sorting array */
+		if ( _fnDataSource( oSettings ) != 'ssp' && aSort.length !== 0 )
+		{
+			// Create a value - key array of the current row positions such that we can use their
+			// current position during the sort, if values match, in order to perform stable sorting
+			for ( i=0, iLen=displayMaster.length ; i<iLen ; i++ ) {
+				aiOrig[ displayMaster[i] ] = i;
+			}
+	
+			/* Do the sort - here we want multi-column sorting based on a given data source (column)
+			 * and sorting function (from oSort) in a certain direction. It's reasonably complex to
+			 * follow on it's own, but this is what we want (example two column sorting):
+			 *  fnLocalSorting = function(a,b){
+			 *    var iTest;
+			 *    iTest = oSort['string-asc']('data11', 'data12');
+			 *      if (iTest !== 0)
+			 *        return iTest;
+			 *    iTest = oSort['numeric-desc']('data21', 'data22');
+			 *    if (iTest !== 0)
+			 *      return iTest;
+			 *    return oSort['numeric-asc']( aiOrig[a], aiOrig[b] );
+			 *  }
+			 * Basically we have a test for each sorting column, if the data in that column is equal,
+			 * test the next column. If all columns match, then we use a numeric sort on the row
+			 * positions in the original data array to provide a stable sort.
+			 *
+			 * Note - I know it seems excessive to have two sorting methods, but the first is around
+			 * 15% faster, so the second is only maintained for backwards compatibility with sorting
+			 * methods which do not have a pre-sort formatting function.
+			 */
+			if ( formatters === aSort.length ) {
+				// All sort types have formatting functions
+				displayMaster.sort( function ( a, b ) {
+					var
+						x, y, k, test, sort,
+						len=aSort.length,
+						dataA = aoData[a]._aSortData,
+						dataB = aoData[b]._aSortData;
+	
+					for ( k=0 ; k<len ; k++ ) {
+						sort = aSort[k];
+	
+						x = dataA[ sort.col ];
+						y = dataB[ sort.col ];
+	
+						test = x<y ? -1 : x>y ? 1 : 0;
+						if ( test !== 0 ) {
+							return sort.dir === 'asc' ? test : -test;
+						}
+					}
+	
+					x = aiOrig[a];
+					y = aiOrig[b];
+					return x<y ? -1 : x>y ? 1 : 0;
+				} );
+			}
+			else {
+				// Depreciated - remove in 1.11 (providing a plug-in option)
+				// Not all sort types have formatting methods, so we have to call their sorting
+				// methods.
+				displayMaster.sort( function ( a, b ) {
+					var
+						x, y, k, l, test, sort, fn,
+						len=aSort.length,
+						dataA = aoData[a]._aSortData,
+						dataB = aoData[b]._aSortData;
+	
+					for ( k=0 ; k<len ; k++ ) {
+						sort = aSort[k];
+	
+						x = dataA[ sort.col ];
+						y = dataB[ sort.col ];
+	
+						fn = oExtSort[ sort.type+"-"+sort.dir ] || oExtSort[ "string-"+sort.dir ];
+						test = fn( x, y );
+						if ( test !== 0 ) {
+							return test;
+						}
+					}
+	
+					x = aiOrig[a];
+					y = aiOrig[b];
+					return x<y ? -1 : x>y ? 1 : 0;
+				} );
+			}
+		}
+	
+		/* Tell the draw function that we have sorted the data */
+		oSettings.bSorted = true;
+	}
+	
+	
+	function _fnSortAria ( settings )
+	{
+		var label;
+		var nextSort;
+		var columns = settings.aoColumns;
+		var aSort = _fnSortFlatten( settings );
+		var oAria = settings.oLanguage.oAria;
+	
+		// ARIA attributes - need to loop all columns, to update all (removing old
+		// attributes as needed)
+		for ( var i=0, iLen=columns.length ; i<iLen ; i++ )
+		{
+			var col = columns[i];
+			var asSorting = col.asSorting;
+			var sTitle = col.sTitle.replace( /<.*?>/g, "" );
+			var th = col.nTh;
+	
+			// IE7 is throwing an error when setting these properties with jQuery's
+			// attr() and removeAttr() methods...
+			th.removeAttribute('aria-sort');
+	
+			/* In ARIA only the first sorting column can be marked as sorting - no multi-sort option */
+			if ( col.bSortable ) {
+				if ( aSort.length > 0 && aSort[0].col == i ) {
+					th.setAttribute('aria-sort', aSort[0].dir=="asc" ? "ascending" : "descending" );
+					nextSort = asSorting[ aSort[0].index+1 ] || asSorting[0];
+				}
+				else {
+					nextSort = asSorting[0];
+				}
+	
+				label = sTitle + ( nextSort === "asc" ?
+					oAria.sSortAscending :
+					oAria.sSortDescending
+				);
+			}
+			else {
+				label = sTitle;
+			}
+	
+			th.setAttribute('aria-label', label);
+		}
+	}
+	
+	
+	/**
+	 * Function to run on user sort request
+	 *  @param {object} settings dataTables settings object
+	 *  @param {node} attachTo node to attach the handler to
+	 *  @param {int} colIdx column sorting index
+	 *  @param {boolean} [append=false] Append the requested sort to the existing
+	 *    sort if true (i.e. multi-column sort)
+	 *  @param {function} [callback] callback function
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnSortListener ( settings, colIdx, append, callback )
+	{
+		var col = settings.aoColumns[ colIdx ];
+		var sorting = settings.aaSorting;
+		var asSorting = col.asSorting;
+		var nextSortIdx;
+		var next = function ( a, overflow ) {
+			var idx = a._idx;
+			if ( idx === undefined ) {
+				idx = $.inArray( a[1], asSorting );
+			}
+	
+			return idx+1 < asSorting.length ?
+				idx+1 :
+				overflow ?
+					null :
+					0;
+		};
+	
+		// Convert to 2D array if needed
+		if ( typeof sorting[0] === 'number' ) {
+			sorting = settings.aaSorting = [ sorting ];
+		}
+	
+		// If appending the sort then we are multi-column sorting
+		if ( append && settings.oFeatures.bSortMulti ) {
+			// Are we already doing some kind of sort on this column?
+			var sortIdx = $.inArray( colIdx, _pluck(sorting, '0') );
+	
+			if ( sortIdx !== -1 ) {
+				// Yes, modify the sort
+				nextSortIdx = next( sorting[sortIdx], true );
+	
+				if ( nextSortIdx === null && sorting.length === 1 ) {
+					nextSortIdx = 0; // can't remove sorting completely
+				}
+	
+				if ( nextSortIdx === null ) {
+					sorting.splice( sortIdx, 1 );
+				}
+				else {
+					sorting[sortIdx][1] = asSorting[ nextSortIdx ];
+					sorting[sortIdx]._idx = nextSortIdx;
+				}
+			}
+			else {
+				// No sort on this column yet
+				sorting.push( [ colIdx, asSorting[0], 0 ] );
+				sorting[sorting.length-1]._idx = 0;
+			}
+		}
+		else if ( sorting.length && sorting[0][0] == colIdx ) {
+			// Single column - already sorting on this column, modify the sort
+			nextSortIdx = next( sorting[0] );
+	
+			sorting.length = 1;
+			sorting[0][1] = asSorting[ nextSortIdx ];
+			sorting[0]._idx = nextSortIdx;
+		}
+		else {
+			// Single column - sort only on this column
+			sorting.length = 0;
+			sorting.push( [ colIdx, asSorting[0] ] );
+			sorting[0]._idx = 0;
+		}
+	
+		// Run the sort by calling a full redraw
+		_fnReDraw( settings );
+	
+		// callback used for async user interaction
+		if ( typeof callback == 'function' ) {
+			callback( settings );
+		}
+	}
+	
+	
+	/**
+	 * Attach a sort handler (click) to a node
+	 *  @param {object} settings dataTables settings object
+	 *  @param {node} attachTo node to attach the handler to
+	 *  @param {int} colIdx column sorting index
+	 *  @param {function} [callback] callback function
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnSortAttachListener ( settings, attachTo, colIdx, callback )
+	{
+		var col = settings.aoColumns[ colIdx ];
+	
+		_fnBindAction( attachTo, {}, function (e) {
+			/* If the column is not sortable - don't to anything */
+			if ( col.bSortable === false ) {
+				return;
+			}
+	
+			// If processing is enabled use a timeout to allow the processing
+			// display to be shown - otherwise to it synchronously
+			if ( settings.oFeatures.bProcessing ) {
+				_fnProcessingDisplay( settings, true );
+	
+				setTimeout( function() {
+					_fnSortListener( settings, colIdx, e.shiftKey, callback );
+	
+					// In server-side processing, the draw callback will remove the
+					// processing display
+					if ( _fnDataSource( settings ) !== 'ssp' ) {
+						_fnProcessingDisplay( settings, false );
+					}
+				}, 0 );
+			}
+			else {
+				_fnSortListener( settings, colIdx, e.shiftKey, callback );
+			}
+		} );
+	}
+	
+	
+	/**
+	 * Set the sorting classes on table's body, Note: it is safe to call this function
+	 * when bSort and bSortClasses are false
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnSortingClasses( settings )
+	{
+		var oldSort = settings.aLastSort;
+		var sortClass = settings.oClasses.sSortColumn;
+		var sort = _fnSortFlatten( settings );
+		var features = settings.oFeatures;
+		var i, ien, colIdx;
+	
+		if ( features.bSort && features.bSortClasses ) {
+			// Remove old sorting classes
+			for ( i=0, ien=oldSort.length ; i<ien ; i++ ) {
+				colIdx = oldSort[i].src;
+	
+				// Remove column sorting
+				$( _pluck( settings.aoData, 'anCells', colIdx ) )
+					.removeClass( sortClass + (i<2 ? i+1 : 3) );
+			}
+	
+			// Add new column sorting
+			for ( i=0, ien=sort.length ; i<ien ; i++ ) {
+				colIdx = sort[i].src;
+	
+				$( _pluck( settings.aoData, 'anCells', colIdx ) )
+					.addClass( sortClass + (i<2 ? i+1 : 3) );
+			}
+		}
+	
+		settings.aLastSort = sort;
+	}
+	
+	
+	// Get the data to sort a column, be it from cache, fresh (populating the
+	// cache), or from a sort formatter
+	function _fnSortData( settings, idx )
+	{
+		// Custom sorting function - provided by the sort data type
+		var column = settings.aoColumns[ idx ];
+		var customSort = DataTable.ext.order[ column.sSortDataType ];
+		var customData;
+	
+		if ( customSort ) {
+			customData = customSort.call( settings.oInstance, settings, idx,
+				_fnColumnIndexToVisible( settings, idx )
+			);
+		}
+	
+		// Use / populate cache
+		var row, cellData;
+		var formatter = DataTable.ext.type.order[ column.sType+"-pre" ];
+	
+		for ( var i=0, ien=settings.aoData.length ; i<ien ; i++ ) {
+			row = settings.aoData[i];
+	
+			if ( ! row._aSortData ) {
+				row._aSortData = [];
+			}
+	
+			if ( ! row._aSortData[idx] || customSort ) {
+				cellData = customSort ?
+					customData[i] : // If there was a custom sort function, use data from there
+					_fnGetCellData( settings, i, idx, 'sort' );
+	
+				row._aSortData[ idx ] = formatter ?
+					formatter( cellData ) :
+					cellData;
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Save the state of a table
+	 *  @param {object} oSettings dataTables settings object
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnSaveState ( settings )
+	{
+		if ( !settings.oFeatures.bStateSave || settings.bDestroying )
+		{
+			return;
+		}
+	
+		/* Store the interesting variables */
+		var state = {
+			time:    +new Date(),
+			start:   settings._iDisplayStart,
+			length:  settings._iDisplayLength,
+			order:   $.extend( true, [], settings.aaSorting ),
+			search:  _fnSearchToCamel( settings.oPreviousSearch ),
+			columns: $.map( settings.aoColumns, function ( col, i ) {
+				return {
+					visible: col.bVisible,
+					search: _fnSearchToCamel( settings.aoPreSearchCols[i] )
+				};
+			} )
+		};
+	
+		_fnCallbackFire( settings, "aoStateSaveParams", 'stateSaveParams', [settings, state] );
+	
+		settings.oSavedState = state;
+		settings.fnStateSaveCallback.call( settings.oInstance, settings, state );
+	}
+	
+	
+	/**
+	 * Attempt to load a saved table state
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {object} oInit DataTables init object so we can override settings
+	 *  @param {function} callback Callback to execute when the state has been loaded
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnLoadState ( settings, oInit, callback )
+	{
+		var i, ien;
+		var columns = settings.aoColumns;
+		var loaded = function ( s ) {
+			if ( ! s || ! s.time ) {
+				callback();
+				return;
+			}
+	
+			// Allow custom and plug-in manipulation functions to alter the saved data set and
+			// cancelling of loading by returning false
+			var abStateLoad = _fnCallbackFire( settings, 'aoStateLoadParams', 'stateLoadParams', [settings, s] );
+			if ( $.inArray( false, abStateLoad ) !== -1 ) {
+				callback();
+				return;
+			}
+	
+			// Reject old data
+			var duration = settings.iStateDuration;
+			if ( duration > 0 && s.time < +new Date() - (duration*1000) ) {
+				callback();
+				return;
+			}
+	
+			// Number of columns have changed - all bets are off, no restore of settings
+			if ( s.columns && columns.length !== s.columns.length ) {
+				callback();
+				return;
+			}
+	
+			// Store the saved state so it might be accessed at any time
+			settings.oLoadedState = $.extend( true, {}, s );
+	
+			// Restore key features - todo - for 1.11 this needs to be done by
+			// subscribed events
+			if ( s.start !== undefined ) {
+				settings._iDisplayStart    = s.start;
+				settings.iInitDisplayStart = s.start;
+			}
+			if ( s.length !== undefined ) {
+				settings._iDisplayLength   = s.length;
+			}
+	
+			// Order
+			if ( s.order !== undefined ) {
+				settings.aaSorting = [];
+				$.each( s.order, function ( i, col ) {
+					settings.aaSorting.push( col[0] >= columns.length ?
+						[ 0, col[1] ] :
+						col
+					);
+				} );
+			}
+	
+			// Search
+			if ( s.search !== undefined ) {
+				$.extend( settings.oPreviousSearch, _fnSearchToHung( s.search ) );
+			}
+	
+			// Columns
+			//
+			if ( s.columns ) {
+				for ( i=0, ien=s.columns.length ; i<ien ; i++ ) {
+					var col = s.columns[i];
+	
+					// Visibility
+					if ( col.visible !== undefined ) {
+						columns[i].bVisible = col.visible;
+					}
+	
+					// Search
+					if ( col.search !== undefined ) {
+						$.extend( settings.aoPreSearchCols[i], _fnSearchToHung( col.search ) );
+					}
+				}
+			}
+	
+			_fnCallbackFire( settings, 'aoStateLoaded', 'stateLoaded', [settings, s] );
+			callback();
+		}
+	
+		if ( ! settings.oFeatures.bStateSave ) {
+			callback();
+			return;
+		}
+	
+		var state = settings.fnStateLoadCallback.call( settings.oInstance, settings, loaded );
+	
+		if ( state !== undefined ) {
+			loaded( state );
+		}
+		// otherwise, wait for the loaded callback to be executed
+	}
+	
+	
+	/**
+	 * Return the settings object for a particular table
+	 *  @param {node} table table we are using as a dataTable
+	 *  @returns {object} Settings object - or null if not found
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnSettingsFromNode ( table )
+	{
+		var settings = DataTable.settings;
+		var idx = $.inArray( table, _pluck( settings, 'nTable' ) );
+	
+		return idx !== -1 ?
+			settings[ idx ] :
+			null;
+	}
+	
+	
+	/**
+	 * Log an error message
+	 *  @param {object} settings dataTables settings object
+	 *  @param {int} level log error messages, or display them to the user
+	 *  @param {string} msg error message
+	 *  @param {int} tn Technical note id to get more information about the error.
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnLog( settings, level, msg, tn )
+	{
+		msg = 'DataTables warning: '+
+			(settings ? 'table id='+settings.sTableId+' - ' : '')+msg;
+	
+		if ( tn ) {
+			msg += '. For more information about this error, please see '+
+			'http://datatables.net/tn/'+tn;
+		}
+	
+		if ( ! level  ) {
+			// Backwards compatibility pre 1.10
+			var ext = DataTable.ext;
+			var type = ext.sErrMode || ext.errMode;
+	
+			if ( settings ) {
+				_fnCallbackFire( settings, null, 'error', [ settings, tn, msg ] );
+			}
+	
+			if ( type == 'alert' ) {
+				alert( msg );
+			}
+			else if ( type == 'throw' ) {
+				throw new Error(msg);
+			}
+			else if ( typeof type == 'function' ) {
+				type( settings, tn, msg );
+			}
+		}
+		else if ( window.console && console.log ) {
+			console.log( msg );
+		}
+	}
+	
+	
+	/**
+	 * See if a property is defined on one object, if so assign it to the other object
+	 *  @param {object} ret target object
+	 *  @param {object} src source object
+	 *  @param {string} name property
+	 *  @param {string} [mappedName] name to map too - optional, name used if not given
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnMap( ret, src, name, mappedName )
+	{
+		if ( $.isArray( name ) ) {
+			$.each( name, function (i, val) {
+				if ( $.isArray( val ) ) {
+					_fnMap( ret, src, val[0], val[1] );
+				}
+				else {
+					_fnMap( ret, src, val );
+				}
+			} );
+	
+			return;
+		}
+	
+		if ( mappedName === undefined ) {
+			mappedName = name;
+		}
+	
+		if ( src[name] !== undefined ) {
+			ret[mappedName] = src[name];
+		}
+	}
+	
+	
+	/**
+	 * Extend objects - very similar to jQuery.extend, but deep copy objects, and
+	 * shallow copy arrays. The reason we need to do this, is that we don't want to
+	 * deep copy array init values (such as aaSorting) since the dev wouldn't be
+	 * able to override them, but we do want to deep copy arrays.
+	 *  @param {object} out Object to extend
+	 *  @param {object} extender Object from which the properties will be applied to
+	 *      out
+	 *  @param {boolean} breakRefs If true, then arrays will be sliced to take an
+	 *      independent copy with the exception of the `data` or `aaData` parameters
+	 *      if they are present. This is so you can pass in a collection to
+	 *      DataTables and have that used as your data source without breaking the
+	 *      references
+	 *  @returns {object} out Reference, just for convenience - out === the return.
+	 *  @memberof DataTable#oApi
+	 *  @todo This doesn't take account of arrays inside the deep copied objects.
+	 */
+	function _fnExtend( out, extender, breakRefs )
+	{
+		var val;
+	
+		for ( var prop in extender ) {
+			if ( extender.hasOwnProperty(prop) ) {
+				val = extender[prop];
+	
+				if ( $.isPlainObject( val ) ) {
+					if ( ! $.isPlainObject( out[prop] ) ) {
+						out[prop] = {};
+					}
+					$.extend( true, out[prop], val );
+				}
+				else if ( breakRefs && prop !== 'data' && prop !== 'aaData' && $.isArray(val) ) {
+					out[prop] = val.slice();
+				}
+				else {
+					out[prop] = val;
+				}
+			}
+		}
+	
+		return out;
+	}
+	
+	
+	/**
+	 * Bind an event handers to allow a click or return key to activate the callback.
+	 * This is good for accessibility since a return on the keyboard will have the
+	 * same effect as a click, if the element has focus.
+	 *  @param {element} n Element to bind the action to
+	 *  @param {object} oData Data object to pass to the triggered function
+	 *  @param {function} fn Callback function for when the event is triggered
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnBindAction( n, oData, fn )
+	{
+		$(n)
+			.on( 'click.DT', oData, function (e) {
+					$(n).blur(); // Remove focus outline for mouse users
+					fn(e);
+				} )
+			.on( 'keypress.DT', oData, function (e){
+					if ( e.which === 13 ) {
+						e.preventDefault();
+						fn(e);
+					}
+				} )
+			.on( 'selectstart.DT', function () {
+					/* Take the brutal approach to cancelling text selection */
+					return false;
+				} );
+	}
+	
+	
+	/**
+	 * Register a callback function. Easily allows a callback function to be added to
+	 * an array store of callback functions that can then all be called together.
+	 *  @param {object} oSettings dataTables settings object
+	 *  @param {string} sStore Name of the array storage for the callbacks in oSettings
+	 *  @param {function} fn Function to be called back
+	 *  @param {string} sName Identifying name for the callback (i.e. a label)
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnCallbackReg( oSettings, sStore, fn, sName )
+	{
+		if ( fn )
+		{
+			oSettings[sStore].push( {
+				"fn": fn,
+				"sName": sName
+			} );
+		}
+	}
+	
+	
+	/**
+	 * Fire callback functions and trigger events. Note that the loop over the
+	 * callback array store is done backwards! Further note that you do not want to
+	 * fire off triggers in time sensitive applications (for example cell creation)
+	 * as its slow.
+	 *  @param {object} settings dataTables settings object
+	 *  @param {string} callbackArr Name of the array storage for the callbacks in
+	 *      oSettings
+	 *  @param {string} eventName Name of the jQuery custom event to trigger. If
+	 *      null no trigger is fired
+	 *  @param {array} args Array of arguments to pass to the callback function /
+	 *      trigger
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnCallbackFire( settings, callbackArr, eventName, args )
+	{
+		var ret = [];
+	
+		if ( callbackArr ) {
+			ret = $.map( settings[callbackArr].slice().reverse(), function (val, i) {
+				return val.fn.apply( settings.oInstance, args );
+			} );
+		}
+	
+		if ( eventName !== null ) {
+			var e = $.Event( eventName+'.dt' );
+	
+			$(settings.nTable).trigger( e, args );
+	
+			ret.push( e.result );
+		}
+	
+		return ret;
+	}
+	
+	
+	function _fnLengthOverflow ( settings )
+	{
+		var
+			start = settings._iDisplayStart,
+			end = settings.fnDisplayEnd(),
+			len = settings._iDisplayLength;
+	
+		/* If we have space to show extra rows (backing up from the end point - then do so */
+		if ( start >= end )
+		{
+			start = end - len;
+		}
+	
+		// Keep the start record on the current page
+		start -= (start % len);
+	
+		if ( len === -1 || start < 0 )
+		{
+			start = 0;
+		}
+	
+		settings._iDisplayStart = start;
+	}
+	
+	
+	function _fnRenderer( settings, type )
+	{
+		var renderer = settings.renderer;
+		var host = DataTable.ext.renderer[type];
+	
+		if ( $.isPlainObject( renderer ) && renderer[type] ) {
+			// Specific renderer for this type. If available use it, otherwise use
+			// the default.
+			return host[renderer[type]] || host._;
+		}
+		else if ( typeof renderer === 'string' ) {
+			// Common renderer - if there is one available for this type use it,
+			// otherwise use the default
+			return host[renderer] || host._;
+		}
+	
+		// Use the default
+		return host._;
+	}
+	
+	
+	/**
+	 * Detect the data source being used for the table. Used to simplify the code
+	 * a little (ajax) and to make it compress a little smaller.
+	 *
+	 *  @param {object} settings dataTables settings object
+	 *  @returns {string} Data source
+	 *  @memberof DataTable#oApi
+	 */
+	function _fnDataSource ( settings )
+	{
+		if ( settings.oFeatures.bServerSide ) {
+			return 'ssp';
+		}
+		else if ( settings.ajax || settings.sAjaxSource ) {
+			return 'ajax';
+		}
+		return 'dom';
+	}
+	
+
+	
+	
+	/**
+	 * Computed structure of the DataTables API, defined by the options passed to
+	 * `DataTable.Api.register()` when building the API.
+	 *
+	 * The structure is built in order to speed creation and extension of the Api
+	 * objects since the extensions are effectively pre-parsed.
+	 *
+	 * The array is an array of objects with the following structure, where this
+	 * base array represents the Api prototype base:
+	 *
+	 *     [
+	 *       {
+	 *         name:      'data'                -- string   - Property name
+	 *         val:       function () {},       -- function - Api method (or undefined if just an object
+	 *         methodExt: [ ... ],              -- array    - Array of Api object definitions to extend the method result
+	 *         propExt:   [ ... ]               -- array    - Array of Api object definitions to extend the property
+	 *       },
+	 *       {
+	 *         name:     'row'
+	 *         val:       {},
+	 *         methodExt: [ ... ],
+	 *         propExt:   [
+	 *           {
+	 *             name:      'data'
+	 *             val:       function () {},
+	 *             methodExt: [ ... ],
+	 *             propExt:   [ ... ]
+	 *           },
+	 *           ...
+	 *         ]
+	 *       }
+	 *     ]
+	 *
+	 * @type {Array}
+	 * @ignore
+	 */
+	var __apiStruct = [];
+	
+	
+	/**
+	 * `Array.prototype` reference.
+	 *
+	 * @type object
+	 * @ignore
+	 */
+	var __arrayProto = Array.prototype;
+	
+	
+	/**
+	 * Abstraction for `context` parameter of the `Api` constructor to allow it to
+	 * take several different forms for ease of use.
+	 *
+	 * Each of the input parameter types will be converted to a DataTables settings
+	 * object where possible.
+	 *
+	 * @param  {string|node|jQuery|object} mixed DataTable identifier. Can be one
+	 *   of:
+	 *
+	 *   * `string` - jQuery selector. Any DataTables' matching the given selector
+	 *     with be found and used.
+	 *   * `node` - `TABLE` node which has already been formed into a DataTable.
+	 *   * `jQuery` - A jQuery object of `TABLE` nodes.
+	 *   * `object` - DataTables settings object
+	 *   * `DataTables.Api` - API instance
+	 * @return {array|null} Matching DataTables settings objects. `null` or
+	 *   `undefined` is returned if no matching DataTable is found.
+	 * @ignore
+	 */
+	var _toSettings = function ( mixed )
+	{
+		var idx, jq;
+		var settings = DataTable.settings;
+		var tables = $.map( settings, function (el, i) {
+			return el.nTable;
+		} );
+	
+		if ( ! mixed ) {
+			return [];
+		}
+		else if ( mixed.nTable && mixed.oApi ) {
+			// DataTables settings object
+			return [ mixed ];
+		}
+		else if ( mixed.nodeName && mixed.nodeName.toLowerCase() === 'table' ) {
+			// Table node
+			idx = $.inArray( mixed, tables );
+			return idx !== -1 ? [ settings[idx] ] : null;
+		}
+		else if ( mixed && typeof mixed.settings === 'function' ) {
+			return mixed.settings().toArray();
+		}
+		else if ( typeof mixed === 'string' ) {
+			// jQuery selector
+			jq = $(mixed);
+		}
+		else if ( mixed instanceof $ ) {
+			// jQuery object (also DataTables instance)
+			jq = mixed;
+		}
+	
+		if ( jq ) {
+			return jq.map( function(i) {
+				idx = $.inArray( this, tables );
+				return idx !== -1 ? settings[idx] : null;
+			} ).toArray();
+		}
+	};
+	
+	
+	/**
+	 * DataTables API class - used to control and interface with  one or more
+	 * DataTables enhanced tables.
+	 *
+	 * The API class is heavily based on jQuery, presenting a chainable interface
+	 * that you can use to interact with tables. Each instance of the API class has
+	 * a "context" - i.e. the tables that it will operate on. This could be a single
+	 * table, all tables on a page or a sub-set thereof.
+	 *
+	 * Additionally the API is designed to allow you to easily work with the data in
+	 * the tables, retrieving and manipulating it as required. This is done by
+	 * presenting the API class as an array like interface. The contents of the
+	 * array depend upon the actions requested by each method (for example
+	 * `rows().nodes()` will return an array of nodes, while `rows().data()` will
+	 * return an array of objects or arrays depending upon your table's
+	 * configuration). The API object has a number of array like methods (`push`,
+	 * `pop`, `reverse` etc) as well as additional helper methods (`each`, `pluck`,
+	 * `unique` etc) to assist your working with the data held in a table.
+	 *
+	 * Most methods (those which return an Api instance) are chainable, which means
+	 * the return from a method call also has all of the methods available that the
+	 * top level object had. For example, these two calls are equivalent:
+	 *
+	 *     // Not chained
+	 *     api.row.add( {...} );
+	 *     api.draw();
+	 *
+	 *     // Chained
+	 *     api.row.add( {...} ).draw();
+	 *
+	 * @class DataTable.Api
+	 * @param {array|object|string|jQuery} context DataTable identifier. This is
+	 *   used to define which DataTables enhanced tables this API will operate on.
+	 *   Can be one of:
+	 *
+	 *   * `string` - jQuery selector. Any DataTables' matching the given selector
+	 *     with be found and used.
+	 *   * `node` - `TABLE` node which has already been formed into a DataTable.
+	 *   * `jQuery` - A jQuery object of `TABLE` nodes.
+	 *   * `object` - DataTables settings object
+	 * @param {array} [data] Data to initialise the Api instance with.
+	 *
+	 * @example
+	 *   // Direct initialisation during DataTables construction
+	 *   var api = $('#example').DataTable();
+	 *
+	 * @example
+	 *   // Initialisation using a DataTables jQuery object
+	 *   var api = $('#example').dataTable().api();
+	 *
+	 * @example
+	 *   // Initialisation as a constructor
+	 *   var api = new $.fn.DataTable.Api( 'table.dataTable' );
+	 */
+	_Api = function ( context, data )
+	{
+		if ( ! (this instanceof _Api) ) {
+			return new _Api( context, data );
+		}
+	
+		var settings = [];
+		var ctxSettings = function ( o ) {
+			var a = _toSettings( o );
+			if ( a ) {
+				settings = settings.concat( a );
+			}
+		};
+	
+		if ( $.isArray( context ) ) {
+			for ( var i=0, ien=context.length ; i<ien ; i++ ) {
+				ctxSettings( context[i] );
+			}
+		}
+		else {
+			ctxSettings( context );
+		}
+	
+		// Remove duplicates
+		this.context = _unique( settings );
+	
+		// Initial data
+		if ( data ) {
+			$.merge( this, data );
+		}
+	
+		// selector
+		this.selector = {
+			rows: null,
+			cols: null,
+			opts: null
+		};
+	
+		_Api.extend( this, this, __apiStruct );
+	};
+	
+	DataTable.Api = _Api;
+	
+	// Don't destroy the existing prototype, just extend it. Required for jQuery 2's
+	// isPlainObject.
+	$.extend( _Api.prototype, {
+		any: function ()
+		{
+			return this.count() !== 0;
+		},
+	
+	
+		concat:  __arrayProto.concat,
+	
+	
+		context: [], // array of table settings objects
+	
+	
+		count: function ()
+		{
+			return this.flatten().length;
+		},
+	
+	
+		each: function ( fn )
+		{
+			for ( var i=0, ien=this.length ; i<ien; i++ ) {
+				fn.call( this, this[i], i, this );
+			}
+	
+			return this;
+		},
+	
+	
+		eq: function ( idx )
+		{
+			var ctx = this.context;
+	
+			return ctx.length > idx ?
+				new _Api( ctx[idx], this[idx] ) :
+				null;
+		},
+	
+	
+		filter: function ( fn )
+		{
+			var a = [];
+	
+			if ( __arrayProto.filter ) {
+				a = __arrayProto.filter.call( this, fn, this );
+			}
+			else {
+				// Compatibility for browsers without EMCA-252-5 (JS 1.6)
+				for ( var i=0, ien=this.length ; i<ien ; i++ ) {
+					if ( fn.call( this, this[i], i, this ) ) {
+						a.push( this[i] );
+					}
+				}
+			}
+	
+			return new _Api( this.context, a );
+		},
+	
+	
+		flatten: function ()
+		{
+			var a = [];
+			return new _Api( this.context, a.concat.apply( a, this.toArray() ) );
+		},
+	
+	
+		join:    __arrayProto.join,
+	
+	
+		indexOf: __arrayProto.indexOf || function (obj, start)
+		{
+			for ( var i=(start || 0), ien=this.length ; i<ien ; i++ ) {
+				if ( this[i] === obj ) {
+					return i;
+				}
+			}
+			return -1;
+		},
+	
+		iterator: function ( flatten, type, fn, alwaysNew ) {
+			var
+				a = [], ret,
+				i, ien, j, jen,
+				context = this.context,
+				rows, items, item,
+				selector = this.selector;
+	
+			// Argument shifting
+			if ( typeof flatten === 'string' ) {
+				alwaysNew = fn;
+				fn = type;
+				type = flatten;
+				flatten = false;
+			}
+	
+			for ( i=0, ien=context.length ; i<ien ; i++ ) {
+				var apiInst = new _Api( context[i] );
+	
+				if ( type === 'table' ) {
+					ret = fn.call( apiInst, context[i], i );
+	
+					if ( ret !== undefined ) {
+						a.push( ret );
+					}
+				}
+				else if ( type === 'columns' || type === 'rows' ) {
+					// this has same length as context - one entry for each table
+					ret = fn.call( apiInst, context[i], this[i], i );
+	
+					if ( ret !== undefined ) {
+						a.push( ret );
+					}
+				}
+				else if ( type === 'column' || type === 'column-rows' || type === 'row' || type === 'cell' ) {
+					// columns and rows share the same structure.
+					// 'this' is an array of column indexes for each context
+					items = this[i];
+	
+					if ( type === 'column-rows' ) {
+						rows = _selector_row_indexes( context[i], selector.opts );
+					}
+	
+					for ( j=0, jen=items.length ; j<jen ; j++ ) {
+						item = items[j];
+	
+						if ( type === 'cell' ) {
+							ret = fn.call( apiInst, context[i], item.row, item.column, i, j );
+						}
+						else {
+							ret = fn.call( apiInst, context[i], item, i, j, rows );
+						}
+	
+						if ( ret !== undefined ) {
+							a.push( ret );
+						}
+					}
+				}
+			}
+	
+			if ( a.length || alwaysNew ) {
+				var api = new _Api( context, flatten ? a.concat.apply( [], a ) : a );
+				var apiSelector = api.selector;
+				apiSelector.rows = selector.rows;
+				apiSelector.cols = selector.cols;
+				apiSelector.opts = selector.opts;
+				return api;
+			}
+			return this;
+		},
+	
+	
+		lastIndexOf: __arrayProto.lastIndexOf || function (obj, start)
+		{
+			// Bit cheeky...
+			return this.indexOf.apply( this.toArray.reverse(), arguments );
+		},
+	
+	
+		length:  0,
+	
+	
+		map: function ( fn )
+		{
+			var a = [];
+	
+			if ( __arrayProto.map ) {
+				a = __arrayProto.map.call( this, fn, this );
+			}
+			else {
+				// Compatibility for browsers without EMCA-252-5 (JS 1.6)
+				for ( var i=0, ien=this.length ; i<ien ; i++ ) {
+					a.push( fn.call( this, this[i], i ) );
+				}
+			}
+	
+			return new _Api( this.context, a );
+		},
+	
+	
+		pluck: function ( prop )
+		{
+			return this.map( function ( el ) {
+				return el[ prop ];
+			} );
+		},
+	
+		pop:     __arrayProto.pop,
+	
+	
+		push:    __arrayProto.push,
+	
+	
+		// Does not return an API instance
+		reduce: __arrayProto.reduce || function ( fn, init )
+		{
+			return _fnReduce( this, fn, init, 0, this.length, 1 );
+		},
+	
+	
+		reduceRight: __arrayProto.reduceRight || function ( fn, init )
+		{
+			return _fnReduce( this, fn, init, this.length-1, -1, -1 );
+		},
+	
+	
+		reverse: __arrayProto.reverse,
+	
+	
+		// Object with rows, columns and opts
+		selector: null,
+	
+	
+		shift:   __arrayProto.shift,
+	
+	
+		slice: function () {
+			return new _Api( this.context, this );
+		},
+	
+	
+		sort:    __arrayProto.sort, // ? name - order?
+	
+	
+		splice:  __arrayProto.splice,
+	
+	
+		toArray: function ()
+		{
+			return __arrayProto.slice.call( this );
+		},
+	
+	
+		to$: function ()
+		{
+			return $( this );
+		},
+	
+	
+		toJQuery: function ()
+		{
+			return $( this );
+		},
+	
+	
+		unique: function ()
+		{
+			return new _Api( this.context, _unique(this) );
+		},
+	
+	
+		unshift: __arrayProto.unshift
+	} );
+	
+	
+	_Api.extend = function ( scope, obj, ext )
+	{
+		// Only extend API instances and static properties of the API
+		if ( ! ext.length || ! obj || ( ! (obj instanceof _Api) && ! obj.__dt_wrapper ) ) {
+			return;
+		}
+	
+		var
+			i, ien,
+			j, jen,
+			struct, inner,
+			methodScoping = function ( scope, fn, struc ) {
+				return function () {
+					var ret = fn.apply( scope, arguments );
+	
+					// Method extension
+					_Api.extend( ret, ret, struc.methodExt );
+					return ret;
+				};
+			};
+	
+		for ( i=0, ien=ext.length ; i<ien ; i++ ) {
+			struct = ext[i];
+	
+			// Value
+			obj[ struct.name ] = typeof struct.val === 'function' ?
+				methodScoping( scope, struct.val, struct ) :
+				$.isPlainObject( struct.val ) ?
+					{} :
+					struct.val;
+	
+			obj[ struct.name ].__dt_wrapper = true;
+	
+			// Property extension
+			_Api.extend( scope, obj[ struct.name ], struct.propExt );
+		}
+	};
+	
+	
+	// @todo - Is there need for an augment function?
+	// _Api.augment = function ( inst, name )
+	// {
+	// 	// Find src object in the structure from the name
+	// 	var parts = name.split('.');
+	
+	// 	_Api.extend( inst, obj );
+	// };
+	
+	
+	//     [
+	//       {
+	//         name:      'data'                -- string   - Property name
+	//         val:       function () {},       -- function - Api method (or undefined if just an object
+	//         methodExt: [ ... ],              -- array    - Array of Api object definitions to extend the method result
+	//         propExt:   [ ... ]               -- array    - Array of Api object definitions to extend the property
+	//       },
+	//       {
+	//         name:     'row'
+	//         val:       {},
+	//         methodExt: [ ... ],
+	//         propExt:   [
+	//           {
+	//             name:      'data'
+	//             val:       function () {},
+	//             methodExt: [ ... ],
+	//             propExt:   [ ... ]
+	//           },
+	//           ...
+	//         ]
+	//       }
+	//     ]
+	
+	_Api.register = _api_register = function ( name, val )
+	{
+		if ( $.isArray( name ) ) {
+			for ( var j=0, jen=name.length ; j<jen ; j++ ) {
+				_Api.register( name[j], val );
+			}
+			return;
+		}
+	
+		var
+			i, ien,
+			heir = name.split('.'),
+			struct = __apiStruct,
+			key, method;
+	
+		var find = function ( src, name ) {
+			for ( var i=0, ien=src.length ; i<ien ; i++ ) {
+				if ( src[i].name === name ) {
+					return src[i];
+				}
+			}
+			return null;
+		};
+	
+		for ( i=0, ien=heir.length ; i<ien ; i++ ) {
+			method = heir[i].indexOf('()') !== -1;
+			key = method ?
+				heir[i].replace('()', '') :
+				heir[i];
+	
+			var src = find( struct, key );
+			if ( ! src ) {
+				src = {
+					name:      key,
+					val:       {},
+					methodExt: [],
+					propExt:   []
+				};
+				struct.push( src );
+			}
+	
+			if ( i === ien-1 ) {
+				src.val = val;
+			}
+			else {
+				struct = method ?
+					src.methodExt :
+					src.propExt;
+			}
+		}
+	};
+	
+	
+	_Api.registerPlural = _api_registerPlural = function ( pluralName, singularName, val ) {
+		_Api.register( pluralName, val );
+	
+		_Api.register( singularName, function () {
+			var ret = val.apply( this, arguments );
+	
+			if ( ret === this ) {
+				// Returned item is the API instance that was passed in, return it
+				return this;
+			}
+			else if ( ret instanceof _Api ) {
+				// New API instance returned, want the value from the first item
+				// in the returned array for the singular result.
+				return ret.length ?
+					$.isArray( ret[0] ) ?
+						new _Api( ret.context, ret[0] ) : // Array results are 'enhanced'
+						ret[0] :
+					undefined;
+			}
+	
+			// Non-API return - just fire it back
+			return ret;
+		} );
+	};
+	
+	
+	/**
+	 * Selector for HTML tables. Apply the given selector to the give array of
+	 * DataTables settings objects.
+	 *
+	 * @param {string|integer} [selector] jQuery selector string or integer
+	 * @param  {array} Array of DataTables settings objects to be filtered
+	 * @return {array}
+	 * @ignore
+	 */
+	var __table_selector = function ( selector, a )
+	{
+		// Integer is used to pick out a table by index
+		if ( typeof selector === 'number' ) {
+			return [ a[ selector ] ];
+		}
+	
+		// Perform a jQuery selector on the table nodes
+		var nodes = $.map( a, function (el, i) {
+			return el.nTable;
+		} );
+	
+		return $(nodes)
+			.filter( selector )
+			.map( function (i) {
+				// Need to translate back from the table node to the settings
+				var idx = $.inArray( this, nodes );
+				return a[ idx ];
+			} )
+			.toArray();
+	};
+	
+	
+	
+	/**
+	 * Context selector for the API's context (i.e. the tables the API instance
+	 * refers to.
+	 *
+	 * @name    DataTable.Api#tables
+	 * @param {string|integer} [selector] Selector to pick which tables the iterator
+	 *   should operate on. If not given, all tables in the current context are
+	 *   used. This can be given as a jQuery selector (for example `':gt(0)'`) to
+	 *   select multiple tables or as an integer to select a single table.
+	 * @returns {DataTable.Api} Returns a new API instance if a selector is given.
+	 */
+	_api_register( 'tables()', function ( selector ) {
+		// A new instance is created if there was a selector specified
+		return selector ?
+			new _Api( __table_selector( selector, this.context ) ) :
+			this;
+	} );
+	
+	
+	_api_register( 'table()', function ( selector ) {
+		var tables = this.tables( selector );
+		var ctx = tables.context;
+	
+		// Truncate to the first matched table
+		return ctx.length ?
+			new _Api( ctx[0] ) :
+			tables;
+	} );
+	
+	
+	_api_registerPlural( 'tables().nodes()', 'table().node()' , function () {
+		return this.iterator( 'table', function ( ctx ) {
+			return ctx.nTable;
+		}, 1 );
+	} );
+	
+	
+	_api_registerPlural( 'tables().body()', 'table().body()' , function () {
+		return this.iterator( 'table', function ( ctx ) {
+			return ctx.nTBody;
+		}, 1 );
+	} );
+	
+	
+	_api_registerPlural( 'tables().header()', 'table().header()' , function () {
+		return this.iterator( 'table', function ( ctx ) {
+			return ctx.nTHead;
+		}, 1 );
+	} );
+	
+	
+	_api_registerPlural( 'tables().footer()', 'table().footer()' , function () {
+		return this.iterator( 'table', function ( ctx ) {
+			return ctx.nTFoot;
+		}, 1 );
+	} );
+	
+	
+	_api_registerPlural( 'tables().containers()', 'table().container()' , function () {
+		return this.iterator( 'table', function ( ctx ) {
+			return ctx.nTableWrapper;
+		}, 1 );
+	} );
+	
+	
+	
+	/**
+	 * Redraw the tables in the current context.
+	 */
+	_api_register( 'draw()', function ( paging ) {
+		return this.iterator( 'table', function ( settings ) {
+			if ( paging === 'page' ) {
+				_fnDraw( settings );
+			}
+			else {
+				if ( typeof paging === 'string' ) {
+					paging = paging === 'full-hold' ?
+						false :
+						true;
+				}
+	
+				_fnReDraw( settings, paging===false );
+			}
+		} );
+	} );
+	
+	
+	
+	/**
+	 * Get the current page index.
+	 *
+	 * @return {integer} Current page index (zero based)
+	 *//**
+	 * Set the current page.
+	 *
+	 * Note that if you attempt to show a page which does not exist, DataTables will
+	 * not throw an error, but rather reset the paging.
+	 *
+	 * @param {integer|string} action The paging action to take. This can be one of:
+	 *  * `integer` - The page index to jump to
+	 *  * `string` - An action to take:
+	 *    * `first` - Jump to first page.
+	 *    * `next` - Jump to the next page
+	 *    * `previous` - Jump to previous page
+	 *    * `last` - Jump to the last page.
+	 * @returns {DataTables.Api} this
+	 */
+	_api_register( 'page()', function ( action ) {
+		if ( action === undefined ) {
+			return this.page.info().page; // not an expensive call
+		}
+	
+		// else, have an action to take on all tables
+		return this.iterator( 'table', function ( settings ) {
+			_fnPageChange( settings, action );
+		} );
+	} );
+	
+	
+	/**
+	 * Paging information for the first table in the current context.
+	 *
+	 * If you require paging information for another table, use the `table()` method
+	 * with a suitable selector.
+	 *
+	 * @return {object} Object with the following properties set:
+	 *  * `page` - Current page index (zero based - i.e. the first page is `0`)
+	 *  * `pages` - Total number of pages
+	 *  * `start` - Display index for the first record shown on the current page
+	 *  * `end` - Display index for the last record shown on the current page
+	 *  * `length` - Display length (number of records). Note that generally `start
+	 *    + length = end`, but this is not always true, for example if there are
+	 *    only 2 records to show on the final page, with a length of 10.
+	 *  * `recordsTotal` - Full data set length
+	 *  * `recordsDisplay` - Data set length once the current filtering criterion
+	 *    are applied.
+	 */
+	_api_register( 'page.info()', function ( action ) {
+		if ( this.context.length === 0 ) {
+			return undefined;
+		}
+	
+		var
+			settings   = this.context[0],
+			start      = settings._iDisplayStart,
+			len        = settings.oFeatures.bPaginate ? settings._iDisplayLength : -1,
+			visRecords = settings.fnRecordsDisplay(),
+			all        = len === -1;
+	
+		return {
+			"page":           all ? 0 : Math.floor( start / len ),
+			"pages":          all ? 1 : Math.ceil( visRecords / len ),
+			"start":          start,
+			"end":            settings.fnDisplayEnd(),
+			"length":         len,
+			"recordsTotal":   settings.fnRecordsTotal(),
+			"recordsDisplay": visRecords,
+			"serverSide":     _fnDataSource( settings ) === 'ssp'
+		};
+	} );
+	
+	
+	/**
+	 * Get the current page length.
+	 *
+	 * @return {integer} Current page length. Note `-1` indicates that all records
+	 *   are to be shown.
+	 *//**
+	 * Set the current page length.
+	 *
+	 * @param {integer} Page length to set. Use `-1` to show all records.
+	 * @returns {DataTables.Api} this
+	 */
+	_api_register( 'page.len()', function ( len ) {
+		// Note that we can't call this function 'length()' because `length`
+		// is a Javascript property of functions which defines how many arguments
+		// the function expects.
+		if ( len === undefined ) {
+			return this.context.length !== 0 ?
+				this.context[0]._iDisplayLength :
+				undefined;
+		}
+	
+		// else, set the page length
+		return this.iterator( 'table', function ( settings ) {
+			_fnLengthChange( settings, len );
+		} );
+	} );
+	
+	
+	
+	var __reload = function ( settings, holdPosition, callback ) {
+		// Use the draw event to trigger a callback
+		if ( callback ) {
+			var api = new _Api( settings );
+	
+			api.one( 'draw', function () {
+				callback( api.ajax.json() );
+			} );
+		}
+	
+		if ( _fnDataSource( settings ) == 'ssp' ) {
+			_fnReDraw( settings, holdPosition );
+		}
+		else {
+			_fnProcessingDisplay( settings, true );
+	
+			// Cancel an existing request
+			var xhr = settings.jqXHR;
+			if ( xhr && xhr.readyState !== 4 ) {
+				xhr.abort();
+			}
+	
+			// Trigger xhr
+			_fnBuildAjax( settings, [], function( json ) {
+				_fnClearTable( settings );
+	
+				var data = _fnAjaxDataSrc( settings, json );
+				for ( var i=0, ien=data.length ; i<ien ; i++ ) {
+					_fnAddData( settings, data[i] );
+				}
+	
+				_fnReDraw( settings, holdPosition );
+				_fnProcessingDisplay( settings, false );
+			} );
+		}
+	};
+	
+	
+	/**
+	 * Get the JSON response from the last Ajax request that DataTables made to the
+	 * server. Note that this returns the JSON from the first table in the current
+	 * context.
+	 *
+	 * @return {object} JSON received from the server.
+	 */
+	_api_register( 'ajax.json()', function () {
+		var ctx = this.context;
+	
+		if ( ctx.length > 0 ) {
+			return ctx[0].json;
+		}
+	
+		// else return undefined;
+	} );
+	
+	
+	/**
+	 * Get the data submitted in the last Ajax request
+	 */
+	_api_register( 'ajax.params()', function () {
+		var ctx = this.context;
+	
+		if ( ctx.length > 0 ) {
+			return ctx[0].oAjaxData;
+		}
+	
+		// else return undefined;
+	} );
+	
+	
+	/**
+	 * Reload tables from the Ajax data source. Note that this function will
+	 * automatically re-draw the table when the remote data has been loaded.
+	 *
+	 * @param {boolean} [reset=true] Reset (default) or hold the current paging
+	 *   position. A full re-sort and re-filter is performed when this method is
+	 *   called, which is why the pagination reset is the default action.
+	 * @returns {DataTables.Api} this
+	 */
+	_api_register( 'ajax.reload()', function ( callback, resetPaging ) {
+		return this.iterator( 'table', function (settings) {
+			__reload( settings, resetPaging===false, callback );
+		} );
+	} );
+	
+	
+	/**
+	 * Get the current Ajax URL. Note that this returns the URL from the first
+	 * table in the current context.
+	 *
+	 * @return {string} Current Ajax source URL
+	 *//**
+	 * Set the Ajax URL. Note that this will set the URL for all tables in the
+	 * current context.
+	 *
+	 * @param {string} url URL to set.
+	 * @returns {DataTables.Api} this
+	 */
+	_api_register( 'ajax.url()', function ( url ) {
+		var ctx = this.context;
+	
+		if ( url === undefined ) {
+			// get
+			if ( ctx.length === 0 ) {
+				return undefined;
+			}
+			ctx = ctx[0];
+	
+			return ctx.ajax ?
+				$.isPlainObject( ctx.ajax ) ?
+					ctx.ajax.url :
+					ctx.ajax :
+				ctx.sAjaxSource;
+		}
+	
+		// set
+		return this.iterator( 'table', function ( settings ) {
+			if ( $.isPlainObject( settings.ajax ) ) {
+				settings.ajax.url = url;
+			}
+			else {
+				settings.ajax = url;
+			}
+			// No need to consider sAjaxSource here since DataTables gives priority
+			// to `ajax` over `sAjaxSource`. So setting `ajax` here, renders any
+			// value of `sAjaxSource` redundant.
+		} );
+	} );
+	
+	
+	/**
+	 * Load data from the newly set Ajax URL. Note that this method is only
+	 * available when `ajax.url()` is used to set a URL. Additionally, this method
+	 * has the same effect as calling `ajax.reload()` but is provided for
+	 * convenience when setting a new URL. Like `ajax.reload()` it will
+	 * automatically redraw the table once the remote data has been loaded.
+	 *
+	 * @returns {DataTables.Api} this
+	 */
+	_api_register( 'ajax.url().load()', function ( callback, resetPaging ) {
+		// Same as a reload, but makes sense to present it for easy access after a
+		// url change
+		return this.iterator( 'table', function ( ctx ) {
+			__reload( ctx, resetPaging===false, callback );
+		} );
+	} );
+	
+	
+	
+	
+	var _selector_run = function ( type, selector, selectFn, settings, opts )
+	{
+		var
+			out = [], res,
+			a, i, ien, j, jen,
+			selectorType = typeof selector;
+	
+		// Can't just check for isArray here, as an API or jQuery instance might be
+		// given with their array like look
+		if ( ! selector || selectorType === 'string' || selectorType === 'function' || selector.length === undefined ) {
+			selector = [ selector ];
+		}
+	
+		for ( i=0, ien=selector.length ; i<ien ; i++ ) {
+			// Only split on simple strings - complex expressions will be jQuery selectors
+			a = selector[i] && selector[i].split && ! selector[i].match(/[\[\(:]/) ?
+				selector[i].split(',') :
+				[ selector[i] ];
+	
+			for ( j=0, jen=a.length ; j<jen ; j++ ) {
+				res = selectFn( typeof a[j] === 'string' ? $.trim(a[j]) : a[j] );
+	
+				if ( res && res.length ) {
+					out = out.concat( res );
+				}
+			}
+		}
+	
+		// selector extensions
+		var ext = _ext.selector[ type ];
+		if ( ext.length ) {
+			for ( i=0, ien=ext.length ; i<ien ; i++ ) {
+				out = ext[i]( settings, opts, out );
+			}
+		}
+	
+		return _unique( out );
+	};
+	
+	
+	var _selector_opts = function ( opts )
+	{
+		if ( ! opts ) {
+			opts = {};
+		}
+	
+		// Backwards compatibility for 1.9- which used the terminology filter rather
+		// than search
+		if ( opts.filter && opts.search === undefined ) {
+			opts.search = opts.filter;
+		}
+	
+		return $.extend( {
+			search: 'none',
+			order: 'current',
+			page: 'all'
+		}, opts );
+	};
+	
+	
+	var _selector_first = function ( inst )
+	{
+		// Reduce the API instance to the first item found
+		for ( var i=0, ien=inst.length ; i<ien ; i++ ) {
+			if ( inst[i].length > 0 ) {
+				// Assign the first element to the first item in the instance
+				// and truncate the instance and context
+				inst[0] = inst[i];
+				inst[0].length = 1;
+				inst.length = 1;
+				inst.context = [ inst.context[i] ];
+	
+				return inst;
+			}
+		}
+	
+		// Not found - return an empty instance
+		inst.length = 0;
+		return inst;
+	};
+	
+	
+	var _selector_row_indexes = function ( settings, opts )
+	{
+		var
+			i, ien, tmp, a=[],
+			displayFiltered = settings.aiDisplay,
+			displayMaster = settings.aiDisplayMaster;
+	
+		var
+			search = opts.search,  // none, applied, removed
+			order  = opts.order,   // applied, current, index (original - compatibility with 1.9)
+			page   = opts.page;    // all, current
+	
+		if ( _fnDataSource( settings ) == 'ssp' ) {
+			// In server-side processing mode, most options are irrelevant since
+			// rows not shown don't exist and the index order is the applied order
+			// Removed is a special case - for consistency just return an empty
+			// array
+			return search === 'removed' ?
+				[] :
+				_range( 0, displayMaster.length );
+		}
+		else if ( page == 'current' ) {
+			// Current page implies that order=current and fitler=applied, since it is
+			// fairly senseless otherwise, regardless of what order and search actually
+			// are
+			for ( i=settings._iDisplayStart, ien=settings.fnDisplayEnd() ; i<ien ; i++ ) {
+				a.push( displayFiltered[i] );
+			}
+		}
+		else if ( order == 'current' || order == 'applied' ) {
+			if ( search == 'none') {
+				a = displayMaster.slice();
+			}
+			else if ( search == 'applied' ) {
+				a = displayFiltered.slice();
+			}
+			else if ( search == 'removed' ) {
+				// O(n+m) solution by creating a hash map
+				var displayFilteredMap = {};
+	
+				for ( var i=0, ien=displayFiltered.length ; i<ien ; i++ ) {
+					displayFilteredMap[displayFiltered[i]] = null;
+				}
+	
+				a = $.map( displayMaster, function (el) {
+					return ! displayFilteredMap.hasOwnProperty(el) ?
+						el :
+						null;
+				} );
+			}
+		}
+		else if ( order == 'index' || order == 'original' ) {
+			for ( i=0, ien=settings.aoData.length ; i<ien ; i++ ) {
+				if ( search == 'none' ) {
+					a.push( i );
+				}
+				else { // applied | removed
+					tmp = $.inArray( i, displayFiltered );
+	
+					if ((tmp === -1 && search == 'removed') ||
+						(tmp >= 0   && search == 'applied') )
+					{
+						a.push( i );
+					}
+				}
+			}
+		}
+	
+		return a;
+	};
+	
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Rows
+	 *
+	 * {}          - no selector - use all available rows
+	 * {integer}   - row aoData index
+	 * {node}      - TR node
+	 * {string}    - jQuery selector to apply to the TR elements
+	 * {array}     - jQuery array of nodes, or simply an array of TR nodes
+	 *
+	 */
+	var __row_selector = function ( settings, selector, opts )
+	{
+		var rows;
+		var run = function ( sel ) {
+			var selInt = _intVal( sel );
+			var i, ien;
+			var aoData = settings.aoData;
+	
+			// Short cut - selector is a number and no options provided (default is
+			// all records, so no need to check if the index is in there, since it
+			// must be - dev error if the index doesn't exist).
+			if ( selInt !== null && ! opts ) {
+				return [ selInt ];
+			}
+	
+			if ( ! rows ) {
+				rows = _selector_row_indexes( settings, opts );
+			}
+	
+			if ( selInt !== null && $.inArray( selInt, rows ) !== -1 ) {
+				// Selector - integer
+				return [ selInt ];
+			}
+			else if ( sel === null || sel === undefined || sel === '' ) {
+				// Selector - none
+				return rows;
+			}
+	
+			// Selector - function
+			if ( typeof sel === 'function' ) {
+				return $.map( rows, function (idx) {
+					var row = aoData[ idx ];
+					return sel( idx, row._aData, row.nTr ) ? idx : null;
+				} );
+			}
+	
+			// Selector - node
+			if ( sel.nodeName ) {
+				var rowIdx = sel._DT_RowIndex;  // Property added by DT for fast lookup
+				var cellIdx = sel._DT_CellIndex;
+	
+				if ( rowIdx !== undefined ) {
+					// Make sure that the row is actually still present in the table
+					return aoData[ rowIdx ] && aoData[ rowIdx ].nTr === sel ?
+						[ rowIdx ] :
+						[];
+				}
+				else if ( cellIdx ) {
+					return aoData[ cellIdx.row ] && aoData[ cellIdx.row ].nTr === sel ?
+						[ cellIdx.row ] :
+						[];
+				}
+				else {
+					var host = $(sel).closest('*[data-dt-row]');
+					return host.length ?
+						[ host.data('dt-row') ] :
+						[];
+				}
+			}
+	
+			// ID selector. Want to always be able to select rows by id, regardless
+			// of if the tr element has been created or not, so can't rely upon
+			// jQuery here - hence a custom implementation. This does not match
+			// Sizzle's fast selector or HTML4 - in HTML5 the ID can be anything,
+			// but to select it using a CSS selector engine (like Sizzle or
+			// querySelect) it would need to need to be escaped for some characters.
+			// DataTables simplifies this for row selectors since you can select
+			// only a row. A # indicates an id any anything that follows is the id -
+			// unescaped.
+			if ( typeof sel === 'string' && sel.charAt(0) === '#' ) {
+				// get row index from id
+				var rowObj = settings.aIds[ sel.replace( /^#/, '' ) ];
+				if ( rowObj !== undefined ) {
+					return [ rowObj.idx ];
+				}
+	
+				// need to fall through to jQuery in case there is DOM id that
+				// matches
+			}
+			
+			// Get nodes in the order from the `rows` array with null values removed
+			var nodes = _removeEmpty(
+				_pluck_order( settings.aoData, rows, 'nTr' )
+			);
+	
+			// Selector - jQuery selector string, array of nodes or jQuery object/
+			// As jQuery's .filter() allows jQuery objects to be passed in filter,
+			// it also allows arrays, so this will cope with all three options
+			return $(nodes)
+				.filter( sel )
+				.map( function () {
+					return this._DT_RowIndex;
+				} )
+				.toArray();
+		};
+	
+		return _selector_run( 'row', selector, run, settings, opts );
+	};
+	
+	
+	_api_register( 'rows()', function ( selector, opts ) {
+		// argument shifting
+		if ( selector === undefined ) {
+			selector = '';
+		}
+		else if ( $.isPlainObject( selector ) ) {
+			opts = selector;
+			selector = '';
+		}
+	
+		opts = _selector_opts( opts );
+	
+		var inst = this.iterator( 'table', function ( settings ) {
+			return __row_selector( settings, selector, opts );
+		}, 1 );
+	
+		// Want argument shifting here and in __row_selector?
+		inst.selector.rows = selector;
+		inst.selector.opts = opts;
+	
+		return inst;
+	} );
+	
+	_api_register( 'rows().nodes()', function () {
+		return this.iterator( 'row', function ( settings, row ) {
+			return settings.aoData[ row ].nTr || undefined;
+		}, 1 );
+	} );
+	
+	_api_register( 'rows().data()', function () {
+		return this.iterator( true, 'rows', function ( settings, rows ) {
+			return _pluck_order( settings.aoData, rows, '_aData' );
+		}, 1 );
+	} );
+	
+	_api_registerPlural( 'rows().cache()', 'row().cache()', function ( type ) {
+		return this.iterator( 'row', function ( settings, row ) {
+			var r = settings.aoData[ row ];
+			return type === 'search' ? r._aFilterData : r._aSortData;
+		}, 1 );
+	} );
+	
+	_api_registerPlural( 'rows().invalidate()', 'row().invalidate()', function ( src ) {
+		return this.iterator( 'row', function ( settings, row ) {
+			_fnInvalidate( settings, row, src );
+		} );
+	} );
+	
+	_api_registerPlural( 'rows().indexes()', 'row().index()', function () {
+		return this.iterator( 'row', function ( settings, row ) {
+			return row;
+		}, 1 );
+	} );
+	
+	_api_registerPlural( 'rows().ids()', 'row().id()', function ( hash ) {
+		var a = [];
+		var context = this.context;
+	
+		// `iterator` will drop undefined values, but in this case we want them
+		for ( var i=0, ien=context.length ; i<ien ; i++ ) {
+			for ( var j=0, jen=this[i].length ; j<jen ; j++ ) {
+				var id = context[i].rowIdFn( context[i].aoData[ this[i][j] ]._aData );
+				a.push( (hash === true ? '#' : '' )+ id );
+			}
+		}
+	
+		return new _Api( context, a );
+	} );
+	
+	_api_registerPlural( 'rows().remove()', 'row().remove()', function () {
+		var that = this;
+	
+		this.iterator( 'row', function ( settings, row, thatIdx ) {
+			var data = settings.aoData;
+			var rowData = data[ row ];
+			var i, ien, j, jen;
+			var loopRow, loopCells;
+	
+			data.splice( row, 1 );
+	
+			// Update the cached indexes
+			for ( i=0, ien=data.length ; i<ien ; i++ ) {
+				loopRow = data[i];
+				loopCells = loopRow.anCells;
+	
+				// Rows
+				if ( loopRow.nTr !== null ) {
+					loopRow.nTr._DT_RowIndex = i;
+				}
+	
+				// Cells
+				if ( loopCells !== null ) {
+					for ( j=0, jen=loopCells.length ; j<jen ; j++ ) {
+						loopCells[j]._DT_CellIndex.row = i;
+					}
+				}
+			}
+	
+			// Delete from the display arrays
+			_fnDeleteIndex( settings.aiDisplayMaster, row );
+			_fnDeleteIndex( settings.aiDisplay, row );
+			_fnDeleteIndex( that[ thatIdx ], row, false ); // maintain local indexes
+	
+			// For server-side processing tables - subtract the deleted row from the count
+			if ( settings._iRecordsDisplay > 0 ) {
+				settings._iRecordsDisplay--;
+			}
+	
+			// Check for an 'overflow' they case for displaying the table
+			_fnLengthOverflow( settings );
+	
+			// Remove the row's ID reference if there is one
+			var id = settings.rowIdFn( rowData._aData );
+			if ( id !== undefined ) {
+				delete settings.aIds[ id ];
+			}
+		} );
+	
+		this.iterator( 'table', function ( settings ) {
+			for ( var i=0, ien=settings.aoData.length ; i<ien ; i++ ) {
+				settings.aoData[i].idx = i;
+			}
+		} );
+	
+		return this;
+	} );
+	
+	
+	_api_register( 'rows.add()', function ( rows ) {
+		var newRows = this.iterator( 'table', function ( settings ) {
+				var row, i, ien;
+				var out = [];
+	
+				for ( i=0, ien=rows.length ; i<ien ; i++ ) {
+					row = rows[i];
+	
+					if ( row.nodeName && row.nodeName.toUpperCase() === 'TR' ) {
+						out.push( _fnAddTr( settings, row )[0] );
+					}
+					else {
+						out.push( _fnAddData( settings, row ) );
+					}
+				}
+	
+				return out;
+			}, 1 );
+	
+		// Return an Api.rows() extended instance, so rows().nodes() etc can be used
+		var modRows = this.rows( -1 );
+		modRows.pop();
+		$.merge( modRows, newRows );
+	
+		return modRows;
+	} );
+	
+	
+	
+	
+	
+	/**
+	 *
+	 */
+	_api_register( 'row()', function ( selector, opts ) {
+		return _selector_first( this.rows( selector, opts ) );
+	} );
+	
+	
+	_api_register( 'row().data()', function ( data ) {
+		var ctx = this.context;
+	
+		if ( data === undefined ) {
+			// Get
+			return ctx.length && this.length ?
+				ctx[0].aoData[ this[0] ]._aData :
+				undefined;
+		}
+	
+		// Set
+		var row = ctx[0].aoData[ this[0] ];
+		row._aData = data;
+	
+		// If the DOM has an id, and the data source is an array
+		if ( $.isArray( data ) && row.nTr.id ) {
+			_fnSetObjectDataFn( ctx[0].rowId )( data, row.nTr.id );
+		}
+	
+		// Automatically invalidate
+		_fnInvalidate( ctx[0], this[0], 'data' );
+	
+		return this;
+	} );
+	
+	
+	_api_register( 'row().node()', function () {
+		var ctx = this.context;
+	
+		return ctx.length && this.length ?
+			ctx[0].aoData[ this[0] ].nTr || null :
+			null;
+	} );
+	
+	
+	_api_register( 'row.add()', function ( row ) {
+		// Allow a jQuery object to be passed in - only a single row is added from
+		// it though - the first element in the set
+		if ( row instanceof $ && row.length ) {
+			row = row[0];
+		}
+	
+		var rows = this.iterator( 'table', function ( settings ) {
+			if ( row.nodeName && row.nodeName.toUpperCase() === 'TR' ) {
+				return _fnAddTr( settings, row )[0];
+			}
+			return _fnAddData( settings, row );
+		} );
+	
+		// Return an Api.rows() extended instance, with the newly added row selected
+		return this.row( rows[0] );
+	} );
+	
+	
+	
+	var __details_add = function ( ctx, row, data, klass )
+	{
+		// Convert to array of TR elements
+		var rows = [];
+		var addRow = function ( r, k ) {
+			// Recursion to allow for arrays of jQuery objects
+			if ( $.isArray( r ) || r instanceof $ ) {
+				for ( var i=0, ien=r.length ; i<ien ; i++ ) {
+					addRow( r[i], k );
+				}
+				return;
+			}
+	
+			// If we get a TR element, then just add it directly - up to the dev
+			// to add the correct number of columns etc
+			if ( r.nodeName && r.nodeName.toLowerCase() === 'tr' ) {
+				rows.push( r );
+			}
+			else {
+				// Otherwise create a row with a wrapper
+				var created = $('<tr><td/></tr>').addClass( k );
+				$('td', created)
+					.addClass( k )
+					.html( r )
+					[0].colSpan = _fnVisbleColumns( ctx );
+	
+				rows.push( created[0] );
+			}
+		};
+	
+		addRow( data, klass );
+	
+		if ( row._details ) {
+			row._details.detach();
+		}
+	
+		row._details = $(rows);
+	
+		// If the children were already shown, that state should be retained
+		if ( row._detailsShow ) {
+			row._details.insertAfter( row.nTr );
+		}
+	};
+	
+	
+	var __details_remove = function ( api, idx )
+	{
+		var ctx = api.context;
+	
+		if ( ctx.length ) {
+			var row = ctx[0].aoData[ idx !== undefined ? idx : api[0] ];
+	
+			if ( row && row._details ) {
+				row._details.remove();
+	
+				row._detailsShow = undefined;
+				row._details = undefined;
+			}
+		}
+	};
+	
+	
+	var __details_display = function ( api, show ) {
+		var ctx = api.context;
+	
+		if ( ctx.length && api.length ) {
+			var row = ctx[0].aoData[ api[0] ];
+	
+			if ( row._details ) {
+				row._detailsShow = show;
+	
+				if ( show ) {
+					row._details.insertAfter( row.nTr );
+				}
+				else {
+					row._details.detach();
+				}
+	
+				__details_events( ctx[0] );
+			}
+		}
+	};
+	
+	
+	var __details_events = function ( settings )
+	{
+		var api = new _Api( settings );
+		var namespace = '.dt.DT_details';
+		var drawEvent = 'draw'+namespace;
+		var colvisEvent = 'column-visibility'+namespace;
+		var destroyEvent = 'destroy'+namespace;
+		var data = settings.aoData;
+	
+		api.off( drawEvent +' '+ colvisEvent +' '+ destroyEvent );
+	
+		if ( _pluck( data, '_details' ).length > 0 ) {
+			// On each draw, insert the required elements into the document
+			api.on( drawEvent, function ( e, ctx ) {
+				if ( settings !== ctx ) {
+					return;
+				}
+	
+				api.rows( {page:'current'} ).eq(0).each( function (idx) {
+					// Internal data grab
+					var row = data[ idx ];
+	
+					if ( row._detailsShow ) {
+						row._details.insertAfter( row.nTr );
+					}
+				} );
+			} );
+	
+			// Column visibility change - update the colspan
+			api.on( colvisEvent, function ( e, ctx, idx, vis ) {
+				if ( settings !== ctx ) {
+					return;
+				}
+	
+				// Update the colspan for the details rows (note, only if it already has
+				// a colspan)
+				var row, visible = _fnVisbleColumns( ctx );
+	
+				for ( var i=0, ien=data.length ; i<ien ; i++ ) {
+					row = data[i];
+	
+					if ( row._details ) {
+						row._details.children('td[colspan]').attr('colspan', visible );
+					}
+				}
+			} );
+	
+			// Table destroyed - nuke any child rows
+			api.on( destroyEvent, function ( e, ctx ) {
+				if ( settings !== ctx ) {
+					return;
+				}
+	
+				for ( var i=0, ien=data.length ; i<ien ; i++ ) {
+					if ( data[i]._details ) {
+						__details_remove( api, i );
+					}
+				}
+			} );
+		}
+	};
+	
+	// Strings for the method names to help minification
+	var _emp = '';
+	var _child_obj = _emp+'row().child';
+	var _child_mth = _child_obj+'()';
+	
+	// data can be:
+	//  tr
+	//  string
+	//  jQuery or array of any of the above
+	_api_register( _child_mth, function ( data, klass ) {
+		var ctx = this.context;
+	
+		if ( data === undefined ) {
+			// get
+			return ctx.length && this.length ?
+				ctx[0].aoData[ this[0] ]._details :
+				undefined;
+		}
+		else if ( data === true ) {
+			// show
+			this.child.show();
+		}
+		else if ( data === false ) {
+			// remove
+			__details_remove( this );
+		}
+		else if ( ctx.length && this.length ) {
+			// set
+			__details_add( ctx[0], ctx[0].aoData[ this[0] ], data, klass );
+		}
+	
+		return this;
+	} );
+	
+	
+	_api_register( [
+		_child_obj+'.show()',
+		_child_mth+'.show()' // only when `child()` was called with parameters (without
+	], function ( show ) {   // it returns an object and this method is not executed)
+		__details_display( this, true );
+		return this;
+	} );
+	
+	
+	_api_register( [
+		_child_obj+'.hide()',
+		_child_mth+'.hide()' // only when `child()` was called with parameters (without
+	], function () {         // it returns an object and this method is not executed)
+		__details_display( this, false );
+		return this;
+	} );
+	
+	
+	_api_register( [
+		_child_obj+'.remove()',
+		_child_mth+'.remove()' // only when `child()` was called with parameters (without
+	], function () {           // it returns an object and this method is not executed)
+		__details_remove( this );
+		return this;
+	} );
+	
+	
+	_api_register( _child_obj+'.isShown()', function () {
+		var ctx = this.context;
+	
+		if ( ctx.length && this.length ) {
+			// _detailsShown as false or undefined will fall through to return false
+			return ctx[0].aoData[ this[0] ]._detailsShow || false;
+		}
+		return false;
+	} );
+	
+	
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Columns
+	 *
+	 * {integer}           - column index (>=0 count from left, <0 count from right)
+	 * "{integer}:visIdx"  - visible column index (i.e. translate to column index)  (>=0 count from left, <0 count from right)
+	 * "{integer}:visible" - alias for {integer}:visIdx  (>=0 count from left, <0 count from right)
+	 * "{string}:name"     - column name
+	 * "{string}"          - jQuery selector on column header nodes
+	 *
+	 */
+	
+	// can be an array of these items, comma separated list, or an array of comma
+	// separated lists
+	
+	var __re_column_selector = /^([^:]+):(name|visIdx|visible)$/;
+	
+	
+	// r1 and r2 are redundant - but it means that the parameters match for the
+	// iterator callback in columns().data()
+	var __columnData = function ( settings, column, r1, r2, rows ) {
+		var a = [];
+		for ( var row=0, ien=rows.length ; row<ien ; row++ ) {
+			a.push( _fnGetCellData( settings, rows[row], column ) );
+		}
+		return a;
+	};
+	
+	
+	var __column_selector = function ( settings, selector, opts )
+	{
+		var
+			columns = settings.aoColumns,
+			names = _pluck( columns, 'sName' ),
+			nodes = _pluck( columns, 'nTh' );
+	
+		var run = function ( s ) {
+			var selInt = _intVal( s );
+	
+			// Selector - all
+			if ( s === '' ) {
+				return _range( columns.length );
+			}
+	
+			// Selector - index
+			if ( selInt !== null ) {
+				return [ selInt >= 0 ?
+					selInt : // Count from left
+					columns.length + selInt // Count from right (+ because its a negative value)
+				];
+			}
+	
+			// Selector = function
+			if ( typeof s === 'function' ) {
+				var rows = _selector_row_indexes( settings, opts );
+	
+				return $.map( columns, function (col, idx) {
+					return s(
+							idx,
+							__columnData( settings, idx, 0, 0, rows ),
+							nodes[ idx ]
+						) ? idx : null;
+				} );
+			}
+	
+			// jQuery or string selector
+			var match = typeof s === 'string' ?
+				s.match( __re_column_selector ) :
+				'';
+	
+			if ( match ) {
+				switch( match[2] ) {
+					case 'visIdx':
+					case 'visible':
+						var idx = parseInt( match[1], 10 );
+						// Visible index given, convert to column index
+						if ( idx < 0 ) {
+							// Counting from the right
+							var visColumns = $.map( columns, function (col,i) {
+								return col.bVisible ? i : null;
+							} );
+							return [ visColumns[ visColumns.length + idx ] ];
+						}
+						// Counting from the left
+						return [ _fnVisibleToColumnIndex( settings, idx ) ];
+	
+					case 'name':
+						// match by name. `names` is column index complete and in order
+						return $.map( names, function (name, i) {
+							return name === match[1] ? i : null;
+						} );
+	
+					default:
+						return [];
+				}
+			}
+	
+			// Cell in the table body
+			if ( s.nodeName && s._DT_CellIndex ) {
+				return [ s._DT_CellIndex.column ];
+			}
+	
+			// jQuery selector on the TH elements for the columns
+			var jqResult = $( nodes )
+				.filter( s )
+				.map( function () {
+					return $.inArray( this, nodes ); // `nodes` is column index complete and in order
+				} )
+				.toArray();
+	
+			if ( jqResult.length || ! s.nodeName ) {
+				return jqResult;
+			}
+	
+			// Otherwise a node which might have a `dt-column` data attribute, or be
+			// a child or such an element
+			var host = $(s).closest('*[data-dt-column]');
+			return host.length ?
+				[ host.data('dt-column') ] :
+				[];
+		};
+	
+		return _selector_run( 'column', selector, run, settings, opts );
+	};
+	
+	
+	var __setColumnVis = function ( settings, column, vis ) {
+		var
+			cols = settings.aoColumns,
+			col  = cols[ column ],
+			data = settings.aoData,
+			row, cells, i, ien, tr;
+	
+		// Get
+		if ( vis === undefined ) {
+			return col.bVisible;
+		}
+	
+		// Set
+		// No change
+		if ( col.bVisible === vis ) {
+			return;
+		}
+	
+		if ( vis ) {
+			// Insert column
+			// Need to decide if we should use appendChild or insertBefore
+			var insertBefore = $.inArray( true, _pluck(cols, 'bVisible'), column+1 );
+	
+			for ( i=0, ien=data.length ; i<ien ; i++ ) {
+				tr = data[i].nTr;
+				cells = data[i].anCells;
+	
+				if ( tr ) {
+					// insertBefore can act like appendChild if 2nd arg is null
+					tr.insertBefore( cells[ column ], cells[ insertBefore ] || null );
+				}
+			}
+		}
+		else {
+			// Remove column
+			$( _pluck( settings.aoData, 'anCells', column ) ).detach();
+		}
+	
+		// Common actions
+		col.bVisible = vis;
+		_fnDrawHead( settings, settings.aoHeader );
+		_fnDrawHead( settings, settings.aoFooter );
+	
+		// Update colspan for no records display. Child rows and extensions will use their own
+		// listeners to do this - only need to update the empty table item here
+		if ( ! settings.aiDisplay.length ) {
+			$(settings.nTBody).find('td[colspan]').attr('colspan', _fnVisbleColumns(settings));
+		}
+	
+		_fnSaveState( settings );
+	};
+	
+	
+	_api_register( 'columns()', function ( selector, opts ) {
+		// argument shifting
+		if ( selector === undefined ) {
+			selector = '';
+		}
+		else if ( $.isPlainObject( selector ) ) {
+			opts = selector;
+			selector = '';
+		}
+	
+		opts = _selector_opts( opts );
+	
+		var inst = this.iterator( 'table', function ( settings ) {
+			return __column_selector( settings, selector, opts );
+		}, 1 );
+	
+		// Want argument shifting here and in _row_selector?
+		inst.selector.cols = selector;
+		inst.selector.opts = opts;
+	
+		return inst;
+	} );
+	
+	_api_registerPlural( 'columns().header()', 'column().header()', function ( selector, opts ) {
+		return this.iterator( 'column', function ( settings, column ) {
+			return settings.aoColumns[column].nTh;
+		}, 1 );
+	} );
+	
+	_api_registerPlural( 'columns().footer()', 'column().footer()', function ( selector, opts ) {
+		return this.iterator( 'column', function ( settings, column ) {
+			return settings.aoColumns[column].nTf;
+		}, 1 );
+	} );
+	
+	_api_registerPlural( 'columns().data()', 'column().data()', function () {
+		return this.iterator( 'column-rows', __columnData, 1 );
+	} );
+	
+	_api_registerPlural( 'columns().dataSrc()', 'column().dataSrc()', function () {
+		return this.iterator( 'column', function ( settings, column ) {
+			return settings.aoColumns[column].mData;
+		}, 1 );
+	} );
+	
+	_api_registerPlural( 'columns().cache()', 'column().cache()', function ( type ) {
+		return this.iterator( 'column-rows', function ( settings, column, i, j, rows ) {
+			return _pluck_order( settings.aoData, rows,
+				type === 'search' ? '_aFilterData' : '_aSortData', column
+			);
+		}, 1 );
+	} );
+	
+	_api_registerPlural( 'columns().nodes()', 'column().nodes()', function () {
+		return this.iterator( 'column-rows', function ( settings, column, i, j, rows ) {
+			return _pluck_order( settings.aoData, rows, 'anCells', column ) ;
+		}, 1 );
+	} );
+	
+	_api_registerPlural( 'columns().visible()', 'column().visible()', function ( vis, calc ) {
+		var ret = this.iterator( 'column', function ( settings, column ) {
+			if ( vis === undefined ) {
+				return settings.aoColumns[ column ].bVisible;
+			} // else
+			__setColumnVis( settings, column, vis );
+		} );
+	
+		// Group the column visibility changes
+		if ( vis !== undefined ) {
+			// Second loop once the first is done for events
+			this.iterator( 'column', function ( settings, column ) {
+				_fnCallbackFire( settings, null, 'column-visibility', [settings, column, vis, calc] );
+			} );
+	
+			if ( calc === undefined || calc ) {
+				this.columns.adjust();
+			}
+		}
+	
+		return ret;
+	} );
+	
+	_api_registerPlural( 'columns().indexes()', 'column().index()', function ( type ) {
+		return this.iterator( 'column', function ( settings, column ) {
+			return type === 'visible' ?
+				_fnColumnIndexToVisible( settings, column ) :
+				column;
+		}, 1 );
+	} );
+	
+	_api_register( 'columns.adjust()', function () {
+		return this.iterator( 'table', function ( settings ) {
+			_fnAdjustColumnSizing( settings );
+		}, 1 );
+	} );
+	
+	_api_register( 'column.index()', function ( type, idx ) {
+		if ( this.context.length !== 0 ) {
+			var ctx = this.context[0];
+	
+			if ( type === 'fromVisible' || type === 'toData' ) {
+				return _fnVisibleToColumnIndex( ctx, idx );
+			}
+			else if ( type === 'fromData' || type === 'toVisible' ) {
+				return _fnColumnIndexToVisible( ctx, idx );
+			}
+		}
+	} );
+	
+	_api_register( 'column()', function ( selector, opts ) {
+		return _selector_first( this.columns( selector, opts ) );
+	} );
+	
+	
+	
+	var __cell_selector = function ( settings, selector, opts )
+	{
+		var data = settings.aoData;
+		var rows = _selector_row_indexes( settings, opts );
+		var cells = _removeEmpty( _pluck_order( data, rows, 'anCells' ) );
+		var allCells = $( [].concat.apply([], cells) );
+		var row;
+		var columns = settings.aoColumns.length;
+		var a, i, ien, j, o, host;
+	
+		var run = function ( s ) {
+			var fnSelector = typeof s === 'function';
+	
+			if ( s === null || s === undefined || fnSelector ) {
+				// All cells and function selectors
+				a = [];
+	
+				for ( i=0, ien=rows.length ; i<ien ; i++ ) {
+					row = rows[i];
+	
+					for ( j=0 ; j<columns ; j++ ) {
+						o = {
+							row: row,
+							column: j
+						};
+	
+						if ( fnSelector ) {
+							// Selector - function
+							host = data[ row ];
+	
+							if ( s( o, _fnGetCellData(settings, row, j), host.anCells ? host.anCells[j] : null ) ) {
+								a.push( o );
+							}
+						}
+						else {
+							// Selector - all
+							a.push( o );
+						}
+					}
+				}
+	
+				return a;
+			}
+			
+			// Selector - index
+			if ( $.isPlainObject( s ) ) {
+				// Valid cell index and its in the array of selectable rows
+				return s.column !== undefined && s.row !== undefined && $.inArray( s.row, rows ) !== -1 ?
+					[s] :
+					[];
+			}
+	
+			// Selector - jQuery filtered cells
+			var jqResult = allCells
+				.filter( s )
+				.map( function (i, el) {
+					return { // use a new object, in case someone changes the values
+						row:    el._DT_CellIndex.row,
+						column: el._DT_CellIndex.column
+	 				};
+				} )
+				.toArray();
+	
+			if ( jqResult.length || ! s.nodeName ) {
+				return jqResult;
+			}
+	
+			// Otherwise the selector is a node, and there is one last option - the
+			// element might be a child of an element which has dt-row and dt-column
+			// data attributes
+			host = $(s).closest('*[data-dt-row]');
+			return host.length ?
+				[ {
+					row: host.data('dt-row'),
+					column: host.data('dt-column')
+				} ] :
+				[];
+		};
+	
+		return _selector_run( 'cell', selector, run, settings, opts );
+	};
+	
+	
+	
+	
+	_api_register( 'cells()', function ( rowSelector, columnSelector, opts ) {
+		// Argument shifting
+		if ( $.isPlainObject( rowSelector ) ) {
+			// Indexes
+			if ( rowSelector.row === undefined ) {
+				// Selector options in first parameter
+				opts = rowSelector;
+				rowSelector = null;
+			}
+			else {
+				// Cell index objects in first parameter
+				opts = columnSelector;
+				columnSelector = null;
+			}
+		}
+		if ( $.isPlainObject( columnSelector ) ) {
+			opts = columnSelector;
+			columnSelector = null;
+		}
+	
+		// Cell selector
+		if ( columnSelector === null || columnSelector === undefined ) {
+			return this.iterator( 'table', function ( settings ) {
+				return __cell_selector( settings, rowSelector, _selector_opts( opts ) );
+			} );
+		}
+	
+		// Row + column selector
+		var columns = this.columns( columnSelector );
+		var rows = this.rows( rowSelector );
+		var a, i, ien, j, jen;
+	
+		this.iterator( 'table', function ( settings, idx ) {
+			a = [];
+	
+			for ( i=0, ien=rows[idx].length ; i<ien ; i++ ) {
+				for ( j=0, jen=columns[idx].length ; j<jen ; j++ ) {
+					a.push( {
+						row:    rows[idx][i],
+						column: columns[idx][j]
+					} );
+				}
+			}
+		}, 1 );
+	
+	    // Now pass through the cell selector for options
+	    var cells = this.cells( a, opts );
+	
+		$.extend( cells.selector, {
+			cols: columnSelector,
+			rows: rowSelector,
+			opts: opts
+		} );
+	
+		return cells;
+	} );
+	
+	
+	_api_registerPlural( 'cells().nodes()', 'cell().node()', function () {
+		return this.iterator( 'cell', function ( settings, row, column ) {
+			var data = settings.aoData[ row ];
+	
+			return data && data.anCells ?
+				data.anCells[ column ] :
+				undefined;
+		}, 1 );
+	} );
+	
+	
+	_api_register( 'cells().data()', function () {
+		return this.iterator( 'cell', function ( settings, row, column ) {
+			return _fnGetCellData( settings, row, column );
+		}, 1 );
+	} );
+	
+	
+	_api_registerPlural( 'cells().cache()', 'cell().cache()', function ( type ) {
+		type = type === 'search' ? '_aFilterData' : '_aSortData';
+	
+		return this.iterator( 'cell', function ( settings, row, column ) {
+			return settings.aoData[ row ][ type ][ column ];
+		}, 1 );
+	} );
+	
+	
+	_api_registerPlural( 'cells().render()', 'cell().render()', function ( type ) {
+		return this.iterator( 'cell', function ( settings, row, column ) {
+			return _fnGetCellData( settings, row, column, type );
+		}, 1 );
+	} );
+	
+	
+	_api_registerPlural( 'cells().indexes()', 'cell().index()', function () {
+		return this.iterator( 'cell', function ( settings, row, column ) {
+			return {
+				row: row,
+				column: column,
+				columnVisible: _fnColumnIndexToVisible( settings, column )
+			};
+		}, 1 );
+	} );
+	
+	
+	_api_registerPlural( 'cells().invalidate()', 'cell().invalidate()', function ( src ) {
+		return this.iterator( 'cell', function ( settings, row, column ) {
+			_fnInvalidate( settings, row, src, column );
+		} );
+	} );
+	
+	
+	
+	_api_register( 'cell()', function ( rowSelector, columnSelector, opts ) {
+		return _selector_first( this.cells( rowSelector, columnSelector, opts ) );
+	} );
+	
+	
+	_api_register( 'cell().data()', function ( data ) {
+		var ctx = this.context;
+		var cell = this[0];
+	
+		if ( data === undefined ) {
+			// Get
+			return ctx.length && cell.length ?
+				_fnGetCellData( ctx[0], cell[0].row, cell[0].column ) :
+				undefined;
+		}
+	
+		// Set
+		_fnSetCellData( ctx[0], cell[0].row, cell[0].column, data );
+		_fnInvalidate( ctx[0], cell[0].row, 'data', cell[0].column );
+	
+		return this;
+	} );
+	
+	
+	
+	/**
+	 * Get current ordering (sorting) that has been applied to the table.
+	 *
+	 * @returns {array} 2D array containing the sorting information for the first
+	 *   table in the current context. Each element in the parent array represents
+	 *   a column being sorted upon (i.e. multi-sorting with two columns would have
+	 *   2 inner arrays). The inner arrays may have 2 or 3 elements. The first is
+	 *   the column index that the sorting condition applies to, the second is the
+	 *   direction of the sort (`desc` or `asc`) and, optionally, the third is the
+	 *   index of the sorting order from the `column.sorting` initialisation array.
+	 *//**
+	 * Set the ordering for the table.
+	 *
+	 * @param {integer} order Column index to sort upon.
+	 * @param {string} direction Direction of the sort to be applied (`asc` or `desc`)
+	 * @returns {DataTables.Api} this
+	 *//**
+	 * Set the ordering for the table.
+	 *
+	 * @param {array} order 1D array of sorting information to be applied.
+	 * @param {array} [...] Optional additional sorting conditions
+	 * @returns {DataTables.Api} this
+	 *//**
+	 * Set the ordering for the table.
+	 *
+	 * @param {array} order 2D array of sorting information to be applied.
+	 * @returns {DataTables.Api} this
+	 */
+	_api_register( 'order()', function ( order, dir ) {
+		var ctx = this.context;
+	
+		if ( order === undefined ) {
+			// get
+			return ctx.length !== 0 ?
+				ctx[0].aaSorting :
+				undefined;
+		}
+	
+		// set
+		if ( typeof order === 'number' ) {
+			// Simple column / direction passed in
+			order = [ [ order, dir ] ];
+		}
+		else if ( order.length && ! $.isArray( order[0] ) ) {
+			// Arguments passed in (list of 1D arrays)
+			order = Array.prototype.slice.call( arguments );
+		}
+		// otherwise a 2D array was passed in
+	
+		return this.iterator( 'table', function ( settings ) {
+			settings.aaSorting = order.slice();
+		} );
+	} );
+	
+	
+	/**
+	 * Attach a sort listener to an element for a given column
+	 *
+	 * @param {node|jQuery|string} node Identifier for the element(s) to attach the
+	 *   listener to. This can take the form of a single DOM node, a jQuery
+	 *   collection of nodes or a jQuery selector which will identify the node(s).
+	 * @param {integer} column the column that a click on this node will sort on
+	 * @param {function} [callback] callback function when sort is run
+	 * @returns {DataTables.Api} this
+	 */
+	_api_register( 'order.listener()', function ( node, column, callback ) {
+		return this.iterator( 'table', function ( settings ) {
+			_fnSortAttachListener( settings, node, column, callback );
+		} );
+	} );
+	
+	
+	_api_register( 'order.fixed()', function ( set ) {
+		if ( ! set ) {
+			var ctx = this.context;
+			var fixed = ctx.length ?
+				ctx[0].aaSortingFixed :
+				undefined;
+	
+			return $.isArray( fixed ) ?
+				{ pre: fixed } :
+				fixed;
+		}
+	
+		return this.iterator( 'table', function ( settings ) {
+			settings.aaSortingFixed = $.extend( true, {}, set );
+		} );
+	} );
+	
+	
+	// Order by the selected column(s)
+	_api_register( [
+		'columns().order()',
+		'column().order()'
+	], function ( dir ) {
+		var that = this;
+	
+		return this.iterator( 'table', function ( settings, i ) {
+			var sort = [];
+	
+			$.each( that[i], function (j, col) {
+				sort.push( [ col, dir ] );
+			} );
+	
+			settings.aaSorting = sort;
+		} );
+	} );
+	
+	
+	
+	_api_register( 'search()', function ( input, regex, smart, caseInsen ) {
+		var ctx = this.context;
+	
+		if ( input === undefined ) {
+			// get
+			return ctx.length !== 0 ?
+				ctx[0].oPreviousSearch.sSearch :
+				undefined;
+		}
+	
+		// set
+		return this.iterator( 'table', function ( settings ) {
+			if ( ! settings.oFeatures.bFilter ) {
+				return;
+			}
+	
+			_fnFilterComplete( settings, $.extend( {}, settings.oPreviousSearch, {
+				"sSearch": input+"",
+				"bRegex":  regex === null ? false : regex,
+				"bSmart":  smart === null ? true  : smart,
+				"bCaseInsensitive": caseInsen === null ? true : caseInsen
+			} ), 1 );
+		} );
+	} );
+	
+	
+	_api_registerPlural(
+		'columns().search()',
+		'column().search()',
+		function ( input, regex, smart, caseInsen ) {
+			return this.iterator( 'column', function ( settings, column ) {
+				var preSearch = settings.aoPreSearchCols;
+	
+				if ( input === undefined ) {
+					// get
+					return preSearch[ column ].sSearch;
+				}
+	
+				// set
+				if ( ! settings.oFeatures.bFilter ) {
+					return;
+				}
+	
+				$.extend( preSearch[ column ], {
+					"sSearch": input+"",
+					"bRegex":  regex === null ? false : regex,
+					"bSmart":  smart === null ? true  : smart,
+					"bCaseInsensitive": caseInsen === null ? true : caseInsen
+				} );
+	
+				_fnFilterComplete( settings, settings.oPreviousSearch, 1 );
+			} );
+		}
+	);
+	
+	/*
+	 * State API methods
+	 */
+	
+	_api_register( 'state()', function () {
+		return this.context.length ?
+			this.context[0].oSavedState :
+			null;
+	} );
+	
+	
+	_api_register( 'state.clear()', function () {
+		return this.iterator( 'table', function ( settings ) {
+			// Save an empty object
+			settings.fnStateSaveCallback.call( settings.oInstance, settings, {} );
+		} );
+	} );
+	
+	
+	_api_register( 'state.loaded()', function () {
+		return this.context.length ?
+			this.context[0].oLoadedState :
+			null;
+	} );
+	
+	
+	_api_register( 'state.save()', function () {
+		return this.iterator( 'table', function ( settings ) {
+			_fnSaveState( settings );
+		} );
+	} );
+	
+	
+	
+	/**
+	 * Provide a common method for plug-ins to check the version of DataTables being
+	 * used, in order to ensure compatibility.
+	 *
+	 *  @param {string} version Version string to check for, in the format "X.Y.Z".
+	 *    Note that the formats "X" and "X.Y" are also acceptable.
+	 *  @returns {boolean} true if this version of DataTables is greater or equal to
+	 *    the required version, or false if this version of DataTales is not
+	 *    suitable
+	 *  @static
+	 *  @dtopt API-Static
+	 *
+	 *  @example
+	 *    alert( $.fn.dataTable.versionCheck( '1.9.0' ) );
+	 */
+	DataTable.versionCheck = DataTable.fnVersionCheck = function( version )
+	{
+		var aThis = DataTable.version.split('.');
+		var aThat = version.split('.');
+		var iThis, iThat;
+	
+		for ( var i=0, iLen=aThat.length ; i<iLen ; i++ ) {
+			iThis = parseInt( aThis[i], 10 ) || 0;
+			iThat = parseInt( aThat[i], 10 ) || 0;
+	
+			// Parts are the same, keep comparing
+			if (iThis === iThat) {
+				continue;
+			}
+	
+			// Parts are different, return immediately
+			return iThis > iThat;
+		}
+	
+		return true;
+	};
+	
+	
+	/**
+	 * Check if a `<table>` node is a DataTable table already or not.
+	 *
+	 *  @param {node|jquery|string} table Table node, jQuery object or jQuery
+	 *      selector for the table to test. Note that if more than more than one
+	 *      table is passed on, only the first will be checked
+	 *  @returns {boolean} true the table given is a DataTable, or false otherwise
+	 *  @static
+	 *  @dtopt API-Static
+	 *
+	 *  @example
+	 *    if ( ! $.fn.DataTable.isDataTable( '#example' ) ) {
+	 *      $('#example').dataTable();
+	 *    }
+	 */
+	DataTable.isDataTable = DataTable.fnIsDataTable = function ( table )
+	{
+		var t = $(table).get(0);
+		var is = false;
+	
+		if ( table instanceof DataTable.Api ) {
+			return true;
+		}
+	
+		$.each( DataTable.settings, function (i, o) {
+			var head = o.nScrollHead ? $('table', o.nScrollHead)[0] : null;
+			var foot = o.nScrollFoot ? $('table', o.nScrollFoot)[0] : null;
+	
+			if ( o.nTable === t || head === t || foot === t ) {
+				is = true;
+			}
+		} );
+	
+		return is;
+	};
+	
+	
+	/**
+	 * Get all DataTable tables that have been initialised - optionally you can
+	 * select to get only currently visible tables.
+	 *
+	 *  @param {boolean} [visible=false] Flag to indicate if you want all (default)
+	 *    or visible tables only.
+	 *  @returns {array} Array of `table` nodes (not DataTable instances) which are
+	 *    DataTables
+	 *  @static
+	 *  @dtopt API-Static
+	 *
+	 *  @example
+	 *    $.each( $.fn.dataTable.tables(true), function () {
+	 *      $(table).DataTable().columns.adjust();
+	 *    } );
+	 */
+	DataTable.tables = DataTable.fnTables = function ( visible )
+	{
+		var api = false;
+	
+		if ( $.isPlainObject( visible ) ) {
+			api = visible.api;
+			visible = visible.visible;
+		}
+	
+		var a = $.map( DataTable.settings, function (o) {
+			if ( !visible || (visible && $(o.nTable).is(':visible')) ) {
+				return o.nTable;
+			}
+		} );
+	
+		return api ?
+			new _Api( a ) :
+			a;
+	};
+	
+	
+	/**
+	 * Convert from camel case parameters to Hungarian notation. This is made public
+	 * for the extensions to provide the same ability as DataTables core to accept
+	 * either the 1.9 style Hungarian notation, or the 1.10+ style camelCase
+	 * parameters.
+	 *
+	 *  @param {object} src The model object which holds all parameters that can be
+	 *    mapped.
+	 *  @param {object} user The object to convert from camel case to Hungarian.
+	 *  @param {boolean} force When set to `true`, properties which already have a
+	 *    Hungarian value in the `user` object will be overwritten. Otherwise they
+	 *    won't be.
+	 */
+	DataTable.camelToHungarian = _fnCamelToHungarian;
+	
+	
+	
+	/**
+	 *
+	 */
+	_api_register( '$()', function ( selector, opts ) {
+		var
+			rows   = this.rows( opts ).nodes(), // Get all rows
+			jqRows = $(rows);
+	
+		return $( [].concat(
+			jqRows.filter( selector ).toArray(),
+			jqRows.find( selector ).toArray()
+		) );
+	} );
+	
+	
+	// jQuery functions to operate on the tables
+	$.each( [ 'on', 'one', 'off' ], function (i, key) {
+		_api_register( key+'()', function ( /* event, handler */ ) {
+			var args = Array.prototype.slice.call(arguments);
+	
+			// Add the `dt` namespace automatically if it isn't already present
+			args[0] = $.map( args[0].split( /\s/ ), function ( e ) {
+				return ! e.match(/\.dt\b/) ?
+					e+'.dt' :
+					e;
+				} ).join( ' ' );
+	
+			var inst = $( this.tables().nodes() );
+			inst[key].apply( inst, args );
+			return this;
+		} );
+	} );
+	
+	
+	_api_register( 'clear()', function () {
+		return this.iterator( 'table', function ( settings ) {
+			_fnClearTable( settings );
+		} );
+	} );
+	
+	
+	_api_register( 'settings()', function () {
+		return new _Api( this.context, this.context );
+	} );
+	
+	
+	_api_register( 'init()', function () {
+		var ctx = this.context;
+		return ctx.length ? ctx[0].oInit : null;
+	} );
+	
+	
+	_api_register( 'data()', function () {
+		return this.iterator( 'table', function ( settings ) {
+			return _pluck( settings.aoData, '_aData' );
+		} ).flatten();
+	} );
+	
+	
+	_api_register( 'destroy()', function ( remove ) {
+		remove = remove || false;
+	
+		return this.iterator( 'table', function ( settings ) {
+			var orig      = settings.nTableWrapper.parentNode;
+			var classes   = settings.oClasses;
+			var table     = settings.nTable;
+			var tbody     = settings.nTBody;
+			var thead     = settings.nTHead;
+			var tfoot     = settings.nTFoot;
+			var jqTable   = $(table);
+			var jqTbody   = $(tbody);
+			var jqWrapper = $(settings.nTableWrapper);
+			var rows      = $.map( settings.aoData, function (r) { return r.nTr; } );
+			var i, ien;
+	
+			// Flag to note that the table is currently being destroyed - no action
+			// should be taken
+			settings.bDestroying = true;
+	
+			// Fire off the destroy callbacks for plug-ins etc
+			_fnCallbackFire( settings, "aoDestroyCallback", "destroy", [settings] );
+	
+			// If not being removed from the document, make all columns visible
+			if ( ! remove ) {
+				new _Api( settings ).columns().visible( true );
+			}
+	
+			// Blitz all `DT` namespaced events (these are internal events, the
+			// lowercase, `dt` events are user subscribed and they are responsible
+			// for removing them
+			jqWrapper.off('.DT').find(':not(tbody *)').off('.DT');
+			$(window).off('.DT-'+settings.sInstance);
+	
+			// When scrolling we had to break the table up - restore it
+			if ( table != thead.parentNode ) {
+				jqTable.children('thead').detach();
+				jqTable.append( thead );
+			}
+	
+			if ( tfoot && table != tfoot.parentNode ) {
+				jqTable.children('tfoot').detach();
+				jqTable.append( tfoot );
+			}
+	
+			settings.aaSorting = [];
+			settings.aaSortingFixed = [];
+			_fnSortingClasses( settings );
+	
+			$( rows ).removeClass( settings.asStripeClasses.join(' ') );
+	
+			$('th, td', thead).removeClass( classes.sSortable+' '+
+				classes.sSortableAsc+' '+classes.sSortableDesc+' '+classes.sSortableNone
+			);
+	
+			// Add the TR elements back into the table in their original order
+			jqTbody.children().detach();
+			jqTbody.append( rows );
+	
+			// Remove the DataTables generated nodes, events and classes
+			var removedMethod = remove ? 'remove' : 'detach';
+			jqTable[ removedMethod ]();
+			jqWrapper[ removedMethod ]();
+	
+			// If we need to reattach the table to the document
+			if ( ! remove && orig ) {
+				// insertBefore acts like appendChild if !arg[1]
+				orig.insertBefore( table, settings.nTableReinsertBefore );
+	
+				// Restore the width of the original table - was read from the style property,
+				// so we can restore directly to that
+				jqTable
+					.css( 'width', settings.sDestroyWidth )
+					.removeClass( classes.sTable );
+	
+				// If the were originally stripe classes - then we add them back here.
+				// Note this is not fool proof (for example if not all rows had stripe
+				// classes - but it's a good effort without getting carried away
+				ien = settings.asDestroyStripes.length;
+	
+				if ( ien ) {
+					jqTbody.children().each( function (i) {
+						$(this).addClass( settings.asDestroyStripes[i % ien] );
+					} );
+				}
+			}
+	
+			/* Remove the settings object from the settings array */
+			var idx = $.inArray( settings, DataTable.settings );
+			if ( idx !== -1 ) {
+				DataTable.settings.splice( idx, 1 );
+			}
+		} );
+	} );
+	
+	
+	// Add the `every()` method for rows, columns and cells in a compact form
+	$.each( [ 'column', 'row', 'cell' ], function ( i, type ) {
+		_api_register( type+'s().every()', function ( fn ) {
+			var opts = this.selector.opts;
+			var api = this;
+	
+			return this.iterator( type, function ( settings, arg1, arg2, arg3, arg4 ) {
+				// Rows and columns:
+				//  arg1 - index
+				//  arg2 - table counter
+				//  arg3 - loop counter
+				//  arg4 - undefined
+				// Cells:
+				//  arg1 - row index
+				//  arg2 - column index
+				//  arg3 - table counter
+				//  arg4 - loop counter
+				fn.call(
+					api[ type ](
+						arg1,
+						type==='cell' ? arg2 : opts,
+						type==='cell' ? opts : undefined
+					),
+					arg1, arg2, arg3, arg4
+				);
+			} );
+		} );
+	} );
+	
+	
+	// i18n method for extensions to be able to use the language object from the
+	// DataTable
+	_api_register( 'i18n()', function ( token, def, plural ) {
+		var ctx = this.context[0];
+		var resolved = _fnGetObjectDataFn( token )( ctx.oLanguage );
+	
+		if ( resolved === undefined ) {
+			resolved = def;
+		}
+	
+		if ( plural !== undefined && $.isPlainObject( resolved ) ) {
+			resolved = resolved[ plural ] !== undefined ?
+				resolved[ plural ] :
+				resolved._;
+		}
+	
+		return resolved.replace( '%d', plural ); // nb: plural might be undefined,
+	} );
+	/**
+	 * Version string for plug-ins to check compatibility. Allowed format is
+	 * `a.b.c-d` where: a:int, b:int, c:int, d:string(dev|beta|alpha). `d` is used
+	 * only for non-release builds. See http://semver.org/ for more information.
+	 *  @member
+	 *  @type string
+	 *  @default Version number
+	 */
+	DataTable.version = "1.10.19";
+
+	/**
+	 * Private data store, containing all of the settings objects that are
+	 * created for the tables on a given page.
+	 *
+	 * Note that the `DataTable.settings` object is aliased to
+	 * `jQuery.fn.dataTableExt` through which it may be accessed and
+	 * manipulated, or `jQuery.fn.dataTable.settings`.
+	 *  @member
+	 *  @type array
+	 *  @default []
+	 *  @private
+	 */
+	DataTable.settings = [];
+
+	/**
+	 * Object models container, for the various models that DataTables has
+	 * available to it. These models define the objects that are used to hold
+	 * the active state and configuration of the table.
+	 *  @namespace
+	 */
+	DataTable.models = {};
+	
+	
+	
+	/**
+	 * Template object for the way in which DataTables holds information about
+	 * search information for the global filter and individual column filters.
+	 *  @namespace
+	 */
+	DataTable.models.oSearch = {
+		/**
+		 * Flag to indicate if the filtering should be case insensitive or not
+		 *  @type boolean
+		 *  @default true
+		 */
+		"bCaseInsensitive": true,
+	
+		/**
+		 * Applied search term
+		 *  @type string
+		 *  @default <i>Empty string</i>
+		 */
+		"sSearch": "",
+	
+		/**
+		 * Flag to indicate if the search term should be interpreted as a
+		 * regular expression (true) or not (false) and therefore and special
+		 * regex characters escaped.
+		 *  @type boolean
+		 *  @default false
+		 */
+		"bRegex": false,
+	
+		/**
+		 * Flag to indicate if DataTables is to use its smart filtering or not.
+		 *  @type boolean
+		 *  @default true
+		 */
+		"bSmart": true
+	};
+	
+	
+	
+	
+	/**
+	 * Template object for the way in which DataTables holds information about
+	 * each individual row. This is the object format used for the settings
+	 * aoData array.
+	 *  @namespace
+	 */
+	DataTable.models.oRow = {
+		/**
+		 * TR element for the row
+		 *  @type node
+		 *  @default null
+		 */
+		"nTr": null,
+	
+		/**
+		 * Array of TD elements for each row. This is null until the row has been
+		 * created.
+		 *  @type array nodes
+		 *  @default []
+		 */
+		"anCells": null,
+	
+		/**
+		 * Data object from the original data source for the row. This is either
+		 * an array if using the traditional form of DataTables, or an object if
+		 * using mData options. The exact type will depend on the passed in
+		 * data from the data source, or will be an array if using DOM a data
+		 * source.
+		 *  @type array|object
+		 *  @default []
+		 */
+		"_aData": [],
+	
+		/**
+		 * Sorting data cache - this array is ostensibly the same length as the
+		 * number of columns (although each index is generated only as it is
+		 * needed), and holds the data that is used for sorting each column in the
+		 * row. We do this cache generation at the start of the sort in order that
+		 * the formatting of the sort data need be done only once for each cell
+		 * per sort. This array should not be read from or written to by anything
+		 * other than the master sorting methods.
+		 *  @type array
+		 *  @default null
+		 *  @private
+		 */
+		"_aSortData": null,
+	
+		/**
+		 * Per cell filtering data cache. As per the sort data cache, used to
+		 * increase the performance of the filtering in DataTables
+		 *  @type array
+		 *  @default null
+		 *  @private
+		 */
+		"_aFilterData": null,
+	
+		/**
+		 * Filtering data cache. This is the same as the cell filtering cache, but
+		 * in this case a string rather than an array. This is easily computed with
+		 * a join on `_aFilterData`, but is provided as a cache so the join isn't
+		 * needed on every search (memory traded for performance)
+		 *  @type array
+		 *  @default null
+		 *  @private
+		 */
+		"_sFilterRow": null,
+	
+		/**
+		 * Cache of the class name that DataTables has applied to the row, so we
+		 * can quickly look at this variable rather than needing to do a DOM check
+		 * on className for the nTr property.
+		 *  @type string
+		 *  @default <i>Empty string</i>
+		 *  @private
+		 */
+		"_sRowStripe": "",
+	
+		/**
+		 * Denote if the original data source was from the DOM, or the data source
+		 * object. This is used for invalidating data, so DataTables can
+		 * automatically read data from the original source, unless uninstructed
+		 * otherwise.
+		 *  @type string
+		 *  @default null
+		 *  @private
+		 */
+		"src": null,
+	
+		/**
+		 * Index in the aoData array. This saves an indexOf lookup when we have the
+		 * object, but want to know the index
+		 *  @type integer
+		 *  @default -1
+		 *  @private
+		 */
+		"idx": -1
+	};
+	
+	
+	/**
+	 * Template object for the column information object in DataTables. This object
+	 * is held in the settings aoColumns array and contains all the information that
+	 * DataTables needs about each individual column.
+	 *
+	 * Note that this object is related to {@link DataTable.defaults.column}
+	 * but this one is the internal data store for DataTables's cache of columns.
+	 * It should NOT be manipulated outside of DataTables. Any configuration should
+	 * be done through the initialisation options.
+	 *  @namespace
+	 */
+	DataTable.models.oColumn = {
+		/**
+		 * Column index. This could be worked out on-the-fly with $.inArray, but it
+		 * is faster to just hold it as a variable
+		 *  @type integer
+		 *  @default null
+		 */
+		"idx": null,
+	
+		/**
+		 * A list of the columns that sorting should occur on when this column
+		 * is sorted. That this property is an array allows multi-column sorting
+		 * to be defined for a column (for example first name / last name columns
+		 * would benefit from this). The values are integers pointing to the
+		 * columns to be sorted on (typically it will be a single integer pointing
+		 * at itself, but that doesn't need to be the case).
+		 *  @type array
+		 */
+		"aDataSort": null,
+	
+		/**
+		 * Define the sorting directions that are applied to the column, in sequence
+		 * as the column is repeatedly sorted upon - i.e. the first value is used
+		 * as the sorting direction when the column if first sorted (clicked on).
+		 * Sort it again (click again) and it will move on to the next index.
+		 * Repeat until loop.
+		 *  @type array
+		 */
+		"asSorting": null,
+	
+		/**
+		 * Flag to indicate if the column is searchable, and thus should be included
+		 * in the filtering or not.
+		 *  @type boolean
+		 */
+		"bSearchable": null,
+	
+		/**
+		 * Flag to indicate if the column is sortable or not.
+		 *  @type boolean
+		 */
+		"bSortable": null,
+	
+		/**
+		 * Flag to indicate if the column is currently visible in the table or not
+		 *  @type boolean
+		 */
+		"bVisible": null,
+	
+		/**
+		 * Store for manual type assignment using the `column.type` option. This
+		 * is held in store so we can manipulate the column's `sType` property.
+		 *  @type string
+		 *  @default null
+		 *  @private
+		 */
+		"_sManualType": null,
+	
+		/**
+		 * Flag to indicate if HTML5 data attributes should be used as the data
+		 * source for filtering or sorting. True is either are.
+		 *  @type boolean
+		 *  @default false
+		 *  @private
+		 */
+		"_bAttrSrc": false,
+	
+		/**
+		 * Developer definable function that is called whenever a cell is created (Ajax source,
+		 * etc) or processed for input (DOM source). This can be used as a compliment to mRender
+		 * allowing you to modify the DOM element (add background colour for example) when the
+		 * element is available.
+		 *  @type function
+		 *  @param {element} nTd The TD node that has been created
+		 *  @param {*} sData The Data for the cell
+		 *  @param {array|object} oData The data for the whole row
+		 *  @param {int} iRow The row index for the aoData data store
+		 *  @default null
+		 */
+		"fnCreatedCell": null,
+	
+		/**
+		 * Function to get data from a cell in a column. You should <b>never</b>
+		 * access data directly through _aData internally in DataTables - always use
+		 * the method attached to this property. It allows mData to function as
+		 * required. This function is automatically assigned by the column
+		 * initialisation method
+		 *  @type function
+		 *  @param {array|object} oData The data array/object for the array
+		 *    (i.e. aoData[]._aData)
+		 *  @param {string} sSpecific The specific data type you want to get -
+		 *    'display', 'type' 'filter' 'sort'
+		 *  @returns {*} The data for the cell from the given row's data
+		 *  @default null
+		 */
+		"fnGetData": null,
+	
+		/**
+		 * Function to set data for a cell in the column. You should <b>never</b>
+		 * set the data directly to _aData internally in DataTables - always use
+		 * this method. It allows mData to function as required. This function
+		 * is automatically assigned by the column initialisation method
+		 *  @type function
+		 *  @param {array|object} oData The data array/object for the array
+		 *    (i.e. aoData[]._aData)
+		 *  @param {*} sValue Value to set
+		 *  @default null
+		 */
+		"fnSetData": null,
+	
+		/**
+		 * Property to read the value for the cells in the column from the data
+		 * source array / object. If null, then the default content is used, if a
+		 * function is given then the return from the function is used.
+		 *  @type function|int|string|null
+		 *  @default null
+		 */
+		"mData": null,
+	
+		/**
+		 * Partner property to mData which is used (only when defined) to get
+		 * the data - i.e. it is basically the same as mData, but without the
+		 * 'set' option, and also the data fed to it is the result from mData.
+		 * This is the rendering method to match the data method of mData.
+		 *  @type function|int|string|null
+		 *  @default null
+		 */
+		"mRender": null,
+	
+		/**
+		 * Unique header TH/TD element for this column - this is what the sorting
+		 * listener is attached to (if sorting is enabled.)
+		 *  @type node
+		 *  @default null
+		 */
+		"nTh": null,
+	
+		/**
+		 * Unique footer TH/TD element for this column (if there is one). Not used
+		 * in DataTables as such, but can be used for plug-ins to reference the
+		 * footer for each column.
+		 *  @type node
+		 *  @default null
+		 */
+		"nTf": null,
+	
+		/**
+		 * The class to apply to all TD elements in the table's TBODY for the column
+		 *  @type string
+		 *  @default null
+		 */
+		"sClass": null,
+	
+		/**
+		 * When DataTables calculates the column widths to assign to each column,
+		 * it finds the longest string in each column and then constructs a
+		 * temporary table and reads the widths from that. The problem with this
+		 * is that "mmm" is much wider then "iiii", but the latter is a longer
+		 * string - thus the calculation can go wrong (doing it properly and putting
+		 * it into an DOM object and measuring that is horribly(!) slow). Thus as
+		 * a "work around" we provide this option. It will append its value to the
+		 * text that is found to be the longest string for the column - i.e. padding.
+		 *  @type string
+		 */
+		"sContentPadding": null,
+	
+		/**
+		 * Allows a default value to be given for a column's data, and will be used
+		 * whenever a null data source is encountered (this can be because mData
+		 * is set to null, or because the data source itself is null).
+		 *  @type string
+		 *  @default null
+		 */
+		"sDefaultContent": null,
+	
+		/**
+		 * Name for the column, allowing reference to the column by name as well as
+		 * by index (needs a lookup to work by name).
+		 *  @type string
+		 */
+		"sName": null,
+	
+		/**
+		 * Custom sorting data type - defines which of the available plug-ins in
+		 * afnSortData the custom sorting will use - if any is defined.
+		 *  @type string
+		 *  @default std
+		 */
+		"sSortDataType": 'std',
+	
+		/**
+		 * Class to be applied to the header element when sorting on this column
+		 *  @type string
+		 *  @default null
+		 */
+		"sSortingClass": null,
+	
+		/**
+		 * Class to be applied to the header element when sorting on this column -
+		 * when jQuery UI theming is used.
+		 *  @type string
+		 *  @default null
+		 */
+		"sSortingClassJUI": null,
+	
+		/**
+		 * Title of the column - what is seen in the TH element (nTh).
+		 *  @type string
+		 */
+		"sTitle": null,
+	
+		/**
+		 * Column sorting and filtering type
+		 *  @type string
+		 *  @default null
+		 */
+		"sType": null,
+	
+		/**
+		 * Width of the column
+		 *  @type string
+		 *  @default null
+		 */
+		"sWidth": null,
+	
+		/**
+		 * Width of the column when it was first "encountered"
+		 *  @type string
+		 *  @default null
+		 */
+		"sWidthOrig": null
+	};
+	
+	
+	/*
+	 * Developer note: The properties of the object below are given in Hungarian
+	 * notation, that was used as the interface for DataTables prior to v1.10, however
+	 * from v1.10 onwards the primary interface is camel case. In order to avoid
+	 * breaking backwards compatibility utterly with this change, the Hungarian
+	 * version is still, internally the primary interface, but is is not documented
+	 * - hence the @name tags in each doc comment. This allows a Javascript function
+	 * to create a map from Hungarian notation to camel case (going the other direction
+	 * would require each property to be listed, which would at around 3K to the size
+	 * of DataTables, while this method is about a 0.5K hit.
+	 *
+	 * Ultimately this does pave the way for Hungarian notation to be dropped
+	 * completely, but that is a massive amount of work and will break current
+	 * installs (therefore is on-hold until v2).
+	 */
+	
+	/**
+	 * Initialisation options that can be given to DataTables at initialisation
+	 * time.
+	 *  @namespace
+	 */
+	DataTable.defaults = {
+		/**
+		 * An array of data to use for the table, passed in at initialisation which
+		 * will be used in preference to any data which is already in the DOM. This is
+		 * particularly useful for constructing tables purely in Javascript, for
+		 * example with a custom Ajax call.
+		 *  @type array
+		 *  @default null
+		 *
+		 *  @dtopt Option
+		 *  @name DataTable.defaults.data
+		 *
+		 *  @example
+		 *    // Using a 2D array data source
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "data": [
+		 *          ['Trident', 'Internet Explorer 4.0', 'Win 95+', 4, 'X'],
+		 *          ['Trident', 'Internet Explorer 5.0', 'Win 95+', 5, 'C'],
+		 *        ],
+		 *        "columns": [
+		 *          { "title": "Engine" },
+		 *          { "title": "Browser" },
+		 *          { "title": "Platform" },
+		 *          { "title": "Version" },
+		 *          { "title": "Grade" }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using an array of objects as a data source (`data`)
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "data": [
+		 *          {
+		 *            "engine":   "Trident",
+		 *            "browser":  "Internet Explorer 4.0",
+		 *            "platform": "Win 95+",
+		 *            "version":  4,
+		 *            "grade":    "X"
+		 *          },
+		 *          {
+		 *            "engine":   "Trident",
+		 *            "browser":  "Internet Explorer 5.0",
+		 *            "platform": "Win 95+",
+		 *            "version":  5,
+		 *            "grade":    "C"
+		 *          }
+		 *        ],
+		 *        "columns": [
+		 *          { "title": "Engine",   "data": "engine" },
+		 *          { "title": "Browser",  "data": "browser" },
+		 *          { "title": "Platform", "data": "platform" },
+		 *          { "title": "Version",  "data": "version" },
+		 *          { "title": "Grade",    "data": "grade" }
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"aaData": null,
+	
+	
+		/**
+		 * If ordering is enabled, then DataTables will perform a first pass sort on
+		 * initialisation. You can define which column(s) the sort is performed
+		 * upon, and the sorting direction, with this variable. The `sorting` array
+		 * should contain an array for each column to be sorted initially containing
+		 * the column's index and a direction string ('asc' or 'desc').
+		 *  @type array
+		 *  @default [[0,'asc']]
+		 *
+		 *  @dtopt Option
+		 *  @name DataTable.defaults.order
+		 *
+		 *  @example
+		 *    // Sort by 3rd column first, and then 4th column
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "order": [[2,'asc'], [3,'desc']]
+		 *      } );
+		 *    } );
+		 *
+		 *    // No initial sorting
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "order": []
+		 *      } );
+		 *    } );
+		 */
+		"aaSorting": [[0,'asc']],
+	
+	
+		/**
+		 * This parameter is basically identical to the `sorting` parameter, but
+		 * cannot be overridden by user interaction with the table. What this means
+		 * is that you could have a column (visible or hidden) which the sorting
+		 * will always be forced on first - any sorting after that (from the user)
+		 * will then be performed as required. This can be useful for grouping rows
+		 * together.
+		 *  @type array
+		 *  @default null
+		 *
+		 *  @dtopt Option
+		 *  @name DataTable.defaults.orderFixed
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "orderFixed": [[0,'asc']]
+		 *      } );
+		 *    } )
+		 */
+		"aaSortingFixed": [],
+	
+	
+		/**
+		 * DataTables can be instructed to load data to display in the table from a
+		 * Ajax source. This option defines how that Ajax call is made and where to.
+		 *
+		 * The `ajax` property has three different modes of operation, depending on
+		 * how it is defined. These are:
+		 *
+		 * * `string` - Set the URL from where the data should be loaded from.
+		 * * `object` - Define properties for `jQuery.ajax`.
+		 * * `function` - Custom data get function
+		 *
+		 * `string`
+		 * --------
+		 *
+		 * As a string, the `ajax` property simply defines the URL from which
+		 * DataTables will load data.
+		 *
+		 * `object`
+		 * --------
+		 *
+		 * As an object, the parameters in the object are passed to
+		 * [jQuery.ajax](http://api.jquery.com/jQuery.ajax/) allowing fine control
+		 * of the Ajax request. DataTables has a number of default parameters which
+		 * you can override using this option. Please refer to the jQuery
+		 * documentation for a full description of the options available, although
+		 * the following parameters provide additional options in DataTables or
+		 * require special consideration:
+		 *
+		 * * `data` - As with jQuery, `data` can be provided as an object, but it
+		 *   can also be used as a function to manipulate the data DataTables sends
+		 *   to the server. The function takes a single parameter, an object of
+		 *   parameters with the values that DataTables has readied for sending. An
+		 *   object may be returned which will be merged into the DataTables
+		 *   defaults, or you can add the items to the object that was passed in and
+		 *   not return anything from the function. This supersedes `fnServerParams`
+		 *   from DataTables 1.9-.
+		 *
+		 * * `dataSrc` - By default DataTables will look for the property `data` (or
+		 *   `aaData` for compatibility with DataTables 1.9-) when obtaining data
+		 *   from an Ajax source or for server-side processing - this parameter
+		 *   allows that property to be changed. You can use Javascript dotted
+		 *   object notation to get a data source for multiple levels of nesting, or
+		 *   it my be used as a function. As a function it takes a single parameter,
+		 *   the JSON returned from the server, which can be manipulated as
+		 *   required, with the returned value being that used by DataTables as the
+		 *   data source for the table. This supersedes `sAjaxDataProp` from
+		 *   DataTables 1.9-.
+		 *
+		 * * `success` - Should not be overridden it is used internally in
+		 *   DataTables. To manipulate / transform the data returned by the server
+		 *   use `ajax.dataSrc`, or use `ajax` as a function (see below).
+		 *
+		 * `function`
+		 * ----------
+		 *
+		 * As a function, making the Ajax call is left up to yourself allowing
+		 * complete control of the Ajax request. Indeed, if desired, a method other
+		 * than Ajax could be used to obtain the required data, such as Web storage
+		 * or an AIR database.
+		 *
+		 * The function is given four parameters and no return is required. The
+		 * parameters are:
+		 *
+		 * 1. _object_ - Data to send to the server
+		 * 2. _function_ - Callback function that must be executed when the required
+		 *    data has been obtained. That data should be passed into the callback
+		 *    as the only parameter
+		 * 3. _object_ - DataTables settings object for the table
+		 *
+		 * Note that this supersedes `fnServerData` from DataTables 1.9-.
+		 *
+		 *  @type string|object|function
+		 *  @default null
+		 *
+		 *  @dtopt Option
+		 *  @name DataTable.defaults.ajax
+		 *  @since 1.10.0
+		 *
+		 * @example
+		 *   // Get JSON data from a file via Ajax.
+		 *   // Note DataTables expects data in the form `{ data: [ ...data... ] }` by default).
+		 *   $('#example').dataTable( {
+		 *     "ajax": "data.json"
+		 *   } );
+		 *
+		 * @example
+		 *   // Get JSON data from a file via Ajax, using `dataSrc` to change
+		 *   // `data` to `tableData` (i.e. `{ tableData: [ ...data... ] }`)
+		 *   $('#example').dataTable( {
+		 *     "ajax": {
+		 *       "url": "data.json",
+		 *       "dataSrc": "tableData"
+		 *     }
+		 *   } );
+		 *
+		 * @example
+		 *   // Get JSON data from a file via Ajax, using `dataSrc` to read data
+		 *   // from a plain array rather than an array in an object
+		 *   $('#example').dataTable( {
+		 *     "ajax": {
+		 *       "url": "data.json",
+		 *       "dataSrc": ""
+		 *     }
+		 *   } );
+		 *
+		 * @example
+		 *   // Manipulate the data returned from the server - add a link to data
+		 *   // (note this can, should, be done using `render` for the column - this
+		 *   // is just a simple example of how the data can be manipulated).
+		 *   $('#example').dataTable( {
+		 *     "ajax": {
+		 *       "url": "data.json",
+		 *       "dataSrc": function ( json ) {
+		 *         for ( var i=0, ien=json.length ; i<ien ; i++ ) {
+		 *           json[i][0] = '<a href="/message/'+json[i][0]+'>View message</a>';
+		 *         }
+		 *         return json;
+		 *       }
+		 *     }
+		 *   } );
+		 *
+		 * @example
+		 *   // Add data to the request
+		 *   $('#example').dataTable( {
+		 *     "ajax": {
+		 *       "url": "data.json",
+		 *       "data": function ( d ) {
+		 *         return {
+		 *           "extra_search": $('#extra').val()
+		 *         };
+		 *       }
+		 *     }
+		 *   } );
+		 *
+		 * @example
+		 *   // Send request as POST
+		 *   $('#example').dataTable( {
+		 *     "ajax": {
+		 *       "url": "data.json",
+		 *       "type": "POST"
+		 *     }
+		 *   } );
+		 *
+		 * @example
+		 *   // Get the data from localStorage (could interface with a form for
+		 *   // adding, editing and removing rows).
+		 *   $('#example').dataTable( {
+		 *     "ajax": function (data, callback, settings) {
+		 *       callback(
+		 *         JSON.parse( localStorage.getItem('dataTablesData') )
+		 *       );
+		 *     }
+		 *   } );
+		 */
+		"ajax": null,
+	
+	
+		/**
+		 * This parameter allows you to readily specify the entries in the length drop
+		 * down menu that DataTables shows when pagination is enabled. It can be
+		 * either a 1D array of options which will be used for both the displayed
+		 * option and the value, or a 2D array which will use the array in the first
+		 * position as the value, and the array in the second position as the
+		 * displayed options (useful for language strings such as 'All').
+		 *
+		 * Note that the `pageLength` property will be automatically set to the
+		 * first value given in this array, unless `pageLength` is also provided.
+		 *  @type array
+		 *  @default [ 10, 25, 50, 100 ]
+		 *
+		 *  @dtopt Option
+		 *  @name DataTable.defaults.lengthMenu
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+		 *      } );
+		 *    } );
+		 */
+		"aLengthMenu": [ 10, 25, 50, 100 ],
+	
+	
+		/**
+		 * The `columns` option in the initialisation parameter allows you to define
+		 * details about the way individual columns behave. For a full list of
+		 * column options that can be set, please see
+		 * {@link DataTable.defaults.column}. Note that if you use `columns` to
+		 * define your columns, you must have an entry in the array for every single
+		 * column that you have in your table (these can be null if you don't which
+		 * to specify any options).
+		 *  @member
+		 *
+		 *  @name DataTable.defaults.column
+		 */
+		"aoColumns": null,
+	
+		/**
+		 * Very similar to `columns`, `columnDefs` allows you to target a specific
+		 * column, multiple columns, or all columns, using the `targets` property of
+		 * each object in the array. This allows great flexibility when creating
+		 * tables, as the `columnDefs` arrays can be of any length, targeting the
+		 * columns you specifically want. `columnDefs` may use any of the column
+		 * options available: {@link DataTable.defaults.column}, but it _must_
+		 * have `targets` defined in each object in the array. Values in the `targets`
+		 * array may be:
+		 *   <ul>
+		 *     <li>a string - class name will be matched on the TH for the column</li>
+		 *     <li>0 or a positive integer - column index counting from the left</li>
+		 *     <li>a negative integer - column index counting from the right</li>
+		 *     <li>the string "_all" - all columns (i.e. assign a default)</li>
+		 *   </ul>
+		 *  @member
+		 *
+		 *  @name DataTable.defaults.columnDefs
+		 */
+		"aoColumnDefs": null,
+	
+	
+		/**
+		 * Basically the same as `search`, this parameter defines the individual column
+		 * filtering state at initialisation time. The array must be of the same size
+		 * as the number of columns, and each element be an object with the parameters
+		 * `search` and `escapeRegex` (the latter is optional). 'null' is also
+		 * accepted and the default will be used.
+		 *  @type array
+		 *  @default []
+		 *
+		 *  @dtopt Option
+		 *  @name DataTable.defaults.searchCols
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "searchCols": [
+		 *          null,
+		 *          { "search": "My filter" },
+		 *          null,
+		 *          { "search": "^[0-9]", "escapeRegex": false }
+		 *        ]
+		 *      } );
+		 *    } )
+		 */
+		"aoSearchCols": [],
+	
+	
+		/**
+		 * An array of CSS classes that should be applied to displayed rows. This
+		 * array may be of any length, and DataTables will apply each class
+		 * sequentially, looping when required.
+		 *  @type array
+		 *  @default null <i>Will take the values determined by the `oClasses.stripe*`
+		 *    options</i>
+		 *
+		 *  @dtopt Option
+		 *  @name DataTable.defaults.stripeClasses
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "stripeClasses": [ 'strip1', 'strip2', 'strip3' ]
+		 *      } );
+		 *    } )
+		 */
+		"asStripeClasses": null,
+	
+	
+		/**
+		 * Enable or disable automatic column width calculation. This can be disabled
+		 * as an optimisation (it takes some time to calculate the widths) if the
+		 * tables widths are passed in using `columns`.
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.autoWidth
+		 *
+		 *  @example
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "autoWidth": false
+		 *      } );
+		 *    } );
+		 */
+		"bAutoWidth": true,
+	
+	
+		/**
+		 * Deferred rendering can provide DataTables with a huge speed boost when you
+		 * are using an Ajax or JS data source for the table. This option, when set to
+		 * true, will cause DataTables to defer the creation of the table elements for
+		 * each row until they are needed for a draw - saving a significant amount of
+		 * time.
+		 *  @type boolean
+		 *  @default false
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.deferRender
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "ajax": "sources/arrays.txt",
+		 *        "deferRender": true
+		 *      } );
+		 *    } );
+		 */
+		"bDeferRender": false,
+	
+	
+		/**
+		 * Replace a DataTable which matches the given selector and replace it with
+		 * one which has the properties of the new initialisation object passed. If no
+		 * table matches the selector, then the new DataTable will be constructed as
+		 * per normal.
+		 *  @type boolean
+		 *  @default false
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.destroy
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "srollY": "200px",
+		 *        "paginate": false
+		 *      } );
+		 *
+		 *      // Some time later....
+		 *      $('#example').dataTable( {
+		 *        "filter": false,
+		 *        "destroy": true
+		 *      } );
+		 *    } );
+		 */
+		"bDestroy": false,
+	
+	
+		/**
+		 * Enable or disable filtering of data. Filtering in DataTables is "smart" in
+		 * that it allows the end user to input multiple words (space separated) and
+		 * will match a row containing those words, even if not in the order that was
+		 * specified (this allow matching across multiple columns). Note that if you
+		 * wish to use filtering in DataTables this must remain 'true' - to remove the
+		 * default filtering input box and retain filtering abilities, please use
+		 * {@link DataTable.defaults.dom}.
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.searching
+		 *
+		 *  @example
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "searching": false
+		 *      } );
+		 *    } );
+		 */
+		"bFilter": true,
+	
+	
+		/**
+		 * Enable or disable the table information display. This shows information
+		 * about the data that is currently visible on the page, including information
+		 * about filtered data if that action is being performed.
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.info
+		 *
+		 *  @example
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "info": false
+		 *      } );
+		 *    } );
+		 */
+		"bInfo": true,
+	
+	
+		/**
+		 * Allows the end user to select the size of a formatted page from a select
+		 * menu (sizes are 10, 25, 50 and 100). Requires pagination (`paginate`).
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.lengthChange
+		 *
+		 *  @example
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "lengthChange": false
+		 *      } );
+		 *    } );
+		 */
+		"bLengthChange": true,
+	
+	
+		/**
+		 * Enable or disable pagination.
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.paging
+		 *
+		 *  @example
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "paging": false
+		 *      } );
+		 *    } );
+		 */
+		"bPaginate": true,
+	
+	
+		/**
+		 * Enable or disable the display of a 'processing' indicator when the table is
+		 * being processed (e.g. a sort). This is particularly useful for tables with
+		 * large amounts of data where it can take a noticeable amount of time to sort
+		 * the entries.
+		 *  @type boolean
+		 *  @default false
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.processing
+		 *
+		 *  @example
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "processing": true
+		 *      } );
+		 *    } );
+		 */
+		"bProcessing": false,
+	
+	
+		/**
+		 * Retrieve the DataTables object for the given selector. Note that if the
+		 * table has already been initialised, this parameter will cause DataTables
+		 * to simply return the object that has already been set up - it will not take
+		 * account of any changes you might have made to the initialisation object
+		 * passed to DataTables (setting this parameter to true is an acknowledgement
+		 * that you understand this). `destroy` can be used to reinitialise a table if
+		 * you need.
+		 *  @type boolean
+		 *  @default false
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.retrieve
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      initTable();
+		 *      tableActions();
+		 *    } );
+		 *
+		 *    function initTable ()
+		 *    {
+		 *      return $('#example').dataTable( {
+		 *        "scrollY": "200px",
+		 *        "paginate": false,
+		 *        "retrieve": true
+		 *      } );
+		 *    }
+		 *
+		 *    function tableActions ()
+		 *    {
+		 *      var table = initTable();
+		 *      // perform API operations with oTable
+		 *    }
+		 */
+		"bRetrieve": false,
+	
+	
+		/**
+		 * When vertical (y) scrolling is enabled, DataTables will force the height of
+		 * the table's viewport to the given height at all times (useful for layout).
+		 * However, this can look odd when filtering data down to a small data set,
+		 * and the footer is left "floating" further down. This parameter (when
+		 * enabled) will cause DataTables to collapse the table's viewport down when
+		 * the result set will fit within the given Y height.
+		 *  @type boolean
+		 *  @default false
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.scrollCollapse
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "scrollY": "200",
+		 *        "scrollCollapse": true
+		 *      } );
+		 *    } );
+		 */
+		"bScrollCollapse": false,
+	
+	
+		/**
+		 * Configure DataTables to use server-side processing. Note that the
+		 * `ajax` parameter must also be given in order to give DataTables a
+		 * source to obtain the required data for each draw.
+		 *  @type boolean
+		 *  @default false
+		 *
+		 *  @dtopt Features
+		 *  @dtopt Server-side
+		 *  @name DataTable.defaults.serverSide
+		 *
+		 *  @example
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "serverSide": true,
+		 *        "ajax": "xhr.php"
+		 *      } );
+		 *    } );
+		 */
+		"bServerSide": false,
+	
+	
+		/**
+		 * Enable or disable sorting of columns. Sorting of individual columns can be
+		 * disabled by the `sortable` option for each column.
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.ordering
+		 *
+		 *  @example
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "ordering": false
+		 *      } );
+		 *    } );
+		 */
+		"bSort": true,
+	
+	
+		/**
+		 * Enable or display DataTables' ability to sort multiple columns at the
+		 * same time (activated by shift-click by the user).
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.orderMulti
+		 *
+		 *  @example
+		 *    // Disable multiple column sorting ability
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "orderMulti": false
+		 *      } );
+		 *    } );
+		 */
+		"bSortMulti": true,
+	
+	
+		/**
+		 * Allows control over whether DataTables should use the top (true) unique
+		 * cell that is found for a single column, or the bottom (false - default).
+		 * This is useful when using complex headers.
+		 *  @type boolean
+		 *  @default false
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.orderCellsTop
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "orderCellsTop": true
+		 *      } );
+		 *    } );
+		 */
+		"bSortCellsTop": false,
+	
+	
+		/**
+		 * Enable or disable the addition of the classes `sorting\_1`, `sorting\_2` and
+		 * `sorting\_3` to the columns which are currently being sorted on. This is
+		 * presented as a feature switch as it can increase processing time (while
+		 * classes are removed and added) so for large data sets you might want to
+		 * turn this off.
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.orderClasses
+		 *
+		 *  @example
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "orderClasses": false
+		 *      } );
+		 *    } );
+		 */
+		"bSortClasses": true,
+	
+	
+		/**
+		 * Enable or disable state saving. When enabled HTML5 `localStorage` will be
+		 * used to save table display information such as pagination information,
+		 * display length, filtering and sorting. As such when the end user reloads
+		 * the page the display display will match what thy had previously set up.
+		 *
+		 * Due to the use of `localStorage` the default state saving is not supported
+		 * in IE6 or 7. If state saving is required in those browsers, use
+		 * `stateSaveCallback` to provide a storage solution such as cookies.
+		 *  @type boolean
+		 *  @default false
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.stateSave
+		 *
+		 *  @example
+		 *    $(document).ready( function () {
+		 *      $('#example').dataTable( {
+		 *        "stateSave": true
+		 *      } );
+		 *    } );
+		 */
+		"bStateSave": false,
+	
+	
+		/**
+		 * This function is called when a TR element is created (and all TD child
+		 * elements have been inserted), or registered if using a DOM source, allowing
+		 * manipulation of the TR element (adding classes etc).
+		 *  @type function
+		 *  @param {node} row "TR" element for the current row
+		 *  @param {array} data Raw data array for this row
+		 *  @param {int} dataIndex The index of this row in the internal aoData array
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.createdRow
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "createdRow": function( row, data, dataIndex ) {
+		 *          // Bold the grade for all 'A' grade browsers
+		 *          if ( data[4] == "A" )
+		 *          {
+		 *            $('td:eq(4)', row).html( '<b>A</b>' );
+		 *          }
+		 *        }
+		 *      } );
+		 *    } );
+		 */
+		"fnCreatedRow": null,
+	
+	
+		/**
+		 * This function is called on every 'draw' event, and allows you to
+		 * dynamically modify any aspect you want about the created DOM.
+		 *  @type function
+		 *  @param {object} settings DataTables settings object
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.drawCallback
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "drawCallback": function( settings ) {
+		 *          alert( 'DataTables has redrawn the table' );
+		 *        }
+		 *      } );
+		 *    } );
+		 */
+		"fnDrawCallback": null,
+	
+	
+		/**
+		 * Identical to fnHeaderCallback() but for the table footer this function
+		 * allows you to modify the table footer on every 'draw' event.
+		 *  @type function
+		 *  @param {node} foot "TR" element for the footer
+		 *  @param {array} data Full table data (as derived from the original HTML)
+		 *  @param {int} start Index for the current display starting point in the
+		 *    display array
+		 *  @param {int} end Index for the current display ending point in the
+		 *    display array
+		 *  @param {array int} display Index array to translate the visual position
+		 *    to the full data array
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.footerCallback
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "footerCallback": function( tfoot, data, start, end, display ) {
+		 *          tfoot.getElementsByTagName('th')[0].innerHTML = "Starting index is "+start;
+		 *        }
+		 *      } );
+		 *    } )
+		 */
+		"fnFooterCallback": null,
+	
+	
+		/**
+		 * When rendering large numbers in the information element for the table
+		 * (i.e. "Showing 1 to 10 of 57 entries") DataTables will render large numbers
+		 * to have a comma separator for the 'thousands' units (e.g. 1 million is
+		 * rendered as "1,000,000") to help readability for the end user. This
+		 * function will override the default method DataTables uses.
+		 *  @type function
+		 *  @member
+		 *  @param {int} toFormat number to be formatted
+		 *  @returns {string} formatted string for DataTables to show the number
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.formatNumber
+		 *
+		 *  @example
+		 *    // Format a number using a single quote for the separator (note that
+		 *    // this can also be done with the language.thousands option)
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "formatNumber": function ( toFormat ) {
+		 *          return toFormat.toString().replace(
+		 *            /\B(?=(\d{3})+(?!\d))/g, "'"
+		 *          );
+		 *        };
+		 *      } );
+		 *    } );
+		 */
+		"fnFormatNumber": function ( toFormat ) {
+			return toFormat.toString().replace(
+				/\B(?=(\d{3})+(?!\d))/g,
+				this.oLanguage.sThousands
+			);
+		},
+	
+	
+		/**
+		 * This function is called on every 'draw' event, and allows you to
+		 * dynamically modify the header row. This can be used to calculate and
+		 * display useful information about the table.
+		 *  @type function
+		 *  @param {node} head "TR" element for the header
+		 *  @param {array} data Full table data (as derived from the original HTML)
+		 *  @param {int} start Index for the current display starting point in the
+		 *    display array
+		 *  @param {int} end Index for the current display ending point in the
+		 *    display array
+		 *  @param {array int} display Index array to translate the visual position
+		 *    to the full data array
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.headerCallback
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "fheaderCallback": function( head, data, start, end, display ) {
+		 *          head.getElementsByTagName('th')[0].innerHTML = "Displaying "+(end-start)+" records";
+		 *        }
+		 *      } );
+		 *    } )
+		 */
+		"fnHeaderCallback": null,
+	
+	
+		/**
+		 * The information element can be used to convey information about the current
+		 * state of the table. Although the internationalisation options presented by
+		 * DataTables are quite capable of dealing with most customisations, there may
+		 * be times where you wish to customise the string further. This callback
+		 * allows you to do exactly that.
+		 *  @type function
+		 *  @param {object} oSettings DataTables settings object
+		 *  @param {int} start Starting position in data for the draw
+		 *  @param {int} end End position in data for the draw
+		 *  @param {int} max Total number of rows in the table (regardless of
+		 *    filtering)
+		 *  @param {int} total Total number of rows in the data set, after filtering
+		 *  @param {string} pre The string that DataTables has formatted using it's
+		 *    own rules
+		 *  @returns {string} The string to be displayed in the information element.
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.infoCallback
+		 *
+		 *  @example
+		 *    $('#example').dataTable( {
+		 *      "infoCallback": function( settings, start, end, max, total, pre ) {
+		 *        return start +" to "+ end;
+		 *      }
+		 *    } );
+		 */
+		"fnInfoCallback": null,
+	
+	
+		/**
+		 * Called when the table has been initialised. Normally DataTables will
+		 * initialise sequentially and there will be no need for this function,
+		 * however, this does not hold true when using external language information
+		 * since that is obtained using an async XHR call.
+		 *  @type function
+		 *  @param {object} settings DataTables settings object
+		 *  @param {object} json The JSON object request from the server - only
+		 *    present if client-side Ajax sourced data is used
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.initComplete
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "initComplete": function(settings, json) {
+		 *          alert( 'DataTables has finished its initialisation.' );
+		 *        }
+		 *      } );
+		 *    } )
+		 */
+		"fnInitComplete": null,
+	
+	
+		/**
+		 * Called at the very start of each table draw and can be used to cancel the
+		 * draw by returning false, any other return (including undefined) results in
+		 * the full draw occurring).
+		 *  @type function
+		 *  @param {object} settings DataTables settings object
+		 *  @returns {boolean} False will cancel the draw, anything else (including no
+		 *    return) will allow it to complete.
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.preDrawCallback
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "preDrawCallback": function( settings ) {
+		 *          if ( $('#test').val() == 1 ) {
+		 *            return false;
+		 *          }
+		 *        }
+		 *      } );
+		 *    } );
+		 */
+		"fnPreDrawCallback": null,
+	
+	
+		/**
+		 * This function allows you to 'post process' each row after it have been
+		 * generated for each table draw, but before it is rendered on screen. This
+		 * function might be used for setting the row class name etc.
+		 *  @type function
+		 *  @param {node} row "TR" element for the current row
+		 *  @param {array} data Raw data array for this row
+		 *  @param {int} displayIndex The display index for the current table draw
+		 *  @param {int} displayIndexFull The index of the data in the full list of
+		 *    rows (after filtering)
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.rowCallback
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "rowCallback": function( row, data, displayIndex, displayIndexFull ) {
+		 *          // Bold the grade for all 'A' grade browsers
+		 *          if ( data[4] == "A" ) {
+		 *            $('td:eq(4)', row).html( '<b>A</b>' );
+		 *          }
+		 *        }
+		 *      } );
+		 *    } );
+		 */
+		"fnRowCallback": null,
+	
+	
+		/**
+		 * __Deprecated__ The functionality provided by this parameter has now been
+		 * superseded by that provided through `ajax`, which should be used instead.
+		 *
+		 * This parameter allows you to override the default function which obtains
+		 * the data from the server so something more suitable for your application.
+		 * For example you could use POST data, or pull information from a Gears or
+		 * AIR database.
+		 *  @type function
+		 *  @member
+		 *  @param {string} source HTTP source to obtain the data from (`ajax`)
+		 *  @param {array} data A key/value pair object containing the data to send
+		 *    to the server
+		 *  @param {function} callback to be called on completion of the data get
+		 *    process that will draw the data on the page.
+		 *  @param {object} settings DataTables settings object
+		 *
+		 *  @dtopt Callbacks
+		 *  @dtopt Server-side
+		 *  @name DataTable.defaults.serverData
+		 *
+		 *  @deprecated 1.10. Please use `ajax` for this functionality now.
+		 */
+		"fnServerData": null,
+	
+	
+		/**
+		 * __Deprecated__ The functionality provided by this parameter has now been
+		 * superseded by that provided through `ajax`, which should be used instead.
+		 *
+		 *  It is often useful to send extra data to the server when making an Ajax
+		 * request - for example custom filtering information, and this callback
+		 * function makes it trivial to send extra information to the server. The
+		 * passed in parameter is the data set that has been constructed by
+		 * DataTables, and you can add to this or modify it as you require.
+		 *  @type function
+		 *  @param {array} data Data array (array of objects which are name/value
+		 *    pairs) that has been constructed by DataTables and will be sent to the
+		 *    server. In the case of Ajax sourced data with server-side processing
+		 *    this will be an empty array, for server-side processing there will be a
+		 *    significant number of parameters!
+		 *  @returns {undefined} Ensure that you modify the data array passed in,
+		 *    as this is passed by reference.
+		 *
+		 *  @dtopt Callbacks
+		 *  @dtopt Server-side
+		 *  @name DataTable.defaults.serverParams
+		 *
+		 *  @deprecated 1.10. Please use `ajax` for this functionality now.
+		 */
+		"fnServerParams": null,
+	
+	
+		/**
+		 * Load the table state. With this function you can define from where, and how, the
+		 * state of a table is loaded. By default DataTables will load from `localStorage`
+		 * but you might wish to use a server-side database or cookies.
+		 *  @type function
+		 *  @member
+		 *  @param {object} settings DataTables settings object
+		 *  @param {object} callback Callback that can be executed when done. It
+		 *    should be passed the loaded state object.
+		 *  @return {object} The DataTables state object to be loaded
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.stateLoadCallback
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "stateSave": true,
+		 *        "stateLoadCallback": function (settings, callback) {
+		 *          $.ajax( {
+		 *            "url": "/state_load",
+		 *            "dataType": "json",
+		 *            "success": function (json) {
+		 *              callback( json );
+		 *            }
+		 *          } );
+		 *        }
+		 *      } );
+		 *    } );
+		 */
+		"fnStateLoadCallback": function ( settings ) {
+			try {
+				return JSON.parse(
+					(settings.iStateDuration === -1 ? sessionStorage : localStorage).getItem(
+						'DataTables_'+settings.sInstance+'_'+location.pathname
+					)
+				);
+			} catch (e) {}
+		},
+	
+	
+		/**
+		 * Callback which allows modification of the saved state prior to loading that state.
+		 * This callback is called when the table is loading state from the stored data, but
+		 * prior to the settings object being modified by the saved state. Note that for
+		 * plug-in authors, you should use the `stateLoadParams` event to load parameters for
+		 * a plug-in.
+		 *  @type function
+		 *  @param {object} settings DataTables settings object
+		 *  @param {object} data The state object that is to be loaded
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.stateLoadParams
+		 *
+		 *  @example
+		 *    // Remove a saved filter, so filtering is never loaded
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "stateSave": true,
+		 *        "stateLoadParams": function (settings, data) {
+		 *          data.oSearch.sSearch = "";
+		 *        }
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Disallow state loading by returning false
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "stateSave": true,
+		 *        "stateLoadParams": function (settings, data) {
+		 *          return false;
+		 *        }
+		 *      } );
+		 *    } );
+		 */
+		"fnStateLoadParams": null,
+	
+	
+		/**
+		 * Callback that is called when the state has been loaded from the state saving method
+		 * and the DataTables settings object has been modified as a result of the loaded state.
+		 *  @type function
+		 *  @param {object} settings DataTables settings object
+		 *  @param {object} data The state object that was loaded
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.stateLoaded
+		 *
+		 *  @example
+		 *    // Show an alert with the filtering value that was saved
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "stateSave": true,
+		 *        "stateLoaded": function (settings, data) {
+		 *          alert( 'Saved filter was: '+data.oSearch.sSearch );
+		 *        }
+		 *      } );
+		 *    } );
+		 */
+		"fnStateLoaded": null,
+	
+	
+		/**
+		 * Save the table state. This function allows you to define where and how the state
+		 * information for the table is stored By default DataTables will use `localStorage`
+		 * but you might wish to use a server-side database or cookies.
+		 *  @type function
+		 *  @member
+		 *  @param {object} settings DataTables settings object
+		 *  @param {object} data The state object to be saved
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.stateSaveCallback
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "stateSave": true,
+		 *        "stateSaveCallback": function (settings, data) {
+		 *          // Send an Ajax request to the server with the state object
+		 *          $.ajax( {
+		 *            "url": "/state_save",
+		 *            "data": data,
+		 *            "dataType": "json",
+		 *            "method": "POST"
+		 *            "success": function () {}
+		 *          } );
+		 *        }
+		 *      } );
+		 *    } );
+		 */
+		"fnStateSaveCallback": function ( settings, data ) {
+			try {
+				(settings.iStateDuration === -1 ? sessionStorage : localStorage).setItem(
+					'DataTables_'+settings.sInstance+'_'+location.pathname,
+					JSON.stringify( data )
+				);
+			} catch (e) {}
+		},
+	
+	
+		/**
+		 * Callback which allows modification of the state to be saved. Called when the table
+		 * has changed state a new state save is required. This method allows modification of
+		 * the state saving object prior to actually doing the save, including addition or
+		 * other state properties or modification. Note that for plug-in authors, you should
+		 * use the `stateSaveParams` event to save parameters for a plug-in.
+		 *  @type function
+		 *  @param {object} settings DataTables settings object
+		 *  @param {object} data The state object to be saved
+		 *
+		 *  @dtopt Callbacks
+		 *  @name DataTable.defaults.stateSaveParams
+		 *
+		 *  @example
+		 *    // Remove a saved filter, so filtering is never saved
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "stateSave": true,
+		 *        "stateSaveParams": function (settings, data) {
+		 *          data.oSearch.sSearch = "";
+		 *        }
+		 *      } );
+		 *    } );
+		 */
+		"fnStateSaveParams": null,
+	
+	
+		/**
+		 * Duration for which the saved state information is considered valid. After this period
+		 * has elapsed the state will be returned to the default.
+		 * Value is given in seconds.
+		 *  @type int
+		 *  @default 7200 <i>(2 hours)</i>
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.stateDuration
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "stateDuration": 60*60*24; // 1 day
+		 *      } );
+		 *    } )
+		 */
+		"iStateDuration": 7200,
+	
+	
+		/**
+		 * When enabled DataTables will not make a request to the server for the first
+		 * page draw - rather it will use the data already on the page (no sorting etc
+		 * will be applied to it), thus saving on an XHR at load time. `deferLoading`
+		 * is used to indicate that deferred loading is required, but it is also used
+		 * to tell DataTables how many records there are in the full table (allowing
+		 * the information element and pagination to be displayed correctly). In the case
+		 * where a filtering is applied to the table on initial load, this can be
+		 * indicated by giving the parameter as an array, where the first element is
+		 * the number of records available after filtering and the second element is the
+		 * number of records without filtering (allowing the table information element
+		 * to be shown correctly).
+		 *  @type int | array
+		 *  @default null
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.deferLoading
+		 *
+		 *  @example
+		 *    // 57 records available in the table, no filtering applied
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "serverSide": true,
+		 *        "ajax": "scripts/server_processing.php",
+		 *        "deferLoading": 57
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // 57 records after filtering, 100 without filtering (an initial filter applied)
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "serverSide": true,
+		 *        "ajax": "scripts/server_processing.php",
+		 *        "deferLoading": [ 57, 100 ],
+		 *        "search": {
+		 *          "search": "my_filter"
+		 *        }
+		 *      } );
+		 *    } );
+		 */
+		"iDeferLoading": null,
+	
+	
+		/**
+		 * Number of rows to display on a single page when using pagination. If
+		 * feature enabled (`lengthChange`) then the end user will be able to override
+		 * this to a custom setting using a pop-up menu.
+		 *  @type int
+		 *  @default 10
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.pageLength
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "pageLength": 50
+		 *      } );
+		 *    } )
+		 */
+		"iDisplayLength": 10,
+	
+	
+		/**
+		 * Define the starting point for data display when using DataTables with
+		 * pagination. Note that this parameter is the number of records, rather than
+		 * the page number, so if you have 10 records per page and want to start on
+		 * the third page, it should be "20".
+		 *  @type int
+		 *  @default 0
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.displayStart
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "displayStart": 20
+		 *      } );
+		 *    } )
+		 */
+		"iDisplayStart": 0,
+	
+	
+		/**
+		 * By default DataTables allows keyboard navigation of the table (sorting, paging,
+		 * and filtering) by adding a `tabindex` attribute to the required elements. This
+		 * allows you to tab through the controls and press the enter key to activate them.
+		 * The tabindex is default 0, meaning that the tab follows the flow of the document.
+		 * You can overrule this using this parameter if you wish. Use a value of -1 to
+		 * disable built-in keyboard navigation.
+		 *  @type int
+		 *  @default 0
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.tabIndex
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "tabIndex": 1
+		 *      } );
+		 *    } );
+		 */
+		"iTabIndex": 0,
+	
+	
+		/**
+		 * Classes that DataTables assigns to the various components and features
+		 * that it adds to the HTML table. This allows classes to be configured
+		 * during initialisation in addition to through the static
+		 * {@link DataTable.ext.oStdClasses} object).
+		 *  @namespace
+		 *  @name DataTable.defaults.classes
+		 */
+		"oClasses": {},
+	
+	
+		/**
+		 * All strings that DataTables uses in the user interface that it creates
+		 * are defined in this object, allowing you to modified them individually or
+		 * completely replace them all as required.
+		 *  @namespace
+		 *  @name DataTable.defaults.language
+		 */
+		"oLanguage": {
+			/**
+			 * Strings that are used for WAI-ARIA labels and controls only (these are not
+			 * actually visible on the page, but will be read by screenreaders, and thus
+			 * must be internationalised as well).
+			 *  @namespace
+			 *  @name DataTable.defaults.language.aria
+			 */
+			"oAria": {
+				/**
+				 * ARIA label that is added to the table headers when the column may be
+				 * sorted ascending by activing the column (click or return when focused).
+				 * Note that the column header is prefixed to this string.
+				 *  @type string
+				 *  @default : activate to sort column ascending
+				 *
+				 *  @dtopt Language
+				 *  @name DataTable.defaults.language.aria.sortAscending
+				 *
+				 *  @example
+				 *    $(document).ready( function() {
+				 *      $('#example').dataTable( {
+				 *        "language": {
+				 *          "aria": {
+				 *            "sortAscending": " - click/return to sort ascending"
+				 *          }
+				 *        }
+				 *      } );
+				 *    } );
+				 */
+				"sSortAscending": ": activate to sort column ascending",
+	
+				/**
+				 * ARIA label that is added to the table headers when the column may be
+				 * sorted descending by activing the column (click or return when focused).
+				 * Note that the column header is prefixed to this string.
+				 *  @type string
+				 *  @default : activate to sort column ascending
+				 *
+				 *  @dtopt Language
+				 *  @name DataTable.defaults.language.aria.sortDescending
+				 *
+				 *  @example
+				 *    $(document).ready( function() {
+				 *      $('#example').dataTable( {
+				 *        "language": {
+				 *          "aria": {
+				 *            "sortDescending": " - click/return to sort descending"
+				 *          }
+				 *        }
+				 *      } );
+				 *    } );
+				 */
+				"sSortDescending": ": activate to sort column descending"
+			},
+	
+			/**
+			 * Pagination string used by DataTables for the built-in pagination
+			 * control types.
+			 *  @namespace
+			 *  @name DataTable.defaults.language.paginate
+			 */
+			"oPaginate": {
+				/**
+				 * Text to use when using the 'full_numbers' type of pagination for the
+				 * button to take the user to the first page.
+				 *  @type string
+				 *  @default First
+				 *
+				 *  @dtopt Language
+				 *  @name DataTable.defaults.language.paginate.first
+				 *
+				 *  @example
+				 *    $(document).ready( function() {
+				 *      $('#example').dataTable( {
+				 *        "language": {
+				 *          "paginate": {
+				 *            "first": "First page"
+				 *          }
+				 *        }
+				 *      } );
+				 *    } );
+				 */
+				"sFirst": "First",
+	
+	
+				/**
+				 * Text to use when using the 'full_numbers' type of pagination for the
+				 * button to take the user to the last page.
+				 *  @type string
+				 *  @default Last
+				 *
+				 *  @dtopt Language
+				 *  @name DataTable.defaults.language.paginate.last
+				 *
+				 *  @example
+				 *    $(document).ready( function() {
+				 *      $('#example').dataTable( {
+				 *        "language": {
+				 *          "paginate": {
+				 *            "last": "Last page"
+				 *          }
+				 *        }
+				 *      } );
+				 *    } );
+				 */
+				"sLast": "Last",
+	
+	
+				/**
+				 * Text to use for the 'next' pagination button (to take the user to the
+				 * next page).
+				 *  @type string
+				 *  @default Next
+				 *
+				 *  @dtopt Language
+				 *  @name DataTable.defaults.language.paginate.next
+				 *
+				 *  @example
+				 *    $(document).ready( function() {
+				 *      $('#example').dataTable( {
+				 *        "language": {
+				 *          "paginate": {
+				 *            "next": "Next page"
+				 *          }
+				 *        }
+				 *      } );
+				 *    } );
+				 */
+				"sNext": "Next",
+	
+	
+				/**
+				 * Text to use for the 'previous' pagination button (to take the user to
+				 * the previous page).
+				 *  @type string
+				 *  @default Previous
+				 *
+				 *  @dtopt Language
+				 *  @name DataTable.defaults.language.paginate.previous
+				 *
+				 *  @example
+				 *    $(document).ready( function() {
+				 *      $('#example').dataTable( {
+				 *        "language": {
+				 *          "paginate": {
+				 *            "previous": "Previous page"
+				 *          }
+				 *        }
+				 *      } );
+				 *    } );
+				 */
+				"sPrevious": "Previous"
+			},
+	
+			/**
+			 * This string is shown in preference to `zeroRecords` when the table is
+			 * empty of data (regardless of filtering). Note that this is an optional
+			 * parameter - if it is not given, the value of `zeroRecords` will be used
+			 * instead (either the default or given value).
+			 *  @type string
+			 *  @default No data available in table
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.emptyTable
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "emptyTable": "No data available in table"
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sEmptyTable": "No data available in table",
+	
+	
+			/**
+			 * This string gives information to the end user about the information
+			 * that is current on display on the page. The following tokens can be
+			 * used in the string and will be dynamically replaced as the table
+			 * display updates. This tokens can be placed anywhere in the string, or
+			 * removed as needed by the language requires:
+			 *
+			 * * `\_START\_` - Display index of the first record on the current page
+			 * * `\_END\_` - Display index of the last record on the current page
+			 * * `\_TOTAL\_` - Number of records in the table after filtering
+			 * * `\_MAX\_` - Number of records in the table without filtering
+			 * * `\_PAGE\_` - Current page number
+			 * * `\_PAGES\_` - Total number of pages of data in the table
+			 *
+			 *  @type string
+			 *  @default Showing _START_ to _END_ of _TOTAL_ entries
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.info
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "info": "Showing page _PAGE_ of _PAGES_"
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+	
+	
+			/**
+			 * Display information string for when the table is empty. Typically the
+			 * format of this string should match `info`.
+			 *  @type string
+			 *  @default Showing 0 to 0 of 0 entries
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.infoEmpty
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "infoEmpty": "No entries to show"
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+	
+	
+			/**
+			 * When a user filters the information in a table, this string is appended
+			 * to the information (`info`) to give an idea of how strong the filtering
+			 * is. The variable _MAX_ is dynamically updated.
+			 *  @type string
+			 *  @default (filtered from _MAX_ total entries)
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.infoFiltered
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "infoFiltered": " - filtering from _MAX_ records"
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sInfoFiltered": "(filtered from _MAX_ total entries)",
+	
+	
+			/**
+			 * If can be useful to append extra information to the info string at times,
+			 * and this variable does exactly that. This information will be appended to
+			 * the `info` (`infoEmpty` and `infoFiltered` in whatever combination they are
+			 * being used) at all times.
+			 *  @type string
+			 *  @default <i>Empty string</i>
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.infoPostFix
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "infoPostFix": "All records shown are derived from real information."
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sInfoPostFix": "",
+	
+	
+			/**
+			 * This decimal place operator is a little different from the other
+			 * language options since DataTables doesn't output floating point
+			 * numbers, so it won't ever use this for display of a number. Rather,
+			 * what this parameter does is modify the sort methods of the table so
+			 * that numbers which are in a format which has a character other than
+			 * a period (`.`) as a decimal place will be sorted numerically.
+			 *
+			 * Note that numbers with different decimal places cannot be shown in
+			 * the same table and still be sortable, the table must be consistent.
+			 * However, multiple different tables on the page can use different
+			 * decimal place characters.
+			 *  @type string
+			 *  @default 
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.decimal
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "decimal": ","
+			 *          "thousands": "."
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sDecimal": "",
+	
+	
+			/**
+			 * DataTables has a build in number formatter (`formatNumber`) which is
+			 * used to format large numbers that are used in the table information.
+			 * By default a comma is used, but this can be trivially changed to any
+			 * character you wish with this parameter.
+			 *  @type string
+			 *  @default ,
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.thousands
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "thousands": "'"
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sThousands": ",",
+	
+	
+			/**
+			 * Detail the action that will be taken when the drop down menu for the
+			 * pagination length option is changed. The '_MENU_' variable is replaced
+			 * with a default select list of 10, 25, 50 and 100, and can be replaced
+			 * with a custom select box if required.
+			 *  @type string
+			 *  @default Show _MENU_ entries
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.lengthMenu
+			 *
+			 *  @example
+			 *    // Language change only
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "lengthMenu": "Display _MENU_ records"
+			 *        }
+			 *      } );
+			 *    } );
+			 *
+			 *  @example
+			 *    // Language and options change
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "lengthMenu": 'Display <select>'+
+			 *            '<option value="10">10</option>'+
+			 *            '<option value="20">20</option>'+
+			 *            '<option value="30">30</option>'+
+			 *            '<option value="40">40</option>'+
+			 *            '<option value="50">50</option>'+
+			 *            '<option value="-1">All</option>'+
+			 *            '</select> records'
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sLengthMenu": "Show _MENU_ entries",
+	
+	
+			/**
+			 * When using Ajax sourced data and during the first draw when DataTables is
+			 * gathering the data, this message is shown in an empty row in the table to
+			 * indicate to the end user the the data is being loaded. Note that this
+			 * parameter is not used when loading data by server-side processing, just
+			 * Ajax sourced data with client-side processing.
+			 *  @type string
+			 *  @default Loading...
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.loadingRecords
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "loadingRecords": "Please wait - loading..."
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sLoadingRecords": "Loading...",
+	
+	
+			/**
+			 * Text which is displayed when the table is processing a user action
+			 * (usually a sort command or similar).
+			 *  @type string
+			 *  @default Processing...
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.processing
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "processing": "DataTables is currently busy"
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sProcessing": "Processing...",
+	
+	
+			/**
+			 * Details the actions that will be taken when the user types into the
+			 * filtering input text box. The variable "_INPUT_", if used in the string,
+			 * is replaced with the HTML text box for the filtering input allowing
+			 * control over where it appears in the string. If "_INPUT_" is not given
+			 * then the input box is appended to the string automatically.
+			 *  @type string
+			 *  @default Search:
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.search
+			 *
+			 *  @example
+			 *    // Input text box will be appended at the end automatically
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "search": "Filter records:"
+			 *        }
+			 *      } );
+			 *    } );
+			 *
+			 *  @example
+			 *    // Specify where the filter should appear
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "search": "Apply filter _INPUT_ to table"
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sSearch": "Search:",
+	
+	
+			/**
+			 * Assign a `placeholder` attribute to the search `input` element
+			 *  @type string
+			 *  @default 
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.searchPlaceholder
+			 */
+			"sSearchPlaceholder": "",
+	
+	
+			/**
+			 * All of the language information can be stored in a file on the
+			 * server-side, which DataTables will look up if this parameter is passed.
+			 * It must store the URL of the language file, which is in a JSON format,
+			 * and the object has the same properties as the oLanguage object in the
+			 * initialiser object (i.e. the above parameters). Please refer to one of
+			 * the example language files to see how this works in action.
+			 *  @type string
+			 *  @default <i>Empty string - i.e. disabled</i>
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.url
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "url": "http://www.sprymedia.co.uk/dataTables/lang.txt"
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sUrl": "",
+	
+	
+			/**
+			 * Text shown inside the table records when the is no information to be
+			 * displayed after filtering. `emptyTable` is shown when there is simply no
+			 * information in the table at all (regardless of filtering).
+			 *  @type string
+			 *  @default No matching records found
+			 *
+			 *  @dtopt Language
+			 *  @name DataTable.defaults.language.zeroRecords
+			 *
+			 *  @example
+			 *    $(document).ready( function() {
+			 *      $('#example').dataTable( {
+			 *        "language": {
+			 *          "zeroRecords": "No records to display"
+			 *        }
+			 *      } );
+			 *    } );
+			 */
+			"sZeroRecords": "No matching records found"
+		},
+	
+	
+		/**
+		 * This parameter allows you to have define the global filtering state at
+		 * initialisation time. As an object the `search` parameter must be
+		 * defined, but all other parameters are optional. When `regex` is true,
+		 * the search string will be treated as a regular expression, when false
+		 * (default) it will be treated as a straight string. When `smart`
+		 * DataTables will use it's smart filtering methods (to word match at
+		 * any point in the data), when false this will not be done.
+		 *  @namespace
+		 *  @extends DataTable.models.oSearch
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.search
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "search": {"search": "Initial search"}
+		 *      } );
+		 *    } )
+		 */
+		"oSearch": $.extend( {}, DataTable.models.oSearch ),
+	
+	
+		/**
+		 * __Deprecated__ The functionality provided by this parameter has now been
+		 * superseded by that provided through `ajax`, which should be used instead.
+		 *
+		 * By default DataTables will look for the property `data` (or `aaData` for
+		 * compatibility with DataTables 1.9-) when obtaining data from an Ajax
+		 * source or for server-side processing - this parameter allows that
+		 * property to be changed. You can use Javascript dotted object notation to
+		 * get a data source for multiple levels of nesting.
+		 *  @type string
+		 *  @default data
+		 *
+		 *  @dtopt Options
+		 *  @dtopt Server-side
+		 *  @name DataTable.defaults.ajaxDataProp
+		 *
+		 *  @deprecated 1.10. Please use `ajax` for this functionality now.
+		 */
+		"sAjaxDataProp": "data",
+	
+	
+		/**
+		 * __Deprecated__ The functionality provided by this parameter has now been
+		 * superseded by that provided through `ajax`, which should be used instead.
+		 *
+		 * You can instruct DataTables to load data from an external
+		 * source using this parameter (use aData if you want to pass data in you
+		 * already have). Simply provide a url a JSON object can be obtained from.
+		 *  @type string
+		 *  @default null
+		 *
+		 *  @dtopt Options
+		 *  @dtopt Server-side
+		 *  @name DataTable.defaults.ajaxSource
+		 *
+		 *  @deprecated 1.10. Please use `ajax` for this functionality now.
+		 */
+		"sAjaxSource": null,
+	
+	
+		/**
+		 * This initialisation variable allows you to specify exactly where in the
+		 * DOM you want DataTables to inject the various controls it adds to the page
+		 * (for example you might want the pagination controls at the top of the
+		 * table). DIV elements (with or without a custom class) can also be added to
+		 * aid styling. The follow syntax is used:
+		 *   <ul>
+		 *     <li>The following options are allowed:
+		 *       <ul>
+		 *         <li>'l' - Length changing</li>
+		 *         <li>'f' - Filtering input</li>
+		 *         <li>'t' - The table!</li>
+		 *         <li>'i' - Information</li>
+		 *         <li>'p' - Pagination</li>
+		 *         <li>'r' - pRocessing</li>
+		 *       </ul>
+		 *     </li>
+		 *     <li>The following constants are allowed:
+		 *       <ul>
+		 *         <li>'H' - jQueryUI theme "header" classes ('fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix')</li>
+		 *         <li>'F' - jQueryUI theme "footer" classes ('fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix')</li>
+		 *       </ul>
+		 *     </li>
+		 *     <li>The following syntax is expected:
+		 *       <ul>
+		 *         <li>'&lt;' and '&gt;' - div elements</li>
+		 *         <li>'&lt;"class" and '&gt;' - div with a class</li>
+		 *         <li>'&lt;"#id" and '&gt;' - div with an ID</li>
+		 *       </ul>
+		 *     </li>
+		 *     <li>Examples:
+		 *       <ul>
+		 *         <li>'&lt;"wrapper"flipt&gt;'</li>
+		 *         <li>'&lt;lf&lt;t&gt;ip&gt;'</li>
+		 *       </ul>
+		 *     </li>
+		 *   </ul>
+		 *  @type string
+		 *  @default lfrtip <i>(when `jQueryUI` is false)</i> <b>or</b>
+		 *    <"H"lfr>t<"F"ip> <i>(when `jQueryUI` is true)</i>
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.dom
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "dom": '&lt;"top"i&gt;rt&lt;"bottom"flp&gt;&lt;"clear"&gt;'
+		 *      } );
+		 *    } );
+		 */
+		"sDom": "lfrtip",
+	
+	
+		/**
+		 * Search delay option. This will throttle full table searches that use the
+		 * DataTables provided search input element (it does not effect calls to
+		 * `dt-api search()`, providing a delay before the search is made.
+		 *  @type integer
+		 *  @default 0
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.searchDelay
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "searchDelay": 200
+		 *      } );
+		 *    } )
+		 */
+		"searchDelay": null,
+	
+	
+		/**
+		 * DataTables features six different built-in options for the buttons to
+		 * display for pagination control:
+		 *
+		 * * `numbers` - Page number buttons only
+		 * * `simple` - 'Previous' and 'Next' buttons only
+		 * * 'simple_numbers` - 'Previous' and 'Next' buttons, plus page numbers
+		 * * `full` - 'First', 'Previous', 'Next' and 'Last' buttons
+		 * * `full_numbers` - 'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers
+		 * * `first_last_numbers` - 'First' and 'Last' buttons, plus page numbers
+		 *  
+		 * Further methods can be added using {@link DataTable.ext.oPagination}.
+		 *  @type string
+		 *  @default simple_numbers
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.pagingType
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "pagingType": "full_numbers"
+		 *      } );
+		 *    } )
+		 */
+		"sPaginationType": "simple_numbers",
+	
+	
+		/**
+		 * Enable horizontal scrolling. When a table is too wide to fit into a
+		 * certain layout, or you have a large number of columns in the table, you
+		 * can enable x-scrolling to show the table in a viewport, which can be
+		 * scrolled. This property can be `true` which will allow the table to
+		 * scroll horizontally when needed, or any CSS unit, or a number (in which
+		 * case it will be treated as a pixel measurement). Setting as simply `true`
+		 * is recommended.
+		 *  @type boolean|string
+		 *  @default <i>blank string - i.e. disabled</i>
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.scrollX
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "scrollX": true,
+		 *        "scrollCollapse": true
+		 *      } );
+		 *    } );
+		 */
+		"sScrollX": "",
+	
+	
+		/**
+		 * This property can be used to force a DataTable to use more width than it
+		 * might otherwise do when x-scrolling is enabled. For example if you have a
+		 * table which requires to be well spaced, this parameter is useful for
+		 * "over-sizing" the table, and thus forcing scrolling. This property can by
+		 * any CSS unit, or a number (in which case it will be treated as a pixel
+		 * measurement).
+		 *  @type string
+		 *  @default <i>blank string - i.e. disabled</i>
+		 *
+		 *  @dtopt Options
+		 *  @name DataTable.defaults.scrollXInner
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "scrollX": "100%",
+		 *        "scrollXInner": "110%"
+		 *      } );
+		 *    } );
+		 */
+		"sScrollXInner": "",
+	
+	
+		/**
+		 * Enable vertical scrolling. Vertical scrolling will constrain the DataTable
+		 * to the given height, and enable scrolling for any data which overflows the
+		 * current viewport. This can be used as an alternative to paging to display
+		 * a lot of data in a small area (although paging and scrolling can both be
+		 * enabled at the same time). This property can be any CSS unit, or a number
+		 * (in which case it will be treated as a pixel measurement).
+		 *  @type string
+		 *  @default <i>blank string - i.e. disabled</i>
+		 *
+		 *  @dtopt Features
+		 *  @name DataTable.defaults.scrollY
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "scrollY": "200px",
+		 *        "paginate": false
+		 *      } );
+		 *    } );
+		 */
+		"sScrollY": "",
+	
+	
+		/**
+		 * __Deprecated__ The functionality provided by this parameter has now been
+		 * superseded by that provided through `ajax`, which should be used instead.
+		 *
+		 * Set the HTTP method that is used to make the Ajax call for server-side
+		 * processing or Ajax sourced data.
+		 *  @type string
+		 *  @default GET
+		 *
+		 *  @dtopt Options
+		 *  @dtopt Server-side
+		 *  @name DataTable.defaults.serverMethod
+		 *
+		 *  @deprecated 1.10. Please use `ajax` for this functionality now.
+		 */
+		"sServerMethod": "GET",
+	
+	
+		/**
+		 * DataTables makes use of renderers when displaying HTML elements for
+		 * a table. These renderers can be added or modified by plug-ins to
+		 * generate suitable mark-up for a site. For example the Bootstrap
+		 * integration plug-in for DataTables uses a paging button renderer to
+		 * display pagination buttons in the mark-up required by Bootstrap.
+		 *
+		 * For further information about the renderers available see
+		 * DataTable.ext.renderer
+		 *  @type string|object
+		 *  @default null
+		 *
+		 *  @name DataTable.defaults.renderer
+		 *
+		 */
+		"renderer": null,
+	
+	
+		/**
+		 * Set the data property name that DataTables should use to get a row's id
+		 * to set as the `id` property in the node.
+		 *  @type string
+		 *  @default DT_RowId
+		 *
+		 *  @name DataTable.defaults.rowId
+		 */
+		"rowId": "DT_RowId"
+	};
+	
+	_fnHungarianMap( DataTable.defaults );
+	
+	
+	
+	/*
+	 * Developer note - See note in model.defaults.js about the use of Hungarian
+	 * notation and camel case.
+	 */
+	
+	/**
+	 * Column options that can be given to DataTables at initialisation time.
+	 *  @namespace
+	 */
+	DataTable.defaults.column = {
+		/**
+		 * Define which column(s) an order will occur on for this column. This
+		 * allows a column's ordering to take multiple columns into account when
+		 * doing a sort or use the data from a different column. For example first
+		 * name / last name columns make sense to do a multi-column sort over the
+		 * two columns.
+		 *  @type array|int
+		 *  @default null <i>Takes the value of the column index automatically</i>
+		 *
+		 *  @name DataTable.defaults.column.orderData
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "orderData": [ 0, 1 ], "targets": [ 0 ] },
+		 *          { "orderData": [ 1, 0 ], "targets": [ 1 ] },
+		 *          { "orderData": 2, "targets": [ 2 ] }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          { "orderData": [ 0, 1 ] },
+		 *          { "orderData": [ 1, 0 ] },
+		 *          { "orderData": 2 },
+		 *          null,
+		 *          null
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"aDataSort": null,
+		"iDataSort": -1,
+	
+	
+		/**
+		 * You can control the default ordering direction, and even alter the
+		 * behaviour of the sort handler (i.e. only allow ascending ordering etc)
+		 * using this parameter.
+		 *  @type array
+		 *  @default [ 'asc', 'desc' ]
+		 *
+		 *  @name DataTable.defaults.column.orderSequence
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "orderSequence": [ "asc" ], "targets": [ 1 ] },
+		 *          { "orderSequence": [ "desc", "asc", "asc" ], "targets": [ 2 ] },
+		 *          { "orderSequence": [ "desc" ], "targets": [ 3 ] }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          null,
+		 *          { "orderSequence": [ "asc" ] },
+		 *          { "orderSequence": [ "desc", "asc", "asc" ] },
+		 *          { "orderSequence": [ "desc" ] },
+		 *          null
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"asSorting": [ 'asc', 'desc' ],
+	
+	
+		/**
+		 * Enable or disable filtering on the data in this column.
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @name DataTable.defaults.column.searchable
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "searchable": false, "targets": [ 0 ] }
+		 *        ] } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          { "searchable": false },
+		 *          null,
+		 *          null,
+		 *          null,
+		 *          null
+		 *        ] } );
+		 *    } );
+		 */
+		"bSearchable": true,
+	
+	
+		/**
+		 * Enable or disable ordering on this column.
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @name DataTable.defaults.column.orderable
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "orderable": false, "targets": [ 0 ] }
+		 *        ] } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          { "orderable": false },
+		 *          null,
+		 *          null,
+		 *          null,
+		 *          null
+		 *        ] } );
+		 *    } );
+		 */
+		"bSortable": true,
+	
+	
+		/**
+		 * Enable or disable the display of this column.
+		 *  @type boolean
+		 *  @default true
+		 *
+		 *  @name DataTable.defaults.column.visible
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "visible": false, "targets": [ 0 ] }
+		 *        ] } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          { "visible": false },
+		 *          null,
+		 *          null,
+		 *          null,
+		 *          null
+		 *        ] } );
+		 *    } );
+		 */
+		"bVisible": true,
+	
+	
+		/**
+		 * Developer definable function that is called whenever a cell is created (Ajax source,
+		 * etc) or processed for input (DOM source). This can be used as a compliment to mRender
+		 * allowing you to modify the DOM element (add background colour for example) when the
+		 * element is available.
+		 *  @type function
+		 *  @param {element} td The TD node that has been created
+		 *  @param {*} cellData The Data for the cell
+		 *  @param {array|object} rowData The data for the whole row
+		 *  @param {int} row The row index for the aoData data store
+		 *  @param {int} col The column index for aoColumns
+		 *
+		 *  @name DataTable.defaults.column.createdCell
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [ {
+		 *          "targets": [3],
+		 *          "createdCell": function (td, cellData, rowData, row, col) {
+		 *            if ( cellData == "1.7" ) {
+		 *              $(td).css('color', 'blue')
+		 *            }
+		 *          }
+		 *        } ]
+		 *      });
+		 *    } );
+		 */
+		"fnCreatedCell": null,
+	
+	
+		/**
+		 * This parameter has been replaced by `data` in DataTables to ensure naming
+		 * consistency. `dataProp` can still be used, as there is backwards
+		 * compatibility in DataTables for this option, but it is strongly
+		 * recommended that you use `data` in preference to `dataProp`.
+		 *  @name DataTable.defaults.column.dataProp
+		 */
+	
+	
+		/**
+		 * This property can be used to read data from any data source property,
+		 * including deeply nested objects / properties. `data` can be given in a
+		 * number of different ways which effect its behaviour:
+		 *
+		 * * `integer` - treated as an array index for the data source. This is the
+		 *   default that DataTables uses (incrementally increased for each column).
+		 * * `string` - read an object property from the data source. There are
+		 *   three 'special' options that can be used in the string to alter how
+		 *   DataTables reads the data from the source object:
+		 *    * `.` - Dotted Javascript notation. Just as you use a `.` in
+		 *      Javascript to read from nested objects, so to can the options
+		 *      specified in `data`. For example: `browser.version` or
+		 *      `browser.name`. If your object parameter name contains a period, use
+		 *      `\\` to escape it - i.e. `first\\.name`.
+		 *    * `[]` - Array notation. DataTables can automatically combine data
+		 *      from and array source, joining the data with the characters provided
+		 *      between the two brackets. For example: `name[, ]` would provide a
+		 *      comma-space separated list from the source array. If no characters
+		 *      are provided between the brackets, the original array source is
+		 *      returned.
+		 *    * `()` - Function notation. Adding `()` to the end of a parameter will
+		 *      execute a function of the name given. For example: `browser()` for a
+		 *      simple function on the data source, `browser.version()` for a
+		 *      function in a nested property or even `browser().version` to get an
+		 *      object property if the function called returns an object. Note that
+		 *      function notation is recommended for use in `render` rather than
+		 *      `data` as it is much simpler to use as a renderer.
+		 * * `null` - use the original data source for the row rather than plucking
+		 *   data directly from it. This action has effects on two other
+		 *   initialisation options:
+		 *    * `defaultContent` - When null is given as the `data` option and
+		 *      `defaultContent` is specified for the column, the value defined by
+		 *      `defaultContent` will be used for the cell.
+		 *    * `render` - When null is used for the `data` option and the `render`
+		 *      option is specified for the column, the whole data source for the
+		 *      row is used for the renderer.
+		 * * `function` - the function given will be executed whenever DataTables
+		 *   needs to set or get the data for a cell in the column. The function
+		 *   takes three parameters:
+		 *    * Parameters:
+		 *      * `{array|object}` The data source for the row
+		 *      * `{string}` The type call data requested - this will be 'set' when
+		 *        setting data or 'filter', 'display', 'type', 'sort' or undefined
+		 *        when gathering data. Note that when `undefined` is given for the
+		 *        type DataTables expects to get the raw data for the object back<
+		 *      * `{*}` Data to set when the second parameter is 'set'.
+		 *    * Return:
+		 *      * The return value from the function is not required when 'set' is
+		 *        the type of call, but otherwise the return is what will be used
+		 *        for the data requested.
+		 *
+		 * Note that `data` is a getter and setter option. If you just require
+		 * formatting of data for output, you will likely want to use `render` which
+		 * is simply a getter and thus simpler to use.
+		 *
+		 * Note that prior to DataTables 1.9.2 `data` was called `mDataProp`. The
+		 * name change reflects the flexibility of this property and is consistent
+		 * with the naming of mRender. If 'mDataProp' is given, then it will still
+		 * be used by DataTables, as it automatically maps the old name to the new
+		 * if required.
+		 *
+		 *  @type string|int|function|null
+		 *  @default null <i>Use automatically calculated column index</i>
+		 *
+		 *  @name DataTable.defaults.column.data
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Read table data from objects
+		 *    // JSON structure for each row:
+		 *    //   {
+		 *    //      "engine": {value},
+		 *    //      "browser": {value},
+		 *    //      "platform": {value},
+		 *    //      "version": {value},
+		 *    //      "grade": {value}
+		 *    //   }
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "ajaxSource": "sources/objects.txt",
+		 *        "columns": [
+		 *          { "data": "engine" },
+		 *          { "data": "browser" },
+		 *          { "data": "platform" },
+		 *          { "data": "version" },
+		 *          { "data": "grade" }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Read information from deeply nested objects
+		 *    // JSON structure for each row:
+		 *    //   {
+		 *    //      "engine": {value},
+		 *    //      "browser": {value},
+		 *    //      "platform": {
+		 *    //         "inner": {value}
+		 *    //      },
+		 *    //      "details": [
+		 *    //         {value}, {value}
+		 *    //      ]
+		 *    //   }
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "ajaxSource": "sources/deep.txt",
+		 *        "columns": [
+		 *          { "data": "engine" },
+		 *          { "data": "browser" },
+		 *          { "data": "platform.inner" },
+		 *          { "data": "details.0" },
+		 *          { "data": "details.1" }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `data` as a function to provide different information for
+		 *    // sorting, filtering and display. In this case, currency (price)
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [ {
+		 *          "targets": [ 0 ],
+		 *          "data": function ( source, type, val ) {
+		 *            if (type === 'set') {
+		 *              source.price = val;
+		 *              // Store the computed dislay and filter values for efficiency
+		 *              source.price_display = val=="" ? "" : "$"+numberFormat(val);
+		 *              source.price_filter  = val=="" ? "" : "$"+numberFormat(val)+" "+val;
+		 *              return;
+		 *            }
+		 *            else if (type === 'display') {
+		 *              return source.price_display;
+		 *            }
+		 *            else if (type === 'filter') {
+		 *              return source.price_filter;
+		 *            }
+		 *            // 'sort', 'type' and undefined all just use the integer
+		 *            return source.price;
+		 *          }
+		 *        } ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using default content
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [ {
+		 *          "targets": [ 0 ],
+		 *          "data": null,
+		 *          "defaultContent": "Click to edit"
+		 *        } ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using array notation - outputting a list from an array
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [ {
+		 *          "targets": [ 0 ],
+		 *          "data": "name[, ]"
+		 *        } ]
+		 *      } );
+		 *    } );
+		 *
+		 */
+		"mData": null,
+	
+	
+		/**
+		 * This property is the rendering partner to `data` and it is suggested that
+		 * when you want to manipulate data for display (including filtering,
+		 * sorting etc) without altering the underlying data for the table, use this
+		 * property. `render` can be considered to be the the read only companion to
+		 * `data` which is read / write (then as such more complex). Like `data`
+		 * this option can be given in a number of different ways to effect its
+		 * behaviour:
+		 *
+		 * * `integer` - treated as an array index for the data source. This is the
+		 *   default that DataTables uses (incrementally increased for each column).
+		 * * `string` - read an object property from the data source. There are
+		 *   three 'special' options that can be used in the string to alter how
+		 *   DataTables reads the data from the source object:
+		 *    * `.` - Dotted Javascript notation. Just as you use a `.` in
+		 *      Javascript to read from nested objects, so to can the options
+		 *      specified in `data`. For example: `browser.version` or
+		 *      `browser.name`. If your object parameter name contains a period, use
+		 *      `\\` to escape it - i.e. `first\\.name`.
+		 *    * `[]` - Array notation. DataTables can automatically combine data
+		 *      from and array source, joining the data with the characters provided
+		 *      between the two brackets. For example: `name[, ]` would provide a
+		 *      comma-space separated list from the source array. If no characters
+		 *      are provided between the brackets, the original array source is
+		 *      returned.
+		 *    * `()` - Function notation. Adding `()` to the end of a parameter will
+		 *      execute a function of the name given. For example: `browser()` for a
+		 *      simple function on the data source, `browser.version()` for a
+		 *      function in a nested property or even `browser().version` to get an
+		 *      object property if the function called returns an object.
+		 * * `object` - use different data for the different data types requested by
+		 *   DataTables ('filter', 'display', 'type' or 'sort'). The property names
+		 *   of the object is the data type the property refers to and the value can
+		 *   defined using an integer, string or function using the same rules as
+		 *   `render` normally does. Note that an `_` option _must_ be specified.
+		 *   This is the default value to use if you haven't specified a value for
+		 *   the data type requested by DataTables.
+		 * * `function` - the function given will be executed whenever DataTables
+		 *   needs to set or get the data for a cell in the column. The function
+		 *   takes three parameters:
+		 *    * Parameters:
+		 *      * {array|object} The data source for the row (based on `data`)
+		 *      * {string} The type call data requested - this will be 'filter',
+		 *        'display', 'type' or 'sort'.
+		 *      * {array|object} The full data source for the row (not based on
+		 *        `data`)
+		 *    * Return:
+		 *      * The return value from the function is what will be used for the
+		 *        data requested.
+		 *
+		 *  @type string|int|function|object|null
+		 *  @default null Use the data source value.
+		 *
+		 *  @name DataTable.defaults.column.render
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Create a comma separated list from an array of objects
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "ajaxSource": "sources/deep.txt",
+		 *        "columns": [
+		 *          { "data": "engine" },
+		 *          { "data": "browser" },
+		 *          {
+		 *            "data": "platform",
+		 *            "render": "[, ].name"
+		 *          }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Execute a function to obtain data
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [ {
+		 *          "targets": [ 0 ],
+		 *          "data": null, // Use the full data source object for the renderer's source
+		 *          "render": "browserName()"
+		 *        } ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // As an object, extracting different data for the different types
+		 *    // This would be used with a data source such as:
+		 *    //   { "phone": 5552368, "phone_filter": "5552368 555-2368", "phone_display": "555-2368" }
+		 *    // Here the `phone` integer is used for sorting and type detection, while `phone_filter`
+		 *    // (which has both forms) is used for filtering for if a user inputs either format, while
+		 *    // the formatted phone number is the one that is shown in the table.
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [ {
+		 *          "targets": [ 0 ],
+		 *          "data": null, // Use the full data source object for the renderer's source
+		 *          "render": {
+		 *            "_": "phone",
+		 *            "filter": "phone_filter",
+		 *            "display": "phone_display"
+		 *          }
+		 *        } ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Use as a function to create a link from the data source
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [ {
+		 *          "targets": [ 0 ],
+		 *          "data": "download_link",
+		 *          "render": function ( data, type, full ) {
+		 *            return '<a href="'+data+'">Download</a>';
+		 *          }
+		 *        } ]
+		 *      } );
+		 *    } );
+		 */
+		"mRender": null,
+	
+	
+		/**
+		 * Change the cell type created for the column - either TD cells or TH cells. This
+		 * can be useful as TH cells have semantic meaning in the table body, allowing them
+		 * to act as a header for a row (you may wish to add scope='row' to the TH elements).
+		 *  @type string
+		 *  @default td
+		 *
+		 *  @name DataTable.defaults.column.cellType
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Make the first column use TH cells
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [ {
+		 *          "targets": [ 0 ],
+		 *          "cellType": "th"
+		 *        } ]
+		 *      } );
+		 *    } );
+		 */
+		"sCellType": "td",
+	
+	
+		/**
+		 * Class to give to each cell in this column.
+		 *  @type string
+		 *  @default <i>Empty string</i>
+		 *
+		 *  @name DataTable.defaults.column.class
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "class": "my_class", "targets": [ 0 ] }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          { "class": "my_class" },
+		 *          null,
+		 *          null,
+		 *          null,
+		 *          null
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"sClass": "",
+	
+		/**
+		 * When DataTables calculates the column widths to assign to each column,
+		 * it finds the longest string in each column and then constructs a
+		 * temporary table and reads the widths from that. The problem with this
+		 * is that "mmm" is much wider then "iiii", but the latter is a longer
+		 * string - thus the calculation can go wrong (doing it properly and putting
+		 * it into an DOM object and measuring that is horribly(!) slow). Thus as
+		 * a "work around" we provide this option. It will append its value to the
+		 * text that is found to be the longest string for the column - i.e. padding.
+		 * Generally you shouldn't need this!
+		 *  @type string
+		 *  @default <i>Empty string<i>
+		 *
+		 *  @name DataTable.defaults.column.contentPadding
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          null,
+		 *          null,
+		 *          null,
+		 *          {
+		 *            "contentPadding": "mmm"
+		 *          }
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"sContentPadding": "",
+	
+	
+		/**
+		 * Allows a default value to be given for a column's data, and will be used
+		 * whenever a null data source is encountered (this can be because `data`
+		 * is set to null, or because the data source itself is null).
+		 *  @type string
+		 *  @default null
+		 *
+		 *  @name DataTable.defaults.column.defaultContent
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          {
+		 *            "data": null,
+		 *            "defaultContent": "Edit",
+		 *            "targets": [ -1 ]
+		 *          }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          null,
+		 *          null,
+		 *          null,
+		 *          {
+		 *            "data": null,
+		 *            "defaultContent": "Edit"
+		 *          }
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"sDefaultContent": null,
+	
+	
+		/**
+		 * This parameter is only used in DataTables' server-side processing. It can
+		 * be exceptionally useful to know what columns are being displayed on the
+		 * client side, and to map these to database fields. When defined, the names
+		 * also allow DataTables to reorder information from the server if it comes
+		 * back in an unexpected order (i.e. if you switch your columns around on the
+		 * client-side, your server-side code does not also need updating).
+		 *  @type string
+		 *  @default <i>Empty string</i>
+		 *
+		 *  @name DataTable.defaults.column.name
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "name": "engine", "targets": [ 0 ] },
+		 *          { "name": "browser", "targets": [ 1 ] },
+		 *          { "name": "platform", "targets": [ 2 ] },
+		 *          { "name": "version", "targets": [ 3 ] },
+		 *          { "name": "grade", "targets": [ 4 ] }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          { "name": "engine" },
+		 *          { "name": "browser" },
+		 *          { "name": "platform" },
+		 *          { "name": "version" },
+		 *          { "name": "grade" }
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"sName": "",
+	
+	
+		/**
+		 * Defines a data source type for the ordering which can be used to read
+		 * real-time information from the table (updating the internally cached
+		 * version) prior to ordering. This allows ordering to occur on user
+		 * editable elements such as form inputs.
+		 *  @type string
+		 *  @default std
+		 *
+		 *  @name DataTable.defaults.column.orderDataType
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "orderDataType": "dom-text", "targets": [ 2, 3 ] },
+		 *          { "type": "numeric", "targets": [ 3 ] },
+		 *          { "orderDataType": "dom-select", "targets": [ 4 ] },
+		 *          { "orderDataType": "dom-checkbox", "targets": [ 5 ] }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          null,
+		 *          null,
+		 *          { "orderDataType": "dom-text" },
+		 *          { "orderDataType": "dom-text", "type": "numeric" },
+		 *          { "orderDataType": "dom-select" },
+		 *          { "orderDataType": "dom-checkbox" }
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"sSortDataType": "std",
+	
+	
+		/**
+		 * The title of this column.
+		 *  @type string
+		 *  @default null <i>Derived from the 'TH' value for this column in the
+		 *    original HTML table.</i>
+		 *
+		 *  @name DataTable.defaults.column.title
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "title": "My column title", "targets": [ 0 ] }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          { "title": "My column title" },
+		 *          null,
+		 *          null,
+		 *          null,
+		 *          null
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"sTitle": null,
+	
+	
+		/**
+		 * The type allows you to specify how the data for this column will be
+		 * ordered. Four types (string, numeric, date and html (which will strip
+		 * HTML tags before ordering)) are currently available. Note that only date
+		 * formats understood by Javascript's Date() object will be accepted as type
+		 * date. For example: "Mar 26, 2008 5:03 PM". May take the values: 'string',
+		 * 'numeric', 'date' or 'html' (by default). Further types can be adding
+		 * through plug-ins.
+		 *  @type string
+		 *  @default null <i>Auto-detected from raw data</i>
+		 *
+		 *  @name DataTable.defaults.column.type
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "type": "html", "targets": [ 0 ] }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          { "type": "html" },
+		 *          null,
+		 *          null,
+		 *          null,
+		 *          null
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"sType": null,
+	
+	
+		/**
+		 * Defining the width of the column, this parameter may take any CSS value
+		 * (3em, 20px etc). DataTables applies 'smart' widths to columns which have not
+		 * been given a specific width through this interface ensuring that the table
+		 * remains readable.
+		 *  @type string
+		 *  @default null <i>Automatic</i>
+		 *
+		 *  @name DataTable.defaults.column.width
+		 *  @dtopt Columns
+		 *
+		 *  @example
+		 *    // Using `columnDefs`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columnDefs": [
+		 *          { "width": "20%", "targets": [ 0 ] }
+		 *        ]
+		 *      } );
+		 *    } );
+		 *
+		 *  @example
+		 *    // Using `columns`
+		 *    $(document).ready( function() {
+		 *      $('#example').dataTable( {
+		 *        "columns": [
+		 *          { "width": "20%" },
+		 *          null,
+		 *          null,
+		 *          null,
+		 *          null
+		 *        ]
+		 *      } );
+		 *    } );
+		 */
+		"sWidth": null
+	};
+	
+	_fnHungarianMap( DataTable.defaults.column );
+	
+	
+	
+	/**
+	 * DataTables settings object - this holds all the information needed for a
+	 * given table, including configuration, data and current application of the
+	 * table options. DataTables does not have a single instance for each DataTable
+	 * with the settings attached to that instance, but rather instances of the
+	 * DataTable "class" are created on-the-fly as needed (typically by a
+	 * $().dataTable() call) and the settings object is then applied to that
+	 * instance.
+	 *
+	 * Note that this object is related to {@link DataTable.defaults} but this
+	 * one is the internal data store for DataTables's cache of columns. It should
+	 * NOT be manipulated outside of DataTables. Any configuration should be done
+	 * through the initialisation options.
+	 *  @namespace
+	 *  @todo Really should attach the settings object to individual instances so we
+	 *    don't need to create new instances on each $().dataTable() call (if the
+	 *    table already exists). It would also save passing oSettings around and
+	 *    into every single function. However, this is a very significant
+	 *    architecture change for DataTables and will almost certainly break
+	 *    backwards compatibility with older installations. This is something that
+	 *    will be done in 2.0.
+	 */
+	DataTable.models.oSettings = {
+		/**
+		 * Primary features of DataTables and their enablement state.
+		 *  @namespace
+		 */
+		"oFeatures": {
+	
+			/**
+			 * Flag to say if DataTables should automatically try to calculate the
+			 * optimum table and columns widths (true) or not (false).
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bAutoWidth": null,
+	
+			/**
+			 * Delay the creation of TR and TD elements until they are actually
+			 * needed by a driven page draw. This can give a significant speed
+			 * increase for Ajax source and Javascript source data, but makes no
+			 * difference at all fro DOM and server-side processing tables.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bDeferRender": null,
+	
+			/**
+			 * Enable filtering on the table or not. Note that if this is disabled
+			 * then there is no filtering at all on the table, including fnFilter.
+			 * To just remove the filtering input use sDom and remove the 'f' option.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bFilter": null,
+	
+			/**
+			 * Table information element (the 'Showing x of y records' div) enable
+			 * flag.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bInfo": null,
+	
+			/**
+			 * Present a user control allowing the end user to change the page size
+			 * when pagination is enabled.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bLengthChange": null,
+	
+			/**
+			 * Pagination enabled or not. Note that if this is disabled then length
+			 * changing must also be disabled.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bPaginate": null,
+	
+			/**
+			 * Processing indicator enable flag whenever DataTables is enacting a
+			 * user request - typically an Ajax request for server-side processing.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bProcessing": null,
+	
+			/**
+			 * Server-side processing enabled flag - when enabled DataTables will
+			 * get all data from the server for every draw - there is no filtering,
+			 * sorting or paging done on the client-side.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bServerSide": null,
+	
+			/**
+			 * Sorting enablement flag.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bSort": null,
+	
+			/**
+			 * Multi-column sorting
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bSortMulti": null,
+	
+			/**
+			 * Apply a class to the columns which are being sorted to provide a
+			 * visual highlight or not. This can slow things down when enabled since
+			 * there is a lot of DOM interaction.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bSortClasses": null,
+	
+			/**
+			 * State saving enablement flag.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bStateSave": null
+		},
+	
+	
+		/**
+		 * Scrolling settings for a table.
+		 *  @namespace
+		 */
+		"oScroll": {
+			/**
+			 * When the table is shorter in height than sScrollY, collapse the
+			 * table container down to the height of the table (when true).
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type boolean
+			 */
+			"bCollapse": null,
+	
+			/**
+			 * Width of the scrollbar for the web-browser's platform. Calculated
+			 * during table initialisation.
+			 *  @type int
+			 *  @default 0
+			 */
+			"iBarWidth": 0,
+	
+			/**
+			 * Viewport width for horizontal scrolling. Horizontal scrolling is
+			 * disabled if an empty string.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type string
+			 */
+			"sX": null,
+	
+			/**
+			 * Width to expand the table to when using x-scrolling. Typically you
+			 * should not need to use this.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type string
+			 *  @deprecated
+			 */
+			"sXInner": null,
+	
+			/**
+			 * Viewport height for vertical scrolling. Vertical scrolling is disabled
+			 * if an empty string.
+			 * Note that this parameter will be set by the initialisation routine. To
+			 * set a default use {@link DataTable.defaults}.
+			 *  @type string
+			 */
+			"sY": null
+		},
+	
+		/**
+		 * Language information for the table.
+		 *  @namespace
+		 *  @extends DataTable.defaults.oLanguage
+		 */
+		"oLanguage": {
+			/**
+			 * Information callback function. See
+			 * {@link DataTable.defaults.fnInfoCallback}
+			 *  @type function
+			 *  @default null
+			 */
+			"fnInfoCallback": null
+		},
+	
+		/**
+		 * Browser support parameters
+		 *  @namespace
+		 */
+		"oBrowser": {
+			/**
+			 * Indicate if the browser incorrectly calculates width:100% inside a
+			 * scrolling element (IE6/7)
+			 *  @type boolean
+			 *  @default false
+			 */
+			"bScrollOversize": false,
+	
+			/**
+			 * Determine if the vertical scrollbar is on the right or left of the
+			 * scrolling container - needed for rtl language layout, although not
+			 * all browsers move the scrollbar (Safari).
+			 *  @type boolean
+			 *  @default false
+			 */
+			"bScrollbarLeft": false,
+	
+			/**
+			 * Flag for if `getBoundingClientRect` is fully supported or not
+			 *  @type boolean
+			 *  @default false
+			 */
+			"bBounding": false,
+	
+			/**
+			 * Browser scrollbar width
+			 *  @type integer
+			 *  @default 0
+			 */
+			"barWidth": 0
+		},
+	
+	
+		"ajax": null,
+	
+	
+		/**
+		 * Array referencing the nodes which are used for the features. The
+		 * parameters of this object match what is allowed by sDom - i.e.
+		 *   <ul>
+		 *     <li>'l' - Length changing</li>
+		 *     <li>'f' - Filtering input</li>
+		 *     <li>'t' - The table!</li>
+		 *     <li>'i' - Information</li>
+		 *     <li>'p' - Pagination</li>
+		 *     <li>'r' - pRocessing</li>
+		 *   </ul>
+		 *  @type array
+		 *  @default []
+		 */
+		"aanFeatures": [],
+	
+		/**
+		 * Store data information - see {@link DataTable.models.oRow} for detailed
+		 * information.
+		 *  @type array
+		 *  @default []
+		 */
+		"aoData": [],
+	
+		/**
+		 * Array of indexes which are in the current display (after filtering etc)
+		 *  @type array
+		 *  @default []
+		 */
+		"aiDisplay": [],
+	
+		/**
+		 * Array of indexes for display - no filtering
+		 *  @type array
+		 *  @default []
+		 */
+		"aiDisplayMaster": [],
+	
+		/**
+		 * Map of row ids to data indexes
+		 *  @type object
+		 *  @default {}
+		 */
+		"aIds": {},
+	
+		/**
+		 * Store information about each column that is in use
+		 *  @type array
+		 *  @default []
+		 */
+		"aoColumns": [],
+	
+		/**
+		 * Store information about the table's header
+		 *  @type array
+		 *  @default []
+		 */
+		"aoHeader": [],
+	
+		/**
+		 * Store information about the table's footer
+		 *  @type array
+		 *  @default []
+		 */
+		"aoFooter": [],
+	
+		/**
+		 * Store the applied global search information in case we want to force a
+		 * research or compare the old search to a new one.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @namespace
+		 *  @extends DataTable.models.oSearch
+		 */
+		"oPreviousSearch": {},
+	
+		/**
+		 * Store the applied search for each column - see
+		 * {@link DataTable.models.oSearch} for the format that is used for the
+		 * filtering information for each column.
+		 *  @type array
+		 *  @default []
+		 */
+		"aoPreSearchCols": [],
+	
+		/**
+		 * Sorting that is applied to the table. Note that the inner arrays are
+		 * used in the following manner:
+		 * <ul>
+		 *   <li>Index 0 - column number</li>
+		 *   <li>Index 1 - current sorting direction</li>
+		 * </ul>
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type array
+		 *  @todo These inner arrays should really be objects
+		 */
+		"aaSorting": null,
+	
+		/**
+		 * Sorting that is always applied to the table (i.e. prefixed in front of
+		 * aaSorting).
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type array
+		 *  @default []
+		 */
+		"aaSortingFixed": [],
+	
+		/**
+		 * Classes to use for the striping of a table.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type array
+		 *  @default []
+		 */
+		"asStripeClasses": null,
+	
+		/**
+		 * If restoring a table - we should restore its striping classes as well
+		 *  @type array
+		 *  @default []
+		 */
+		"asDestroyStripes": [],
+	
+		/**
+		 * If restoring a table - we should restore its width
+		 *  @type int
+		 *  @default 0
+		 */
+		"sDestroyWidth": 0,
+	
+		/**
+		 * Callback functions array for every time a row is inserted (i.e. on a draw).
+		 *  @type array
+		 *  @default []
+		 */
+		"aoRowCallback": [],
+	
+		/**
+		 * Callback functions for the header on each draw.
+		 *  @type array
+		 *  @default []
+		 */
+		"aoHeaderCallback": [],
+	
+		/**
+		 * Callback function for the footer on each draw.
+		 *  @type array
+		 *  @default []
+		 */
+		"aoFooterCallback": [],
+	
+		/**
+		 * Array of callback functions for draw callback functions
+		 *  @type array
+		 *  @default []
+		 */
+		"aoDrawCallback": [],
+	
+		/**
+		 * Array of callback functions for row created function
+		 *  @type array
+		 *  @default []
+		 */
+		"aoRowCreatedCallback": [],
+	
+		/**
+		 * Callback functions for just before the table is redrawn. A return of
+		 * false will be used to cancel the draw.
+		 *  @type array
+		 *  @default []
+		 */
+		"aoPreDrawCallback": [],
+	
+		/**
+		 * Callback functions for when the table has been initialised.
+		 *  @type array
+		 *  @default []
+		 */
+		"aoInitComplete": [],
+	
+	
+		/**
+		 * Callbacks for modifying the settings to be stored for state saving, prior to
+		 * saving state.
+		 *  @type array
+		 *  @default []
+		 */
+		"aoStateSaveParams": [],
+	
+		/**
+		 * Callbacks for modifying the settings that have been stored for state saving
+		 * prior to using the stored values to restore the state.
+		 *  @type array
+		 *  @default []
+		 */
+		"aoStateLoadParams": [],
+	
+		/**
+		 * Callbacks for operating on the settings object once the saved state has been
+		 * loaded
+		 *  @type array
+		 *  @default []
+		 */
+		"aoStateLoaded": [],
+	
+		/**
+		 * Cache the table ID for quick access
+		 *  @type string
+		 *  @default <i>Empty string</i>
+		 */
+		"sTableId": "",
+	
+		/**
+		 * The TABLE node for the main table
+		 *  @type node
+		 *  @default null
+		 */
+		"nTable": null,
+	
+		/**
+		 * Permanent ref to the thead element
+		 *  @type node
+		 *  @default null
+		 */
+		"nTHead": null,
+	
+		/**
+		 * Permanent ref to the tfoot element - if it exists
+		 *  @type node
+		 *  @default null
+		 */
+		"nTFoot": null,
+	
+		/**
+		 * Permanent ref to the tbody element
+		 *  @type node
+		 *  @default null
+		 */
+		"nTBody": null,
+	
+		/**
+		 * Cache the wrapper node (contains all DataTables controlled elements)
+		 *  @type node
+		 *  @default null
+		 */
+		"nTableWrapper": null,
+	
+		/**
+		 * Indicate if when using server-side processing the loading of data
+		 * should be deferred until the second draw.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type boolean
+		 *  @default false
+		 */
+		"bDeferLoading": false,
+	
+		/**
+		 * Indicate if all required information has been read in
+		 *  @type boolean
+		 *  @default false
+		 */
+		"bInitialised": false,
+	
+		/**
+		 * Information about open rows. Each object in the array has the parameters
+		 * 'nTr' and 'nParent'
+		 *  @type array
+		 *  @default []
+		 */
+		"aoOpenRows": [],
+	
+		/**
+		 * Dictate the positioning of DataTables' control elements - see
+		 * {@link DataTable.model.oInit.sDom}.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type string
+		 *  @default null
+		 */
+		"sDom": null,
+	
+		/**
+		 * Search delay (in mS)
+		 *  @type integer
+		 *  @default null
+		 */
+		"searchDelay": null,
+	
+		/**
+		 * Which type of pagination should be used.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type string
+		 *  @default two_button
+		 */
+		"sPaginationType": "two_button",
+	
+		/**
+		 * The state duration (for `stateSave`) in seconds.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type int
+		 *  @default 0
+		 */
+		"iStateDuration": 0,
+	
+		/**
+		 * Array of callback functions for state saving. Each array element is an
+		 * object with the following parameters:
+		 *   <ul>
+		 *     <li>function:fn - function to call. Takes two parameters, oSettings
+		 *       and the JSON string to save that has been thus far created. Returns
+		 *       a JSON string to be inserted into a json object
+		 *       (i.e. '"param": [ 0, 1, 2]')</li>
+		 *     <li>string:sName - name of callback</li>
+		 *   </ul>
+		 *  @type array
+		 *  @default []
+		 */
+		"aoStateSave": [],
+	
+		/**
+		 * Array of callback functions for state loading. Each array element is an
+		 * object with the following parameters:
+		 *   <ul>
+		 *     <li>function:fn - function to call. Takes two parameters, oSettings
+		 *       and the object stored. May return false to cancel state loading</li>
+		 *     <li>string:sName - name of callback</li>
+		 *   </ul>
+		 *  @type array
+		 *  @default []
+		 */
+		"aoStateLoad": [],
+	
+		/**
+		 * State that was saved. Useful for back reference
+		 *  @type object
+		 *  @default null
+		 */
+		"oSavedState": null,
+	
+		/**
+		 * State that was loaded. Useful for back reference
+		 *  @type object
+		 *  @default null
+		 */
+		"oLoadedState": null,
+	
+		/**
+		 * Source url for AJAX data for the table.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type string
+		 *  @default null
+		 */
+		"sAjaxSource": null,
+	
+		/**
+		 * Property from a given object from which to read the table data from. This
+		 * can be an empty string (when not server-side processing), in which case
+		 * it is  assumed an an array is given directly.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type string
+		 */
+		"sAjaxDataProp": null,
+	
+		/**
+		 * Note if draw should be blocked while getting data
+		 *  @type boolean
+		 *  @default true
+		 */
+		"bAjaxDataGet": true,
+	
+		/**
+		 * The last jQuery XHR object that was used for server-side data gathering.
+		 * This can be used for working with the XHR information in one of the
+		 * callbacks
+		 *  @type object
+		 *  @default null
+		 */
+		"jqXHR": null,
+	
+		/**
+		 * JSON returned from the server in the last Ajax request
+		 *  @type object
+		 *  @default undefined
+		 */
+		"json": undefined,
+	
+		/**
+		 * Data submitted as part of the last Ajax request
+		 *  @type object
+		 *  @default undefined
+		 */
+		"oAjaxData": undefined,
+	
+		/**
+		 * Function to get the server-side data.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type function
+		 */
+		"fnServerData": null,
+	
+		/**
+		 * Functions which are called prior to sending an Ajax request so extra
+		 * parameters can easily be sent to the server
+		 *  @type array
+		 *  @default []
+		 */
+		"aoServerParams": [],
+	
+		/**
+		 * Send the XHR HTTP method - GET or POST (could be PUT or DELETE if
+		 * required).
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type string
+		 */
+		"sServerMethod": null,
+	
+		/**
+		 * Format numbers for display.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type function
+		 */
+		"fnFormatNumber": null,
+	
+		/**
+		 * List of options that can be used for the user selectable length menu.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type array
+		 *  @default []
+		 */
+		"aLengthMenu": null,
+	
+		/**
+		 * Counter for the draws that the table does. Also used as a tracker for
+		 * server-side processing
+		 *  @type int
+		 *  @default 0
+		 */
+		"iDraw": 0,
+	
+		/**
+		 * Indicate if a redraw is being done - useful for Ajax
+		 *  @type boolean
+		 *  @default false
+		 */
+		"bDrawing": false,
+	
+		/**
+		 * Draw index (iDraw) of the last error when parsing the returned data
+		 *  @type int
+		 *  @default -1
+		 */
+		"iDrawError": -1,
+	
+		/**
+		 * Paging display length
+		 *  @type int
+		 *  @default 10
+		 */
+		"_iDisplayLength": 10,
+	
+		/**
+		 * Paging start point - aiDisplay index
+		 *  @type int
+		 *  @default 0
+		 */
+		"_iDisplayStart": 0,
+	
+		/**
+		 * Server-side processing - number of records in the result set
+		 * (i.e. before filtering), Use fnRecordsTotal rather than
+		 * this property to get the value of the number of records, regardless of
+		 * the server-side processing setting.
+		 *  @type int
+		 *  @default 0
+		 *  @private
+		 */
+		"_iRecordsTotal": 0,
+	
+		/**
+		 * Server-side processing - number of records in the current display set
+		 * (i.e. after filtering). Use fnRecordsDisplay rather than
+		 * this property to get the value of the number of records, regardless of
+		 * the server-side processing setting.
+		 *  @type boolean
+		 *  @default 0
+		 *  @private
+		 */
+		"_iRecordsDisplay": 0,
+	
+		/**
+		 * The classes to use for the table
+		 *  @type object
+		 *  @default {}
+		 */
+		"oClasses": {},
+	
+		/**
+		 * Flag attached to the settings object so you can check in the draw
+		 * callback if filtering has been done in the draw. Deprecated in favour of
+		 * events.
+		 *  @type boolean
+		 *  @default false
+		 *  @deprecated
+		 */
+		"bFiltered": false,
+	
+		/**
+		 * Flag attached to the settings object so you can check in the draw
+		 * callback if sorting has been done in the draw. Deprecated in favour of
+		 * events.
+		 *  @type boolean
+		 *  @default false
+		 *  @deprecated
+		 */
+		"bSorted": false,
+	
+		/**
+		 * Indicate that if multiple rows are in the header and there is more than
+		 * one unique cell per column, if the top one (true) or bottom one (false)
+		 * should be used for sorting / title by DataTables.
+		 * Note that this parameter will be set by the initialisation routine. To
+		 * set a default use {@link DataTable.defaults}.
+		 *  @type boolean
+		 */
+		"bSortCellsTop": null,
+	
+		/**
+		 * Initialisation object that is used for the table
+		 *  @type object
+		 *  @default null
+		 */
+		"oInit": null,
+	
+		/**
+		 * Destroy callback functions - for plug-ins to attach themselves to the
+		 * destroy so they can clean up markup and events.
+		 *  @type array
+		 *  @default []
+		 */
+		"aoDestroyCallback": [],
+	
+	
+		/**
+		 * Get the number of records in the current record set, before filtering
+		 *  @type function
+		 */
+		"fnRecordsTotal": function ()
+		{
+			return _fnDataSource( this ) == 'ssp' ?
+				this._iRecordsTotal * 1 :
+				this.aiDisplayMaster.length;
+		},
+	
+		/**
+		 * Get the number of records in the current record set, after filtering
+		 *  @type function
+		 */
+		"fnRecordsDisplay": function ()
+		{
+			return _fnDataSource( this ) == 'ssp' ?
+				this._iRecordsDisplay * 1 :
+				this.aiDisplay.length;
+		},
+	
+		/**
+		 * Get the display end point - aiDisplay index
+		 *  @type function
+		 */
+		"fnDisplayEnd": function ()
+		{
+			var
+				len      = this._iDisplayLength,
+				start    = this._iDisplayStart,
+				calc     = start + len,
+				records  = this.aiDisplay.length,
+				features = this.oFeatures,
+				paginate = features.bPaginate;
+	
+			if ( features.bServerSide ) {
+				return paginate === false || len === -1 ?
+					start + records :
+					Math.min( start+len, this._iRecordsDisplay );
+			}
+			else {
+				return ! paginate || calc>records || len===-1 ?
+					records :
+					calc;
+			}
+		},
+	
+		/**
+		 * The DataTables object for this table
+		 *  @type object
+		 *  @default null
+		 */
+		"oInstance": null,
+	
+		/**
+		 * Unique identifier for each instance of the DataTables object. If there
+		 * is an ID on the table node, then it takes that value, otherwise an
+		 * incrementing internal counter is used.
+		 *  @type string
+		 *  @default null
+		 */
+		"sInstance": null,
+	
+		/**
+		 * tabindex attribute value that is added to DataTables control elements, allowing
+		 * keyboard navigation of the table and its controls.
+		 */
+		"iTabIndex": 0,
+	
+		/**
+		 * DIV container for the footer scrolling table if scrolling
+		 */
+		"nScrollHead": null,
+	
+		/**
+		 * DIV container for the footer scrolling table if scrolling
+		 */
+		"nScrollFoot": null,
+	
+		/**
+		 * Last applied sort
+		 *  @type array
+		 *  @default []
+		 */
+		"aLastSort": [],
+	
+		/**
+		 * Stored plug-in instances
+		 *  @type object
+		 *  @default {}
+		 */
+		"oPlugins": {},
+	
+		/**
+		 * Function used to get a row's id from the row's data
+		 *  @type function
+		 *  @default null
+		 */
+		"rowIdFn": null,
+	
+		/**
+		 * Data location where to store a row's id
+		 *  @type string
+		 *  @default null
+		 */
+		"rowId": null
+	};
+
+	/**
+	 * Extension object for DataTables that is used to provide all extension
+	 * options.
+	 *
+	 * Note that the `DataTable.ext` object is available through
+	 * `jQuery.fn.dataTable.ext` where it may be accessed and manipulated. It is
+	 * also aliased to `jQuery.fn.dataTableExt` for historic reasons.
+	 *  @namespace
+	 *  @extends DataTable.models.ext
+	 */
+	
+	
+	/**
+	 * DataTables extensions
+	 * 
+	 * This namespace acts as a collection area for plug-ins that can be used to
+	 * extend DataTables capabilities. Indeed many of the build in methods
+	 * use this method to provide their own capabilities (sorting methods for
+	 * example).
+	 *
+	 * Note that this namespace is aliased to `jQuery.fn.dataTableExt` for legacy
+	 * reasons
+	 *
+	 *  @namespace
+	 */
+	DataTable.ext = _ext = {
+		/**
+		 * Buttons. For use with the Buttons extension for DataTables. This is
+		 * defined here so other extensions can define buttons regardless of load
+		 * order. It is _not_ used by DataTables core.
+		 *
+		 *  @type object
+		 *  @default {}
+		 */
+		buttons: {},
+	
+	
+		/**
+		 * Element class names
+		 *
+		 *  @type object
+		 *  @default {}
+		 */
+		classes: {},
+	
+	
+		/**
+		 * DataTables build type (expanded by the download builder)
+		 *
+		 *  @type string
+		 */
+		builder: "-source-",
+	
+	
+		/**
+		 * Error reporting.
+		 * 
+		 * How should DataTables report an error. Can take the value 'alert',
+		 * 'throw', 'none' or a function.
+		 *
+		 *  @type string|function
+		 *  @default alert
+		 */
+		errMode: "alert",
+	
+	
+		/**
+		 * Feature plug-ins.
+		 * 
+		 * This is an array of objects which describe the feature plug-ins that are
+		 * available to DataTables. These feature plug-ins are then available for
+		 * use through the `dom` initialisation option.
+		 * 
+		 * Each feature plug-in is described by an object which must have the
+		 * following properties:
+		 * 
+		 * * `fnInit` - function that is used to initialise the plug-in,
+		 * * `cFeature` - a character so the feature can be enabled by the `dom`
+		 *   instillation option. This is case sensitive.
+		 *
+		 * The `fnInit` function has the following input parameters:
+		 *
+		 * 1. `{object}` DataTables settings object: see
+		 *    {@link DataTable.models.oSettings}
+		 *
+		 * And the following return is expected:
+		 * 
+		 * * {node|null} The element which contains your feature. Note that the
+		 *   return may also be void if your plug-in does not require to inject any
+		 *   DOM elements into DataTables control (`dom`) - for example this might
+		 *   be useful when developing a plug-in which allows table control via
+		 *   keyboard entry
+		 *
+		 *  @type array
+		 *
+		 *  @example
+		 *    $.fn.dataTable.ext.features.push( {
+		 *      "fnInit": function( oSettings ) {
+		 *        return new TableTools( { "oDTSettings": oSettings } );
+		 *      },
+		 *      "cFeature": "T"
+		 *    } );
+		 */
+		feature: [],
+	
+	
+		/**
+		 * Row searching.
+		 * 
+		 * This method of searching is complimentary to the default type based
+		 * searching, and a lot more comprehensive as it allows you complete control
+		 * over the searching logic. Each element in this array is a function
+		 * (parameters described below) that is called for every row in the table,
+		 * and your logic decides if it should be included in the searching data set
+		 * or not.
+		 *
+		 * Searching functions have the following input parameters:
+		 *
+		 * 1. `{object}` DataTables settings object: see
+		 *    {@link DataTable.models.oSettings}
+		 * 2. `{array|object}` Data for the row to be processed (same as the
+		 *    original format that was passed in as the data source, or an array
+		 *    from a DOM data source
+		 * 3. `{int}` Row index ({@link DataTable.models.oSettings.aoData}), which
+		 *    can be useful to retrieve the `TR` element if you need DOM interaction.
+		 *
+		 * And the following return is expected:
+		 *
+		 * * {boolean} Include the row in the searched result set (true) or not
+		 *   (false)
+		 *
+		 * Note that as with the main search ability in DataTables, technically this
+		 * is "filtering", since it is subtractive. However, for consistency in
+		 * naming we call it searching here.
+		 *
+		 *  @type array
+		 *  @default []
+		 *
+		 *  @example
+		 *    // The following example shows custom search being applied to the
+		 *    // fourth column (i.e. the data[3] index) based on two input values
+		 *    // from the end-user, matching the data in a certain range.
+		 *    $.fn.dataTable.ext.search.push(
+		 *      function( settings, data, dataIndex ) {
+		 *        var min = document.getElementById('min').value * 1;
+		 *        var max = document.getElementById('max').value * 1;
+		 *        var version = data[3] == "-" ? 0 : data[3]*1;
+		 *
+		 *        if ( min == "" && max == "" ) {
+		 *          return true;
+		 *        }
+		 *        else if ( min == "" && version < max ) {
+		 *          return true;
+		 *        }
+		 *        else if ( min < version && "" == max ) {
+		 *          return true;
+		 *        }
+		 *        else if ( min < version && version < max ) {
+		 *          return true;
+		 *        }
+		 *        return false;
+		 *      }
+		 *    );
+		 */
+		search: [],
+	
+	
+		/**
+		 * Selector extensions
+		 *
+		 * The `selector` option can be used to extend the options available for the
+		 * selector modifier options (`selector-modifier` object data type) that
+		 * each of the three built in selector types offer (row, column and cell +
+		 * their plural counterparts). For example the Select extension uses this
+		 * mechanism to provide an option to select only rows, columns and cells
+		 * that have been marked as selected by the end user (`{selected: true}`),
+		 * which can be used in conjunction with the existing built in selector
+		 * options.
+		 *
+		 * Each property is an array to which functions can be pushed. The functions
+		 * take three attributes:
+		 *
+		 * * Settings object for the host table
+		 * * Options object (`selector-modifier` object type)
+		 * * Array of selected item indexes
+		 *
+		 * The return is an array of the resulting item indexes after the custom
+		 * selector has been applied.
+		 *
+		 *  @type object
+		 */
+		selector: {
+			cell: [],
+			column: [],
+			row: []
+		},
+	
+	
+		/**
+		 * Internal functions, exposed for used in plug-ins.
+		 * 
+		 * Please note that you should not need to use the internal methods for
+		 * anything other than a plug-in (and even then, try to avoid if possible).
+		 * The internal function may change between releases.
+		 *
+		 *  @type object
+		 *  @default {}
+		 */
+		internal: {},
+	
+	
+		/**
+		 * Legacy configuration options. Enable and disable legacy options that
+		 * are available in DataTables.
+		 *
+		 *  @type object
+		 */
+		legacy: {
+			/**
+			 * Enable / disable DataTables 1.9 compatible server-side processing
+			 * requests
+			 *
+			 *  @type boolean
+			 *  @default null
+			 */
+			ajax: null
+		},
+	
+	
+		/**
+		 * Pagination plug-in methods.
+		 * 
+		 * Each entry in this object is a function and defines which buttons should
+		 * be shown by the pagination rendering method that is used for the table:
+		 * {@link DataTable.ext.renderer.pageButton}. The renderer addresses how the
+		 * buttons are displayed in the document, while the functions here tell it
+		 * what buttons to display. This is done by returning an array of button
+		 * descriptions (what each button will do).
+		 *
+		 * Pagination types (the four built in options and any additional plug-in
+		 * options defined here) can be used through the `paginationType`
+		 * initialisation parameter.
+		 *
+		 * The functions defined take two parameters:
+		 *
+		 * 1. `{int} page` The current page index
+		 * 2. `{int} pages` The number of pages in the table
+		 *
+		 * Each function is expected to return an array where each element of the
+		 * array can be one of:
+		 *
+		 * * `first` - Jump to first page when activated
+		 * * `last` - Jump to last page when activated
+		 * * `previous` - Show previous page when activated
+		 * * `next` - Show next page when activated
+		 * * `{int}` - Show page of the index given
+		 * * `{array}` - A nested array containing the above elements to add a
+		 *   containing 'DIV' element (might be useful for styling).
+		 *
+		 * Note that DataTables v1.9- used this object slightly differently whereby
+		 * an object with two functions would be defined for each plug-in. That
+		 * ability is still supported by DataTables 1.10+ to provide backwards
+		 * compatibility, but this option of use is now decremented and no longer
+		 * documented in DataTables 1.10+.
+		 *
+		 *  @type object
+		 *  @default {}
+		 *
+		 *  @example
+		 *    // Show previous, next and current page buttons only
+		 *    $.fn.dataTableExt.oPagination.current = function ( page, pages ) {
+		 *      return [ 'previous', page, 'next' ];
+		 *    };
+		 */
+		pager: {},
+	
+	
+		renderer: {
+			pageButton: {},
+			header: {}
+		},
+	
+	
+		/**
+		 * Ordering plug-ins - custom data source
+		 * 
+		 * The extension options for ordering of data available here is complimentary
+		 * to the default type based ordering that DataTables typically uses. It
+		 * allows much greater control over the the data that is being used to
+		 * order a column, but is necessarily therefore more complex.
+		 * 
+		 * This type of ordering is useful if you want to do ordering based on data
+		 * live from the DOM (for example the contents of an 'input' element) rather
+		 * than just the static string that DataTables knows of.
+		 * 
+		 * The way these plug-ins work is that you create an array of the values you
+		 * wish to be ordering for the column in question and then return that
+		 * array. The data in the array much be in the index order of the rows in
+		 * the table (not the currently ordering order!). Which order data gathering
+		 * function is run here depends on the `dt-init columns.orderDataType`
+		 * parameter that is used for the column (if any).
+		 *
+		 * The functions defined take two parameters:
+		 *
+		 * 1. `{object}` DataTables settings object: see
+		 *    {@link DataTable.models.oSettings}
+		 * 2. `{int}` Target column index
+		 *
+		 * Each function is expected to return an array:
+		 *
+		 * * `{array}` Data for the column to be ordering upon
+		 *
+		 *  @type array
+		 *
+		 *  @example
+		 *    // Ordering using `input` node values
+		 *    $.fn.dataTable.ext.order['dom-text'] = function  ( settings, col )
+		 *    {
+		 *      return this.api().column( col, {order:'index'} ).nodes().map( function ( td, i ) {
+		 *        return $('input', td).val();
+		 *      } );
+		 *    }
+		 */
+		order: {},
+	
+	
+		/**
+		 * Type based plug-ins.
+		 *
+		 * Each column in DataTables has a type assigned to it, either by automatic
+		 * detection or by direct assignment using the `type` option for the column.
+		 * The type of a column will effect how it is ordering and search (plug-ins
+		 * can also make use of the column type if required).
+		 *
+		 * @namespace
+		 */
+		type: {
+			/**
+			 * Type detection functions.
+			 *
+			 * The functions defined in this object are used to automatically detect
+			 * a column's type, making initialisation of DataTables super easy, even
+			 * when complex data is in the table.
+			 *
+			 * The functions defined take two parameters:
+			 *
+		     *  1. `{*}` Data from the column cell to be analysed
+		     *  2. `{settings}` DataTables settings object. This can be used to
+		     *     perform context specific type detection - for example detection
+		     *     based on language settings such as using a comma for a decimal
+		     *     place. Generally speaking the options from the settings will not
+		     *     be required
+			 *
+			 * Each function is expected to return:
+			 *
+			 * * `{string|null}` Data type detected, or null if unknown (and thus
+			 *   pass it on to the other type detection functions.
+			 *
+			 *  @type array
+			 *
+			 *  @example
+			 *    // Currency type detection plug-in:
+			 *    $.fn.dataTable.ext.type.detect.push(
+			 *      function ( data, settings ) {
+			 *        // Check the numeric part
+			 *        if ( ! data.substring(1).match(/[0-9]/) ) {
+			 *          return null;
+			 *        }
+			 *
+			 *        // Check prefixed by currency
+			 *        if ( data.charAt(0) == '$' || data.charAt(0) == '&pound;' ) {
+			 *          return 'currency';
+			 *        }
+			 *        return null;
+			 *      }
+			 *    );
+			 */
+			detect: [],
+	
+	
+			/**
+			 * Type based search formatting.
+			 *
+			 * The type based searching functions can be used to pre-format the
+			 * data to be search on. For example, it can be used to strip HTML
+			 * tags or to de-format telephone numbers for numeric only searching.
+			 *
+			 * Note that is a search is not defined for a column of a given type,
+			 * no search formatting will be performed.
+			 * 
+			 * Pre-processing of searching data plug-ins - When you assign the sType
+			 * for a column (or have it automatically detected for you by DataTables
+			 * or a type detection plug-in), you will typically be using this for
+			 * custom sorting, but it can also be used to provide custom searching
+			 * by allowing you to pre-processing the data and returning the data in
+			 * the format that should be searched upon. This is done by adding
+			 * functions this object with a parameter name which matches the sType
+			 * for that target column. This is the corollary of <i>afnSortData</i>
+			 * for searching data.
+			 *
+			 * The functions defined take a single parameter:
+			 *
+		     *  1. `{*}` Data from the column cell to be prepared for searching
+			 *
+			 * Each function is expected to return:
+			 *
+			 * * `{string|null}` Formatted string that will be used for the searching.
+			 *
+			 *  @type object
+			 *  @default {}
+			 *
+			 *  @example
+			 *    $.fn.dataTable.ext.type.search['title-numeric'] = function ( d ) {
+			 *      return d.replace(/\n/g," ").replace( /<.*?>/g, "" );
+			 *    }
+			 */
+			search: {},
+	
+	
+			/**
+			 * Type based ordering.
+			 *
+			 * The column type tells DataTables what ordering to apply to the table
+			 * when a column is sorted upon. The order for each type that is defined,
+			 * is defined by the functions available in this object.
+			 *
+			 * Each ordering option can be described by three properties added to
+			 * this object:
+			 *
+			 * * `{type}-pre` - Pre-formatting function
+			 * * `{type}-asc` - Ascending order function
+			 * * `{type}-desc` - Descending order function
+			 *
+			 * All three can be used together, only `{type}-pre` or only
+			 * `{type}-asc` and `{type}-desc` together. It is generally recommended
+			 * that only `{type}-pre` is used, as this provides the optimal
+			 * implementation in terms of speed, although the others are provided
+			 * for compatibility with existing Javascript sort functions.
+			 *
+			 * `{type}-pre`: Functions defined take a single parameter:
+			 *
+		     *  1. `{*}` Data from the column cell to be prepared for ordering
+			 *
+			 * And return:
+			 *
+			 * * `{*}` Data to be sorted upon
+			 *
+			 * `{type}-asc` and `{type}-desc`: Functions are typical Javascript sort
+			 * functions, taking two parameters:
+			 *
+		     *  1. `{*}` Data to compare to the second parameter
+		     *  2. `{*}` Data to compare to the first parameter
+			 *
+			 * And returning:
+			 *
+			 * * `{*}` Ordering match: <0 if first parameter should be sorted lower
+			 *   than the second parameter, ===0 if the two parameters are equal and
+			 *   >0 if the first parameter should be sorted height than the second
+			 *   parameter.
+			 * 
+			 *  @type object
+			 *  @default {}
+			 *
+			 *  @example
+			 *    // Numeric ordering of formatted numbers with a pre-formatter
+			 *    $.extend( $.fn.dataTable.ext.type.order, {
+			 *      "string-pre": function(x) {
+			 *        a = (a === "-" || a === "") ? 0 : a.replace( /[^\d\-\.]/g, "" );
+			 *        return parseFloat( a );
+			 *      }
+			 *    } );
+			 *
+			 *  @example
+			 *    // Case-sensitive string ordering, with no pre-formatting method
+			 *    $.extend( $.fn.dataTable.ext.order, {
+			 *      "string-case-asc": function(x,y) {
+			 *        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+			 *      },
+			 *      "string-case-desc": function(x,y) {
+			 *        return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+			 *      }
+			 *    } );
+			 */
+			order: {}
+		},
+	
+		/**
+		 * Unique DataTables instance counter
+		 *
+		 * @type int
+		 * @private
+		 */
+		_unique: 0,
+	
+	
+		//
+		// Depreciated
+		// The following properties are retained for backwards compatiblity only.
+		// The should not be used in new projects and will be removed in a future
+		// version
+		//
+	
+		/**
+		 * Version check function.
+		 *  @type function
+		 *  @depreciated Since 1.10
+		 */
+		fnVersionCheck: DataTable.fnVersionCheck,
+	
+	
+		/**
+		 * Index for what 'this' index API functions should use
+		 *  @type int
+		 *  @deprecated Since v1.10
+		 */
+		iApiIndex: 0,
+	
+	
+		/**
+		 * jQuery UI class container
+		 *  @type object
+		 *  @deprecated Since v1.10
+		 */
+		oJUIClasses: {},
+	
+	
+		/**
+		 * Software version
+		 *  @type string
+		 *  @deprecated Since v1.10
+		 */
+		sVersion: DataTable.version
+	};
+	
+	
+	//
+	// Backwards compatibility. Alias to pre 1.10 Hungarian notation counter parts
+	//
+	$.extend( _ext, {
+		afnFiltering: _ext.search,
+		aTypes:       _ext.type.detect,
+		ofnSearch:    _ext.type.search,
+		oSort:        _ext.type.order,
+		afnSortData:  _ext.order,
+		aoFeatures:   _ext.feature,
+		oApi:         _ext.internal,
+		oStdClasses:  _ext.classes,
+		oPagination:  _ext.pager
+	} );
+	
+	
+	$.extend( DataTable.ext.classes, {
+		"sTable": "dataTable",
+		"sNoFooter": "no-footer",
+	
+		/* Paging buttons */
+		"sPageButton": "paginate_button",
+		"sPageButtonActive": "current",
+		"sPageButtonDisabled": "disabled",
+	
+		/* Striping classes */
+		"sStripeOdd": "odd",
+		"sStripeEven": "even",
+	
+		/* Empty row */
+		"sRowEmpty": "dataTables_empty",
+	
+		/* Features */
+		"sWrapper": "dataTables_wrapper",
+		"sFilter": "dataTables_filter",
+		"sInfo": "dataTables_info",
+		"sPaging": "dataTables_paginate paging_", /* Note that the type is postfixed */
+		"sLength": "dataTables_length",
+		"sProcessing": "dataTables_processing",
+	
+		/* Sorting */
+		"sSortAsc": "sorting_asc",
+		"sSortDesc": "sorting_desc",
+		"sSortable": "sorting", /* Sortable in both directions */
+		"sSortableAsc": "sorting_asc_disabled",
+		"sSortableDesc": "sorting_desc_disabled",
+		"sSortableNone": "sorting_disabled",
+		"sSortColumn": "sorting_", /* Note that an int is postfixed for the sorting order */
+	
+		/* Filtering */
+		"sFilterInput": "",
+	
+		/* Page length */
+		"sLengthSelect": "",
+	
+		/* Scrolling */
+		"sScrollWrapper": "dataTables_scroll",
+		"sScrollHead": "dataTables_scrollHead",
+		"sScrollHeadInner": "dataTables_scrollHeadInner",
+		"sScrollBody": "dataTables_scrollBody",
+		"sScrollFoot": "dataTables_scrollFoot",
+		"sScrollFootInner": "dataTables_scrollFootInner",
+	
+		/* Misc */
+		"sHeaderTH": "",
+		"sFooterTH": "",
+	
+		// Deprecated
+		"sSortJUIAsc": "",
+		"sSortJUIDesc": "",
+		"sSortJUI": "",
+		"sSortJUIAscAllowed": "",
+		"sSortJUIDescAllowed": "",
+		"sSortJUIWrapper": "",
+		"sSortIcon": "",
+		"sJUIHeader": "",
+		"sJUIFooter": ""
+	} );
+	
+	
+	var extPagination = DataTable.ext.pager;
+	
+	function _numbers ( page, pages ) {
+		var
+			numbers = [],
+			buttons = extPagination.numbers_length,
+			half = Math.floor( buttons / 2 ),
+			i = 1;
+	
+		if ( pages <= buttons ) {
+			numbers = _range( 0, pages );
+		}
+		else if ( page <= half ) {
+			numbers = _range( 0, buttons-2 );
+			numbers.push( 'ellipsis' );
+			numbers.push( pages-1 );
+		}
+		else if ( page >= pages - 1 - half ) {
+			numbers = _range( pages-(buttons-2), pages );
+			numbers.splice( 0, 0, 'ellipsis' ); // no unshift in ie6
+			numbers.splice( 0, 0, 0 );
+		}
+		else {
+			numbers = _range( page-half+2, page+half-1 );
+			numbers.push( 'ellipsis' );
+			numbers.push( pages-1 );
+			numbers.splice( 0, 0, 'ellipsis' );
+			numbers.splice( 0, 0, 0 );
+		}
+	
+		numbers.DT_el = 'span';
+		return numbers;
+	}
+	
+	
+	$.extend( extPagination, {
+		simple: function ( page, pages ) {
+			return [ 'previous', 'next' ];
+		},
+	
+		full: function ( page, pages ) {
+			return [  'first', 'previous', 'next', 'last' ];
+		},
+	
+		numbers: function ( page, pages ) {
+			return [ _numbers(page, pages) ];
+		},
+	
+		simple_numbers: function ( page, pages ) {
+			return [ 'previous', _numbers(page, pages), 'next' ];
+		},
+	
+		full_numbers: function ( page, pages ) {
+			return [ 'first', 'previous', _numbers(page, pages), 'next', 'last' ];
+		},
+		
+		first_last_numbers: function (page, pages) {
+	 		return ['first', _numbers(page, pages), 'last'];
+	 	},
+	
+		// For testing and plug-ins to use
+		_numbers: _numbers,
+	
+		// Number of number buttons (including ellipsis) to show. _Must be odd!_
+		numbers_length: 7
+	} );
+	
+	
+	$.extend( true, DataTable.ext.renderer, {
+		pageButton: {
+			_: function ( settings, host, idx, buttons, page, pages ) {
+				var classes = settings.oClasses;
+				var lang = settings.oLanguage.oPaginate;
+				var aria = settings.oLanguage.oAria.paginate || {};
+				var btnDisplay, btnClass, counter=0;
+	
+				var attach = function( container, buttons ) {
+					var i, ien, node, button;
+					var clickHandler = function ( e ) {
+						_fnPageChange( settings, e.data.action, true );
+					};
+	
+					for ( i=0, ien=buttons.length ; i<ien ; i++ ) {
+						button = buttons[i];
+	
+						if ( $.isArray( button ) ) {
+							var inner = $( '<'+(button.DT_el || 'div')+'/>' )
+								.appendTo( container );
+							attach( inner, button );
+						}
+						else {
+							btnDisplay = null;
+							btnClass = '';
+	
+							switch ( button ) {
+								case 'ellipsis':
+									container.append('<span class="ellipsis">&#x2026;</span>');
+									break;
+	
+								case 'first':
+									btnDisplay = lang.sFirst;
+									btnClass = button + (page > 0 ?
+										'' : ' '+classes.sPageButtonDisabled);
+									break;
+	
+								case 'previous':
+									btnDisplay = lang.sPrevious;
+									btnClass = button + (page > 0 ?
+										'' : ' '+classes.sPageButtonDisabled);
+									break;
+	
+								case 'next':
+									btnDisplay = lang.sNext;
+									btnClass = button + (page < pages-1 ?
+										'' : ' '+classes.sPageButtonDisabled);
+									break;
+	
+								case 'last':
+									btnDisplay = lang.sLast;
+									btnClass = button + (page < pages-1 ?
+										'' : ' '+classes.sPageButtonDisabled);
+									break;
+	
+								default:
+									btnDisplay = button + 1;
+									btnClass = page === button ?
+										classes.sPageButtonActive : '';
+									break;
+							}
+	
+							if ( btnDisplay !== null ) {
+								node = $('<a>', {
+										'class': classes.sPageButton+' '+btnClass,
+										'aria-controls': settings.sTableId,
+										'aria-label': aria[ button ],
+										'data-dt-idx': counter,
+										'tabindex': settings.iTabIndex,
+										'id': idx === 0 && typeof button === 'string' ?
+											settings.sTableId +'_'+ button :
+											null
+									} )
+									.html( btnDisplay )
+									.appendTo( container );
+	
+								_fnBindAction(
+									node, {action: button}, clickHandler
+								);
+	
+								counter++;
+							}
+						}
+					}
+				};
+	
+				// IE9 throws an 'unknown error' if document.activeElement is used
+				// inside an iframe or frame. Try / catch the error. Not good for
+				// accessibility, but neither are frames.
+				var activeEl;
+	
+				try {
+					// Because this approach is destroying and recreating the paging
+					// elements, focus is lost on the select button which is bad for
+					// accessibility. So we want to restore focus once the draw has
+					// completed
+					activeEl = $(host).find(document.activeElement).data('dt-idx');
+				}
+				catch (e) {}
+	
+				attach( $(host).empty(), buttons );
+	
+				if ( activeEl !== undefined ) {
+					$(host).find( '[data-dt-idx='+activeEl+']' ).focus();
+				}
+			}
+		}
+	} );
+	
+	
+	
+	// Built in type detection. See model.ext.aTypes for information about
+	// what is required from this methods.
+	$.extend( DataTable.ext.type.detect, [
+		// Plain numbers - first since V8 detects some plain numbers as dates
+		// e.g. Date.parse('55') (but not all, e.g. Date.parse('22')...).
+		function ( d, settings )
+		{
+			var decimal = settings.oLanguage.sDecimal;
+			return _isNumber( d, decimal ) ? 'num'+decimal : null;
+		},
+	
+		// Dates (only those recognised by the browser's Date.parse)
+		function ( d, settings )
+		{
+			// V8 tries _very_ hard to make a string passed into `Date.parse()`
+			// valid, so we need to use a regex to restrict date formats. Use a
+			// plug-in for anything other than ISO8601 style strings
+			if ( d && !(d instanceof Date) && ! _re_date.test(d) ) {
+				return null;
+			}
+			var parsed = Date.parse(d);
+			return (parsed !== null && !isNaN(parsed)) || _empty(d) ? 'date' : null;
+		},
+	
+		// Formatted numbers
+		function ( d, settings )
+		{
+			var decimal = settings.oLanguage.sDecimal;
+			return _isNumber( d, decimal, true ) ? 'num-fmt'+decimal : null;
+		},
+	
+		// HTML numeric
+		function ( d, settings )
+		{
+			var decimal = settings.oLanguage.sDecimal;
+			return _htmlNumeric( d, decimal ) ? 'html-num'+decimal : null;
+		},
+	
+		// HTML numeric, formatted
+		function ( d, settings )
+		{
+			var decimal = settings.oLanguage.sDecimal;
+			return _htmlNumeric( d, decimal, true ) ? 'html-num-fmt'+decimal : null;
+		},
+	
+		// HTML (this is strict checking - there must be html)
+		function ( d, settings )
+		{
+			return _empty( d ) || (typeof d === 'string' && d.indexOf('<') !== -1) ?
+				'html' : null;
+		}
+	] );
+	
+	
+	
+	// Filter formatting functions. See model.ext.ofnSearch for information about
+	// what is required from these methods.
+	// 
+	// Note that additional search methods are added for the html numbers and
+	// html formatted numbers by `_addNumericSort()` when we know what the decimal
+	// place is
+	
+	
+	$.extend( DataTable.ext.type.search, {
+		html: function ( data ) {
+			return _empty(data) ?
+				data :
+				typeof data === 'string' ?
+					data
+						.replace( _re_new_lines, " " )
+						.replace( _re_html, "" ) :
+					'';
+		},
+	
+		string: function ( data ) {
+			return _empty(data) ?
+				data :
+				typeof data === 'string' ?
+					data.replace( _re_new_lines, " " ) :
+					data;
+		}
+	} );
+	
+	
+	
+	var __numericReplace = function ( d, decimalPlace, re1, re2 ) {
+		if ( d !== 0 && (!d || d === '-') ) {
+			return -Infinity;
+		}
+	
+		// If a decimal place other than `.` is used, it needs to be given to the
+		// function so we can detect it and replace with a `.` which is the only
+		// decimal place Javascript recognises - it is not locale aware.
+		if ( decimalPlace ) {
+			d = _numToDecimal( d, decimalPlace );
+		}
+	
+		if ( d.replace ) {
+			if ( re1 ) {
+				d = d.replace( re1, '' );
+			}
+	
+			if ( re2 ) {
+				d = d.replace( re2, '' );
+			}
+		}
+	
+		return d * 1;
+	};
+	
+	
+	// Add the numeric 'deformatting' functions for sorting and search. This is done
+	// in a function to provide an easy ability for the language options to add
+	// additional methods if a non-period decimal place is used.
+	function _addNumericSort ( decimalPlace ) {
+		$.each(
+			{
+				// Plain numbers
+				"num": function ( d ) {
+					return __numericReplace( d, decimalPlace );
+				},
+	
+				// Formatted numbers
+				"num-fmt": function ( d ) {
+					return __numericReplace( d, decimalPlace, _re_formatted_numeric );
+				},
+	
+				// HTML numeric
+				"html-num": function ( d ) {
+					return __numericReplace( d, decimalPlace, _re_html );
+				},
+	
+				// HTML numeric, formatted
+				"html-num-fmt": function ( d ) {
+					return __numericReplace( d, decimalPlace, _re_html, _re_formatted_numeric );
+				}
+			},
+			function ( key, fn ) {
+				// Add the ordering method
+				_ext.type.order[ key+decimalPlace+'-pre' ] = fn;
+	
+				// For HTML types add a search formatter that will strip the HTML
+				if ( key.match(/^html\-/) ) {
+					_ext.type.search[ key+decimalPlace ] = _ext.type.search.html;
+				}
+			}
+		);
+	}
+	
+	
+	// Default sort methods
+	$.extend( _ext.type.order, {
+		// Dates
+		"date-pre": function ( d ) {
+			var ts = Date.parse( d );
+			return isNaN(ts) ? -Infinity : ts;
+		},
+	
+		// html
+		"html-pre": function ( a ) {
+			return _empty(a) ?
+				'' :
+				a.replace ?
+					a.replace( /<.*?>/g, "" ).toLowerCase() :
+					a+'';
+		},
+	
+		// string
+		"string-pre": function ( a ) {
+			// This is a little complex, but faster than always calling toString,
+			// http://jsperf.com/tostring-v-check
+			return _empty(a) ?
+				'' :
+				typeof a === 'string' ?
+					a.toLowerCase() :
+					! a.toString ?
+						'' :
+						a.toString();
+		},
+	
+		// string-asc and -desc are retained only for compatibility with the old
+		// sort methods
+		"string-asc": function ( x, y ) {
+			return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		},
+	
+		"string-desc": function ( x, y ) {
+			return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+		}
+	} );
+	
+	
+	// Numeric sorting types - order doesn't matter here
+	_addNumericSort( '' );
+	
+	
+	$.extend( true, DataTable.ext.renderer, {
+		header: {
+			_: function ( settings, cell, column, classes ) {
+				// No additional mark-up required
+				// Attach a sort listener to update on sort - note that using the
+				// `DT` namespace will allow the event to be removed automatically
+				// on destroy, while the `dt` namespaced event is the one we are
+				// listening for
+				$(settings.nTable).on( 'order.dt.DT', function ( e, ctx, sorting, columns ) {
+					if ( settings !== ctx ) { // need to check this this is the host
+						return;               // table, not a nested one
+					}
+	
+					var colIdx = column.idx;
+	
+					cell
+						.removeClass(
+							column.sSortingClass +' '+
+							classes.sSortAsc +' '+
+							classes.sSortDesc
+						)
+						.addClass( columns[ colIdx ] == 'asc' ?
+							classes.sSortAsc : columns[ colIdx ] == 'desc' ?
+								classes.sSortDesc :
+								column.sSortingClass
+						);
+				} );
+			},
+	
+			jqueryui: function ( settings, cell, column, classes ) {
+				$('<div/>')
+					.addClass( classes.sSortJUIWrapper )
+					.append( cell.contents() )
+					.append( $('<span/>')
+						.addClass( classes.sSortIcon+' '+column.sSortingClassJUI )
+					)
+					.appendTo( cell );
+	
+				// Attach a sort listener to update on sort
+				$(settings.nTable).on( 'order.dt.DT', function ( e, ctx, sorting, columns ) {
+					if ( settings !== ctx ) {
+						return;
+					}
+	
+					var colIdx = column.idx;
+	
+					cell
+						.removeClass( classes.sSortAsc +" "+classes.sSortDesc )
+						.addClass( columns[ colIdx ] == 'asc' ?
+							classes.sSortAsc : columns[ colIdx ] == 'desc' ?
+								classes.sSortDesc :
+								column.sSortingClass
+						);
+	
+					cell
+						.find( 'span.'+classes.sSortIcon )
+						.removeClass(
+							classes.sSortJUIAsc +" "+
+							classes.sSortJUIDesc +" "+
+							classes.sSortJUI +" "+
+							classes.sSortJUIAscAllowed +" "+
+							classes.sSortJUIDescAllowed
+						)
+						.addClass( columns[ colIdx ] == 'asc' ?
+							classes.sSortJUIAsc : columns[ colIdx ] == 'desc' ?
+								classes.sSortJUIDesc :
+								column.sSortingClassJUI
+						);
+				} );
+			}
+		}
+	} );
+	
+	/*
+	 * Public helper functions. These aren't used internally by DataTables, or
+	 * called by any of the options passed into DataTables, but they can be used
+	 * externally by developers working with DataTables. They are helper functions
+	 * to make working with DataTables a little bit easier.
+	 */
+	
+	var __htmlEscapeEntities = function ( d ) {
+		return typeof d === 'string' ?
+			d.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') :
+			d;
+	};
+	
+	/**
+	 * Helpers for `columns.render`.
+	 *
+	 * The options defined here can be used with the `columns.render` initialisation
+	 * option to provide a display renderer. The following functions are defined:
+	 *
+	 * * `number` - Will format numeric data (defined by `columns.data`) for
+	 *   display, retaining the original unformatted data for sorting and filtering.
+	 *   It takes 5 parameters:
+	 *   * `string` - Thousands grouping separator
+	 *   * `string` - Decimal point indicator
+	 *   * `integer` - Number of decimal points to show
+	 *   * `string` (optional) - Prefix.
+	 *   * `string` (optional) - Postfix (/suffix).
+	 * * `text` - Escape HTML to help prevent XSS attacks. It has no optional
+	 *   parameters.
+	 *
+	 * @example
+	 *   // Column definition using the number renderer
+	 *   {
+	 *     data: "salary",
+	 *     render: $.fn.dataTable.render.number( '\'', '.', 0, '$' )
+	 *   }
+	 *
+	 * @namespace
+	 */
+	DataTable.render = {
+		number: function ( thousands, decimal, precision, prefix, postfix ) {
+			return {
+				display: function ( d ) {
+					if ( typeof d !== 'number' && typeof d !== 'string' ) {
+						return d;
+					}
+	
+					var negative = d < 0 ? '-' : '';
+					var flo = parseFloat( d );
+	
+					// If NaN then there isn't much formatting that we can do - just
+					// return immediately, escaping any HTML (this was supposed to
+					// be a number after all)
+					if ( isNaN( flo ) ) {
+						return __htmlEscapeEntities( d );
+					}
+	
+					flo = flo.toFixed( precision );
+					d = Math.abs( flo );
+	
+					var intPart = parseInt( d, 10 );
+					var floatPart = precision ?
+						decimal+(d - intPart).toFixed( precision ).substring( 2 ):
+						'';
+	
+					return negative + (prefix||'') +
+						intPart.toString().replace(
+							/\B(?=(\d{3})+(?!\d))/g, thousands
+						) +
+						floatPart +
+						(postfix||'');
+				}
+			};
+		},
+	
+		text: function () {
+			return {
+				display: __htmlEscapeEntities,
+				filter: __htmlEscapeEntities
+			};
+		}
+	};
+	
+	
+	/*
+	 * This is really a good bit rubbish this method of exposing the internal methods
+	 * publicly... - To be fixed in 2.0 using methods on the prototype
+	 */
+	
+	
+	/**
+	 * Create a wrapper function for exporting an internal functions to an external API.
+	 *  @param {string} fn API function name
+	 *  @returns {function} wrapped function
+	 *  @memberof DataTable#internal
+	 */
+	function _fnExternApiFunc (fn)
+	{
+		return function() {
+			var args = [_fnSettingsFromNode( this[DataTable.ext.iApiIndex] )].concat(
+				Array.prototype.slice.call(arguments)
+			);
+			return DataTable.ext.internal[fn].apply( this, args );
+		};
+	}
+	
+	
+	/**
+	 * Reference to internal functions for use by plug-in developers. Note that
+	 * these methods are references to internal functions and are considered to be
+	 * private. If you use these methods, be aware that they are liable to change
+	 * between versions.
+	 *  @namespace
+	 */
+	$.extend( DataTable.ext.internal, {
+		_fnExternApiFunc: _fnExternApiFunc,
+		_fnBuildAjax: _fnBuildAjax,
+		_fnAjaxUpdate: _fnAjaxUpdate,
+		_fnAjaxParameters: _fnAjaxParameters,
+		_fnAjaxUpdateDraw: _fnAjaxUpdateDraw,
+		_fnAjaxDataSrc: _fnAjaxDataSrc,
+		_fnAddColumn: _fnAddColumn,
+		_fnColumnOptions: _fnColumnOptions,
+		_fnAdjustColumnSizing: _fnAdjustColumnSizing,
+		_fnVisibleToColumnIndex: _fnVisibleToColumnIndex,
+		_fnColumnIndexToVisible: _fnColumnIndexToVisible,
+		_fnVisbleColumns: _fnVisbleColumns,
+		_fnGetColumns: _fnGetColumns,
+		_fnColumnTypes: _fnColumnTypes,
+		_fnApplyColumnDefs: _fnApplyColumnDefs,
+		_fnHungarianMap: _fnHungarianMap,
+		_fnCamelToHungarian: _fnCamelToHungarian,
+		_fnLanguageCompat: _fnLanguageCompat,
+		_fnBrowserDetect: _fnBrowserDetect,
+		_fnAddData: _fnAddData,
+		_fnAddTr: _fnAddTr,
+		_fnNodeToDataIndex: _fnNodeToDataIndex,
+		_fnNodeToColumnIndex: _fnNodeToColumnIndex,
+		_fnGetCellData: _fnGetCellData,
+		_fnSetCellData: _fnSetCellData,
+		_fnSplitObjNotation: _fnSplitObjNotation,
+		_fnGetObjectDataFn: _fnGetObjectDataFn,
+		_fnSetObjectDataFn: _fnSetObjectDataFn,
+		_fnGetDataMaster: _fnGetDataMaster,
+		_fnClearTable: _fnClearTable,
+		_fnDeleteIndex: _fnDeleteIndex,
+		_fnInvalidate: _fnInvalidate,
+		_fnGetRowElements: _fnGetRowElements,
+		_fnCreateTr: _fnCreateTr,
+		_fnBuildHead: _fnBuildHead,
+		_fnDrawHead: _fnDrawHead,
+		_fnDraw: _fnDraw,
+		_fnReDraw: _fnReDraw,
+		_fnAddOptionsHtml: _fnAddOptionsHtml,
+		_fnDetectHeader: _fnDetectHeader,
+		_fnGetUniqueThs: _fnGetUniqueThs,
+		_fnFeatureHtmlFilter: _fnFeatureHtmlFilter,
+		_fnFilterComplete: _fnFilterComplete,
+		_fnFilterCustom: _fnFilterCustom,
+		_fnFilterColumn: _fnFilterColumn,
+		_fnFilter: _fnFilter,
+		_fnFilterCreateSearch: _fnFilterCreateSearch,
+		_fnEscapeRegex: _fnEscapeRegex,
+		_fnFilterData: _fnFilterData,
+		_fnFeatureHtmlInfo: _fnFeatureHtmlInfo,
+		_fnUpdateInfo: _fnUpdateInfo,
+		_fnInfoMacros: _fnInfoMacros,
+		_fnInitialise: _fnInitialise,
+		_fnInitComplete: _fnInitComplete,
+		_fnLengthChange: _fnLengthChange,
+		_fnFeatureHtmlLength: _fnFeatureHtmlLength,
+		_fnFeatureHtmlPaginate: _fnFeatureHtmlPaginate,
+		_fnPageChange: _fnPageChange,
+		_fnFeatureHtmlProcessing: _fnFeatureHtmlProcessing,
+		_fnProcessingDisplay: _fnProcessingDisplay,
+		_fnFeatureHtmlTable: _fnFeatureHtmlTable,
+		_fnScrollDraw: _fnScrollDraw,
+		_fnApplyToChildren: _fnApplyToChildren,
+		_fnCalculateColumnWidths: _fnCalculateColumnWidths,
+		_fnThrottle: _fnThrottle,
+		_fnConvertToWidth: _fnConvertToWidth,
+		_fnGetWidestNode: _fnGetWidestNode,
+		_fnGetMaxLenString: _fnGetMaxLenString,
+		_fnStringToCss: _fnStringToCss,
+		_fnSortFlatten: _fnSortFlatten,
+		_fnSort: _fnSort,
+		_fnSortAria: _fnSortAria,
+		_fnSortListener: _fnSortListener,
+		_fnSortAttachListener: _fnSortAttachListener,
+		_fnSortingClasses: _fnSortingClasses,
+		_fnSortData: _fnSortData,
+		_fnSaveState: _fnSaveState,
+		_fnLoadState: _fnLoadState,
+		_fnSettingsFromNode: _fnSettingsFromNode,
+		_fnLog: _fnLog,
+		_fnMap: _fnMap,
+		_fnBindAction: _fnBindAction,
+		_fnCallbackReg: _fnCallbackReg,
+		_fnCallbackFire: _fnCallbackFire,
+		_fnLengthOverflow: _fnLengthOverflow,
+		_fnRenderer: _fnRenderer,
+		_fnDataSource: _fnDataSource,
+		_fnRowAttributes: _fnRowAttributes,
+		_fnExtend: _fnExtend,
+		_fnCalculateEnd: function () {} // Used by a lot of plug-ins, but redundant
+		                                // in 1.10, so this dead-end function is
+		                                // added to prevent errors
+	} );
+	
+
+	// jQuery access
+	$.fn.dataTable = DataTable;
+
+	// Provide access to the host jQuery object (circular reference)
+	DataTable.$ = $;
+
+	// Legacy aliases
+	$.fn.dataTableSettings = DataTable.settings;
+	$.fn.dataTableExt = DataTable.ext;
+
+	// With a capital `D` we return a DataTables API instance rather than a
+	// jQuery object
+	$.fn.DataTable = function ( opts ) {
+		return $(this).dataTable( opts ).api();
+	};
+
+	// All properties that are available to $.fn.dataTable should also be
+	// available on $.fn.DataTable
+	$.each( DataTable, function ( prop, val ) {
+		$.fn.DataTable[ prop ] = val;
+	} );
+
+
+	// Information about events fired by DataTables - for documentation.
+	/**
+	 * Draw event, fired whenever the table is redrawn on the page, at the same
+	 * point as fnDrawCallback. This may be useful for binding events or
+	 * performing calculations when the table is altered at all.
+	 *  @name DataTable#draw.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
+	 */
+
+	/**
+	 * Search event, fired when the searching applied to the table (using the
+	 * built-in global search, or column filters) is altered.
+	 *  @name DataTable#search.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
+	 */
+
+	/**
+	 * Page change event, fired when the paging of the table is altered.
+	 *  @name DataTable#page.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
+	 */
+
+	/**
+	 * Order event, fired when the ordering applied to the table is altered.
+	 *  @name DataTable#order.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
+	 */
+
+	/**
+	 * DataTables initialisation complete event, fired when the table is fully
+	 * drawn, including Ajax data loaded, if Ajax data is required.
+	 *  @name DataTable#init.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} oSettings DataTables settings object
+	 *  @param {object} json The JSON object request from the server - only
+	 *    present if client-side Ajax sourced data is used</li></ol>
+	 */
+
+	/**
+	 * State save event, fired when the table has changed state a new state save
+	 * is required. This event allows modification of the state saving object
+	 * prior to actually doing the save, including addition or other state
+	 * properties (for plug-ins) or modification of a DataTables core property.
+	 *  @name DataTable#stateSaveParams.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} oSettings DataTables settings object
+	 *  @param {object} json The state information to be saved
+	 */
+
+	/**
+	 * State load event, fired when the table is loading state from the stored
+	 * data, but prior to the settings object being modified by the saved state
+	 * - allowing modification of the saved state is required or loading of
+	 * state for a plug-in.
+	 *  @name DataTable#stateLoadParams.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} oSettings DataTables settings object
+	 *  @param {object} json The saved state information
+	 */
+
+	/**
+	 * State loaded event, fired when state has been loaded from stored data and
+	 * the settings object has been modified by the loaded data.
+	 *  @name DataTable#stateLoaded.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} oSettings DataTables settings object
+	 *  @param {object} json The saved state information
+	 */
+
+	/**
+	 * Processing event, fired when DataTables is doing some kind of processing
+	 * (be it, order, searcg or anything else). It can be used to indicate to
+	 * the end user that there is something happening, or that something has
+	 * finished.
+	 *  @name DataTable#processing.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} oSettings DataTables settings object
+	 *  @param {boolean} bShow Flag for if DataTables is doing processing or not
+	 */
+
+	/**
+	 * Ajax (XHR) event, fired whenever an Ajax request is completed from a
+	 * request to made to the server for new data. This event is called before
+	 * DataTables processed the returned data, so it can also be used to pre-
+	 * process the data returned from the server, if needed.
+	 *
+	 * Note that this trigger is called in `fnServerData`, if you override
+	 * `fnServerData` and which to use this event, you need to trigger it in you
+	 * success function.
+	 *  @name DataTable#xhr.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
+	 *  @param {object} json JSON returned from the server
+	 *
+	 *  @example
+	 *     // Use a custom property returned from the server in another DOM element
+	 *     $('#table').dataTable().on('xhr.dt', function (e, settings, json) {
+	 *       $('#status').html( json.status );
+	 *     } );
+	 *
+	 *  @example
+	 *     // Pre-process the data returned from the server
+	 *     $('#table').dataTable().on('xhr.dt', function (e, settings, json) {
+	 *       for ( var i=0, ien=json.aaData.length ; i<ien ; i++ ) {
+	 *         json.aaData[i].sum = json.aaData[i].one + json.aaData[i].two;
+	 *       }
+	 *       // Note no return - manipulate the data directly in the JSON object.
+	 *     } );
+	 */
+
+	/**
+	 * Destroy event, fired when the DataTable is destroyed by calling fnDestroy
+	 * or passing the bDestroy:true parameter in the initialisation object. This
+	 * can be used to remove bound events, added DOM nodes, etc.
+	 *  @name DataTable#destroy.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
+	 */
+
+	/**
+	 * Page length change event, fired when number of records to show on each
+	 * page (the length) is changed.
+	 *  @name DataTable#length.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
+	 *  @param {integer} len New length
+	 */
+
+	/**
+	 * Column sizing has changed.
+	 *  @name DataTable#column-sizing.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
+	 */
+
+	/**
+	 * Column visibility has changed.
+	 *  @name DataTable#column-visibility.dt
+	 *  @event
+	 *  @param {event} e jQuery event object
+	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
+	 *  @param {int} column Column index
+	 *  @param {bool} vis `false` if column now hidden, or `true` if visible
+	 */
+
+	return $.fn.dataTable;
+}));
+
+/*!
+ * Bootstrap Colorpicker - Bootstrap Colorpicker is a modular color picker plugin for Bootstrap 4.
+ * @package bootstrap-colorpicker
+ * @version v3.0.3
+ * @license MIT
+ * @link https://farbelous.github.io/bootstrap-colorpicker/
+ * @link https://github.com/farbelous/bootstrap-colorpicker.git
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("jQuery"));
+	else if(typeof define === 'function' && define.amd)
+		define("bootstrap-colorpicker", ["jQuery"], factory);
+	else if(typeof exports === 'object')
+		exports["bootstrap-colorpicker"] = factory(require("jQuery"));
+	else
+		root["bootstrap-colorpicker"] = factory(root["jQuery"]);
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Colorpicker extension class.
+ */
+var Extension = function () {
+  /**
+   * @param {Colorpicker} colorpicker
+   * @param {Object} options
+   */
+  function Extension(colorpicker) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, Extension);
+
+    /**
+     * The colorpicker instance
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+    /**
+     * Extension options
+     *
+     * @type {Object}
+     */
+    this.options = options;
+
+    if (!(this.colorpicker.element && this.colorpicker.element.length)) {
+      throw new Error('Extension: this.colorpicker.element is not valid');
+    }
+
+    this.colorpicker.element.on('colorpickerCreate.colorpicker-ext', _jquery2.default.proxy(this.onCreate, this));
+    this.colorpicker.element.on('colorpickerDestroy.colorpicker-ext', _jquery2.default.proxy(this.onDestroy, this));
+    this.colorpicker.element.on('colorpickerUpdate.colorpicker-ext', _jquery2.default.proxy(this.onUpdate, this));
+    this.colorpicker.element.on('colorpickerChange.colorpicker-ext', _jquery2.default.proxy(this.onChange, this));
+    this.colorpicker.element.on('colorpickerInvalid.colorpicker-ext', _jquery2.default.proxy(this.onInvalid, this));
+    this.colorpicker.element.on('colorpickerShow.colorpicker-ext', _jquery2.default.proxy(this.onShow, this));
+    this.colorpicker.element.on('colorpickerHide.colorpicker-ext', _jquery2.default.proxy(this.onHide, this));
+    this.colorpicker.element.on('colorpickerEnable.colorpicker-ext', _jquery2.default.proxy(this.onEnable, this));
+    this.colorpicker.element.on('colorpickerDisable.colorpicker-ext', _jquery2.default.proxy(this.onDisable, this));
+  }
+
+  /**
+   * Function called every time a new color needs to be created.
+   * Return false to skip this resolver and continue with other extensions' ones
+   * or return anything else to consider the color resolved.
+   *
+   * @param {ColorItem|String|*} color
+   * @param {boolean} realColor if true, the color should resolve into a real (not named) color code
+   * @return {ColorItem|String|*}
+   */
+
+
+  _createClass(Extension, [{
+    key: 'resolveColor',
+    value: function resolveColor(color) {
+      var realColor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      return false;
+    }
+
+    /**
+     * Method called after the colorpicker is created
+     *
+     * @listens Colorpicker#colorpickerCreate
+     * @param {Event} event
+     */
+
+  }, {
+    key: 'onCreate',
+    value: function onCreate(event) {}
+    // to be extended
+
+
+    /**
+     * Method called after the colorpicker is destroyed
+     *
+     * @listens Colorpicker#colorpickerDestroy
+     * @param {Event} event
+     */
+
+  }, {
+    key: 'onDestroy',
+    value: function onDestroy(event) {
+      this.colorpicker.element.off('.colorpicker-ext');
+    }
+
+    /**
+     * Method called after the colorpicker is updated
+     *
+     * @listens Colorpicker#colorpickerUpdate
+     * @param {Event} event
+     */
+
+  }, {
+    key: 'onUpdate',
+    value: function onUpdate(event) {}
+    // to be extended
+
+
+    /**
+     * Method called after the colorpicker color is changed
+     *
+     * @listens Colorpicker#colorpickerChange
+     * @param {Event} event
+     */
+
+  }, {
+    key: 'onChange',
+    value: function onChange(event) {}
+    // to be extended
+
+
+    /**
+     * Method called when the colorpicker color is invalid
+     *
+     * @listens Colorpicker#colorpickerInvalid
+     * @param {Event} event
+     */
+
+  }, {
+    key: 'onInvalid',
+    value: function onInvalid(event) {}
+    // to be extended
+
+
+    /**
+     * Method called after the colorpicker is hidden
+     *
+     * @listens Colorpicker#colorpickerHide
+     * @param {Event} event
+     */
+
+  }, {
+    key: 'onHide',
+    value: function onHide(event) {}
+    // to be extended
+
+
+    /**
+     * Method called after the colorpicker is shown
+     *
+     * @listens Colorpicker#colorpickerShow
+     * @param {Event} event
+     */
+
+  }, {
+    key: 'onShow',
+    value: function onShow(event) {}
+    // to be extended
+
+
+    /**
+     * Method called after the colorpicker is disabled
+     *
+     * @listens Colorpicker#colorpickerDisable
+     * @param {Event} event
+     */
+
+  }, {
+    key: 'onDisable',
+    value: function onDisable(event) {}
+    // to be extended
+
+
+    /**
+     * Method called after the colorpicker is enabled
+     *
+     * @listens Colorpicker#colorpickerEnable
+     * @param {Event} event
+     */
+
+  }, {
+    key: 'onEnable',
+    value: function onEnable(event) {
+      // to be extended
+    }
+  }]);
+
+  return Extension;
+}();
+
+exports.default = Extension;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ColorItem = exports.HSVAColor = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Color manipulation class, specific for Bootstrap Colorpicker
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
+
+
+var _color = __webpack_require__(16);
+
+var _color2 = _interopRequireDefault(_color);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * HSVA color data class, containing the hue, saturation, value and alpha
+ * information.
+ */
+var HSVAColor = function () {
+  /**
+   * @param {number|int} h
+   * @param {number|int} s
+   * @param {number|int} v
+   * @param {number|int} a
+   */
+  function HSVAColor(h, s, v, a) {
+    _classCallCheck(this, HSVAColor);
+
+    this.h = isNaN(h) ? 0 : h;
+    this.s = isNaN(s) ? 0 : s;
+    this.v = isNaN(v) ? 0 : v;
+    this.a = isNaN(h) ? 1 : a;
+  }
+
+  _createClass(HSVAColor, [{
+    key: 'toString',
+    value: function toString() {
+      return this.h + ', ' + this.s + '%, ' + this.v + '%, ' + this.a;
+    }
+  }]);
+
+  return HSVAColor;
+}();
+
+/**
+ * HSVA color manipulation
+ */
+
+
+var ColorItem = function () {
+  _createClass(ColorItem, [{
+    key: 'api',
+
+
+    /**
+     * Applies a method of the QixColor API and returns a new Color object or
+     * the return value of the method call.
+     *
+     * If no argument is provided, the internal QixColor object is returned.
+     *
+     * @param {String} fn QixColor function name
+     * @param args QixColor function arguments
+     * @example let darkerColor = color.api('darken', 0.25);
+     * @example let luminosity = color.api('luminosity');
+     * @example color = color.api('negate');
+     * @example let qColor = color.api().negate();
+     * @returns {ColorItem|QixColor|*}
+     */
+    value: function api(fn) {
+      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      if (arguments.length === 0) {
+        return this._color;
+      }
+
+      var result = this._color[fn].apply(this._color, args);
+
+      if (!(result instanceof _color2.default)) {
+        // return result of the method call
+        return result;
+      }
+
+      return new ColorItem(result, this.format);
+    }
+
+    /**
+     * Returns the original ColorItem constructor data,
+     * plus a 'valid' flag to know if it's valid or not.
+     *
+     * @returns {{color: *, format: String, valid: boolean}}
+     */
+
+  }, {
+    key: 'original',
+    get: function get() {
+      return this._original;
+    }
+
+    /**
+     * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
+     * @param {String|null} format Color model to convert to by default. Supported: 'rgb', 'hsl', 'hex'.
+     */
+
+  }], [{
+    key: 'HSVAColor',
+
+
+    /**
+     * Returns the HSVAColor class
+     *
+     * @static
+     * @example let colorData = new ColorItem.HSVAColor(360, 100, 100, 1);
+     * @returns {HSVAColor}
+     */
+    get: function get() {
+      return HSVAColor;
+    }
+  }]);
+
+  function ColorItem() {
+    var color = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    _classCallCheck(this, ColorItem);
+
+    this.replace(color, format);
+  }
+
+  /**
+   * Replaces the internal QixColor object with a new one.
+   * This also replaces the internal original color data.
+   *
+   * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data to be parsed (if needed)
+   * @param {String|null} format Color model to convert to by default. Supported: 'rgb', 'hsl', 'hex'.
+   * @example color.replace('rgb(255,0,0)', 'hsl');
+   * @example color.replace(hsvaColorData);
+   */
+
+
+  _createClass(ColorItem, [{
+    key: 'replace',
+    value: function replace(color) {
+      var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+      var fallback = null;
+
+      format = ColorItem.sanitizeFormat(format);
+
+      /**
+       * @type {{color: *, format: String}}
+       * @private
+       */
+      this._original = {
+        color: color,
+        format: format,
+        valid: true
+      };
+      /**
+       * @type {QixColor}
+       * @private
+       */
+      this._color = ColorItem.parse(color);
+
+      if (this._color === null) {
+        this._color = (0, _color2.default)(fallback);
+        this._original.valid = false;
+        return;
+      }
+
+      /**
+       * @type {*|string}
+       * @private
+       */
+      this._format = format ? format : ColorItem.isHex(color) ? 'hex' : this._color.model;
+    }
+
+    /**
+     * Parses the color returning a Qix Color object or null if cannot be
+     * parsed.
+     *
+     * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
+     * @example let qColor = ColorItem.parse('rgb(255,0,0)');
+     * @static
+     * @returns {QixColor|null}
+     */
+
+  }, {
+    key: 'isValid',
+
+
+    /**
+     * Returns true if the color is valid, false if not.
+     *
+     * @returns {boolean}
+     */
+    value: function isValid() {
+      return this._original.valid === true;
+    }
+
+    /**
+     * Hue value from 0 to 360
+     *
+     * @returns {int}
+     */
+
+  }, {
+    key: 'setHueRatio',
+
+
+    /**
+     * Sets the hue ratio, where 1.0 is 0, 0.5 is 180 and 0.0 is 360.
+     *
+     * @ignore
+     * @param {number} h Ratio from 1.0 to 0.0
+     */
+    value: function setHueRatio(h) {
+      this.hue = (1 - h) * 360;
+    }
+
+    /**
+     * Sets the saturation value
+     *
+     * @param {int} value Integer from 0 to 100
+     */
+
+  }, {
+    key: 'setSaturationRatio',
+
+
+    /**
+     * Sets the saturation ratio, where 1.0 is 100 and 0.0 is 0.
+     *
+     * @ignore
+     * @param {number} s Ratio from 0.0 to 1.0
+     */
+    value: function setSaturationRatio(s) {
+      this.saturation = s * 100;
+    }
+
+    /**
+     * Sets the 'value' channel value
+     *
+     * @param {int} value Integer from 0 to 100
+     */
+
+  }, {
+    key: 'setValueRatio',
+
+
+    /**
+     * Sets the value ratio, where 1.0 is 0 and 0.0 is 100.
+     *
+     * @ignore
+     * @param {number} v Ratio from 1.0 to 0.0
+     */
+    value: function setValueRatio(v) {
+      this.value = (1 - v) * 100;
+    }
+
+    /**
+     * Sets the alpha value. It will be rounded to 2 decimals.
+     *
+     * @param {int} value Float from 0.0 to 1.0
+     */
+
+  }, {
+    key: 'setAlphaRatio',
+
+
+    /**
+     * Sets the alpha ratio, where 1.0 is 0.0 and 0.0 is 1.0.
+     *
+     * @ignore
+     * @param {number} a Ratio from 1.0 to 0.0
+     */
+    value: function setAlphaRatio(a) {
+      this.alpha = 1 - a;
+    }
+
+    /**
+     * Sets the default color format
+     *
+     * @param {String} value Supported: 'rgb', 'hsl', 'hex'
+     */
+
+  }, {
+    key: 'isDesaturated',
+
+
+    /**
+     * Returns true if the saturation value is zero, false otherwise
+     *
+     * @returns {boolean}
+     */
+    value: function isDesaturated() {
+      return this.saturation === 0;
+    }
+
+    /**
+     * Returns true if the alpha value is zero, false otherwise
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isTransparent',
+    value: function isTransparent() {
+      return this.alpha === 0;
+    }
+
+    /**
+     * Returns true if the alpha value is numeric and less than 1, false otherwise
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'hasTransparency',
+    value: function hasTransparency() {
+      return this.hasAlpha() && this.alpha < 1;
+    }
+
+    /**
+     * Returns true if the alpha value is numeric, false otherwise
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'hasAlpha',
+    value: function hasAlpha() {
+      return !isNaN(this.alpha);
+    }
+
+    /**
+     * Returns a new HSVAColor object, based on the current color
+     *
+     * @returns {HSVAColor}
+     */
+
+  }, {
+    key: 'toObject',
+    value: function toObject() {
+      return new HSVAColor(this.hue, this.saturation, this.value, this.alpha);
+    }
+
+    /**
+     * Alias of toObject()
+     *
+     * @returns {HSVAColor}
+     */
+
+  }, {
+    key: 'toHsva',
+    value: function toHsva() {
+      return this.toObject();
+    }
+
+    /**
+     * Returns a new HSVAColor object with the ratio values (from 0.0 to 1.0),
+     * based on the current color.
+     *
+     * @ignore
+     * @returns {HSVAColor}
+     */
+
+  }, {
+    key: 'toHsvaRatio',
+    value: function toHsvaRatio() {
+      return new HSVAColor(this.hue / 360, this.saturation / 100, this.value / 100, this.alpha);
+    }
+
+    /**
+     * Converts the current color to its string representation,
+     * using the internal format of this instance.
+     *
+     * @returns {String}
+     */
+
+  }, {
+    key: 'toString',
+    value: function toString() {
+      return this.string();
+    }
+
+    /**
+     * Converts the current color to its string representation,
+     * using the given format.
+     *
+     * @param {String|null} format Format to convert to. If empty or null, the internal format will be used.
+     * @returns {String}
+     */
+
+  }, {
+    key: 'string',
+    value: function string() {
+      var format = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      format = ColorItem.sanitizeFormat(format ? format : this.format);
+
+      if (!format) {
+        return this._color.round().string();
+      }
+
+      if (this._color[format] === undefined) {
+        throw new Error('Unsupported color format: \'' + format + '\'');
+      }
+
+      var str = this._color[format]();
+
+      return str.round ? str.round().string() : str;
+    }
+
+    /**
+     * Returns true if the given color values equals this one, false otherwise.
+     * The format is not compared.
+     * If any of the colors is invalid, the result will be false.
+     *
+     * @param {ColorItem|HSVAColor|QixColor|String|*|null} color Color data
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'equals',
+    value: function equals(color) {
+      color = color instanceof ColorItem ? color : new ColorItem(color);
+
+      if (!color.isValid() || !this.isValid()) {
+        return false;
+      }
+
+      return this.hue === color.hue && this.saturation === color.saturation && this.value === color.value && this.alpha === color.alpha;
+    }
+
+    /**
+     * Creates a copy of this instance
+     *
+     * @returns {ColorItem}
+     */
+
+  }, {
+    key: 'getClone',
+    value: function getClone() {
+      return new ColorItem(this._color, this.format);
+    }
+
+    /**
+     * Creates a copy of this instance, only copying the hue value,
+     * and setting the others to its max value.
+     *
+     * @returns {ColorItem}
+     */
+
+  }, {
+    key: 'getCloneHueOnly',
+    value: function getCloneHueOnly() {
+      return new ColorItem([this.hue, 100, 100, 1], this.format);
+    }
+
+    /**
+     * Creates a copy of this instance setting the alpha to the max.
+     *
+     * @returns {ColorItem}
+     */
+
+  }, {
+    key: 'getCloneOpaque',
+    value: function getCloneOpaque() {
+      return new ColorItem(this._color.alpha(1), this.format);
+    }
+
+    /**
+     * Converts the color to a RGB string
+     *
+     * @returns {String}
+     */
+
+  }, {
+    key: 'toRgbString',
+    value: function toRgbString() {
+      return this.string('rgb');
+    }
+
+    /**
+     * Converts the color to a Hexadecimal string
+     *
+     * @returns {String}
+     */
+
+  }, {
+    key: 'toHexString',
+    value: function toHexString() {
+      return this.string('hex');
+    }
+
+    /**
+     * Converts the color to a HSL string
+     *
+     * @returns {String}
+     */
+
+  }, {
+    key: 'toHslString',
+    value: function toHslString() {
+      return this.string('hsl');
+    }
+
+    /**
+     * Returns true if the color is dark, false otherwhise.
+     * This is useful to decide a text color.
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isDark',
+    value: function isDark() {
+      return this._color.isDark();
+    }
+
+    /**
+     * Returns true if the color is light, false otherwhise.
+     * This is useful to decide a text color.
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isLight',
+    value: function isLight() {
+      return this._color.isLight();
+    }
+
+    /**
+     * Generates a list of colors using the given hue-based formula or the given array of hue values.
+     * Hue formulas can be extended using ColorItem.colorFormulas static property.
+     *
+     * @param {String|Number[]} formula Examples: 'complementary', 'triad', 'tetrad', 'splitcomplement', [180, 270]
+     * @example let colors = color.generate('triad');
+     * @example let colors = color.generate([45, 80, 112, 200]);
+     * @returns {ColorItem[]}
+     */
+
+  }, {
+    key: 'generate',
+    value: function generate(formula) {
+      var hues = [];
+
+      if (Array.isArray(formula)) {
+        hues = formula;
+      } else if (!ColorItem.colorFormulas.hasOwnProperty(formula)) {
+        throw new Error('No color formula found with the name \'' + formula + '\'.');
+      } else {
+        hues = ColorItem.colorFormulas[formula];
+      }
+
+      var colors = [],
+          mainColor = this._color,
+          format = this.format;
+
+      hues.forEach(function (hue) {
+        var levels = [hue ? (mainColor.hue() + hue) % 360 : mainColor.hue(), mainColor.saturationv(), mainColor.value(), mainColor.alpha()];
+
+        colors.push(new ColorItem(levels, format));
+      });
+
+      return colors;
+    }
+  }, {
+    key: 'hue',
+    get: function get() {
+      return this._color.hue();
+    }
+
+    /**
+     * Saturation value from 0 to 100
+     *
+     * @returns {int}
+     */
+    ,
+
+
+    /**
+     * Sets the hue value
+     *
+     * @param {int} value Integer from 0 to 360
+     */
+    set: function set(value) {
+      this._color = this._color.hue(value);
+    }
+  }, {
+    key: 'saturation',
+    get: function get() {
+      return this._color.saturationv();
+    }
+
+    /**
+     * Value channel value from 0 to 100
+     *
+     * @returns {int}
+     */
+    ,
+    set: function set(value) {
+      this._color = this._color.saturationv(value);
+    }
+  }, {
+    key: 'value',
+    get: function get() {
+      return this._color.value();
+    }
+
+    /**
+     * Alpha value from 0.0 to 1.0
+     *
+     * @returns {number}
+     */
+    ,
+    set: function set(value) {
+      this._color = this._color.value(value);
+    }
+  }, {
+    key: 'alpha',
+    get: function get() {
+      var a = this._color.alpha();
+
+      return isNaN(a) ? 1 : a;
+    }
+
+    /**
+     * Default color format to convert to when calling toString() or string()
+     *
+     * @returns {String} 'rgb', 'hsl', 'hex' or ''
+     */
+    ,
+    set: function set(value) {
+      // 2 decimals max
+      this._color = this._color.alpha(Math.round(value * 100) / 100);
+    }
+  }, {
+    key: 'format',
+    get: function get() {
+      return this._format ? this._format : this._color.model;
+    },
+    set: function set(value) {
+      this._format = ColorItem.sanitizeFormat(value);
+    }
+  }], [{
+    key: 'parse',
+    value: function parse(color) {
+      if (color instanceof _color2.default) {
+        return color;
+      }
+
+      if (color instanceof ColorItem) {
+        return color._color;
+      }
+
+      var format = null;
+
+      if (color instanceof HSVAColor) {
+        color = [color.h, color.s, color.v, isNaN(color.a) ? 1 : color.a];
+      } else {
+        color = ColorItem.sanitizeString(color);
+      }
+
+      if (Array.isArray(color)) {
+        format = 'hsv';
+      }
+
+      try {
+        return (0, _color2.default)(color, format);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    /**
+     * Sanitizes a color string, adding missing hash to hexadecimal colors
+     * and converting 'transparent' to a color code.
+     *
+     * @param {String|*} str Color string
+     * @example let colorStr = ColorItem.sanitizeString('ffaa00');
+     * @static
+     * @returns {String|*}
+     */
+
+  }, {
+    key: 'sanitizeString',
+    value: function sanitizeString(str) {
+      if (!(typeof str === 'string' || str instanceof String)) {
+        return str;
+      }
+
+      if (str.match(/^[0-9a-f]{2,}$/i)) {
+        return '#' + str;
+      }
+
+      if (str.toLowerCase() === 'transparent') {
+        return '#FFFFFF00';
+      }
+
+      return str;
+    }
+
+    /**
+     * Detects if a value is a string and a color in hexadecimal format (in any variant).
+     *
+     * @param {String} str
+     * @example ColorItem.isHex('rgba(0,0,0)'); // false
+     * @example ColorItem.isHex('ffaa00'); // true
+     * @example ColorItem.isHex('#ffaa00'); // true
+     * @static
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isHex',
+    value: function isHex(str) {
+      if (!(typeof str === 'string' || str instanceof String)) {
+        return false;
+      }
+
+      return !!str.match(/^#?[0-9a-f]{2,}$/i);
+    }
+
+    /**
+     * Sanitizes a color format to one supported by web browsers.
+     * Returns an empty string of the format can't be recognised.
+     *
+     * @param {String|*} format
+     * @example ColorItem.sanitizeFormat('rgba'); // 'rgb'
+     * @example ColorItem.isHex('hex8'); // 'hex'
+     * @example ColorItem.isHex('invalid'); // ''
+     * @static
+     * @returns {String} 'rgb', 'hsl', 'hex' or ''.
+     */
+
+  }, {
+    key: 'sanitizeFormat',
+    value: function sanitizeFormat(format) {
+      switch (format) {
+        case 'hex':
+        case 'hex3':
+        case 'hex4':
+        case 'hex6':
+        case 'hex8':
+          return 'hex';
+        case 'rgb':
+        case 'rgba':
+        case 'keyword':
+        case 'name':
+          return 'rgb';
+        case 'hsl':
+        case 'hsla':
+        case 'hsv':
+        case 'hsva':
+        case 'hwb': // HWB this is supported by Qix Color, but not by browsers
+        case 'hwba':
+          return 'hsl';
+        default:
+          return '';
+      }
+    }
+  }]);
+
+  return ColorItem;
+}();
+
+/**
+ * List of hue-based color formulas used by ColorItem.prototype.generate()
+ *
+ * @static
+ * @type {{complementary: number[], triad: number[], tetrad: number[], splitcomplement: number[]}}
+ */
+
+
+ColorItem.colorFormulas = {
+  complementary: [180],
+  triad: [0, 120, 240],
+  tetrad: [0, 90, 180, 270],
+  splitcomplement: [0, 72, 216]
+};
+
+exports.default = ColorItem;
+exports.HSVAColor = HSVAColor;
+exports.ColorItem = ColorItem;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * @module
+ */
+
+// adjust these values accordingly to the sass vars
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var sassVars = {
+  'bar_size_short': 16,
+  'base_margin': 6,
+  'columns': 6
+};
+
+var sliderSize = sassVars.bar_size_short * sassVars.columns + sassVars.base_margin * (sassVars.columns - 1);
+
+/**
+ * Colorpicker default options
+ */
+exports.default = {
+  /**
+   * Custom class to be added to the `.colorpicker-element` element
+   *
+   * @type {String|null}
+   * @default null
+   */
+  customClass: null,
+  /**
+   * Sets a initial color, ignoring the one from the element/input value or the data-color attribute.
+   *
+   * @type {(String|ColorItem|boolean)}
+   * @default false
+   */
+  color: false,
+  /**
+   * Fallback color to use when the given color is invalid.
+   * If false, the latest valid color will be used as a fallback.
+   *
+   * @type {String|ColorItem|boolean}
+   * @default false
+   */
+  fallbackColor: false,
+  /**
+   * Forces an specific color format. If 'auto', it will be automatically detected the first time only,
+   * but if null it will be always recalculated.
+   *
+   * Note that the ending 'a' of the format meaning "alpha" has currently no effect, meaning that rgb is the same as
+   * rgba excepting if the alpha channel is disabled (see useAlpha).
+   *
+   * @type {('rgb'|'hex'|'hsl'|'auto'|null)}
+   * @default null
+   */
+  format: null,
+  /**
+   * Horizontal mode layout.
+   *
+   * If true, the hue and alpha channel bars will be rendered horizontally, above the saturation selector.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  horizontal: false,
+  /**
+   * Forces to show the colorpicker as an inline element.
+   *
+   * Note that if there is no container specified, the inline element
+   * will be added to the body, so you may want to set the container option.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  inline: false,
+  /**
+   * Container where the colorpicker is appended to in the DOM.
+   *
+   * If is a string (CSS selector), the colorpicker will be placed inside this container.
+   * If true, the `.colorpicker-element` element itself will be used as the container.
+   * If false, the document body is used as the container, unless it is a popover (in this case it is appended to the
+   * popover body instead).
+   *
+   * @type {String|boolean}
+   * @default false
+   */
+  container: false,
+  /**
+   * Bootstrap Popover options.
+   * The trigger, content and html options are always ignored.
+   *
+   * @type {boolean}
+   * @default Object
+   */
+  popover: {
+    animation: true,
+    placement: 'bottom',
+    fallbackPlacement: 'flip'
+  },
+  /**
+   * If true, loads the 'debugger' extension automatically, which logs the events in the console
+   * @type {boolean}
+   * @default false
+   */
+  debug: false,
+  /**
+   * Child CSS selector for the colorpicker input.
+   *
+   * @type {String}
+   * @default 'input'
+   */
+  input: 'input',
+  /**
+   * Child CSS selector for the colorpicker addon.
+   * If it exists, the child <i> element background will be changed on color change.
+   *
+   * @type {String}
+   * @default '.colorpicker-trigger, .colorpicker-input-addon'
+   */
+  addon: '.colorpicker-input-addon',
+  /**
+   * If true, the input content will be replaced always with a valid color,
+   * if false, the invalid color will be left in the input,
+   *   while the internal color object will still resolve into a valid one.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  autoInputFallback: true,
+  /**
+   * If true a hash will be prepended to hexadecimal colors.
+   * If false, the hash will be removed.
+   * This only affects the input values in hexadecimal format.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  useHashPrefix: true,
+  /**
+   * If true, the alpha channel bar will be displayed no matter what.
+   *
+   * If false, it will be always hidden and alpha channel will be disabled also programmatically, meaning that
+   * the selected or typed color will be always opaque.
+   *
+   * If null, the alpha channel will be automatically disabled/enabled depending if the initial color format supports
+   * alpha or not.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  useAlpha: true,
+  /**
+   * Colorpicker widget template
+   * @type {String}
+   * @example
+   * <!-- This is the default template: -->
+   * <div class="colorpicker">
+   *   <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>
+   *   <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>
+   *   <div class="colorpicker-alpha">
+   *     <div class="colorpicker-alpha-color"></div>
+   *     <i class="colorpicker-guide"></i>
+   *   </div>
+   * </div>
+   */
+  template: '<div class="colorpicker">\n      <div class="colorpicker-saturation"><i class="colorpicker-guide"></i></div>\n      <div class="colorpicker-hue"><i class="colorpicker-guide"></i></div>\n      <div class="colorpicker-alpha">\n        <div class="colorpicker-alpha-color"></div>\n        <i class="colorpicker-guide"></i>\n      </div>\n    </div>',
+  /**
+   *
+   * Associative object with the extension class name and its config.
+   * Colorpicker comes with many bundled extensions: debugger, palette, preview and swatches (a superset of palette).
+   *
+   * @type {Object[]}
+   * @example
+   *   extensions: [
+   *     {
+   *       name: 'swatches'
+   *       options: {
+   *         colors: {
+   *           'primary': '#337ab7',
+   *           'success': '#5cb85c',
+   *           'info': '#5bc0de',
+   *           'warning': '#f0ad4e',
+   *           'danger': '#d9534f'
+   *         },
+   *         namesAsValues: true
+   *       }
+   *     }
+   *   ]
+   */
+  extensions: [{
+    name: 'preview',
+    options: {
+      showText: true
+    }
+  }],
+  /**
+   * Vertical sliders configuration
+   * @type {Object}
+   */
+  sliders: {
+    saturation: {
+      selector: '.colorpicker-saturation',
+      maxLeft: sliderSize,
+      maxTop: sliderSize,
+      callLeft: 'setSaturationRatio',
+      callTop: 'setValueRatio'
+    },
+    hue: {
+      selector: '.colorpicker-hue',
+      maxLeft: 0,
+      maxTop: sliderSize,
+      callLeft: false,
+      callTop: 'setHueRatio'
+    },
+    alpha: {
+      selector: '.colorpicker-alpha',
+      childSelector: '.colorpicker-alpha-color',
+      maxLeft: 0,
+      maxTop: sliderSize,
+      callLeft: false,
+      callTop: 'setAlphaRatio'
+    }
+  },
+  /**
+   * Horizontal sliders configuration
+   * @type {Object}
+   */
+  slidersHorz: {
+    saturation: {
+      selector: '.colorpicker-saturation',
+      maxLeft: sliderSize,
+      maxTop: sliderSize,
+      callLeft: 'setSaturationRatio',
+      callTop: 'setValueRatio'
+    },
+    hue: {
+      selector: '.colorpicker-hue',
+      maxLeft: sliderSize,
+      maxTop: 0,
+      callLeft: 'setHueRatio',
+      callTop: false
+    },
+    alpha: {
+      selector: '.colorpicker-alpha',
+      childSelector: '.colorpicker-alpha-color',
+      maxLeft: sliderSize,
+      maxTop: 0,
+      callLeft: 'setAlphaRatio',
+      callTop: false
+    }
+  }
+};
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Extension2 = __webpack_require__(1);
+
+var _Extension3 = _interopRequireDefault(_Extension2);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var defaults = {
+  /**
+   * Key-value pairs defining a color alias and its CSS color representation.
+   *
+   * They can also be just an array of values. In that case, no special names are used, only the real colors.
+   *
+   * @type {Object|Array}
+   * @default null
+   * @example
+   *  {
+   *   'black': '#000000',
+   *   'white': '#ffffff',
+   *   'red': '#FF0000',
+   *   'default': '#777777',
+   *   'primary': '#337ab7',
+   *   'success': '#5cb85c',
+   *   'info': '#5bc0de',
+   *   'warning': '#f0ad4e',
+   *   'danger': '#d9534f'
+   *  }
+   *
+   * @example ['#f0ad4e', '#337ab7', '#5cb85c']
+   */
+  colors: null,
+  /**
+   * If true, when a color swatch is selected the name (alias) will be used as input value,
+   * otherwise the swatch real color value will be used.
+   *
+   * @type {boolean}
+   * @default true
+   */
+  namesAsValues: true
+};
+
+/**
+ * Palette extension
+ * @ignore
+ */
+
+var Palette = function (_Extension) {
+  _inherits(Palette, _Extension);
+
+  _createClass(Palette, [{
+    key: 'colors',
+
+
+    /**
+     * @returns {Object|Array}
+     */
+    get: function get() {
+      return this.options.colors;
+    }
+  }]);
+
+  function Palette(colorpicker) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, Palette);
+
+    var _this = _possibleConstructorReturn(this, (Palette.__proto__ || Object.getPrototypeOf(Palette)).call(this, colorpicker, _jquery2.default.extend(true, {}, defaults, options)));
+
+    if (!Array.isArray(_this.options.colors) && _typeof(_this.options.colors) !== 'object') {
+      _this.options.colors = null;
+    }
+    return _this;
+  }
+
+  /**
+   * @returns {int}
+   */
+
+
+  _createClass(Palette, [{
+    key: 'getLength',
+    value: function getLength() {
+      if (!this.options.colors) {
+        return 0;
+      }
+
+      if (Array.isArray(this.options.colors)) {
+        return this.options.colors.length;
+      }
+
+      if (_typeof(this.options.colors) === 'object') {
+        return Object.keys(this.options.colors).length;
+      }
+
+      return 0;
+    }
+  }, {
+    key: 'resolveColor',
+    value: function resolveColor(color) {
+      var realColor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      if (this.getLength() <= 0) {
+        return false;
+      }
+
+      // Array of colors
+      if (Array.isArray(this.options.colors)) {
+        if (this.options.colors.indexOf(color) >= 0) {
+          return color;
+        }
+        if (this.options.colors.indexOf(color.toUpperCase()) >= 0) {
+          return color.toUpperCase();
+        }
+        if (this.options.colors.indexOf(color.toLowerCase()) >= 0) {
+          return color.toLowerCase();
+        }
+        return false;
+      }
+
+      if (_typeof(this.options.colors) !== 'object') {
+        return false;
+      }
+
+      // Map of objects
+      if (!this.options.namesAsValues || realColor) {
+        return this.getValue(color, false);
+      }
+      return this.getName(color, this.getName('#' + color));
+    }
+
+    /**
+     * Given a color value, returns the corresponding color name or defaultValue.
+     *
+     * @param {String} value
+     * @param {*} defaultValue
+     * @returns {*}
+     */
+
+  }, {
+    key: 'getName',
+    value: function getName(value) {
+      var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (!(typeof value === 'string') || !this.options.colors) {
+        return defaultValue;
+      }
+      for (var name in this.options.colors) {
+        if (!this.options.colors.hasOwnProperty(name)) {
+          continue;
+        }
+        if (this.options.colors[name].toLowerCase() === value.toLowerCase()) {
+          return name;
+        }
+      }
+      return defaultValue;
+    }
+
+    /**
+     * Given a color name, returns the corresponding color value or defaultValue.
+     *
+     * @param {String} name
+     * @param {*} defaultValue
+     * @returns {*}
+     */
+
+  }, {
+    key: 'getValue',
+    value: function getValue(name) {
+      var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (!(typeof name === 'string') || !this.options.colors) {
+        return defaultValue;
+      }
+      if (this.options.colors.hasOwnProperty(name)) {
+        return this.options.colors[name];
+      }
+      return defaultValue;
+    }
+  }]);
+
+  return Palette;
+}(_Extension3.default);
+
+exports.default = Palette;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = {
+	"aliceblue": [240, 248, 255],
+	"antiquewhite": [250, 235, 215],
+	"aqua": [0, 255, 255],
+	"aquamarine": [127, 255, 212],
+	"azure": [240, 255, 255],
+	"beige": [245, 245, 220],
+	"bisque": [255, 228, 196],
+	"black": [0, 0, 0],
+	"blanchedalmond": [255, 235, 205],
+	"blue": [0, 0, 255],
+	"blueviolet": [138, 43, 226],
+	"brown": [165, 42, 42],
+	"burlywood": [222, 184, 135],
+	"cadetblue": [95, 158, 160],
+	"chartreuse": [127, 255, 0],
+	"chocolate": [210, 105, 30],
+	"coral": [255, 127, 80],
+	"cornflowerblue": [100, 149, 237],
+	"cornsilk": [255, 248, 220],
+	"crimson": [220, 20, 60],
+	"cyan": [0, 255, 255],
+	"darkblue": [0, 0, 139],
+	"darkcyan": [0, 139, 139],
+	"darkgoldenrod": [184, 134, 11],
+	"darkgray": [169, 169, 169],
+	"darkgreen": [0, 100, 0],
+	"darkgrey": [169, 169, 169],
+	"darkkhaki": [189, 183, 107],
+	"darkmagenta": [139, 0, 139],
+	"darkolivegreen": [85, 107, 47],
+	"darkorange": [255, 140, 0],
+	"darkorchid": [153, 50, 204],
+	"darkred": [139, 0, 0],
+	"darksalmon": [233, 150, 122],
+	"darkseagreen": [143, 188, 143],
+	"darkslateblue": [72, 61, 139],
+	"darkslategray": [47, 79, 79],
+	"darkslategrey": [47, 79, 79],
+	"darkturquoise": [0, 206, 209],
+	"darkviolet": [148, 0, 211],
+	"deeppink": [255, 20, 147],
+	"deepskyblue": [0, 191, 255],
+	"dimgray": [105, 105, 105],
+	"dimgrey": [105, 105, 105],
+	"dodgerblue": [30, 144, 255],
+	"firebrick": [178, 34, 34],
+	"floralwhite": [255, 250, 240],
+	"forestgreen": [34, 139, 34],
+	"fuchsia": [255, 0, 255],
+	"gainsboro": [220, 220, 220],
+	"ghostwhite": [248, 248, 255],
+	"gold": [255, 215, 0],
+	"goldenrod": [218, 165, 32],
+	"gray": [128, 128, 128],
+	"green": [0, 128, 0],
+	"greenyellow": [173, 255, 47],
+	"grey": [128, 128, 128],
+	"honeydew": [240, 255, 240],
+	"hotpink": [255, 105, 180],
+	"indianred": [205, 92, 92],
+	"indigo": [75, 0, 130],
+	"ivory": [255, 255, 240],
+	"khaki": [240, 230, 140],
+	"lavender": [230, 230, 250],
+	"lavenderblush": [255, 240, 245],
+	"lawngreen": [124, 252, 0],
+	"lemonchiffon": [255, 250, 205],
+	"lightblue": [173, 216, 230],
+	"lightcoral": [240, 128, 128],
+	"lightcyan": [224, 255, 255],
+	"lightgoldenrodyellow": [250, 250, 210],
+	"lightgray": [211, 211, 211],
+	"lightgreen": [144, 238, 144],
+	"lightgrey": [211, 211, 211],
+	"lightpink": [255, 182, 193],
+	"lightsalmon": [255, 160, 122],
+	"lightseagreen": [32, 178, 170],
+	"lightskyblue": [135, 206, 250],
+	"lightslategray": [119, 136, 153],
+	"lightslategrey": [119, 136, 153],
+	"lightsteelblue": [176, 196, 222],
+	"lightyellow": [255, 255, 224],
+	"lime": [0, 255, 0],
+	"limegreen": [50, 205, 50],
+	"linen": [250, 240, 230],
+	"magenta": [255, 0, 255],
+	"maroon": [128, 0, 0],
+	"mediumaquamarine": [102, 205, 170],
+	"mediumblue": [0, 0, 205],
+	"mediumorchid": [186, 85, 211],
+	"mediumpurple": [147, 112, 219],
+	"mediumseagreen": [60, 179, 113],
+	"mediumslateblue": [123, 104, 238],
+	"mediumspringgreen": [0, 250, 154],
+	"mediumturquoise": [72, 209, 204],
+	"mediumvioletred": [199, 21, 133],
+	"midnightblue": [25, 25, 112],
+	"mintcream": [245, 255, 250],
+	"mistyrose": [255, 228, 225],
+	"moccasin": [255, 228, 181],
+	"navajowhite": [255, 222, 173],
+	"navy": [0, 0, 128],
+	"oldlace": [253, 245, 230],
+	"olive": [128, 128, 0],
+	"olivedrab": [107, 142, 35],
+	"orange": [255, 165, 0],
+	"orangered": [255, 69, 0],
+	"orchid": [218, 112, 214],
+	"palegoldenrod": [238, 232, 170],
+	"palegreen": [152, 251, 152],
+	"paleturquoise": [175, 238, 238],
+	"palevioletred": [219, 112, 147],
+	"papayawhip": [255, 239, 213],
+	"peachpuff": [255, 218, 185],
+	"peru": [205, 133, 63],
+	"pink": [255, 192, 203],
+	"plum": [221, 160, 221],
+	"powderblue": [176, 224, 230],
+	"purple": [128, 0, 128],
+	"rebeccapurple": [102, 51, 153],
+	"red": [255, 0, 0],
+	"rosybrown": [188, 143, 143],
+	"royalblue": [65, 105, 225],
+	"saddlebrown": [139, 69, 19],
+	"salmon": [250, 128, 114],
+	"sandybrown": [244, 164, 96],
+	"seagreen": [46, 139, 87],
+	"seashell": [255, 245, 238],
+	"sienna": [160, 82, 45],
+	"silver": [192, 192, 192],
+	"skyblue": [135, 206, 235],
+	"slateblue": [106, 90, 205],
+	"slategray": [112, 128, 144],
+	"slategrey": [112, 128, 144],
+	"snow": [255, 250, 250],
+	"springgreen": [0, 255, 127],
+	"steelblue": [70, 130, 180],
+	"tan": [210, 180, 140],
+	"teal": [0, 128, 128],
+	"thistle": [216, 191, 216],
+	"tomato": [255, 99, 71],
+	"turquoise": [64, 224, 208],
+	"violet": [238, 130, 238],
+	"wheat": [245, 222, 179],
+	"white": [255, 255, 255],
+	"whitesmoke": [245, 245, 245],
+	"yellow": [255, 255, 0],
+	"yellowgreen": [154, 205, 50]
+};
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* MIT license */
+var cssKeywords = __webpack_require__(5);
+
+// NOTE: conversions should only return primitive values (i.e. arrays, or
+//       values that give correct `typeof` results).
+//       do not use box values types (i.e. Number(), String(), etc.)
+
+var reverseKeywords = {};
+for (var key in cssKeywords) {
+	if (cssKeywords.hasOwnProperty(key)) {
+		reverseKeywords[cssKeywords[key]] = key;
+	}
+}
+
+var convert = module.exports = {
+	rgb: {channels: 3, labels: 'rgb'},
+	hsl: {channels: 3, labels: 'hsl'},
+	hsv: {channels: 3, labels: 'hsv'},
+	hwb: {channels: 3, labels: 'hwb'},
+	cmyk: {channels: 4, labels: 'cmyk'},
+	xyz: {channels: 3, labels: 'xyz'},
+	lab: {channels: 3, labels: 'lab'},
+	lch: {channels: 3, labels: 'lch'},
+	hex: {channels: 1, labels: ['hex']},
+	keyword: {channels: 1, labels: ['keyword']},
+	ansi16: {channels: 1, labels: ['ansi16']},
+	ansi256: {channels: 1, labels: ['ansi256']},
+	hcg: {channels: 3, labels: ['h', 'c', 'g']},
+	apple: {channels: 3, labels: ['r16', 'g16', 'b16']},
+	gray: {channels: 1, labels: ['gray']}
+};
+
+// hide .channels and .labels properties
+for (var model in convert) {
+	if (convert.hasOwnProperty(model)) {
+		if (!('channels' in convert[model])) {
+			throw new Error('missing channels property: ' + model);
+		}
+
+		if (!('labels' in convert[model])) {
+			throw new Error('missing channel labels property: ' + model);
+		}
+
+		if (convert[model].labels.length !== convert[model].channels) {
+			throw new Error('channel and label counts mismatch: ' + model);
+		}
+
+		var channels = convert[model].channels;
+		var labels = convert[model].labels;
+		delete convert[model].channels;
+		delete convert[model].labels;
+		Object.defineProperty(convert[model], 'channels', {value: channels});
+		Object.defineProperty(convert[model], 'labels', {value: labels});
+	}
+}
+
+convert.rgb.hsl = function (rgb) {
+	var r = rgb[0] / 255;
+	var g = rgb[1] / 255;
+	var b = rgb[2] / 255;
+	var min = Math.min(r, g, b);
+	var max = Math.max(r, g, b);
+	var delta = max - min;
+	var h;
+	var s;
+	var l;
+
+	if (max === min) {
+		h = 0;
+	} else if (r === max) {
+		h = (g - b) / delta;
+	} else if (g === max) {
+		h = 2 + (b - r) / delta;
+	} else if (b === max) {
+		h = 4 + (r - g) / delta;
+	}
+
+	h = Math.min(h * 60, 360);
+
+	if (h < 0) {
+		h += 360;
+	}
+
+	l = (min + max) / 2;
+
+	if (max === min) {
+		s = 0;
+	} else if (l <= 0.5) {
+		s = delta / (max + min);
+	} else {
+		s = delta / (2 - max - min);
+	}
+
+	return [h, s * 100, l * 100];
+};
+
+convert.rgb.hsv = function (rgb) {
+	var rdif;
+	var gdif;
+	var bdif;
+	var h;
+	var s;
+
+	var r = rgb[0] / 255;
+	var g = rgb[1] / 255;
+	var b = rgb[2] / 255;
+	var v = Math.max(r, g, b);
+	var diff = v - Math.min(r, g, b);
+	var diffc = function (c) {
+		return (v - c) / 6 / diff + 1 / 2;
+	};
+
+	if (diff === 0) {
+		h = s = 0;
+	} else {
+		s = diff / v;
+		rdif = diffc(r);
+		gdif = diffc(g);
+		bdif = diffc(b);
+
+		if (r === v) {
+			h = bdif - gdif;
+		} else if (g === v) {
+			h = (1 / 3) + rdif - bdif;
+		} else if (b === v) {
+			h = (2 / 3) + gdif - rdif;
+		}
+		if (h < 0) {
+			h += 1;
+		} else if (h > 1) {
+			h -= 1;
+		}
+	}
+
+	return [
+		h * 360,
+		s * 100,
+		v * 100
+	];
+};
+
+convert.rgb.hwb = function (rgb) {
+	var r = rgb[0];
+	var g = rgb[1];
+	var b = rgb[2];
+	var h = convert.rgb.hsl(rgb)[0];
+	var w = 1 / 255 * Math.min(r, Math.min(g, b));
+
+	b = 1 - 1 / 255 * Math.max(r, Math.max(g, b));
+
+	return [h, w * 100, b * 100];
+};
+
+convert.rgb.cmyk = function (rgb) {
+	var r = rgb[0] / 255;
+	var g = rgb[1] / 255;
+	var b = rgb[2] / 255;
+	var c;
+	var m;
+	var y;
+	var k;
+
+	k = Math.min(1 - r, 1 - g, 1 - b);
+	c = (1 - r - k) / (1 - k) || 0;
+	m = (1 - g - k) / (1 - k) || 0;
+	y = (1 - b - k) / (1 - k) || 0;
+
+	return [c * 100, m * 100, y * 100, k * 100];
+};
+
+/**
+ * See https://en.m.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance
+ * */
+function comparativeDistance(x, y) {
+	return (
+		Math.pow(x[0] - y[0], 2) +
+		Math.pow(x[1] - y[1], 2) +
+		Math.pow(x[2] - y[2], 2)
+	);
+}
+
+convert.rgb.keyword = function (rgb) {
+	var reversed = reverseKeywords[rgb];
+	if (reversed) {
+		return reversed;
+	}
+
+	var currentClosestDistance = Infinity;
+	var currentClosestKeyword;
+
+	for (var keyword in cssKeywords) {
+		if (cssKeywords.hasOwnProperty(keyword)) {
+			var value = cssKeywords[keyword];
+
+			// Compute comparative distance
+			var distance = comparativeDistance(rgb, value);
+
+			// Check if its less, if so set as closest
+			if (distance < currentClosestDistance) {
+				currentClosestDistance = distance;
+				currentClosestKeyword = keyword;
+			}
+		}
+	}
+
+	return currentClosestKeyword;
+};
+
+convert.keyword.rgb = function (keyword) {
+	return cssKeywords[keyword];
+};
+
+convert.rgb.xyz = function (rgb) {
+	var r = rgb[0] / 255;
+	var g = rgb[1] / 255;
+	var b = rgb[2] / 255;
+
+	// assume sRGB
+	r = r > 0.04045 ? Math.pow(((r + 0.055) / 1.055), 2.4) : (r / 12.92);
+	g = g > 0.04045 ? Math.pow(((g + 0.055) / 1.055), 2.4) : (g / 12.92);
+	b = b > 0.04045 ? Math.pow(((b + 0.055) / 1.055), 2.4) : (b / 12.92);
+
+	var x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
+	var y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
+	var z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
+
+	return [x * 100, y * 100, z * 100];
+};
+
+convert.rgb.lab = function (rgb) {
+	var xyz = convert.rgb.xyz(rgb);
+	var x = xyz[0];
+	var y = xyz[1];
+	var z = xyz[2];
+	var l;
+	var a;
+	var b;
+
+	x /= 95.047;
+	y /= 100;
+	z /= 108.883;
+
+	x = x > 0.008856 ? Math.pow(x, 1 / 3) : (7.787 * x) + (16 / 116);
+	y = y > 0.008856 ? Math.pow(y, 1 / 3) : (7.787 * y) + (16 / 116);
+	z = z > 0.008856 ? Math.pow(z, 1 / 3) : (7.787 * z) + (16 / 116);
+
+	l = (116 * y) - 16;
+	a = 500 * (x - y);
+	b = 200 * (y - z);
+
+	return [l, a, b];
+};
+
+convert.hsl.rgb = function (hsl) {
+	var h = hsl[0] / 360;
+	var s = hsl[1] / 100;
+	var l = hsl[2] / 100;
+	var t1;
+	var t2;
+	var t3;
+	var rgb;
+	var val;
+
+	if (s === 0) {
+		val = l * 255;
+		return [val, val, val];
+	}
+
+	if (l < 0.5) {
+		t2 = l * (1 + s);
+	} else {
+		t2 = l + s - l * s;
+	}
+
+	t1 = 2 * l - t2;
+
+	rgb = [0, 0, 0];
+	for (var i = 0; i < 3; i++) {
+		t3 = h + 1 / 3 * -(i - 1);
+		if (t3 < 0) {
+			t3++;
+		}
+		if (t3 > 1) {
+			t3--;
+		}
+
+		if (6 * t3 < 1) {
+			val = t1 + (t2 - t1) * 6 * t3;
+		} else if (2 * t3 < 1) {
+			val = t2;
+		} else if (3 * t3 < 2) {
+			val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+		} else {
+			val = t1;
+		}
+
+		rgb[i] = val * 255;
+	}
+
+	return rgb;
+};
+
+convert.hsl.hsv = function (hsl) {
+	var h = hsl[0];
+	var s = hsl[1] / 100;
+	var l = hsl[2] / 100;
+	var smin = s;
+	var lmin = Math.max(l, 0.01);
+	var sv;
+	var v;
+
+	l *= 2;
+	s *= (l <= 1) ? l : 2 - l;
+	smin *= lmin <= 1 ? lmin : 2 - lmin;
+	v = (l + s) / 2;
+	sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s);
+
+	return [h, sv * 100, v * 100];
+};
+
+convert.hsv.rgb = function (hsv) {
+	var h = hsv[0] / 60;
+	var s = hsv[1] / 100;
+	var v = hsv[2] / 100;
+	var hi = Math.floor(h) % 6;
+
+	var f = h - Math.floor(h);
+	var p = 255 * v * (1 - s);
+	var q = 255 * v * (1 - (s * f));
+	var t = 255 * v * (1 - (s * (1 - f)));
+	v *= 255;
+
+	switch (hi) {
+		case 0:
+			return [v, t, p];
+		case 1:
+			return [q, v, p];
+		case 2:
+			return [p, v, t];
+		case 3:
+			return [p, q, v];
+		case 4:
+			return [t, p, v];
+		case 5:
+			return [v, p, q];
+	}
+};
+
+convert.hsv.hsl = function (hsv) {
+	var h = hsv[0];
+	var s = hsv[1] / 100;
+	var v = hsv[2] / 100;
+	var vmin = Math.max(v, 0.01);
+	var lmin;
+	var sl;
+	var l;
+
+	l = (2 - s) * v;
+	lmin = (2 - s) * vmin;
+	sl = s * vmin;
+	sl /= (lmin <= 1) ? lmin : 2 - lmin;
+	sl = sl || 0;
+	l /= 2;
+
+	return [h, sl * 100, l * 100];
+};
+
+// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
+convert.hwb.rgb = function (hwb) {
+	var h = hwb[0] / 360;
+	var wh = hwb[1] / 100;
+	var bl = hwb[2] / 100;
+	var ratio = wh + bl;
+	var i;
+	var v;
+	var f;
+	var n;
+
+	// wh + bl cant be > 1
+	if (ratio > 1) {
+		wh /= ratio;
+		bl /= ratio;
+	}
+
+	i = Math.floor(6 * h);
+	v = 1 - bl;
+	f = 6 * h - i;
+
+	if ((i & 0x01) !== 0) {
+		f = 1 - f;
+	}
+
+	n = wh + f * (v - wh); // linear interpolation
+
+	var r;
+	var g;
+	var b;
+	switch (i) {
+		default:
+		case 6:
+		case 0: r = v; g = n; b = wh; break;
+		case 1: r = n; g = v; b = wh; break;
+		case 2: r = wh; g = v; b = n; break;
+		case 3: r = wh; g = n; b = v; break;
+		case 4: r = n; g = wh; b = v; break;
+		case 5: r = v; g = wh; b = n; break;
+	}
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.cmyk.rgb = function (cmyk) {
+	var c = cmyk[0] / 100;
+	var m = cmyk[1] / 100;
+	var y = cmyk[2] / 100;
+	var k = cmyk[3] / 100;
+	var r;
+	var g;
+	var b;
+
+	r = 1 - Math.min(1, c * (1 - k) + k);
+	g = 1 - Math.min(1, m * (1 - k) + k);
+	b = 1 - Math.min(1, y * (1 - k) + k);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.xyz.rgb = function (xyz) {
+	var x = xyz[0] / 100;
+	var y = xyz[1] / 100;
+	var z = xyz[2] / 100;
+	var r;
+	var g;
+	var b;
+
+	r = (x * 3.2406) + (y * -1.5372) + (z * -0.4986);
+	g = (x * -0.9689) + (y * 1.8758) + (z * 0.0415);
+	b = (x * 0.0557) + (y * -0.2040) + (z * 1.0570);
+
+	// assume sRGB
+	r = r > 0.0031308
+		? ((1.055 * Math.pow(r, 1.0 / 2.4)) - 0.055)
+		: r * 12.92;
+
+	g = g > 0.0031308
+		? ((1.055 * Math.pow(g, 1.0 / 2.4)) - 0.055)
+		: g * 12.92;
+
+	b = b > 0.0031308
+		? ((1.055 * Math.pow(b, 1.0 / 2.4)) - 0.055)
+		: b * 12.92;
+
+	r = Math.min(Math.max(0, r), 1);
+	g = Math.min(Math.max(0, g), 1);
+	b = Math.min(Math.max(0, b), 1);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.xyz.lab = function (xyz) {
+	var x = xyz[0];
+	var y = xyz[1];
+	var z = xyz[2];
+	var l;
+	var a;
+	var b;
+
+	x /= 95.047;
+	y /= 100;
+	z /= 108.883;
+
+	x = x > 0.008856 ? Math.pow(x, 1 / 3) : (7.787 * x) + (16 / 116);
+	y = y > 0.008856 ? Math.pow(y, 1 / 3) : (7.787 * y) + (16 / 116);
+	z = z > 0.008856 ? Math.pow(z, 1 / 3) : (7.787 * z) + (16 / 116);
+
+	l = (116 * y) - 16;
+	a = 500 * (x - y);
+	b = 200 * (y - z);
+
+	return [l, a, b];
+};
+
+convert.lab.xyz = function (lab) {
+	var l = lab[0];
+	var a = lab[1];
+	var b = lab[2];
+	var x;
+	var y;
+	var z;
+
+	y = (l + 16) / 116;
+	x = a / 500 + y;
+	z = y - b / 200;
+
+	var y2 = Math.pow(y, 3);
+	var x2 = Math.pow(x, 3);
+	var z2 = Math.pow(z, 3);
+	y = y2 > 0.008856 ? y2 : (y - 16 / 116) / 7.787;
+	x = x2 > 0.008856 ? x2 : (x - 16 / 116) / 7.787;
+	z = z2 > 0.008856 ? z2 : (z - 16 / 116) / 7.787;
+
+	x *= 95.047;
+	y *= 100;
+	z *= 108.883;
+
+	return [x, y, z];
+};
+
+convert.lab.lch = function (lab) {
+	var l = lab[0];
+	var a = lab[1];
+	var b = lab[2];
+	var hr;
+	var h;
+	var c;
+
+	hr = Math.atan2(b, a);
+	h = hr * 360 / 2 / Math.PI;
+
+	if (h < 0) {
+		h += 360;
+	}
+
+	c = Math.sqrt(a * a + b * b);
+
+	return [l, c, h];
+};
+
+convert.lch.lab = function (lch) {
+	var l = lch[0];
+	var c = lch[1];
+	var h = lch[2];
+	var a;
+	var b;
+	var hr;
+
+	hr = h / 360 * 2 * Math.PI;
+	a = c * Math.cos(hr);
+	b = c * Math.sin(hr);
+
+	return [l, a, b];
+};
+
+convert.rgb.ansi16 = function (args) {
+	var r = args[0];
+	var g = args[1];
+	var b = args[2];
+	var value = 1 in arguments ? arguments[1] : convert.rgb.hsv(args)[2]; // hsv -> ansi16 optimization
+
+	value = Math.round(value / 50);
+
+	if (value === 0) {
+		return 30;
+	}
+
+	var ansi = 30
+		+ ((Math.round(b / 255) << 2)
+		| (Math.round(g / 255) << 1)
+		| Math.round(r / 255));
+
+	if (value === 2) {
+		ansi += 60;
+	}
+
+	return ansi;
+};
+
+convert.hsv.ansi16 = function (args) {
+	// optimization here; we already know the value and don't need to get
+	// it converted for us.
+	return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
+};
+
+convert.rgb.ansi256 = function (args) {
+	var r = args[0];
+	var g = args[1];
+	var b = args[2];
+
+	// we use the extended greyscale palette here, with the exception of
+	// black and white. normal palette only has 4 greyscale shades.
+	if (r === g && g === b) {
+		if (r < 8) {
+			return 16;
+		}
+
+		if (r > 248) {
+			return 231;
+		}
+
+		return Math.round(((r - 8) / 247) * 24) + 232;
+	}
+
+	var ansi = 16
+		+ (36 * Math.round(r / 255 * 5))
+		+ (6 * Math.round(g / 255 * 5))
+		+ Math.round(b / 255 * 5);
+
+	return ansi;
+};
+
+convert.ansi16.rgb = function (args) {
+	var color = args % 10;
+
+	// handle greyscale
+	if (color === 0 || color === 7) {
+		if (args > 50) {
+			color += 3.5;
+		}
+
+		color = color / 10.5 * 255;
+
+		return [color, color, color];
+	}
+
+	var mult = (~~(args > 50) + 1) * 0.5;
+	var r = ((color & 1) * mult) * 255;
+	var g = (((color >> 1) & 1) * mult) * 255;
+	var b = (((color >> 2) & 1) * mult) * 255;
+
+	return [r, g, b];
+};
+
+convert.ansi256.rgb = function (args) {
+	// handle greyscale
+	if (args >= 232) {
+		var c = (args - 232) * 10 + 8;
+		return [c, c, c];
+	}
+
+	args -= 16;
+
+	var rem;
+	var r = Math.floor(args / 36) / 5 * 255;
+	var g = Math.floor((rem = args % 36) / 6) / 5 * 255;
+	var b = (rem % 6) / 5 * 255;
+
+	return [r, g, b];
+};
+
+convert.rgb.hex = function (args) {
+	var integer = ((Math.round(args[0]) & 0xFF) << 16)
+		+ ((Math.round(args[1]) & 0xFF) << 8)
+		+ (Math.round(args[2]) & 0xFF);
+
+	var string = integer.toString(16).toUpperCase();
+	return '000000'.substring(string.length) + string;
+};
+
+convert.hex.rgb = function (args) {
+	var match = args.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
+	if (!match) {
+		return [0, 0, 0];
+	}
+
+	var colorString = match[0];
+
+	if (match[0].length === 3) {
+		colorString = colorString.split('').map(function (char) {
+			return char + char;
+		}).join('');
+	}
+
+	var integer = parseInt(colorString, 16);
+	var r = (integer >> 16) & 0xFF;
+	var g = (integer >> 8) & 0xFF;
+	var b = integer & 0xFF;
+
+	return [r, g, b];
+};
+
+convert.rgb.hcg = function (rgb) {
+	var r = rgb[0] / 255;
+	var g = rgb[1] / 255;
+	var b = rgb[2] / 255;
+	var max = Math.max(Math.max(r, g), b);
+	var min = Math.min(Math.min(r, g), b);
+	var chroma = (max - min);
+	var grayscale;
+	var hue;
+
+	if (chroma < 1) {
+		grayscale = min / (1 - chroma);
+	} else {
+		grayscale = 0;
+	}
+
+	if (chroma <= 0) {
+		hue = 0;
+	} else
+	if (max === r) {
+		hue = ((g - b) / chroma) % 6;
+	} else
+	if (max === g) {
+		hue = 2 + (b - r) / chroma;
+	} else {
+		hue = 4 + (r - g) / chroma + 4;
+	}
+
+	hue /= 6;
+	hue %= 1;
+
+	return [hue * 360, chroma * 100, grayscale * 100];
+};
+
+convert.hsl.hcg = function (hsl) {
+	var s = hsl[1] / 100;
+	var l = hsl[2] / 100;
+	var c = 1;
+	var f = 0;
+
+	if (l < 0.5) {
+		c = 2.0 * s * l;
+	} else {
+		c = 2.0 * s * (1.0 - l);
+	}
+
+	if (c < 1.0) {
+		f = (l - 0.5 * c) / (1.0 - c);
+	}
+
+	return [hsl[0], c * 100, f * 100];
+};
+
+convert.hsv.hcg = function (hsv) {
+	var s = hsv[1] / 100;
+	var v = hsv[2] / 100;
+
+	var c = s * v;
+	var f = 0;
+
+	if (c < 1.0) {
+		f = (v - c) / (1 - c);
+	}
+
+	return [hsv[0], c * 100, f * 100];
+};
+
+convert.hcg.rgb = function (hcg) {
+	var h = hcg[0] / 360;
+	var c = hcg[1] / 100;
+	var g = hcg[2] / 100;
+
+	if (c === 0.0) {
+		return [g * 255, g * 255, g * 255];
+	}
+
+	var pure = [0, 0, 0];
+	var hi = (h % 1) * 6;
+	var v = hi % 1;
+	var w = 1 - v;
+	var mg = 0;
+
+	switch (Math.floor(hi)) {
+		case 0:
+			pure[0] = 1; pure[1] = v; pure[2] = 0; break;
+		case 1:
+			pure[0] = w; pure[1] = 1; pure[2] = 0; break;
+		case 2:
+			pure[0] = 0; pure[1] = 1; pure[2] = v; break;
+		case 3:
+			pure[0] = 0; pure[1] = w; pure[2] = 1; break;
+		case 4:
+			pure[0] = v; pure[1] = 0; pure[2] = 1; break;
+		default:
+			pure[0] = 1; pure[1] = 0; pure[2] = w;
+	}
+
+	mg = (1.0 - c) * g;
+
+	return [
+		(c * pure[0] + mg) * 255,
+		(c * pure[1] + mg) * 255,
+		(c * pure[2] + mg) * 255
+	];
+};
+
+convert.hcg.hsv = function (hcg) {
+	var c = hcg[1] / 100;
+	var g = hcg[2] / 100;
+
+	var v = c + g * (1.0 - c);
+	var f = 0;
+
+	if (v > 0.0) {
+		f = c / v;
+	}
+
+	return [hcg[0], f * 100, v * 100];
+};
+
+convert.hcg.hsl = function (hcg) {
+	var c = hcg[1] / 100;
+	var g = hcg[2] / 100;
+
+	var l = g * (1.0 - c) + 0.5 * c;
+	var s = 0;
+
+	if (l > 0.0 && l < 0.5) {
+		s = c / (2 * l);
+	} else
+	if (l >= 0.5 && l < 1.0) {
+		s = c / (2 * (1 - l));
+	}
+
+	return [hcg[0], s * 100, l * 100];
+};
+
+convert.hcg.hwb = function (hcg) {
+	var c = hcg[1] / 100;
+	var g = hcg[2] / 100;
+	var v = c + g * (1.0 - c);
+	return [hcg[0], (v - c) * 100, (1 - v) * 100];
+};
+
+convert.hwb.hcg = function (hwb) {
+	var w = hwb[1] / 100;
+	var b = hwb[2] / 100;
+	var v = 1 - b;
+	var c = v - w;
+	var g = 0;
+
+	if (c < 1) {
+		g = (v - c) / (1 - c);
+	}
+
+	return [hwb[0], c * 100, g * 100];
+};
+
+convert.apple.rgb = function (apple) {
+	return [(apple[0] / 65535) * 255, (apple[1] / 65535) * 255, (apple[2] / 65535) * 255];
+};
+
+convert.rgb.apple = function (rgb) {
+	return [(rgb[0] / 255) * 65535, (rgb[1] / 255) * 65535, (rgb[2] / 255) * 65535];
+};
+
+convert.gray.rgb = function (args) {
+	return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
+};
+
+convert.gray.hsl = convert.gray.hsv = function (args) {
+	return [0, 0, args[0]];
+};
+
+convert.gray.hwb = function (gray) {
+	return [0, 100, gray[0]];
+};
+
+convert.gray.cmyk = function (gray) {
+	return [0, 0, 0, gray[0]];
+};
+
+convert.gray.lab = function (gray) {
+	return [gray[0], 0, 0];
+};
+
+convert.gray.hex = function (gray) {
+	var val = Math.round(gray[0] / 100 * 255) & 0xFF;
+	var integer = (val << 16) + (val << 8) + val;
+
+	var string = integer.toString(16).toUpperCase();
+	return '000000'.substring(string.length) + string;
+};
+
+convert.rgb.gray = function (rgb) {
+	var val = (rgb[0] + rgb[1] + rgb[2]) / 3;
+	return [val / 255 * 100];
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _Colorpicker = __webpack_require__(8);
+
+var _Colorpicker2 = _interopRequireDefault(_Colorpicker);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var plugin = 'colorpicker';
+
+_jquery2.default[plugin] = _Colorpicker2.default;
+
+// Colorpicker jQuery Plugin API
+_jquery2.default.fn[plugin] = function (option) {
+  var fnArgs = Array.prototype.slice.call(arguments, 1),
+      isSingleElement = this.length === 1,
+      returnValue = null;
+
+  var $elements = this.each(function () {
+    var $this = (0, _jquery2.default)(this),
+        inst = $this.data(plugin),
+        options = (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? option : {};
+
+    // Create instance if does not exist
+    if (!inst) {
+      inst = new _Colorpicker2.default(this, options);
+      $this.data(plugin, inst);
+    }
+
+    if (!isSingleElement) {
+      return;
+    }
+
+    returnValue = $this;
+
+    if (typeof option === 'string') {
+      if (option === 'colorpicker') {
+        // Return colorpicker instance: e.g. .colorpicker('colorpicker')
+        returnValue = inst;
+      } else if (_jquery2.default.isFunction(inst[option])) {
+        // Return method call return value: e.g. .colorpicker('isEnabled')
+        returnValue = inst[option].apply(inst, fnArgs);
+      } else {
+        // Return property value: e.g. .colorpicker('element')
+        returnValue = inst[option];
+      }
+    }
+  });
+
+  return isSingleElement ? returnValue : $elements;
+};
+
+_jquery2.default.fn[plugin].constructor = _Colorpicker2.default;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Extension = __webpack_require__(1);
+
+var _Extension2 = _interopRequireDefault(_Extension);
+
+var _options = __webpack_require__(3);
+
+var _options2 = _interopRequireDefault(_options);
+
+var _extensions = __webpack_require__(9);
+
+var _extensions2 = _interopRequireDefault(_extensions);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _SliderHandler = __webpack_require__(13);
+
+var _SliderHandler2 = _interopRequireDefault(_SliderHandler);
+
+var _PopupHandler = __webpack_require__(14);
+
+var _PopupHandler2 = _interopRequireDefault(_PopupHandler);
+
+var _InputHandler = __webpack_require__(15);
+
+var _InputHandler2 = _interopRequireDefault(_InputHandler);
+
+var _ColorHandler = __webpack_require__(22);
+
+var _ColorHandler2 = _interopRequireDefault(_ColorHandler);
+
+var _PickerHandler = __webpack_require__(23);
+
+var _PickerHandler2 = _interopRequireDefault(_PickerHandler);
+
+var _AddonHandler = __webpack_require__(24);
+
+var _AddonHandler2 = _interopRequireDefault(_AddonHandler);
+
+var _ColorItem = __webpack_require__(2);
+
+var _ColorItem2 = _interopRequireDefault(_ColorItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var colorPickerIdCounter = 0;
+var root = typeof self !== 'undefined' ? self : undefined; // window
+
+/**
+ * Colorpicker widget class
+ */
+
+var Colorpicker = function () {
+  _createClass(Colorpicker, [{
+    key: 'color',
+
+
+    /**
+     * Internal color object
+     *
+     * @type {Color|null}
+     */
+    get: function get() {
+      return this.colorHandler.color;
+    }
+
+    /**
+     * Internal color format
+     *
+     * @type {String|null}
+     */
+
+  }, {
+    key: 'format',
+    get: function get() {
+      return this.colorHandler.format;
+    }
+
+    /**
+     * Getter of the picker element
+     *
+     * @returns {jQuery|HTMLElement}
+     */
+
+  }, {
+    key: 'picker',
+    get: function get() {
+      return this.pickerHandler.picker;
+    }
+
+    /**
+     * @fires Colorpicker#colorpickerCreate
+     * @param {Object|String} element
+     * @param {Object} options
+     * @constructor
+     */
+
+  }], [{
+    key: 'Color',
+
+    /**
+     * Color class
+     *
+     * @static
+     * @type {Color}
+     */
+    get: function get() {
+      return _ColorItem2.default;
+    }
+
+    /**
+     * Extension class
+     *
+     * @static
+     * @type {Extension}
+     */
+
+  }, {
+    key: 'Extension',
+    get: function get() {
+      return _Extension2.default;
+    }
+  }]);
+
+  function Colorpicker(element, options) {
+    _classCallCheck(this, Colorpicker);
+
+    colorPickerIdCounter += 1;
+    /**
+     * The colorpicker instance number
+     * @type {number}
+     */
+    this.id = colorPickerIdCounter;
+
+    /**
+     * Latest colorpicker event
+     *
+     * @type {{name: String, e: *}}
+     */
+    this.lastEvent = {
+      alias: null,
+      e: null
+    };
+
+    /**
+     * The element that the colorpicker is bound to
+     *
+     * @type {*|jQuery}
+     */
+    this.element = (0, _jquery2.default)(element).addClass('colorpicker-element').attr('data-colorpicker-id', this.id);
+
+    /**
+     * @type {defaults}
+     */
+    this.options = _jquery2.default.extend(true, {}, _options2.default, options, this.element.data());
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.disabled = false;
+
+    /**
+     * Extensions added to this instance
+     *
+     * @type {Extension[]}
+     */
+    this.extensions = [];
+
+    /**
+     * The element where the
+     * @type {*|jQuery}
+     */
+    this.container = this.options.container === true || this.options.container !== true && this.options.inline === true ? this.element : this.options.container;
+
+    this.container = this.container !== false ? (0, _jquery2.default)(this.container) : false;
+
+    /**
+     * @type {InputHandler}
+     */
+    this.inputHandler = new _InputHandler2.default(this);
+    /**
+     * @type {ColorHandler}
+     */
+    this.colorHandler = new _ColorHandler2.default(this);
+    /**
+     * @type {SliderHandler}
+     */
+    this.sliderHandler = new _SliderHandler2.default(this);
+    /**
+     * @type {PopupHandler}
+     */
+    this.popupHandler = new _PopupHandler2.default(this, root);
+    /**
+     * @type {PickerHandler}
+     */
+    this.pickerHandler = new _PickerHandler2.default(this);
+    /**
+     * @type {AddonHandler}
+     */
+    this.addonHandler = new _AddonHandler2.default(this);
+
+    this.init();
+
+    // Emit a create event
+    (0, _jquery2.default)(_jquery2.default.proxy(function () {
+      /**
+       * (Colorpicker) When the Colorpicker instance has been created and the DOM is ready.
+       *
+       * @event Colorpicker#colorpickerCreate
+       */
+      this.trigger('colorpickerCreate');
+    }, this));
+  }
+
+  /**
+   * Initializes the plugin
+   * @private
+   */
+
+
+  _createClass(Colorpicker, [{
+    key: 'init',
+    value: function init() {
+      // Init addon
+      this.addonHandler.bind();
+
+      // Init input
+      this.inputHandler.bind();
+
+      // Init extensions (before initializing the color)
+      this.initExtensions();
+
+      // Init color
+      this.colorHandler.bind();
+
+      // Init picker
+      this.pickerHandler.bind();
+
+      // Init sliders and popup
+      this.sliderHandler.bind();
+      this.popupHandler.bind();
+
+      // Inject into the DOM (this may make it visible)
+      this.pickerHandler.attach();
+
+      // Update all components
+      this.update();
+
+      if (this.inputHandler.isDisabled()) {
+        this.disable();
+      }
+    }
+
+    /**
+     * Initializes the plugin extensions
+     * @private
+     */
+
+  }, {
+    key: 'initExtensions',
+    value: function initExtensions() {
+      var _this = this;
+
+      if (!Array.isArray(this.options.extensions)) {
+        this.options.extensions = [];
+      }
+
+      if (this.options.debug) {
+        this.options.extensions.push({ name: 'debugger' });
+      }
+
+      // Register and instantiate extensions
+      this.options.extensions.forEach(function (ext) {
+        _this.registerExtension(Colorpicker.extensions[ext.name.toLowerCase()], ext.options || {});
+      });
+    }
+
+    /**
+     * Creates and registers the given extension
+     *
+     * @param {Extension} ExtensionClass The extension class to instantiate
+     * @param {Object} [config] Extension configuration
+     * @returns {Extension}
+     */
+
+  }, {
+    key: 'registerExtension',
+    value: function registerExtension(ExtensionClass) {
+      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      var ext = new ExtensionClass(this, config);
+
+      this.extensions.push(ext);
+      return ext;
+    }
+
+    /**
+     * Destroys the current instance
+     *
+     * @fires Colorpicker#colorpickerDestroy
+     */
+
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      var color = this.color;
+
+      this.sliderHandler.unbind();
+      this.inputHandler.unbind();
+      this.popupHandler.unbind();
+      this.colorHandler.unbind();
+      this.addonHandler.unbind();
+      this.pickerHandler.unbind();
+
+      this.element.removeClass('colorpicker-element').removeData('colorpicker', 'color').off('.colorpicker');
+
+      /**
+       * (Colorpicker) When the instance is destroyed with all events unbound.
+       *
+       * @event Colorpicker#colorpickerDestroy
+       */
+      this.trigger('colorpickerDestroy', color);
+    }
+
+    /**
+     * Shows the colorpicker widget if hidden.
+     * If the colorpicker is disabled this call will be ignored.
+     *
+     * @fires Colorpicker#colorpickerShow
+     * @param {Event} [e]
+     */
+
+  }, {
+    key: 'show',
+    value: function show(e) {
+      this.popupHandler.show(e);
+    }
+
+    /**
+     * Hides the colorpicker widget.
+     *
+     * @fires Colorpicker#colorpickerHide
+     * @param {Event} [e]
+     */
+
+  }, {
+    key: 'hide',
+    value: function hide(e) {
+      this.popupHandler.hide(e);
+    }
+
+    /**
+     * Toggles the colorpicker between visible and hidden.
+     *
+     * @fires Colorpicker#colorpickerShow
+     * @fires Colorpicker#colorpickerHide
+     * @param {Event} [e]
+     */
+
+  }, {
+    key: 'toggle',
+    value: function toggle(e) {
+      this.popupHandler.toggle(e);
+    }
+
+    /**
+     * Returns the current color value as string
+     *
+     * @param {String|*} [defaultValue]
+     * @returns {String|*}
+     */
+
+  }, {
+    key: 'getValue',
+    value: function getValue() {
+      var defaultValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      var val = this.colorHandler.color;
+
+      val = val instanceof _ColorItem2.default ? val : defaultValue;
+
+      if (val instanceof _ColorItem2.default) {
+        return val.string(this.format);
+      }
+
+      return val;
+    }
+
+    /**
+     * Sets the color manually
+     *
+     * @fires Colorpicker#colorpickerChange
+     * @param {String|Color} val
+     */
+
+  }, {
+    key: 'setValue',
+    value: function setValue(val) {
+      if (this.isDisabled()) {
+        return;
+      }
+      var ch = this.colorHandler;
+
+      if (ch.hasColor() && !!val && ch.color.equals(val) || !ch.hasColor() && !val) {
+        // same color or still empty
+        return;
+      }
+
+      ch.color = val ? ch.createColor(val, this.options.autoInputFallback) : null;
+
+      /**
+       * (Colorpicker) When the color is set programmatically with setValue().
+       *
+       * @event Colorpicker#colorpickerChange
+       */
+      this.trigger('colorpickerChange', ch.color, val);
+
+      // force update if color has changed to empty
+      this.update();
+    }
+
+    /**
+     * Updates the UI and the input color according to the internal color.
+     *
+     * @fires Colorpicker#colorpickerUpdate
+     */
+
+  }, {
+    key: 'update',
+    value: function update() {
+      if (this.colorHandler.hasColor()) {
+        this.inputHandler.update();
+      } else {
+        this.colorHandler.assureColor();
+      }
+
+      this.addonHandler.update();
+      this.pickerHandler.update();
+
+      /**
+       * (Colorpicker) Fired when the widget is updated.
+       *
+       * @event Colorpicker#colorpickerUpdate
+       */
+      this.trigger('colorpickerUpdate');
+    }
+
+    /**
+     * Enables the widget and the input if any
+     *
+     * @fires Colorpicker#colorpickerEnable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'enable',
+    value: function enable() {
+      this.inputHandler.enable();
+      this.disabled = false;
+      this.picker.removeClass('colorpicker-disabled');
+
+      /**
+       * (Colorpicker) When the widget has been enabled.
+       *
+       * @event Colorpicker#colorpickerEnable
+       */
+      this.trigger('colorpickerEnable');
+      return true;
+    }
+
+    /**
+     * Disables the widget and the input if any
+     *
+     * @fires Colorpicker#colorpickerDisable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'disable',
+    value: function disable() {
+      this.inputHandler.disable();
+      this.disabled = true;
+      this.picker.addClass('colorpicker-disabled');
+
+      /**
+       * (Colorpicker) When the widget has been disabled.
+       *
+       * @event Colorpicker#colorpickerDisable
+       */
+      this.trigger('colorpickerDisable');
+      return true;
+    }
+
+    /**
+     * Returns true if this instance is enabled
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isEnabled',
+    value: function isEnabled() {
+      return !this.isDisabled();
+    }
+
+    /**
+     * Returns true if this instance is disabled
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isDisabled',
+    value: function isDisabled() {
+      return this.disabled === true;
+    }
+
+    /**
+     * Triggers a Colorpicker event.
+     *
+     * @param eventName
+     * @param color
+     * @param value
+     */
+
+  }, {
+    key: 'trigger',
+    value: function trigger(eventName) {
+      var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+      this.element.trigger({
+        type: eventName,
+        colorpicker: this,
+        color: color ? color : this.color,
+        value: value ? value : this.getValue()
+      });
+    }
+  }]);
+
+  return Colorpicker;
+}();
+
+/**
+ * Colorpicker extension classes, indexed by extension name
+ *
+ * @static
+ * @type {Object} a map between the extension name and its class
+ */
+
+
+Colorpicker.extensions = _extensions2.default;
+
+exports.default = Colorpicker;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Palette = exports.Swatches = exports.Preview = exports.Debugger = undefined;
+
+var _Debugger = __webpack_require__(10);
+
+var _Debugger2 = _interopRequireDefault(_Debugger);
+
+var _Preview = __webpack_require__(11);
+
+var _Preview2 = _interopRequireDefault(_Preview);
+
+var _Swatches = __webpack_require__(12);
+
+var _Swatches2 = _interopRequireDefault(_Swatches);
+
+var _Palette = __webpack_require__(4);
+
+var _Palette2 = _interopRequireDefault(_Palette);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.Debugger = _Debugger2.default;
+exports.Preview = _Preview2.default;
+exports.Swatches = _Swatches2.default;
+exports.Palette = _Palette2.default;
+exports.default = {
+  'debugger': _Debugger2.default,
+  'preview': _Preview2.default,
+  'swatches': _Swatches2.default,
+  'palette': _Palette2.default
+};
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _Extension2 = __webpack_require__(1);
+
+var _Extension3 = _interopRequireDefault(_Extension2);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Debugger extension class
+ * @alias DebuggerExtension
+ * @ignore
+ */
+var Debugger = function (_Extension) {
+  _inherits(Debugger, _Extension);
+
+  function Debugger(colorpicker) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, Debugger);
+
+    /**
+     * @type {number}
+     */
+    var _this = _possibleConstructorReturn(this, (Debugger.__proto__ || Object.getPrototypeOf(Debugger)).call(this, colorpicker, options));
+
+    _this.eventCounter = 0;
+    if (_this.colorpicker.inputHandler.hasInput()) {
+      _this.colorpicker.inputHandler.input.on('change.colorpicker-ext', _jquery2.default.proxy(_this.onChangeInput, _this));
+    }
+    return _this;
+  }
+
+  /**
+   * @fires DebuggerExtension#colorpickerDebug
+   * @param {string} eventName
+   * @param {*} args
+   */
+
+
+  _createClass(Debugger, [{
+    key: 'log',
+    value: function log(eventName) {
+      var _console;
+
+      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      this.eventCounter += 1;
+
+      var logMessage = '#' + this.eventCounter + ': Colorpicker#' + this.colorpicker.id + ' [' + eventName + ']';
+
+      (_console = console).debug.apply(_console, [logMessage].concat(args));
+
+      /**
+       * Whenever the debugger logs an event, this other event is emitted.
+       *
+       * @event DebuggerExtension#colorpickerDebug
+       * @type {object} The event object
+       * @property {Colorpicker} colorpicker The Colorpicker instance
+       * @property {ColorItem} color The color instance
+       * @property {{debugger: DebuggerExtension, eventName: String, logArgs: Array, logMessage: String}} debug
+       *  The debug info
+       */
+      this.colorpicker.element.trigger({
+        type: 'colorpickerDebug',
+        colorpicker: this.colorpicker,
+        color: this.color,
+        value: null,
+        debug: {
+          debugger: this,
+          eventName: eventName,
+          logArgs: args,
+          logMessage: logMessage
+        }
+      });
+    }
+  }, {
+    key: 'resolveColor',
+    value: function resolveColor(color) {
+      var realColor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      this.log('resolveColor()', color, realColor);
+      return false;
+    }
+  }, {
+    key: 'onCreate',
+    value: function onCreate(event) {
+      this.log('colorpickerCreate');
+      return _get(Debugger.prototype.__proto__ || Object.getPrototypeOf(Debugger.prototype), 'onCreate', this).call(this, event);
+    }
+  }, {
+    key: 'onDestroy',
+    value: function onDestroy(event) {
+      this.log('colorpickerDestroy');
+      this.eventCounter = 0;
+
+      if (this.colorpicker.inputHandler.hasInput()) {
+        this.colorpicker.inputHandler.input.off('.colorpicker-ext');
+      }
+
+      return _get(Debugger.prototype.__proto__ || Object.getPrototypeOf(Debugger.prototype), 'onDestroy', this).call(this, event);
+    }
+  }, {
+    key: 'onUpdate',
+    value: function onUpdate(event) {
+      this.log('colorpickerUpdate');
+    }
+
+    /**
+     * @listens Colorpicker#change
+     * @param {Event} event
+     */
+
+  }, {
+    key: 'onChangeInput',
+    value: function onChangeInput(event) {
+      this.log('input:change.colorpicker', event.value, event.color);
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(event) {
+      this.log('colorpickerChange', event.value, event.color);
+    }
+  }, {
+    key: 'onInvalid',
+    value: function onInvalid(event) {
+      this.log('colorpickerInvalid', event.value, event.color);
+    }
+  }, {
+    key: 'onHide',
+    value: function onHide(event) {
+      this.log('colorpickerHide');
+      this.eventCounter = 0;
+    }
+  }, {
+    key: 'onShow',
+    value: function onShow(event) {
+      this.log('colorpickerShow');
+    }
+  }, {
+    key: 'onDisable',
+    value: function onDisable(event) {
+      this.log('colorpickerDisable');
+    }
+  }, {
+    key: 'onEnable',
+    value: function onEnable(event) {
+      this.log('colorpickerEnable');
+    }
+  }]);
+
+  return Debugger;
+}(_Extension3.default);
+
+exports.default = Debugger;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _Extension2 = __webpack_require__(1);
+
+var _Extension3 = _interopRequireDefault(_Extension2);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Color preview extension
+ * @ignore
+ */
+var Preview = function (_Extension) {
+  _inherits(Preview, _Extension);
+
+  function Preview(colorpicker) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, Preview);
+
+    var _this = _possibleConstructorReturn(this, (Preview.__proto__ || Object.getPrototypeOf(Preview)).call(this, colorpicker, _jquery2.default.extend(true, {}, {
+      template: '<div class="colorpicker-bar colorpicker-preview"><div /></div>',
+      showText: true,
+      format: colorpicker.format
+    }, options)));
+
+    _this.element = (0, _jquery2.default)(_this.options.template);
+    _this.elementInner = _this.element.find('div');
+    return _this;
+  }
+
+  _createClass(Preview, [{
+    key: 'onCreate',
+    value: function onCreate(event) {
+      _get(Preview.prototype.__proto__ || Object.getPrototypeOf(Preview.prototype), 'onCreate', this).call(this, event);
+      this.colorpicker.picker.append(this.element);
+    }
+  }, {
+    key: 'onUpdate',
+    value: function onUpdate(event) {
+      _get(Preview.prototype.__proto__ || Object.getPrototypeOf(Preview.prototype), 'onUpdate', this).call(this, event);
+
+      if (!event.color) {
+        this.elementInner.css('backgroundColor', null).css('color', null).html('');
+        return;
+      }
+
+      this.elementInner.css('backgroundColor', event.color.toRgbString());
+
+      if (this.options.showText) {
+        this.elementInner.html(event.color.string(this.options.format || this.colorpicker.format));
+
+        if (event.color.isDark() && event.color.alpha > 0.5) {
+          this.elementInner.css('color', 'white');
+        } else {
+          this.elementInner.css('color', 'black');
+        }
+      }
+    }
+  }]);
+
+  return Preview;
+}(_Extension3.default);
+
+exports.default = Preview;
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _Palette2 = __webpack_require__(4);
+
+var _Palette3 = _interopRequireDefault(_Palette2);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var defaults = {
+  barTemplate: '<div class="colorpicker-bar colorpicker-swatches">\n                    <div class="colorpicker-swatches--inner"></div>\n                </div>',
+  swatchTemplate: '<i class="colorpicker-swatch"><i class="colorpicker-swatch--inner"></i></i>'
+};
+
+/**
+ * Color swatches extension
+ * @ignore
+ */
+
+var Swatches = function (_Palette) {
+  _inherits(Swatches, _Palette);
+
+  function Swatches(colorpicker) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, Swatches);
+
+    var _this = _possibleConstructorReturn(this, (Swatches.__proto__ || Object.getPrototypeOf(Swatches)).call(this, colorpicker, _jquery2.default.extend(true, {}, defaults, options)));
+
+    _this.element = null;
+    return _this;
+  }
+
+  _createClass(Swatches, [{
+    key: 'isEnabled',
+    value: function isEnabled() {
+      return this.getLength() > 0;
+    }
+  }, {
+    key: 'onCreate',
+    value: function onCreate(event) {
+      _get(Swatches.prototype.__proto__ || Object.getPrototypeOf(Swatches.prototype), 'onCreate', this).call(this, event);
+
+      if (!this.isEnabled()) {
+        return;
+      }
+
+      this.element = (0, _jquery2.default)(this.options.barTemplate);
+      this.load();
+      this.colorpicker.picker.append(this.element);
+    }
+  }, {
+    key: 'load',
+    value: function load() {
+      var _this2 = this;
+
+      var colorpicker = this.colorpicker,
+          swatchContainer = this.element.find('.colorpicker-swatches--inner'),
+          isAliased = this.options.namesAsValues === true && !Array.isArray(this.colors);
+
+      swatchContainer.empty();
+
+      _jquery2.default.each(this.colors, function (name, value) {
+        var $swatch = (0, _jquery2.default)(_this2.options.swatchTemplate).attr('data-name', name).attr('data-value', value).attr('title', isAliased ? name + ': ' + value : value).on('mousedown.colorpicker touchstart.colorpicker', function (e) {
+          var $sw = (0, _jquery2.default)(this);
+
+          // e.preventDefault();
+
+          colorpicker.setValue(isAliased ? $sw.attr('data-name') : $sw.attr('data-value'));
+        });
+
+        $swatch.find('.colorpicker-swatch--inner').css('background-color', value);
+
+        swatchContainer.append($swatch);
+      });
+
+      swatchContainer.append((0, _jquery2.default)('<i class="colorpicker-clear"></i>'));
+    }
+  }]);
+
+  return Swatches;
+}(_Palette3.default);
+
+exports.default = Swatches;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Class that handles all configured sliders on mouse or touch events.
+ * @ignore
+ */
+var SliderHandler = function () {
+  /**
+   * @param {Colorpicker} colorpicker
+   */
+  function SliderHandler(colorpicker) {
+    _classCallCheck(this, SliderHandler);
+
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+    /**
+     * @type {*|String}
+     * @private
+     */
+    this.currentSlider = null;
+    /**
+     * @type {{left: number, top: number}}
+     * @private
+     */
+    this.mousePointer = {
+      left: 0,
+      top: 0
+    };
+
+    /**
+     * @type {Function}
+     */
+    this.onMove = _jquery2.default.proxy(this.defaultOnMove, this);
+  }
+
+  /**
+   * This function is called every time a slider guide is moved
+   * The scope of "this" is the SliderHandler object.
+   *
+   * @param {int} top
+   * @param {int} left
+   */
+
+
+  _createClass(SliderHandler, [{
+    key: 'defaultOnMove',
+    value: function defaultOnMove(top, left) {
+      if (!this.currentSlider) {
+        return;
+      }
+
+      var slider = this.currentSlider,
+          cp = this.colorpicker,
+          ch = cp.colorHandler;
+
+      // Create a color object
+      var color = !ch.hasColor() ? ch.getFallbackColor() : ch.color.getClone();
+
+      // Adjust the guide position
+      slider.guideStyle.left = left + 'px';
+      slider.guideStyle.top = top + 'px';
+
+      // Adjust the color
+      if (slider.callLeft) {
+        color[slider.callLeft].call(color, left / slider.maxLeft);
+      }
+      if (slider.callTop) {
+        color[slider.callTop].call(color, top / slider.maxTop);
+      }
+
+      // Set the new color
+      cp.setValue(color);
+      cp.popupHandler.focus();
+    }
+
+    /**
+     * Binds the colorpicker sliders to the mouse/touch events
+     */
+
+  }, {
+    key: 'bind',
+    value: function bind() {
+      var sliders = this.colorpicker.options.horizontal ? this.colorpicker.options.slidersHorz : this.colorpicker.options.sliders;
+      var sliderClasses = [];
+
+      for (var sliderName in sliders) {
+        if (!sliders.hasOwnProperty(sliderName)) {
+          continue;
+        }
+
+        sliderClasses.push(sliders[sliderName].selector);
+      }
+
+      this.colorpicker.picker.find(sliderClasses.join(', ')).on('mousedown.colorpicker touchstart.colorpicker', _jquery2.default.proxy(this.pressed, this));
+    }
+
+    /**
+     * Unbinds any event bound by this handler
+     */
+
+  }, {
+    key: 'unbind',
+    value: function unbind() {
+      (0, _jquery2.default)(this.colorpicker.picker).off({
+        'mousemove.colorpicker': _jquery2.default.proxy(this.moved, this),
+        'touchmove.colorpicker': _jquery2.default.proxy(this.moved, this),
+        'mouseup.colorpicker': _jquery2.default.proxy(this.released, this),
+        'touchend.colorpicker': _jquery2.default.proxy(this.released, this)
+      });
+    }
+
+    /**
+     * Function triggered when clicking in one of the color adjustment bars
+     *
+     * @private
+     * @fires Colorpicker#mousemove
+     * @param {Event} e
+     */
+
+  }, {
+    key: 'pressed',
+    value: function pressed(e) {
+      if (this.colorpicker.isDisabled()) {
+        return;
+      }
+      this.colorpicker.lastEvent.alias = 'pressed';
+      this.colorpicker.lastEvent.e = e;
+
+      if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
+        e.pageX = e.originalEvent.touches[0].pageX;
+        e.pageY = e.originalEvent.touches[0].pageY;
+      }
+      // e.stopPropagation();
+      // e.preventDefault();
+
+      var target = (0, _jquery2.default)(e.target);
+
+      // detect the slider and set the limits and callbacks
+      var zone = target.closest('div');
+      var sliders = this.colorpicker.options.horizontal ? this.colorpicker.options.slidersHorz : this.colorpicker.options.sliders;
+
+      if (zone.is('.colorpicker')) {
+        return;
+      }
+
+      this.currentSlider = null;
+
+      for (var sliderName in sliders) {
+        if (!sliders.hasOwnProperty(sliderName)) {
+          continue;
+        }
+
+        var slider = sliders[sliderName];
+
+        if (zone.is(slider.selector)) {
+          this.currentSlider = _jquery2.default.extend({}, slider, { name: sliderName });
+          break;
+        } else if (slider.childSelector !== undefined && zone.is(slider.childSelector)) {
+          this.currentSlider = _jquery2.default.extend({}, slider, { name: sliderName });
+          zone = zone.parent(); // zone.parents(slider.selector).first() ?
+          break;
+        }
+      }
+
+      var guide = zone.find('.colorpicker-guide').get(0);
+
+      if (this.currentSlider === null || guide === null) {
+        return;
+      }
+
+      var offset = zone.offset();
+
+      // reference to guide's style
+      this.currentSlider.guideStyle = guide.style;
+      this.currentSlider.left = e.pageX - offset.left;
+      this.currentSlider.top = e.pageY - offset.top;
+      this.mousePointer = {
+        left: e.pageX,
+        top: e.pageY
+      };
+
+      // TODO: fix moving outside the picker makes the guides to keep moving. The event needs to be bound to the window.
+      /**
+       * (window.document) Triggered on mousedown for the document object,
+       * so the color adjustment guide is moved to the clicked position.
+       *
+       * @event Colorpicker#mousemove
+       */
+      (0, _jquery2.default)(this.colorpicker.picker).on({
+        'mousemove.colorpicker': _jquery2.default.proxy(this.moved, this),
+        'touchmove.colorpicker': _jquery2.default.proxy(this.moved, this),
+        'mouseup.colorpicker': _jquery2.default.proxy(this.released, this),
+        'touchend.colorpicker': _jquery2.default.proxy(this.released, this)
+      }).trigger('mousemove');
+    }
+
+    /**
+     * Function triggered when dragging a guide inside one of the color adjustment bars.
+     *
+     * @private
+     * @param {Event} e
+     */
+
+  }, {
+    key: 'moved',
+    value: function moved(e) {
+      this.colorpicker.lastEvent.alias = 'moved';
+      this.colorpicker.lastEvent.e = e;
+
+      if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
+        e.pageX = e.originalEvent.touches[0].pageX;
+        e.pageY = e.originalEvent.touches[0].pageY;
+      }
+
+      // e.stopPropagation();
+      e.preventDefault(); // prevents scrolling on mobile
+
+      var left = Math.max(0, Math.min(this.currentSlider.maxLeft, this.currentSlider.left + ((e.pageX || this.mousePointer.left) - this.mousePointer.left)));
+
+      var top = Math.max(0, Math.min(this.currentSlider.maxTop, this.currentSlider.top + ((e.pageY || this.mousePointer.top) - this.mousePointer.top)));
+
+      this.onMove(top, left);
+    }
+
+    /**
+     * Function triggered when releasing the click in one of the color adjustment bars.
+     *
+     * @private
+     * @param {Event} e
+     */
+
+  }, {
+    key: 'released',
+    value: function released(e) {
+      this.colorpicker.lastEvent.alias = 'released';
+      this.colorpicker.lastEvent.e = e;
+
+      // e.stopPropagation();
+      // e.preventDefault();
+
+      (0, _jquery2.default)(this.colorpicker.picker).off({
+        'mousemove.colorpicker': this.moved,
+        'touchmove.colorpicker': this.moved,
+        'mouseup.colorpicker': this.released,
+        'touchend.colorpicker': this.released
+      });
+    }
+  }]);
+
+  return SliderHandler;
+}();
+
+exports.default = SliderHandler;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _options = __webpack_require__(3);
+
+var _options2 = _interopRequireDefault(_options);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Handles everything related to the UI of the colorpicker popup: show, hide, position,...
+ * @ignore
+ */
+var PopupHandler = function () {
+  /**
+   * @param {Colorpicker} colorpicker
+   * @param {Window} root
+   */
+  function PopupHandler(colorpicker, root) {
+    _classCallCheck(this, PopupHandler);
+
+    /**
+     * @type {Window}
+     */
+    this.root = root;
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+    /**
+     * @type {jQuery}
+     */
+    this.popoverTarget = null;
+    /**
+     * @type {jQuery}
+     */
+    this.popoverTip = null;
+
+    /**
+     * If true, the latest click was inside the popover
+     * @type {boolean}
+     */
+    this.clicking = false;
+    /**
+     * @type {boolean}
+     */
+    this.hidding = false;
+    /**
+     * @type {boolean}
+     */
+    this.showing = false;
+  }
+
+  /**
+   * @private
+   * @returns {jQuery|false}
+   */
+
+
+  _createClass(PopupHandler, [{
+    key: 'bind',
+
+
+    /**
+     * Binds the different colorpicker elements to the focus/mouse/touch events so it reacts in order to show or
+     * hide the colorpicker popup accordingly. It also adds the proper classes.
+     */
+    value: function bind() {
+      var cp = this.colorpicker;
+
+      if (cp.options.inline) {
+        cp.picker.addClass('colorpicker-inline colorpicker-visible');
+        return; // no need to bind show/hide events for inline elements
+      }
+
+      cp.picker.addClass('colorpicker-popup colorpicker-hidden');
+
+      // there is no input or addon
+      if (!this.hasInput && !this.hasAddon) {
+        return;
+      }
+
+      // create Bootstrap 4 popover
+      if (cp.options.popover) {
+        this.createPopover();
+      }
+
+      // bind addon show/hide events
+      if (this.hasAddon) {
+        // enable focus on addons
+        if (!this.addon.attr('tabindex')) {
+          this.addon.attr('tabindex', 0);
+        }
+
+        this.addon.on({
+          'mousedown.colorpicker touchstart.colorpicker': _jquery2.default.proxy(this.toggle, this)
+        });
+
+        this.addon.on({
+          'focus.colorpicker': _jquery2.default.proxy(this.show, this)
+        });
+
+        this.addon.on({
+          'focusout.colorpicker': _jquery2.default.proxy(this.hide, this)
+        });
+      }
+
+      // bind input show/hide events
+      if (this.hasInput && !this.hasAddon) {
+        this.input.on({
+          'mousedown.colorpicker touchstart.colorpicker': _jquery2.default.proxy(this.show, this),
+          'focus.colorpicker': _jquery2.default.proxy(this.show, this)
+        });
+
+        this.input.on({
+          'focusout.colorpicker': _jquery2.default.proxy(this.hide, this)
+        });
+      }
+
+      // reposition popup on window resize
+      (0, _jquery2.default)(this.root).on('resize.colorpicker', _jquery2.default.proxy(this.reposition, this));
+    }
+
+    /**
+     * Unbinds any event bound by this handler
+     */
+
+  }, {
+    key: 'unbind',
+    value: function unbind() {
+      if (this.hasInput) {
+        this.input.off({
+          'mousedown.colorpicker touchstart.colorpicker': _jquery2.default.proxy(this.show, this),
+          'focus.colorpicker': _jquery2.default.proxy(this.show, this)
+        });
+        this.input.off({
+          'focusout.colorpicker': _jquery2.default.proxy(this.hide, this)
+        });
+      }
+
+      if (this.hasAddon) {
+        this.addon.off({
+          'mousedown.colorpicker touchstart.colorpicker': _jquery2.default.proxy(this.toggle, this)
+        });
+        this.addon.off({
+          'focus.colorpicker': _jquery2.default.proxy(this.show, this)
+        });
+        this.addon.off({
+          'focusout.colorpicker': _jquery2.default.proxy(this.hide, this)
+        });
+      }
+
+      if (this.popoverTarget) {
+        this.popoverTarget.popover('dispose');
+      }
+
+      (0, _jquery2.default)(this.root).off('resize.colorpicker', _jquery2.default.proxy(this.reposition, this));
+      (0, _jquery2.default)(this.root.document).off('mousedown.colorpicker touchstart.colorpicker', _jquery2.default.proxy(this.hide, this));
+      (0, _jquery2.default)(this.root.document).off('mousedown.colorpicker touchstart.colorpicker', _jquery2.default.proxy(this.onClickingInside, this));
+    }
+  }, {
+    key: 'isClickingInside',
+    value: function isClickingInside(e) {
+      if (!e) {
+        return false;
+      }
+
+      return this.isOrIsInside(this.popoverTip, e.currentTarget) || this.isOrIsInside(this.popoverTip, e.target) || this.isOrIsInside(this.colorpicker.picker, e.currentTarget) || this.isOrIsInside(this.colorpicker.picker, e.target);
+    }
+  }, {
+    key: 'isOrIsInside',
+    value: function isOrIsInside(container, element) {
+      if (!container || !element) {
+        return false;
+      }
+
+      element = (0, _jquery2.default)(element);
+
+      return element.is(container) || container.find(element).length > 0;
+    }
+  }, {
+    key: 'onClickingInside',
+    value: function onClickingInside(e) {
+      this.clicking = this.isClickingInside(e);
+    }
+  }, {
+    key: 'createPopover',
+    value: function createPopover() {
+      var cp = this.colorpicker;
+
+      this.popoverTarget = this.hasAddon ? this.addon : this.input;
+
+      cp.picker.addClass('colorpicker-bs-popover-content');
+
+      this.popoverTarget.popover(_jquery2.default.extend(true, {}, _options2.default.popover, cp.options.popover, { trigger: 'manual', content: cp.picker, html: true }));
+
+      this.popoverTip = (0, _jquery2.default)(this.popoverTarget.popover('getTipElement').data('bs.popover').tip);
+      this.popoverTip.addClass('colorpicker-bs-popover');
+
+      this.popoverTarget.on('shown.bs.popover', _jquery2.default.proxy(this.fireShow, this));
+      this.popoverTarget.on('hidden.bs.popover', _jquery2.default.proxy(this.fireHide, this));
+    }
+
+    /**
+     * If the widget is not inside a container or inline, rearranges its position relative to its element offset.
+     *
+     * @param {Event} [e]
+     * @private
+     */
+
+  }, {
+    key: 'reposition',
+    value: function reposition(e) {
+      if (this.popoverTarget && this.isVisible()) {
+        this.popoverTarget.popover('update');
+      }
+    }
+
+    /**
+     * Toggles the colorpicker between visible or hidden
+     *
+     * @fires Colorpicker#colorpickerShow
+     * @fires Colorpicker#colorpickerHide
+     * @param {Event} [e]
+     */
+
+  }, {
+    key: 'toggle',
+    value: function toggle(e) {
+      if (this.isVisible()) {
+        this.hide(e);
+      } else {
+        this.show(e);
+      }
+    }
+
+    /**
+     * Shows the colorpicker widget if hidden.
+     *
+     * @fires Colorpicker#colorpickerShow
+     * @param {Event} [e]
+     */
+
+  }, {
+    key: 'show',
+    value: function show(e) {
+      if (this.isVisible() || this.showing || this.hidding) {
+        return;
+      }
+
+      this.showing = true;
+      this.hidding = false;
+      this.clicking = false;
+
+      var cp = this.colorpicker;
+
+      cp.lastEvent.alias = 'show';
+      cp.lastEvent.e = e;
+
+      // Prevent showing browser native HTML5 colorpicker
+      if (e && (!this.hasInput || this.input.attr('type') === 'color') && e && e.preventDefault) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+
+      // If it's a popover, add event to the document to hide the picker when clicking outside of it
+      if (this.isPopover) {
+        (0, _jquery2.default)(this.root).on('resize.colorpicker', _jquery2.default.proxy(this.reposition, this));
+      }
+
+      // add visible class before popover is shown
+      cp.picker.addClass('colorpicker-visible').removeClass('colorpicker-hidden');
+
+      if (this.popoverTarget) {
+        this.popoverTarget.popover('show');
+      } else {
+        this.fireShow();
+      }
+    }
+  }, {
+    key: 'fireShow',
+    value: function fireShow() {
+      this.hidding = false;
+      this.showing = false;
+
+      if (this.isPopover) {
+        // Add event to hide on outside click
+        (0, _jquery2.default)(this.root.document).on('mousedown.colorpicker touchstart.colorpicker', _jquery2.default.proxy(this.hide, this));
+        (0, _jquery2.default)(this.root.document).on('mousedown.colorpicker touchstart.colorpicker', _jquery2.default.proxy(this.onClickingInside, this));
+      }
+
+      /**
+       * (Colorpicker) When show() is called and the widget can be shown.
+       *
+       * @event Colorpicker#colorpickerShow
+       */
+      this.colorpicker.trigger('colorpickerShow');
+    }
+
+    /**
+     * Hides the colorpicker widget.
+     * Hide is prevented when it is triggered by an event whose target element has been clicked/touched.
+     *
+     * @fires Colorpicker#colorpickerHide
+     * @param {Event} [e]
+     */
+
+  }, {
+    key: 'hide',
+    value: function hide(e) {
+      if (this.isHidden() || this.showing || this.hidding) {
+        return;
+      }
+
+      var cp = this.colorpicker,
+          clicking = this.clicking || this.isClickingInside(e);
+
+      this.hidding = true;
+      this.showing = false;
+      this.clicking = false;
+
+      cp.lastEvent.alias = 'hide';
+      cp.lastEvent.e = e;
+
+      // TODO: fix having to click twice outside when losing focus and last 2 clicks where inside the colorpicker
+
+      // Prevent hide if triggered by an event and an element inside the colorpicker has been clicked/touched
+      if (clicking) {
+        this.hidding = false;
+        return;
+      }
+
+      if (this.popoverTarget) {
+        this.popoverTarget.popover('hide');
+      } else {
+        this.fireHide();
+      }
+    }
+  }, {
+    key: 'fireHide',
+    value: function fireHide() {
+      this.hidding = false;
+      this.showing = false;
+
+      var cp = this.colorpicker;
+
+      // add hidden class after popover is hidden
+      cp.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
+
+      // Unbind window and document events, since there is no need to keep them while the popup is hidden
+      (0, _jquery2.default)(this.root).off('resize.colorpicker', _jquery2.default.proxy(this.reposition, this));
+      (0, _jquery2.default)(this.root.document).off('mousedown.colorpicker touchstart.colorpicker', _jquery2.default.proxy(this.hide, this));
+      (0, _jquery2.default)(this.root.document).off('mousedown.colorpicker touchstart.colorpicker', _jquery2.default.proxy(this.onClickingInside, this));
+
+      /**
+       * (Colorpicker) When hide() is called and the widget can be hidden.
+       *
+       * @event Colorpicker#colorpickerHide
+       */
+      cp.trigger('colorpickerHide');
+    }
+  }, {
+    key: 'focus',
+    value: function focus() {
+      if (this.hasAddon) {
+        return this.addon.focus();
+      }
+      if (this.hasInput) {
+        return this.input.focus();
+      }
+      return false;
+    }
+
+    /**
+     * Returns true if the colorpicker element has the colorpicker-visible class and not the colorpicker-hidden one.
+     * False otherwise.
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isVisible',
+    value: function isVisible() {
+      return this.colorpicker.picker.hasClass('colorpicker-visible') && !this.colorpicker.picker.hasClass('colorpicker-hidden');
+    }
+
+    /**
+     * Returns true if the colorpicker element has the colorpicker-hidden class and not the colorpicker-visible one.
+     * False otherwise.
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isHidden',
+    value: function isHidden() {
+      return this.colorpicker.picker.hasClass('colorpicker-hidden') && !this.colorpicker.picker.hasClass('colorpicker-visible');
+    }
+  }, {
+    key: 'input',
+    get: function get() {
+      return this.colorpicker.inputHandler.input;
+    }
+
+    /**
+     * @private
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'hasInput',
+    get: function get() {
+      return this.colorpicker.inputHandler.hasInput();
+    }
+
+    /**
+     * @private
+     * @returns {jQuery|false}
+     */
+
+  }, {
+    key: 'addon',
+    get: function get() {
+      return this.colorpicker.addonHandler.addon;
+    }
+
+    /**
+     * @private
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'hasAddon',
+    get: function get() {
+      return this.colorpicker.addonHandler.hasAddon();
+    }
+
+    /**
+     * @private
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isPopover',
+    get: function get() {
+      return !this.colorpicker.options.inline && !!this.popoverTip;
+    }
+  }]);
+
+  return PopupHandler;
+}();
+
+exports.default = PopupHandler;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _ColorItem = __webpack_require__(2);
+
+var _ColorItem2 = _interopRequireDefault(_ColorItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Handles everything related to the colorpicker input
+ * @ignore
+ */
+var InputHandler = function () {
+  /**
+   * @param {Colorpicker} colorpicker
+   */
+  function InputHandler(colorpicker) {
+    _classCallCheck(this, InputHandler);
+
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+    /**
+     * @type {jQuery|false}
+     */
+    this.input = this.colorpicker.element.is('input') ? this.colorpicker.element : this.colorpicker.options.input ? this.colorpicker.element.find(this.colorpicker.options.input) : false;
+
+    if (this.input && this.input.length === 0) {
+      this.input = false;
+    }
+
+    this._initValue();
+  }
+
+  _createClass(InputHandler, [{
+    key: 'bind',
+    value: function bind() {
+      if (!this.hasInput()) {
+        return;
+      }
+      this.input.on({
+        'keyup.colorpicker': _jquery2.default.proxy(this.onkeyup, this)
+      });
+      this.input.on({
+        'change.colorpicker': _jquery2.default.proxy(this.onchange, this)
+      });
+    }
+  }, {
+    key: 'unbind',
+    value: function unbind() {
+      if (!this.hasInput()) {
+        return;
+      }
+      this.input.off('.colorpicker');
+    }
+  }, {
+    key: '_initValue',
+    value: function _initValue() {
+      if (!this.hasInput()) {
+        return;
+      }
+
+      var val = '';
+
+      [
+      // candidates:
+      this.input.val(), this.input.data('color'), this.input.attr('data-color')].map(function (item) {
+        if (item && val === '') {
+          val = item;
+        }
+      });
+
+      if (val instanceof _ColorItem2.default) {
+        val = this.getFormattedColor(val.string(this.colorpicker.format));
+      } else if (!(typeof val === 'string' || val instanceof String)) {
+        val = '';
+      }
+
+      this.input.prop('value', val);
+    }
+
+    /**
+     * Returns the color string from the input value.
+     * If there is no input the return value is false.
+     *
+     * @returns {String|boolean}
+     */
+
+  }, {
+    key: 'getValue',
+    value: function getValue() {
+      if (!this.hasInput()) {
+        return false;
+      }
+
+      return this.input.val();
+    }
+
+    /**
+     * If the input element is present, it updates the value with the current color object color string.
+     * If the value is changed, this method fires a "change" event on the input element.
+     *
+     * @param {String} val
+     *
+     * @fires Colorpicker#change
+     */
+
+  }, {
+    key: 'setValue',
+    value: function setValue(val) {
+      if (!this.hasInput()) {
+        return;
+      }
+
+      var inputVal = this.input.prop('value');
+
+      val = val ? val : '';
+
+      if (val === (inputVal ? inputVal : '')) {
+        // No need to set value or trigger any event if nothing changed
+        return;
+      }
+
+      this.input.prop('value', val);
+
+      /**
+       * (Input) Triggered on the input element when a new color is selected.
+       *
+       * @event Colorpicker#change
+       */
+      this.input.trigger({
+        type: 'change',
+        colorpicker: this.colorpicker,
+        color: this.colorpicker.color,
+        value: val
+      });
+    }
+
+    /**
+     * Returns the formatted color string, with the formatting options applied
+     * (e.g. useHashPrefix)
+     *
+     * @param {String|null} val
+     *
+     * @returns {String}
+     */
+
+  }, {
+    key: 'getFormattedColor',
+    value: function getFormattedColor() {
+      var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      val = val ? val : this.colorpicker.colorHandler.getColorString();
+
+      if (!val) {
+        return '';
+      }
+
+      val = this.colorpicker.colorHandler.resolveColorDelegate(val, false);
+
+      if (this.colorpicker.options.useHashPrefix === false) {
+        val = val.replace(/^#/g, '');
+      }
+
+      return val;
+    }
+
+    /**
+     * Returns true if the widget has an associated input element, false otherwise
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'hasInput',
+    value: function hasInput() {
+      return this.input !== false;
+    }
+
+    /**
+     * Returns true if the input exists and is disabled
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isEnabled',
+    value: function isEnabled() {
+      return this.hasInput() && !this.isDisabled();
+    }
+
+    /**
+     * Returns true if the input exists and is disabled
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isDisabled',
+    value: function isDisabled() {
+      return this.hasInput() && this.input.prop('disabled') === true;
+    }
+
+    /**
+     * Disables the input if any
+     *
+     * @fires Colorpicker#colorpickerDisable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'disable',
+    value: function disable() {
+      if (this.hasInput()) {
+        this.input.prop('disabled', true);
+      }
+    }
+
+    /**
+     * Enables the input if any
+     *
+     * @fires Colorpicker#colorpickerEnable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'enable',
+    value: function enable() {
+      if (this.hasInput()) {
+        this.input.prop('disabled', false);
+      }
+    }
+
+    /**
+     * Calls setValue with the current internal color value
+     *
+     * @fires Colorpicker#change
+     */
+
+  }, {
+    key: 'update',
+    value: function update() {
+      if (!this.hasInput()) {
+        return;
+      }
+
+      if (this.colorpicker.options.autoInputFallback === false && this.colorpicker.colorHandler.isInvalidColor()) {
+        // prevent update if color is invalid, autoInputFallback is disabled and the last event is keyup.
+        return;
+      }
+
+      this.setValue(this.getFormattedColor());
+    }
+
+    /**
+     * Function triggered when the input has changed, so the colorpicker gets updated.
+     *
+     * @private
+     * @param {Event} e
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'onchange',
+    value: function onchange(e) {
+      this.colorpicker.lastEvent.alias = 'input.change';
+      this.colorpicker.lastEvent.e = e;
+
+      var val = this.getValue();
+
+      if (val !== e.value) {
+        this.colorpicker.setValue(val);
+      }
+    }
+
+    /**
+     * Function triggered after a keyboard key has been released.
+     *
+     * @private
+     * @param {Event} e
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'onkeyup',
+    value: function onkeyup(e) {
+      this.colorpicker.lastEvent.alias = 'input.keyup';
+      this.colorpicker.lastEvent.e = e;
+
+      var val = this.getValue();
+
+      if (val !== e.value) {
+        this.colorpicker.setValue(val);
+      }
+    }
+  }]);
+
+  return InputHandler;
+}();
+
+exports.default = InputHandler;
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var colorString = __webpack_require__(17);
+var convert = __webpack_require__(20);
+
+var _slice = [].slice;
+
+var skippedModels = [
+	// to be honest, I don't really feel like keyword belongs in color convert, but eh.
+	'keyword',
+
+	// gray conflicts with some method names, and has its own method defined.
+	'gray',
+
+	// shouldn't really be in color-convert either...
+	'hex'
+];
+
+var hashedModelKeys = {};
+Object.keys(convert).forEach(function (model) {
+	hashedModelKeys[_slice.call(convert[model].labels).sort().join('')] = model;
+});
+
+var limiters = {};
+
+function Color(obj, model) {
+	if (!(this instanceof Color)) {
+		return new Color(obj, model);
+	}
+
+	if (model && model in skippedModels) {
+		model = null;
+	}
+
+	if (model && !(model in convert)) {
+		throw new Error('Unknown model: ' + model);
+	}
+
+	var i;
+	var channels;
+
+	if (!obj) {
+		this.model = 'rgb';
+		this.color = [0, 0, 0];
+		this.valpha = 1;
+	} else if (obj instanceof Color) {
+		this.model = obj.model;
+		this.color = obj.color.slice();
+		this.valpha = obj.valpha;
+	} else if (typeof obj === 'string') {
+		var result = colorString.get(obj);
+		if (result === null) {
+			throw new Error('Unable to parse color from string: ' + obj);
+		}
+
+		this.model = result.model;
+		channels = convert[this.model].channels;
+		this.color = result.value.slice(0, channels);
+		this.valpha = typeof result.value[channels] === 'number' ? result.value[channels] : 1;
+	} else if (obj.length) {
+		this.model = model || 'rgb';
+		channels = convert[this.model].channels;
+		var newArr = _slice.call(obj, 0, channels);
+		this.color = zeroArray(newArr, channels);
+		this.valpha = typeof obj[channels] === 'number' ? obj[channels] : 1;
+	} else if (typeof obj === 'number') {
+		// this is always RGB - can be converted later on.
+		obj &= 0xFFFFFF;
+		this.model = 'rgb';
+		this.color = [
+			(obj >> 16) & 0xFF,
+			(obj >> 8) & 0xFF,
+			obj & 0xFF
+		];
+		this.valpha = 1;
+	} else {
+		this.valpha = 1;
+
+		var keys = Object.keys(obj);
+		if ('alpha' in obj) {
+			keys.splice(keys.indexOf('alpha'), 1);
+			this.valpha = typeof obj.alpha === 'number' ? obj.alpha : 0;
+		}
+
+		var hashedKeys = keys.sort().join('');
+		if (!(hashedKeys in hashedModelKeys)) {
+			throw new Error('Unable to parse color from object: ' + JSON.stringify(obj));
+		}
+
+		this.model = hashedModelKeys[hashedKeys];
+
+		var labels = convert[this.model].labels;
+		var color = [];
+		for (i = 0; i < labels.length; i++) {
+			color.push(obj[labels[i]]);
+		}
+
+		this.color = zeroArray(color);
+	}
+
+	// perform limitations (clamping, etc.)
+	if (limiters[this.model]) {
+		channels = convert[this.model].channels;
+		for (i = 0; i < channels; i++) {
+			var limit = limiters[this.model][i];
+			if (limit) {
+				this.color[i] = limit(this.color[i]);
+			}
+		}
+	}
+
+	this.valpha = Math.max(0, Math.min(1, this.valpha));
+
+	if (Object.freeze) {
+		Object.freeze(this);
+	}
+}
+
+Color.prototype = {
+	toString: function () {
+		return this.string();
+	},
+
+	toJSON: function () {
+		return this[this.model]();
+	},
+
+	string: function (places) {
+		var self = this.model in colorString.to ? this : this.rgb();
+		self = self.round(typeof places === 'number' ? places : 1);
+		var args = self.valpha === 1 ? self.color : self.color.concat(this.valpha);
+		return colorString.to[self.model](args);
+	},
+
+	percentString: function (places) {
+		var self = this.rgb().round(typeof places === 'number' ? places : 1);
+		var args = self.valpha === 1 ? self.color : self.color.concat(this.valpha);
+		return colorString.to.rgb.percent(args);
+	},
+
+	array: function () {
+		return this.valpha === 1 ? this.color.slice() : this.color.concat(this.valpha);
+	},
+
+	object: function () {
+		var result = {};
+		var channels = convert[this.model].channels;
+		var labels = convert[this.model].labels;
+
+		for (var i = 0; i < channels; i++) {
+			result[labels[i]] = this.color[i];
+		}
+
+		if (this.valpha !== 1) {
+			result.alpha = this.valpha;
+		}
+
+		return result;
+	},
+
+	unitArray: function () {
+		var rgb = this.rgb().color;
+		rgb[0] /= 255;
+		rgb[1] /= 255;
+		rgb[2] /= 255;
+
+		if (this.valpha !== 1) {
+			rgb.push(this.valpha);
+		}
+
+		return rgb;
+	},
+
+	unitObject: function () {
+		var rgb = this.rgb().object();
+		rgb.r /= 255;
+		rgb.g /= 255;
+		rgb.b /= 255;
+
+		if (this.valpha !== 1) {
+			rgb.alpha = this.valpha;
+		}
+
+		return rgb;
+	},
+
+	round: function (places) {
+		places = Math.max(places || 0, 0);
+		return new Color(this.color.map(roundToPlace(places)).concat(this.valpha), this.model);
+	},
+
+	alpha: function (val) {
+		if (arguments.length) {
+			return new Color(this.color.concat(Math.max(0, Math.min(1, val))), this.model);
+		}
+
+		return this.valpha;
+	},
+
+	// rgb
+	red: getset('rgb', 0, maxfn(255)),
+	green: getset('rgb', 1, maxfn(255)),
+	blue: getset('rgb', 2, maxfn(255)),
+
+	hue: getset(['hsl', 'hsv', 'hsl', 'hwb', 'hcg'], 0, function (val) { return ((val % 360) + 360) % 360; }), // eslint-disable-line brace-style
+
+	saturationl: getset('hsl', 1, maxfn(100)),
+	lightness: getset('hsl', 2, maxfn(100)),
+
+	saturationv: getset('hsv', 1, maxfn(100)),
+	value: getset('hsv', 2, maxfn(100)),
+
+	chroma: getset('hcg', 1, maxfn(100)),
+	gray: getset('hcg', 2, maxfn(100)),
+
+	white: getset('hwb', 1, maxfn(100)),
+	wblack: getset('hwb', 2, maxfn(100)),
+
+	cyan: getset('cmyk', 0, maxfn(100)),
+	magenta: getset('cmyk', 1, maxfn(100)),
+	yellow: getset('cmyk', 2, maxfn(100)),
+	black: getset('cmyk', 3, maxfn(100)),
+
+	x: getset('xyz', 0, maxfn(100)),
+	y: getset('xyz', 1, maxfn(100)),
+	z: getset('xyz', 2, maxfn(100)),
+
+	l: getset('lab', 0, maxfn(100)),
+	a: getset('lab', 1),
+	b: getset('lab', 2),
+
+	keyword: function (val) {
+		if (arguments.length) {
+			return new Color(val);
+		}
+
+		return convert[this.model].keyword(this.color);
+	},
+
+	hex: function (val) {
+		if (arguments.length) {
+			return new Color(val);
+		}
+
+		return colorString.to.hex(this.rgb().round().color);
+	},
+
+	rgbNumber: function () {
+		var rgb = this.rgb().color;
+		return ((rgb[0] & 0xFF) << 16) | ((rgb[1] & 0xFF) << 8) | (rgb[2] & 0xFF);
+	},
+
+	luminosity: function () {
+		// http://www.w3.org/TR/WCAG20/#relativeluminancedef
+		var rgb = this.rgb().color;
+
+		var lum = [];
+		for (var i = 0; i < rgb.length; i++) {
+			var chan = rgb[i] / 255;
+			lum[i] = (chan <= 0.03928) ? chan / 12.92 : Math.pow(((chan + 0.055) / 1.055), 2.4);
+		}
+
+		return 0.2126 * lum[0] + 0.7152 * lum[1] + 0.0722 * lum[2];
+	},
+
+	contrast: function (color2) {
+		// http://www.w3.org/TR/WCAG20/#contrast-ratiodef
+		var lum1 = this.luminosity();
+		var lum2 = color2.luminosity();
+
+		if (lum1 > lum2) {
+			return (lum1 + 0.05) / (lum2 + 0.05);
+		}
+
+		return (lum2 + 0.05) / (lum1 + 0.05);
+	},
+
+	level: function (color2) {
+		var contrastRatio = this.contrast(color2);
+		if (contrastRatio >= 7.1) {
+			return 'AAA';
+		}
+
+		return (contrastRatio >= 4.5) ? 'AA' : '';
+	},
+
+	isDark: function () {
+		// YIQ equation from http://24ways.org/2010/calculating-color-contrast
+		var rgb = this.rgb().color;
+		var yiq = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
+		return yiq < 128;
+	},
+
+	isLight: function () {
+		return !this.isDark();
+	},
+
+	negate: function () {
+		var rgb = this.rgb();
+		for (var i = 0; i < 3; i++) {
+			rgb.color[i] = 255 - rgb.color[i];
+		}
+		return rgb;
+	},
+
+	lighten: function (ratio) {
+		var hsl = this.hsl();
+		hsl.color[2] += hsl.color[2] * ratio;
+		return hsl;
+	},
+
+	darken: function (ratio) {
+		var hsl = this.hsl();
+		hsl.color[2] -= hsl.color[2] * ratio;
+		return hsl;
+	},
+
+	saturate: function (ratio) {
+		var hsl = this.hsl();
+		hsl.color[1] += hsl.color[1] * ratio;
+		return hsl;
+	},
+
+	desaturate: function (ratio) {
+		var hsl = this.hsl();
+		hsl.color[1] -= hsl.color[1] * ratio;
+		return hsl;
+	},
+
+	whiten: function (ratio) {
+		var hwb = this.hwb();
+		hwb.color[1] += hwb.color[1] * ratio;
+		return hwb;
+	},
+
+	blacken: function (ratio) {
+		var hwb = this.hwb();
+		hwb.color[2] += hwb.color[2] * ratio;
+		return hwb;
+	},
+
+	grayscale: function () {
+		// http://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
+		var rgb = this.rgb().color;
+		var val = rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11;
+		return Color.rgb(val, val, val);
+	},
+
+	fade: function (ratio) {
+		return this.alpha(this.valpha - (this.valpha * ratio));
+	},
+
+	opaquer: function (ratio) {
+		return this.alpha(this.valpha + (this.valpha * ratio));
+	},
+
+	rotate: function (degrees) {
+		var hsl = this.hsl();
+		var hue = hsl.color[0];
+		hue = (hue + degrees) % 360;
+		hue = hue < 0 ? 360 + hue : hue;
+		hsl.color[0] = hue;
+		return hsl;
+	},
+
+	mix: function (mixinColor, weight) {
+		// ported from sass implementation in C
+		// https://github.com/sass/libsass/blob/0e6b4a2850092356aa3ece07c6b249f0221caced/functions.cpp#L209
+		var color1 = mixinColor.rgb();
+		var color2 = this.rgb();
+		var p = weight === undefined ? 0.5 : weight;
+
+		var w = 2 * p - 1;
+		var a = color1.alpha() - color2.alpha();
+
+		var w1 = (((w * a === -1) ? w : (w + a) / (1 + w * a)) + 1) / 2.0;
+		var w2 = 1 - w1;
+
+		return Color.rgb(
+				w1 * color1.red() + w2 * color2.red(),
+				w1 * color1.green() + w2 * color2.green(),
+				w1 * color1.blue() + w2 * color2.blue(),
+				color1.alpha() * p + color2.alpha() * (1 - p));
+	}
+};
+
+// model conversion methods and static constructors
+Object.keys(convert).forEach(function (model) {
+	if (skippedModels.indexOf(model) !== -1) {
+		return;
+	}
+
+	var channels = convert[model].channels;
+
+	// conversion methods
+	Color.prototype[model] = function () {
+		if (this.model === model) {
+			return new Color(this);
+		}
+
+		if (arguments.length) {
+			return new Color(arguments, model);
+		}
+
+		var newAlpha = typeof arguments[channels] === 'number' ? channels : this.valpha;
+		return new Color(assertArray(convert[this.model][model].raw(this.color)).concat(newAlpha), model);
+	};
+
+	// 'static' construction methods
+	Color[model] = function (color) {
+		if (typeof color === 'number') {
+			color = zeroArray(_slice.call(arguments), channels);
+		}
+		return new Color(color, model);
+	};
+});
+
+function roundTo(num, places) {
+	return Number(num.toFixed(places));
+}
+
+function roundToPlace(places) {
+	return function (num) {
+		return roundTo(num, places);
+	};
+}
+
+function getset(model, channel, modifier) {
+	model = Array.isArray(model) ? model : [model];
+
+	model.forEach(function (m) {
+		(limiters[m] || (limiters[m] = []))[channel] = modifier;
+	});
+
+	model = model[0];
+
+	return function (val) {
+		var result;
+
+		if (arguments.length) {
+			if (modifier) {
+				val = modifier(val);
+			}
+
+			result = this[model]();
+			result.color[channel] = val;
+			return result;
+		}
+
+		result = this[model]().color[channel];
+		if (modifier) {
+			result = modifier(result);
+		}
+
+		return result;
+	};
+}
+
+function maxfn(max) {
+	return function (v) {
+		return Math.max(0, Math.min(max, v));
+	};
+}
+
+function assertArray(val) {
+	return Array.isArray(val) ? val : [val];
+}
+
+function zeroArray(arr, length) {
+	for (var i = 0; i < length; i++) {
+		if (typeof arr[i] !== 'number') {
+			arr[i] = 0;
+		}
+	}
+
+	return arr;
+}
+
+module.exports = Color;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* MIT license */
+var colorNames = __webpack_require__(5);
+var swizzle = __webpack_require__(18);
+
+var reverseNames = {};
+
+// create a list of reverse color names
+for (var name in colorNames) {
+	if (colorNames.hasOwnProperty(name)) {
+		reverseNames[colorNames[name]] = name;
+	}
+}
+
+var cs = module.exports = {
+	to: {}
+};
+
+cs.get = function (string) {
+	var prefix = string.substring(0, 3).toLowerCase();
+	var val;
+	var model;
+	switch (prefix) {
+		case 'hsl':
+			val = cs.get.hsl(string);
+			model = 'hsl';
+			break;
+		case 'hwb':
+			val = cs.get.hwb(string);
+			model = 'hwb';
+			break;
+		default:
+			val = cs.get.rgb(string);
+			model = 'rgb';
+			break;
+	}
+
+	if (!val) {
+		return null;
+	}
+
+	return {model: model, value: val};
+};
+
+cs.get.rgb = function (string) {
+	if (!string) {
+		return null;
+	}
+
+	var abbr = /^#([a-f0-9]{3,4})$/i;
+	var hex = /^#([a-f0-9]{6})([a-f0-9]{2})?$/i;
+	var rgba = /^rgba?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+	var per = /^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+	var keyword = /(\D+)/;
+
+	var rgb = [0, 0, 0, 1];
+	var match;
+	var i;
+	var hexAlpha;
+
+	if (match = string.match(hex)) {
+		hexAlpha = match[2];
+		match = match[1];
+
+		for (i = 0; i < 3; i++) {
+			// https://jsperf.com/slice-vs-substr-vs-substring-methods-long-string/19
+			var i2 = i * 2;
+			rgb[i] = parseInt(match.slice(i2, i2 + 2), 16);
+		}
+
+		if (hexAlpha) {
+			rgb[3] = Math.round((parseInt(hexAlpha, 16) / 255) * 100) / 100;
+		}
+	} else if (match = string.match(abbr)) {
+		match = match[1];
+		hexAlpha = match[3];
+
+		for (i = 0; i < 3; i++) {
+			rgb[i] = parseInt(match[i] + match[i], 16);
+		}
+
+		if (hexAlpha) {
+			rgb[3] = Math.round((parseInt(hexAlpha + hexAlpha, 16) / 255) * 100) / 100;
+		}
+	} else if (match = string.match(rgba)) {
+		for (i = 0; i < 3; i++) {
+			rgb[i] = parseInt(match[i + 1], 0);
+		}
+
+		if (match[4]) {
+			rgb[3] = parseFloat(match[4]);
+		}
+	} else if (match = string.match(per)) {
+		for (i = 0; i < 3; i++) {
+			rgb[i] = Math.round(parseFloat(match[i + 1]) * 2.55);
+		}
+
+		if (match[4]) {
+			rgb[3] = parseFloat(match[4]);
+		}
+	} else if (match = string.match(keyword)) {
+		if (match[1] === 'transparent') {
+			return [0, 0, 0, 0];
+		}
+
+		rgb = colorNames[match[1]];
+
+		if (!rgb) {
+			return null;
+		}
+
+		rgb[3] = 1;
+
+		return rgb;
+	} else {
+		return null;
+	}
+
+	for (i = 0; i < 3; i++) {
+		rgb[i] = clamp(rgb[i], 0, 255);
+	}
+	rgb[3] = clamp(rgb[3], 0, 1);
+
+	return rgb;
+};
+
+cs.get.hsl = function (string) {
+	if (!string) {
+		return null;
+	}
+
+	var hsl = /^hsla?\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+	var match = string.match(hsl);
+
+	if (match) {
+		var alpha = parseFloat(match[4]);
+		var h = ((parseFloat(match[1]) % 360) + 360) % 360;
+		var s = clamp(parseFloat(match[2]), 0, 100);
+		var l = clamp(parseFloat(match[3]), 0, 100);
+		var a = clamp(isNaN(alpha) ? 1 : alpha, 0, 1);
+
+		return [h, s, l, a];
+	}
+
+	return null;
+};
+
+cs.get.hwb = function (string) {
+	if (!string) {
+		return null;
+	}
+
+	var hwb = /^hwb\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+	var match = string.match(hwb);
+
+	if (match) {
+		var alpha = parseFloat(match[4]);
+		var h = ((parseFloat(match[1]) % 360) + 360) % 360;
+		var w = clamp(parseFloat(match[2]), 0, 100);
+		var b = clamp(parseFloat(match[3]), 0, 100);
+		var a = clamp(isNaN(alpha) ? 1 : alpha, 0, 1);
+		return [h, w, b, a];
+	}
+
+	return null;
+};
+
+cs.to.hex = function () {
+	var rgba = swizzle(arguments);
+
+	return (
+		'#' +
+		hexDouble(rgba[0]) +
+		hexDouble(rgba[1]) +
+		hexDouble(rgba[2]) +
+		(rgba[3] < 1
+			? (hexDouble(Math.round(rgba[3] * 255)))
+			: '')
+	);
+};
+
+cs.to.rgb = function () {
+	var rgba = swizzle(arguments);
+
+	return rgba.length < 4 || rgba[3] === 1
+		? 'rgb(' + Math.round(rgba[0]) + ', ' + Math.round(rgba[1]) + ', ' + Math.round(rgba[2]) + ')'
+		: 'rgba(' + Math.round(rgba[0]) + ', ' + Math.round(rgba[1]) + ', ' + Math.round(rgba[2]) + ', ' + rgba[3] + ')';
+};
+
+cs.to.rgb.percent = function () {
+	var rgba = swizzle(arguments);
+
+	var r = Math.round(rgba[0] / 255 * 100);
+	var g = Math.round(rgba[1] / 255 * 100);
+	var b = Math.round(rgba[2] / 255 * 100);
+
+	return rgba.length < 4 || rgba[3] === 1
+		? 'rgb(' + r + '%, ' + g + '%, ' + b + '%)'
+		: 'rgba(' + r + '%, ' + g + '%, ' + b + '%, ' + rgba[3] + ')';
+};
+
+cs.to.hsl = function () {
+	var hsla = swizzle(arguments);
+	return hsla.length < 4 || hsla[3] === 1
+		? 'hsl(' + hsla[0] + ', ' + hsla[1] + '%, ' + hsla[2] + '%)'
+		: 'hsla(' + hsla[0] + ', ' + hsla[1] + '%, ' + hsla[2] + '%, ' + hsla[3] + ')';
+};
+
+// hwb is a bit different than rgb(a) & hsl(a) since there is no alpha specific syntax
+// (hwb have alpha optional & 1 is default value)
+cs.to.hwb = function () {
+	var hwba = swizzle(arguments);
+
+	var a = '';
+	if (hwba.length >= 4 && hwba[3] !== 1) {
+		a = ', ' + hwba[3];
+	}
+
+	return 'hwb(' + hwba[0] + ', ' + hwba[1] + '%, ' + hwba[2] + '%' + a + ')';
+};
+
+cs.to.keyword = function (rgb) {
+	return reverseNames[rgb.slice(0, 3)];
+};
+
+// helpers
+function clamp(num, min, max) {
+	return Math.min(Math.max(min, num), max);
+}
+
+function hexDouble(num) {
+	var str = num.toString(16).toUpperCase();
+	return (str.length < 2) ? '0' + str : str;
+}
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isArrayish = __webpack_require__(19);
+
+var concat = Array.prototype.concat;
+var slice = Array.prototype.slice;
+
+var swizzle = module.exports = function swizzle(args) {
+	var results = [];
+
+	for (var i = 0, len = args.length; i < len; i++) {
+		var arg = args[i];
+
+		if (isArrayish(arg)) {
+			// http://jsperf.com/javascript-array-concat-vs-push/98
+			results = concat.call(results, slice.call(arg));
+		} else {
+			results.push(arg);
+		}
+	}
+
+	return results;
+};
+
+swizzle.wrap = function (fn) {
+	return function () {
+		return fn(swizzle(arguments));
+	};
+};
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isArrayish(obj) {
+	if (!obj) {
+		return false;
+	}
+
+	return obj instanceof Array || Array.isArray(obj) ||
+		(obj.length >= 0 && obj.splice instanceof Function);
+};
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var conversions = __webpack_require__(6);
+var route = __webpack_require__(21);
+
+var convert = {};
+
+var models = Object.keys(conversions);
+
+function wrapRaw(fn) {
+	var wrappedFn = function (args) {
+		if (args === undefined || args === null) {
+			return args;
+		}
+
+		if (arguments.length > 1) {
+			args = Array.prototype.slice.call(arguments);
+		}
+
+		return fn(args);
+	};
+
+	// preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+function wrapRounded(fn) {
+	var wrappedFn = function (args) {
+		if (args === undefined || args === null) {
+			return args;
+		}
+
+		if (arguments.length > 1) {
+			args = Array.prototype.slice.call(arguments);
+		}
+
+		var result = fn(args);
+
+		// we're assuming the result is an array here.
+		// see notice in conversions.js; don't use box types
+		// in conversion functions.
+		if (typeof result === 'object') {
+			for (var len = result.length, i = 0; i < len; i++) {
+				result[i] = Math.round(result[i]);
+			}
+		}
+
+		return result;
+	};
+
+	// preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+models.forEach(function (fromModel) {
+	convert[fromModel] = {};
+
+	Object.defineProperty(convert[fromModel], 'channels', {value: conversions[fromModel].channels});
+	Object.defineProperty(convert[fromModel], 'labels', {value: conversions[fromModel].labels});
+
+	var routes = route(fromModel);
+	var routeModels = Object.keys(routes);
+
+	routeModels.forEach(function (toModel) {
+		var fn = routes[toModel];
+
+		convert[fromModel][toModel] = wrapRounded(fn);
+		convert[fromModel][toModel].raw = wrapRaw(fn);
+	});
+});
+
+module.exports = convert;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var conversions = __webpack_require__(6);
+
+/*
+	this function routes a model to all other models.
+
+	all functions that are routed have a property `.conversion` attached
+	to the returned synthetic function. This property is an array
+	of strings, each with the steps in between the 'from' and 'to'
+	color models (inclusive).
+
+	conversions that are not possible simply are not included.
+*/
+
+function buildGraph() {
+	var graph = {};
+	// https://jsperf.com/object-keys-vs-for-in-with-closure/3
+	var models = Object.keys(conversions);
+
+	for (var len = models.length, i = 0; i < len; i++) {
+		graph[models[i]] = {
+			// http://jsperf.com/1-vs-infinity
+			// micro-opt, but this is simple.
+			distance: -1,
+			parent: null
+		};
+	}
+
+	return graph;
+}
+
+// https://en.wikipedia.org/wiki/Breadth-first_search
+function deriveBFS(fromModel) {
+	var graph = buildGraph();
+	var queue = [fromModel]; // unshift -> queue -> pop
+
+	graph[fromModel].distance = 0;
+
+	while (queue.length) {
+		var current = queue.pop();
+		var adjacents = Object.keys(conversions[current]);
+
+		for (var len = adjacents.length, i = 0; i < len; i++) {
+			var adjacent = adjacents[i];
+			var node = graph[adjacent];
+
+			if (node.distance === -1) {
+				node.distance = graph[current].distance + 1;
+				node.parent = current;
+				queue.unshift(adjacent);
+			}
+		}
+	}
+
+	return graph;
+}
+
+function link(from, to) {
+	return function (args) {
+		return to(from(args));
+	};
+}
+
+function wrapConversion(toModel, graph) {
+	var path = [graph[toModel].parent, toModel];
+	var fn = conversions[graph[toModel].parent][toModel];
+
+	var cur = graph[toModel].parent;
+	while (graph[cur].parent) {
+		path.unshift(graph[cur].parent);
+		fn = link(conversions[graph[cur].parent][cur], fn);
+		cur = graph[cur].parent;
+	}
+
+	fn.conversion = path;
+	return fn;
+}
+
+module.exports = function (fromModel) {
+	var graph = deriveBFS(fromModel);
+	var conversion = {};
+
+	var models = Object.keys(graph);
+	for (var len = models.length, i = 0; i < len; i++) {
+		var toModel = models[i];
+		var node = graph[toModel];
+
+		if (node.parent === null) {
+			// no possible conversion, or this node is the source model.
+			continue;
+		}
+
+		conversion[toModel] = wrapConversion(toModel, graph);
+	}
+
+	return conversion;
+};
+
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _ColorItem = __webpack_require__(2);
+
+var _ColorItem2 = _interopRequireDefault(_ColorItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Handles everything related to the colorpicker color
+ * @ignore
+ */
+var ColorHandler = function () {
+  /**
+   * @param {Colorpicker} colorpicker
+   */
+  function ColorHandler(colorpicker) {
+    _classCallCheck(this, ColorHandler);
+
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+  }
+
+  /**
+   * @returns {*|String|ColorItem}
+   */
+
+
+  _createClass(ColorHandler, [{
+    key: 'bind',
+    value: function bind() {
+      // if the color option is set
+      if (this.colorpicker.options.color) {
+        this.color = this.createColor(this.colorpicker.options.color);
+        return;
+      }
+
+      // if element[color] is empty and the input has a value
+      if (!this.color && !!this.colorpicker.inputHandler.getValue()) {
+        this.color = this.createColor(this.colorpicker.inputHandler.getValue(), this.colorpicker.options.autoInputFallback);
+      }
+    }
+  }, {
+    key: 'unbind',
+    value: function unbind() {
+      this.colorpicker.element.removeData('color');
+    }
+
+    /**
+     * Returns the color string from the input value or the 'data-color' attribute of the input or element.
+     * If empty, it returns the defaultValue parameter.
+     *
+     * @returns {String|*}
+     */
+
+  }, {
+    key: 'getColorString',
+    value: function getColorString() {
+      if (!this.hasColor()) {
+        return '';
+      }
+
+      return this.color.string(this.format);
+    }
+
+    /**
+     * Sets the color value
+     *
+     * @param {String|ColorItem} val
+     */
+
+  }, {
+    key: 'setColorString',
+    value: function setColorString(val) {
+      var color = val ? this.createColor(val) : null;
+
+      this.color = color ? color : null;
+    }
+
+    /**
+     * Creates a new color using the widget instance options (fallbackColor, format).
+     *
+     * @fires Colorpicker#colorpickerInvalid
+     * @param {*} val
+     * @param {boolean} fallbackOnInvalid
+     * @returns {ColorItem}
+     */
+
+  }, {
+    key: 'createColor',
+    value: function createColor(val) {
+      var fallbackOnInvalid = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      var color = new _ColorItem2.default(this.resolveColorDelegate(val), this.format);
+
+      if (!color.isValid()) {
+        if (fallbackOnInvalid) {
+          color = this.getFallbackColor();
+        }
+
+        /**
+         * (Colorpicker) Fired when the color is invalid and the fallback color is going to be used.
+         *
+         * @event Colorpicker#colorpickerInvalid
+         */
+        this.colorpicker.trigger('colorpickerInvalid', color, val);
+      }
+
+      if (!this.isAlphaEnabled()) {
+        // Alpha is disabled
+        color.alpha = 1;
+      }
+
+      return color;
+    }
+  }, {
+    key: 'getFallbackColor',
+    value: function getFallbackColor() {
+      if (this.fallback && this.fallback === this.color) {
+        return this.color;
+      }
+
+      var fallback = this.resolveColorDelegate(this.fallback);
+      var color = new _ColorItem2.default(fallback, this.format);
+
+      if (!color.isValid()) {
+        throw new Error('The fallback color is invalid.');
+      }
+
+      return color;
+    }
+
+    /**
+     * @returns {ColorItem}
+     */
+
+  }, {
+    key: 'assureColor',
+    value: function assureColor() {
+      if (!this.hasColor()) {
+        this.color = this.getFallbackColor();
+      }
+
+      return this.color;
+    }
+
+    /**
+     * Delegates the color resolution to the colorpicker extensions.
+     *
+     * @param {String|*} color
+     * @param {boolean} realColor if true, the color should resolve into a real (not named) color code
+     * @returns {ColorItem|String|*|null}
+     */
+
+  }, {
+    key: 'resolveColorDelegate',
+    value: function resolveColorDelegate(color) {
+      var realColor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      var extResolvedColor = false;
+
+      _jquery2.default.each(this.colorpicker.extensions, function (name, ext) {
+        if (extResolvedColor !== false) {
+          // skip if resolved
+          return;
+        }
+        extResolvedColor = ext.resolveColor(color, realColor);
+      });
+
+      return extResolvedColor ? extResolvedColor : color;
+    }
+
+    /**
+     * Checks if there is a color object, that it is valid and it is not a fallback
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isInvalidColor',
+    value: function isInvalidColor() {
+      return !this.hasColor() || !this.color.isValid();
+    }
+
+    /**
+     * Returns true if the useAlpha option is exactly true, false otherwise
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'isAlphaEnabled',
+    value: function isAlphaEnabled() {
+      return this.colorpicker.options.useAlpha !== false;
+    }
+
+    /**
+     * Returns true if the current color object is an instance of Color, false otherwise.
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'hasColor',
+    value: function hasColor() {
+      return this.color instanceof _ColorItem2.default;
+    }
+  }, {
+    key: 'fallback',
+    get: function get() {
+      return this.colorpicker.options.fallbackColor ? this.colorpicker.options.fallbackColor : this.hasColor() ? this.color : null;
+    }
+
+    /**
+     * @returns {String|null}
+     */
+
+  }, {
+    key: 'format',
+    get: function get() {
+      if (this.colorpicker.options.format) {
+        return this.colorpicker.options.format;
+      }
+
+      if (this.hasColor() && this.color.hasTransparency() && this.color.format.match(/^hex/)) {
+        return this.isAlphaEnabled() ? 'rgba' : 'hex';
+      }
+
+      if (this.hasColor()) {
+        return this.color.format;
+      }
+
+      return 'rgb';
+    }
+
+    /**
+     * Internal color getter
+     *
+     * @type {ColorItem|null}
+     */
+
+  }, {
+    key: 'color',
+    get: function get() {
+      return this.colorpicker.element.data('color');
+    }
+
+    /**
+     * Internal color setter
+     *
+     * @ignore
+     * @param {ColorItem|null} value
+     */
+    ,
+    set: function set(value) {
+      this.colorpicker.element.data('color', value);
+
+      if (value instanceof _ColorItem2.default && this.colorpicker.options.format === 'auto') {
+        // If format is 'auto', use the first parsed one from now on
+        this.colorpicker.options.format = this.color.format;
+      }
+    }
+  }]);
+
+  return ColorHandler;
+}();
+
+exports.default = ColorHandler;
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Handles everything related to the colorpicker UI
+ * @ignore
+ */
+var PickerHandler = function () {
+  /**
+   * @param {Colorpicker} colorpicker
+   */
+  function PickerHandler(colorpicker) {
+    _classCallCheck(this, PickerHandler);
+
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+    /**
+     * @type {jQuery}
+     */
+    this.picker = null;
+  }
+
+  _createClass(PickerHandler, [{
+    key: 'bind',
+    value: function bind() {
+      /**
+       * @type {jQuery|HTMLElement}
+       */
+      var picker = this.picker = (0, _jquery2.default)(this.options.template);
+
+      if (this.options.customClass) {
+        picker.addClass(this.options.customClass);
+      }
+
+      if (this.options.horizontal) {
+        picker.addClass('colorpicker-horizontal');
+      }
+
+      if (this._supportsAlphaBar()) {
+        this.options.useAlpha = true;
+        picker.addClass('colorpicker-with-alpha');
+      } else {
+        this.options.useAlpha = false;
+      }
+    }
+  }, {
+    key: 'attach',
+    value: function attach() {
+      // Inject the colorpicker element into the DOM
+      var pickerParent = this.colorpicker.container ? this.colorpicker.container : null;
+
+      if (pickerParent) {
+        this.picker.appendTo(pickerParent);
+      }
+    }
+  }, {
+    key: 'unbind',
+    value: function unbind() {
+      this.picker.remove();
+    }
+  }, {
+    key: '_supportsAlphaBar',
+    value: function _supportsAlphaBar() {
+      return (this.options.useAlpha || this.colorpicker.colorHandler.hasColor() && this.color.hasTransparency()) && this.options.useAlpha !== false && (!this.options.format || this.options.format && !this.options.format.match(/^hex([36])?$/i));
+    }
+
+    /**
+     * Changes the color adjustment bars using the current color object information.
+     */
+
+  }, {
+    key: 'update',
+    value: function update() {
+      if (!this.colorpicker.colorHandler.hasColor()) {
+        return;
+      }
+
+      var vertical = this.options.horizontal !== true,
+          slider = vertical ? this.options.sliders : this.options.slidersHorz;
+
+      var saturationGuide = this.picker.find('.colorpicker-saturation .colorpicker-guide'),
+          hueGuide = this.picker.find('.colorpicker-hue .colorpicker-guide'),
+          alphaGuide = this.picker.find('.colorpicker-alpha .colorpicker-guide');
+
+      var hsva = this.color.toHsvaRatio();
+
+      // Set guides position
+      if (hueGuide.length) {
+        hueGuide.css(vertical ? 'top' : 'left', (vertical ? slider.hue.maxTop : slider.hue.maxLeft) * (1 - hsva.h));
+      }
+      if (alphaGuide.length) {
+        alphaGuide.css(vertical ? 'top' : 'left', (vertical ? slider.alpha.maxTop : slider.alpha.maxLeft) * (1 - hsva.a));
+      }
+      if (saturationGuide.length) {
+        saturationGuide.css({
+          'top': slider.saturation.maxTop - hsva.v * slider.saturation.maxTop,
+          'left': hsva.s * slider.saturation.maxLeft
+        });
+      }
+
+      // Set saturation hue background
+      this.picker.find('.colorpicker-saturation').css('backgroundColor', this.color.getCloneHueOnly().toHexString()); // we only need hue
+
+      // Set alpha color gradient
+      var hexColor = this.color.toHexString();
+      var alphaBg = '';
+
+      if (this.options.horizontal) {
+        alphaBg = 'linear-gradient(to right, ' + hexColor + ' 0%, transparent 100%)';
+      } else {
+        alphaBg = 'linear-gradient(to bottom, ' + hexColor + ' 0%, transparent 100%)';
+      }
+
+      this.picker.find('.colorpicker-alpha-color').css('background', alphaBg);
+    }
+  }, {
+    key: 'options',
+    get: function get() {
+      return this.colorpicker.options;
+    }
+  }, {
+    key: 'color',
+    get: function get() {
+      return this.colorpicker.colorHandler.color;
+    }
+  }]);
+
+  return PickerHandler;
+}();
+
+exports.default = PickerHandler;
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Handles everything related to the colorpicker addon
+ * @ignore
+ */
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var AddonHandler = function () {
+  /**
+   * @param {Colorpicker} colorpicker
+   */
+  function AddonHandler(colorpicker) {
+    _classCallCheck(this, AddonHandler);
+
+    /**
+     * @type {Colorpicker}
+     */
+    this.colorpicker = colorpicker;
+    /**
+     * @type {jQuery}
+     */
+    this.addon = null;
+  }
+
+  _createClass(AddonHandler, [{
+    key: 'hasAddon',
+    value: function hasAddon() {
+      return !!this.addon;
+    }
+  }, {
+    key: 'bind',
+    value: function bind() {
+      /**
+       * @type {*|jQuery}
+       */
+      this.addon = this.colorpicker.options.addon ? this.colorpicker.element.find(this.colorpicker.options.addon) : null;
+
+      if (this.addon && this.addon.length === 0) {
+        // not found
+        this.addon = null;
+      }
+    }
+  }, {
+    key: 'unbind',
+    value: function unbind() {
+      if (this.hasAddon()) {
+        this.addon.off('.colorpicker');
+      }
+    }
+
+    /**
+     * If the addon element is present, its background color is updated
+     */
+
+  }, {
+    key: 'update',
+    value: function update() {
+      if (!this.colorpicker.colorHandler.hasColor() || !this.hasAddon()) {
+        return;
+      }
+
+      var colorStr = this.colorpicker.colorHandler.getColorString();
+      var styles = { 'background': colorStr };
+
+      var icn = this.addon.find('i').eq(0);
+
+      if (icn.length > 0) {
+        icn.css(styles);
+      } else {
+        this.addon.css(styles);
+      }
+    }
+  }]);
+
+  return AddonHandler;
+}();
+
+exports.default = AddonHandler;
+
+/***/ })
+/******/ ]);
+});
+//# sourceMappingURL=bootstrap-colorpicker.js.map
+function makeDeleteForm(url)
+{
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+    var delInput = document.createElement('input');
+    delInput.type = 'hidden';
+    delInput.name = '_method';
+    delInput.value = 'DELETE';
+    form.appendChild(delInput);
+    var csrf = document.createElement('input');
+    csrf.type = 'hidden';
+    csrf.name = '_token';
+    csrf.value = jQuery('meta[name="csrf-token"]').attr('content');
+    form.appendChild(csrf);
+    document.body.appendChild(form);
+    return form;
+}
+
+function debounce(fn, delay = 300) {
+    var timeoutID = null;
+
+    return function () {
+        clearTimeout(timeoutID);
+
+        var args = arguments;
+        var that = this;
+
+        timeoutID = setTimeout(function () {
+            fn.apply(that, args);
+        }, delay);
+    }
+}
+
+function showDiceRoller()
+{
+    jQuery('#modal_dialog_title').text('Dice Roller');
+    axios.get('/dice/dialog')
+        .then(function (response)
+        {
+            jQuery('#modal_dialog_body').html(response.data);
+            jQuery('#global_modal_dialog').modal();
+        })
+        .catch(function (error)
+        {
+            console.log(error);
+        });
+}
+
+function rollDice()
+{
+    let num_dice = jQuery('input[name="dice_num"]:checked').val();
+    let dice_type = jQuery('input[name="dice_type"]:checked').val();
+    let other_dice_num = jQuery('#other_dice_num').val();
+    let mod = jQuery('#dice_mod').val();
+    let data =
+        {
+            'num_dice': num_dice,
+            'dice_type': dice_type,
+            'other_dice_num': other_dice_num,
+            'mod': mod
+        };
+    axios.post('/dice/roll', data)
+        .then(function (response)
+        {
+            jQuery('#global_modal_dialog').modal('hide');
+            let msg = "";
+            if (num_dice == 11)
+                msg = "Rolled " + other_dice_num + 'd' + dice_type;
+            else
+                msg = "Rolled " + num_dice + 'd' + dice_type;
+            if(mod > 0)
+                msg += '+' + mod;
+            else if(mod < 0)
+                msg += mod;
+            msg += ': ' + response.data;
+            alert(msg);
+        })
+        .catch(function (error)
+        {
+            console.log(error);
+        });
+}
+
+function quickRoll(roll)
+{
+    let data = { 'roll': roll };
+    axios.post('/dice/quick', data)
+        .then(function (response)
+        {
+            alert("Rolled " + roll + ': ' + response.data);
+        })
+        .catch(function (error)
+        {
+            console.log(error);
+        });
+}
+
+function showSpellSearch()
+{
+    jQuery('#modal_dialog_title').text('Spell Search');
+    axios.get('/spells/dialog')
+        .then(function (response)
+        {
+            jQuery('#modal_dialog_body').html(response.data);
+            jQuery('#global_modal_dialog').modal();
+        })
+        .catch(function (error)
+        {
+            console.log(error);
+        });
+}
+
+function searchSpells(query)
+{
+    let data = { 'query': query };
+    axios.post('/spells/search', data)
+        .then(function (response)
+        {
+            jQuery('#modal_dialog_body').html(response.data);
+        })
+        .catch(function (error)
+        {
+            console.log(error);
+        });
+}
+
+function selectSpell(idx)
+{
+    let url = "/spells/show/" + idx;
+    axios.get(url)
+        .then(function (response)
+        {
+            jQuery('#spell_display_container').html(response.data);
+            jQuery('#spell_display_container').show();
+            jQuery('#spell_search_container').hide();
+        })
+        .catch(function (error)
+        {
+            console.log(error);
+        });
+}
+
+/*!
+ * typeahead.js 0.11.1
+ * https://github.com/twitter/typeahead.js
+ * Copyright 2013-2015 Twitter, Inc. and other contributors; Licensed MIT
+ */
+
+(function(root, factory) {
+    if (typeof define === "function" && define.amd) {
+        define("typeahead.js", [ "jquery" ], function(a0) {
+            return factory(a0);
+        });
+    } else if (typeof exports === "object") {
+        module.exports = factory(require("jquery"));
+    } else {
+        factory(jQuery);
+    }
+})(this, function($) {
+    var _ = function() {
+        "use strict";
+        return {
+            isMsie: function() {
+                return /(msie|trident)/i.test(navigator.userAgent) ? navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i)[2] : false;
+            },
+            isBlankString: function(str) {
+                return !str || /^\s*$/.test(str);
+            },
+            escapeRegExChars: function(str) {
+                return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+            },
+            isString: function(obj) {
+                return typeof obj === "string";
+            },
+            isNumber: function(obj) {
+                return typeof obj === "number";
+            },
+            isArray: $.isArray,
+            isFunction: $.isFunction,
+            isObject: $.isPlainObject,
+            isUndefined: function(obj) {
+                return typeof obj === "undefined";
+            },
+            isElement: function(obj) {
+                return !!(obj && obj.nodeType === 1);
+            },
+            isJQuery: function(obj) {
+                return obj instanceof $;
+            },
+            toStr: function toStr(s) {
+                return _.isUndefined(s) || s === null ? "" : s + "";
+            },
+            bind: $.proxy,
+            each: function(collection, cb) {
+                $.each(collection, reverseArgs);
+                function reverseArgs(index, value) {
+                    return cb(value, index);
+                }
+            },
+            map: $.map,
+            filter: $.grep,
+            every: function(obj, test) {
+                var result = true;
+                if (!obj) {
+                    return result;
+                }
+                $.each(obj, function(key, val) {
+                    if (!(result = test.call(null, val, key, obj))) {
+                        return false;
+                    }
+                });
+                return !!result;
+            },
+            some: function(obj, test) {
+                var result = false;
+                if (!obj) {
+                    return result;
+                }
+                $.each(obj, function(key, val) {
+                    if (result = test.call(null, val, key, obj)) {
+                        return false;
+                    }
+                });
+                return !!result;
+            },
+            mixin: $.extend,
+            identity: function(x) {
+                return x;
+            },
+            clone: function(obj) {
+                return $.extend(true, {}, obj);
+            },
+            getIdGenerator: function() {
+                var counter = 0;
+                return function() {
+                    return counter++;
+                };
+            },
+            templatify: function templatify(obj) {
+                return $.isFunction(obj) ? obj : template;
+                function template() {
+                    return String(obj);
+                }
+            },
+            defer: function(fn) {
+                setTimeout(fn, 0);
+            },
+            debounce: function(func, wait, immediate) {
+                var timeout, result;
+                return function() {
+                    var context = this, args = arguments, later, callNow;
+                    later = function() {
+                        timeout = null;
+                        if (!immediate) {
+                            result = func.apply(context, args);
+                        }
+                    };
+                    callNow = immediate && !timeout;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                    if (callNow) {
+                        result = func.apply(context, args);
+                    }
+                    return result;
+                };
+            },
+            throttle: function(func, wait) {
+                var context, args, timeout, result, previous, later;
+                previous = 0;
+                later = function() {
+                    previous = new Date();
+                    timeout = null;
+                    result = func.apply(context, args);
+                };
+                return function() {
+                    var now = new Date(), remaining = wait - (now - previous);
+                    context = this;
+                    args = arguments;
+                    if (remaining <= 0) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                        previous = now;
+                        result = func.apply(context, args);
+                    } else if (!timeout) {
+                        timeout = setTimeout(later, remaining);
+                    }
+                    return result;
+                };
+            },
+            stringify: function(val) {
+                return _.isString(val) ? val : JSON.stringify(val);
+            },
+            noop: function() {}
+        };
+    }();
+    var WWW = function() {
+        "use strict";
+        var defaultClassNames = {
+            wrapper: "twitter-typeahead",
+            input: "tt-input",
+            hint: "tt-hint",
+            menu: "tt-menu",
+            dataset: "tt-dataset",
+            suggestion: "tt-suggestion",
+            selectable: "tt-selectable",
+            empty: "tt-empty",
+            open: "tt-open",
+            cursor: "tt-cursor",
+            highlight: "tt-highlight"
+        };
+        return build;
+        function build(o) {
+            var www, classes;
+            classes = _.mixin({}, defaultClassNames, o);
+            www = {
+                css: buildCss(),
+                classes: classes,
+                html: buildHtml(classes),
+                selectors: buildSelectors(classes)
+            };
+            return {
+                css: www.css,
+                html: www.html,
+                classes: www.classes,
+                selectors: www.selectors,
+                mixin: function(o) {
+                    _.mixin(o, www);
+                }
+            };
+        }
+        function buildHtml(c) {
+            return {
+                wrapper: '<span class="' + c.wrapper + '"></span>',
+                menu: '<div class="' + c.menu + '"></div>'
+            };
+        }
+        function buildSelectors(classes) {
+            var selectors = {};
+            _.each(classes, function(v, k) {
+                selectors[k] = "." + v;
+            });
+            return selectors;
+        }
+        function buildCss() {
+            var css = {
+                wrapper: {
+                    position: "relative",
+                    display: "inline-block"
+                },
+                hint: {
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    borderColor: "transparent",
+                    boxShadow: "none",
+                    opacity: "1"
+                },
+                input: {
+                    position: "relative",
+                    verticalAlign: "top",
+                    backgroundColor: "transparent"
+                },
+                inputWithNoHint: {
+                    position: "relative",
+                    verticalAlign: "top"
+                },
+                menu: {
+                    position: "absolute",
+                    top: "100%",
+                    left: "0",
+                    zIndex: "100",
+                    display: "none"
+                },
+                ltr: {
+                    left: "0",
+                    right: "auto"
+                },
+                rtl: {
+                    left: "auto",
+                    right: " 0"
+                }
+            };
+            if (_.isMsie()) {
+                _.mixin(css.input, {
+                    backgroundImage: "url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)"
+                });
+            }
+            return css;
+        }
+    }();
+    var EventBus = function() {
+        "use strict";
+        var namespace, deprecationMap;
+        namespace = "typeahead:";
+        deprecationMap = {
+            render: "rendered",
+            cursorchange: "cursorchanged",
+            select: "selected",
+            autocomplete: "autocompleted"
+        };
+        function EventBus(o) {
+            if (!o || !o.el) {
+                $.error("EventBus initialized without el");
+            }
+            this.$el = $(o.el);
+        }
+        _.mixin(EventBus.prototype, {
+            _trigger: function(type, args) {
+                var $e;
+                $e = $.Event(namespace + type);
+                (args = args || []).unshift($e);
+                this.$el.trigger.apply(this.$el, args);
+                return $e;
+            },
+            before: function(type) {
+                var args, $e;
+                args = [].slice.call(arguments, 1);
+                $e = this._trigger("before" + type, args);
+                return $e.isDefaultPrevented();
+            },
+            trigger: function(type) {
+                var deprecatedType;
+                this._trigger(type, [].slice.call(arguments, 1));
+                if (deprecatedType = deprecationMap[type]) {
+                    this._trigger(deprecatedType, [].slice.call(arguments, 1));
+                }
+            }
+        });
+        return EventBus;
+    }();
+    var EventEmitter = function() {
+        "use strict";
+        var splitter = /\s+/, nextTick = getNextTick();
+        return {
+            onSync: onSync,
+            onAsync: onAsync,
+            off: off,
+            trigger: trigger
+        };
+        function on(method, types, cb, context) {
+            var type;
+            if (!cb) {
+                return this;
+            }
+            types = types.split(splitter);
+            cb = context ? bindContext(cb, context) : cb;
+            this._callbacks = this._callbacks || {};
+            while (type = types.shift()) {
+                this._callbacks[type] = this._callbacks[type] || {
+                    sync: [],
+                    async: []
+                };
+                this._callbacks[type][method].push(cb);
+            }
+            return this;
+        }
+        function onAsync(types, cb, context) {
+            return on.call(this, "async", types, cb, context);
+        }
+        function onSync(types, cb, context) {
+            return on.call(this, "sync", types, cb, context);
+        }
+        function off(types) {
+            var type;
+            if (!this._callbacks) {
+                return this;
+            }
+            types = types.split(splitter);
+            while (type = types.shift()) {
+                delete this._callbacks[type];
+            }
+            return this;
+        }
+        function trigger(types) {
+            var type, callbacks, args, syncFlush, asyncFlush;
+            if (!this._callbacks) {
+                return this;
+            }
+            types = types.split(splitter);
+            args = [].slice.call(arguments, 1);
+            while ((type = types.shift()) && (callbacks = this._callbacks[type])) {
+                syncFlush = getFlush(callbacks.sync, this, [ type ].concat(args));
+                asyncFlush = getFlush(callbacks.async, this, [ type ].concat(args));
+                syncFlush() && nextTick(asyncFlush);
+            }
+            return this;
+        }
+        function getFlush(callbacks, context, args) {
+            return flush;
+            function flush() {
+                var cancelled;
+                for (var i = 0, len = callbacks.length; !cancelled && i < len; i += 1) {
+                    cancelled = callbacks[i].apply(context, args) === false;
+                }
+                return !cancelled;
+            }
+        }
+        function getNextTick() {
+            var nextTickFn;
+            if (window.setImmediate) {
+                nextTickFn = function nextTickSetImmediate(fn) {
+                    setImmediate(function() {
+                        fn();
+                    });
+                };
+            } else {
+                nextTickFn = function nextTickSetTimeout(fn) {
+                    setTimeout(function() {
+                        fn();
+                    }, 0);
+                };
+            }
+            return nextTickFn;
+        }
+        function bindContext(fn, context) {
+            return fn.bind ? fn.bind(context) : function() {
+                fn.apply(context, [].slice.call(arguments, 0));
+            };
+        }
+    }();
+    var highlight = function(doc) {
+        "use strict";
+        var defaults = {
+            node: null,
+            pattern: null,
+            tagName: "strong",
+            className: null,
+            wordsOnly: false,
+            caseSensitive: false
+        };
+        return function hightlight(o) {
+            var regex;
+            o = _.mixin({}, defaults, o);
+            if (!o.node || !o.pattern) {
+                return;
+            }
+            o.pattern = _.isArray(o.pattern) ? o.pattern : [ o.pattern ];
+            regex = getRegex(o.pattern, o.caseSensitive, o.wordsOnly);
+            traverse(o.node, hightlightTextNode);
+            function hightlightTextNode(textNode) {
+                var match, patternNode, wrapperNode;
+                if (match = regex.exec(textNode.data)) {
+                    wrapperNode = doc.createElement(o.tagName);
+                    o.className && (wrapperNode.className = o.className);
+                    patternNode = textNode.splitText(match.index);
+                    patternNode.splitText(match[0].length);
+                    wrapperNode.appendChild(patternNode.cloneNode(true));
+                    textNode.parentNode.replaceChild(wrapperNode, patternNode);
+                }
+                return !!match;
+            }
+            function traverse(el, hightlightTextNode) {
+                var childNode, TEXT_NODE_TYPE = 3;
+                for (var i = 0; i < el.childNodes.length; i++) {
+                    childNode = el.childNodes[i];
+                    if (childNode.nodeType === TEXT_NODE_TYPE) {
+                        i += hightlightTextNode(childNode) ? 1 : 0;
+                    } else {
+                        traverse(childNode, hightlightTextNode);
+                    }
+                }
+            }
+        };
+        function getRegex(patterns, caseSensitive, wordsOnly) {
+            var escapedPatterns = [], regexStr;
+            for (var i = 0, len = patterns.length; i < len; i++) {
+                escapedPatterns.push(_.escapeRegExChars(patterns[i]));
+            }
+            regexStr = wordsOnly ? "\\b(" + escapedPatterns.join("|") + ")\\b" : "(" + escapedPatterns.join("|") + ")";
+            return caseSensitive ? new RegExp(regexStr) : new RegExp(regexStr, "i");
+        }
+    }(window.document);
+    var Input = function() {
+        "use strict";
+        var specialKeyCodeMap;
+        specialKeyCodeMap = {
+            9: "tab",
+            27: "esc",
+            37: "left",
+            39: "right",
+            13: "enter",
+            38: "up",
+            40: "down"
+        };
+        function Input(o, www) {
+            o = o || {};
+            if (!o.input) {
+                $.error("input is missing");
+            }
+            www.mixin(this);
+            this.$hint = $(o.hint);
+            this.$input = $(o.input);
+            this.query = this.$input.val();
+            this.queryWhenFocused = this.hasFocus() ? this.query : null;
+            this.$overflowHelper = buildOverflowHelper(this.$input);
+            this._checkLanguageDirection();
+            if (this.$hint.length === 0) {
+                this.setHint = this.getHint = this.clearHint = this.clearHintIfInvalid = _.noop;
+            }
+        }
+        Input.normalizeQuery = function(str) {
+            return _.toStr(str).replace(/^\s*/g, "").replace(/\s{2,}/g, " ");
+        };
+        _.mixin(Input.prototype, EventEmitter, {
+            _onBlur: function onBlur() {
+                this.resetInputValue();
+                this.trigger("blurred");
+            },
+            _onFocus: function onFocus() {
+                this.queryWhenFocused = this.query;
+                this.trigger("focused");
+            },
+            _onKeydown: function onKeydown($e) {
+                var keyName = specialKeyCodeMap[$e.which || $e.keyCode];
+                this._managePreventDefault(keyName, $e);
+                if (keyName && this._shouldTrigger(keyName, $e)) {
+                    this.trigger(keyName + "Keyed", $e);
+                }
+            },
+            _onInput: function onInput() {
+                this._setQuery(this.getInputValue());
+                this.clearHintIfInvalid();
+                this._checkLanguageDirection();
+            },
+            _managePreventDefault: function managePreventDefault(keyName, $e) {
+                var preventDefault;
+                switch (keyName) {
+                  case "up":
+                  case "down":
+                    preventDefault = !withModifier($e);
+                    break;
+
+                  default:
+                    preventDefault = false;
+                }
+                preventDefault && $e.preventDefault();
+            },
+            _shouldTrigger: function shouldTrigger(keyName, $e) {
+                var trigger;
+                switch (keyName) {
+                  case "tab":
+                    trigger = !withModifier($e);
+                    break;
+
+                  default:
+                    trigger = true;
+                }
+                return trigger;
+            },
+            _checkLanguageDirection: function checkLanguageDirection() {
+                var dir = (this.$input.css("direction") || "ltr").toLowerCase();
+                if (this.dir !== dir) {
+                    this.dir = dir;
+                    this.$hint.attr("dir", dir);
+                    this.trigger("langDirChanged", dir);
+                }
+            },
+            _setQuery: function setQuery(val, silent) {
+                var areEquivalent, hasDifferentWhitespace;
+                areEquivalent = areQueriesEquivalent(val, this.query);
+                hasDifferentWhitespace = areEquivalent ? this.query.length !== val.length : false;
+                this.query = val;
+                if (!silent && !areEquivalent) {
+                    this.trigger("queryChanged", this.query);
+                } else if (!silent && hasDifferentWhitespace) {
+                    this.trigger("whitespaceChanged", this.query);
+                }
+            },
+            bind: function() {
+                var that = this, onBlur, onFocus, onKeydown, onInput;
+                onBlur = _.bind(this._onBlur, this);
+                onFocus = _.bind(this._onFocus, this);
+                onKeydown = _.bind(this._onKeydown, this);
+                onInput = _.bind(this._onInput, this);
+                this.$input.on("blur.tt", onBlur).on("focus.tt", onFocus).on("keydown.tt", onKeydown);
+                if (!_.isMsie() || _.isMsie() > 9) {
+                    this.$input.on("input.tt", onInput);
+                } else {
+                    this.$input.on("keydown.tt keypress.tt cut.tt paste.tt", function($e) {
+                        if (specialKeyCodeMap[$e.which || $e.keyCode]) {
+                            return;
+                        }
+                        _.defer(_.bind(that._onInput, that, $e));
+                    });
+                }
+                return this;
+            },
+            focus: function focus() {
+                this.$input.focus();
+            },
+            blur: function blur() {
+                this.$input.blur();
+            },
+            getLangDir: function getLangDir() {
+                return this.dir;
+            },
+            getQuery: function getQuery() {
+                return this.query || "";
+            },
+            setQuery: function setQuery(val, silent) {
+                this.setInputValue(val);
+                this._setQuery(val, silent);
+            },
+            hasQueryChangedSinceLastFocus: function hasQueryChangedSinceLastFocus() {
+                return this.query !== this.queryWhenFocused;
+            },
+            getInputValue: function getInputValue() {
+                return this.$input.val();
+            },
+            setInputValue: function setInputValue(value) {
+                this.$input.val(value);
+                this.clearHintIfInvalid();
+                this._checkLanguageDirection();
+            },
+            resetInputValue: function resetInputValue() {
+                this.setInputValue(this.query);
+            },
+            getHint: function getHint() {
+                return this.$hint.val();
+            },
+            setHint: function setHint(value) {
+                this.$hint.val(value);
+            },
+            clearHint: function clearHint() {
+                this.setHint("");
+            },
+            clearHintIfInvalid: function clearHintIfInvalid() {
+                var val, hint, valIsPrefixOfHint, isValid;
+                val = this.getInputValue();
+                hint = this.getHint();
+                valIsPrefixOfHint = val !== hint && hint.indexOf(val) === 0;
+                isValid = val !== "" && valIsPrefixOfHint && !this.hasOverflow();
+                !isValid && this.clearHint();
+            },
+            hasFocus: function hasFocus() {
+                return this.$input.is(":focus");
+            },
+            hasOverflow: function hasOverflow() {
+                var constraint = this.$input.width() - 2;
+                this.$overflowHelper.text(this.getInputValue());
+                return this.$overflowHelper.width() >= constraint;
+            },
+            isCursorAtEnd: function() {
+                var valueLength, selectionStart, range;
+                valueLength = this.$input.val().length;
+                selectionStart = this.$input[0].selectionStart;
+                if (_.isNumber(selectionStart)) {
+                    return selectionStart === valueLength;
+                } else if (document.selection) {
+                    range = document.selection.createRange();
+                    range.moveStart("character", -valueLength);
+                    return valueLength === range.text.length;
+                }
+                return true;
+            },
+            destroy: function destroy() {
+                this.$hint.off(".tt");
+                this.$input.off(".tt");
+                this.$overflowHelper.remove();
+                this.$hint = this.$input = this.$overflowHelper = $("<div>");
+            }
+        });
+        return Input;
+        function buildOverflowHelper($input) {
+            return $('<pre aria-hidden="true"></pre>').css({
+                position: "absolute",
+                visibility: "hidden",
+                whiteSpace: "pre",
+                fontFamily: $input.css("font-family"),
+                fontSize: $input.css("font-size"),
+                fontStyle: $input.css("font-style"),
+                fontVariant: $input.css("font-variant"),
+                fontWeight: $input.css("font-weight"),
+                wordSpacing: $input.css("word-spacing"),
+                letterSpacing: $input.css("letter-spacing"),
+                textIndent: $input.css("text-indent"),
+                textRendering: $input.css("text-rendering"),
+                textTransform: $input.css("text-transform")
+            }).insertAfter($input);
+        }
+        function areQueriesEquivalent(a, b) {
+            return Input.normalizeQuery(a) === Input.normalizeQuery(b);
+        }
+        function withModifier($e) {
+            return $e.altKey || $e.ctrlKey || $e.metaKey || $e.shiftKey;
+        }
+    }();
+    var Dataset = function() {
+        "use strict";
+        var keys, nameGenerator;
+        keys = {
+            val: "tt-selectable-display",
+            obj: "tt-selectable-object"
+        };
+        nameGenerator = _.getIdGenerator();
+        function Dataset(o, www) {
+            o = o || {};
+            o.templates = o.templates || {};
+            o.templates.notFound = o.templates.notFound || o.templates.empty;
+            if (!o.source) {
+                $.error("missing source");
+            }
+            if (!o.node) {
+                $.error("missing node");
+            }
+            if (o.name && !isValidName(o.name)) {
+                $.error("invalid dataset name: " + o.name);
+            }
+            www.mixin(this);
+            this.highlight = !!o.highlight;
+            this.name = o.name || nameGenerator();
+            this.limit = o.limit || 5;
+            this.displayFn = getDisplayFn(o.display || o.displayKey);
+            this.templates = getTemplates(o.templates, this.displayFn);
+            this.source = o.source.__ttAdapter ? o.source.__ttAdapter() : o.source;
+            this.async = _.isUndefined(o.async) ? this.source.length > 2 : !!o.async;
+            this._resetLastSuggestion();
+            this.$el = $(o.node).addClass(this.classes.dataset).addClass(this.classes.dataset + "-" + this.name);
+        }
+        Dataset.extractData = function extractData(el) {
+            var $el = $(el);
+            if ($el.data(keys.obj)) {
+                return {
+                    val: $el.data(keys.val) || "",
+                    obj: $el.data(keys.obj) || null
+                };
+            }
+            return null;
+        };
+        _.mixin(Dataset.prototype, EventEmitter, {
+            _overwrite: function overwrite(query, suggestions) {
+                suggestions = suggestions || [];
+                if (suggestions.length) {
+                    this._renderSuggestions(query, suggestions);
+                } else if (this.async && this.templates.pending) {
+                    this._renderPending(query);
+                } else if (!this.async && this.templates.notFound) {
+                    this._renderNotFound(query);
+                } else {
+                    this._empty();
+                }
+                this.trigger("rendered", this.name, suggestions, false);
+            },
+            _append: function append(query, suggestions) {
+                suggestions = suggestions || [];
+                if (suggestions.length && this.$lastSuggestion.length) {
+                    this._appendSuggestions(query, suggestions);
+                } else if (suggestions.length) {
+                    this._renderSuggestions(query, suggestions);
+                } else if (!this.$lastSuggestion.length && this.templates.notFound) {
+                    this._renderNotFound(query);
+                }
+                this.trigger("rendered", this.name, suggestions, true);
+            },
+            _renderSuggestions: function renderSuggestions(query, suggestions) {
+                var $fragment;
+                $fragment = this._getSuggestionsFragment(query, suggestions);
+                this.$lastSuggestion = $fragment.children().last();
+                this.$el.html($fragment).prepend(this._getHeader(query, suggestions)).append(this._getFooter(query, suggestions));
+            },
+            _appendSuggestions: function appendSuggestions(query, suggestions) {
+                var $fragment, $lastSuggestion;
+                $fragment = this._getSuggestionsFragment(query, suggestions);
+                $lastSuggestion = $fragment.children().last();
+                this.$lastSuggestion.after($fragment);
+                this.$lastSuggestion = $lastSuggestion;
+            },
+            _renderPending: function renderPending(query) {
+                var template = this.templates.pending;
+                this._resetLastSuggestion();
+                template && this.$el.html(template({
+                    query: query,
+                    dataset: this.name
+                }));
+            },
+            _renderNotFound: function renderNotFound(query) {
+                var template = this.templates.notFound;
+                this._resetLastSuggestion();
+                template && this.$el.html(template({
+                    query: query,
+                    dataset: this.name
+                }));
+            },
+            _empty: function empty() {
+                this.$el.empty();
+                this._resetLastSuggestion();
+            },
+            _getSuggestionsFragment: function getSuggestionsFragment(query, suggestions) {
+                var that = this, fragment;
+                fragment = document.createDocumentFragment();
+                _.each(suggestions, function getSuggestionNode(suggestion) {
+                    var $el, context;
+                    context = that._injectQuery(query, suggestion);
+                    $el = $(that.templates.suggestion(context)).data(keys.obj, suggestion).data(keys.val, that.displayFn(suggestion)).addClass(that.classes.suggestion + " " + that.classes.selectable);
+                    fragment.appendChild($el[0]);
+                });
+                this.highlight && highlight({
+                    className: this.classes.highlight,
+                    node: fragment,
+                    pattern: query
+                });
+                return $(fragment);
+            },
+            _getFooter: function getFooter(query, suggestions) {
+                return this.templates.footer ? this.templates.footer({
+                    query: query,
+                    suggestions: suggestions,
+                    dataset: this.name
+                }) : null;
+            },
+            _getHeader: function getHeader(query, suggestions) {
+                return this.templates.header ? this.templates.header({
+                    query: query,
+                    suggestions: suggestions,
+                    dataset: this.name
+                }) : null;
+            },
+            _resetLastSuggestion: function resetLastSuggestion() {
+                this.$lastSuggestion = $();
+            },
+            _injectQuery: function injectQuery(query, obj) {
+                return _.isObject(obj) ? _.mixin({
+                    _query: query
+                }, obj) : obj;
+            },
+            update: function update(query) {
+                var that = this, canceled = false, syncCalled = false, rendered = 0;
+                this.cancel();
+                this.cancel = function cancel() {
+                    canceled = true;
+                    that.cancel = $.noop;
+                    that.async && that.trigger("asyncCanceled", query);
+                };
+                this.source(query, sync, async);
+                !syncCalled && sync([]);
+                function sync(suggestions) {
+                    if (syncCalled) {
+                        return;
+                    }
+                    syncCalled = true;
+                    suggestions = (suggestions || []).slice(0, that.limit);
+                    rendered = suggestions.length;
+                    that._overwrite(query, suggestions);
+                    if (rendered < that.limit && that.async) {
+                        that.trigger("asyncRequested", query);
+                    }
+                }
+                function async(suggestions) {
+                    suggestions = suggestions || [];
+                    if (!canceled && rendered < that.limit) {
+                        that.cancel = $.noop;
+                        rendered += suggestions.length;
+                        that._append(query, suggestions.slice(0, that.limit - rendered));
+                        that.async && that.trigger("asyncReceived", query);
+                    }
+                }
+            },
+            cancel: $.noop,
+            clear: function clear() {
+                this._empty();
+                this.cancel();
+                this.trigger("cleared");
+            },
+            isEmpty: function isEmpty() {
+                return this.$el.is(":empty");
+            },
+            destroy: function destroy() {
+                this.$el = $("<div>");
+            }
+        });
+        return Dataset;
+        function getDisplayFn(display) {
+            display = display || _.stringify;
+            return _.isFunction(display) ? display : displayFn;
+            function displayFn(obj) {
+                return obj[display];
+            }
+        }
+        function getTemplates(templates, displayFn) {
+            return {
+                notFound: templates.notFound && _.templatify(templates.notFound),
+                pending: templates.pending && _.templatify(templates.pending),
+                header: templates.header && _.templatify(templates.header),
+                footer: templates.footer && _.templatify(templates.footer),
+                suggestion: templates.suggestion || suggestionTemplate
+            };
+            function suggestionTemplate(context) {
+                return $("<div>").text(displayFn(context));
+            }
+        }
+        function isValidName(str) {
+            return /^[_a-zA-Z0-9-]+$/.test(str);
+        }
+    }();
+    var Menu = function() {
+        "use strict";
+        function Menu(o, www) {
+            var that = this;
+            o = o || {};
+            if (!o.node) {
+                $.error("node is required");
+            }
+            www.mixin(this);
+            this.$node = $(o.node);
+            this.query = null;
+            this.datasets = _.map(o.datasets, initializeDataset);
+            function initializeDataset(oDataset) {
+                var node = that.$node.find(oDataset.node).first();
+                oDataset.node = node.length ? node : $("<div>").appendTo(that.$node);
+                return new Dataset(oDataset, www);
+            }
+        }
+        _.mixin(Menu.prototype, EventEmitter, {
+            _onSelectableClick: function onSelectableClick($e) {
+                this.trigger("selectableClicked", $($e.currentTarget));
+            },
+            _onRendered: function onRendered(type, dataset, suggestions, async) {
+                this.$node.toggleClass(this.classes.empty, this._allDatasetsEmpty());
+                this.trigger("datasetRendered", dataset, suggestions, async);
+            },
+            _onCleared: function onCleared() {
+                this.$node.toggleClass(this.classes.empty, this._allDatasetsEmpty());
+                this.trigger("datasetCleared");
+            },
+            _propagate: function propagate() {
+                this.trigger.apply(this, arguments);
+            },
+            _allDatasetsEmpty: function allDatasetsEmpty() {
+                return _.every(this.datasets, isDatasetEmpty);
+                function isDatasetEmpty(dataset) {
+                    return dataset.isEmpty();
+                }
+            },
+            _getSelectables: function getSelectables() {
+                return this.$node.find(this.selectors.selectable);
+            },
+            _removeCursor: function _removeCursor() {
+                var $selectable = this.getActiveSelectable();
+                $selectable && $selectable.removeClass(this.classes.cursor);
+            },
+            _ensureVisible: function ensureVisible($el) {
+                var elTop, elBottom, nodeScrollTop, nodeHeight;
+                elTop = $el.position().top;
+                elBottom = elTop + $el.outerHeight(true);
+                nodeScrollTop = this.$node.scrollTop();
+                nodeHeight = this.$node.height() + parseInt(this.$node.css("paddingTop"), 10) + parseInt(this.$node.css("paddingBottom"), 10);
+                if (elTop < 0) {
+                    this.$node.scrollTop(nodeScrollTop + elTop);
+                } else if (nodeHeight < elBottom) {
+                    this.$node.scrollTop(nodeScrollTop + (elBottom - nodeHeight));
+                }
+            },
+            bind: function() {
+                var that = this, onSelectableClick;
+                onSelectableClick = _.bind(this._onSelectableClick, this);
+                this.$node.on("click.tt", this.selectors.selectable, onSelectableClick);
+                _.each(this.datasets, function(dataset) {
+                    dataset.onSync("asyncRequested", that._propagate, that).onSync("asyncCanceled", that._propagate, that).onSync("asyncReceived", that._propagate, that).onSync("rendered", that._onRendered, that).onSync("cleared", that._onCleared, that);
+                });
+                return this;
+            },
+            isOpen: function isOpen() {
+                return this.$node.hasClass(this.classes.open);
+            },
+            open: function open() {
+                this.$node.addClass(this.classes.open);
+            },
+            close: function close() {
+                this.$node.removeClass(this.classes.open);
+                this._removeCursor();
+            },
+            setLanguageDirection: function setLanguageDirection(dir) {
+                this.$node.attr("dir", dir);
+            },
+            selectableRelativeToCursor: function selectableRelativeToCursor(delta) {
+                var $selectables, $oldCursor, oldIndex, newIndex;
+                $oldCursor = this.getActiveSelectable();
+                $selectables = this._getSelectables();
+                oldIndex = $oldCursor ? $selectables.index($oldCursor) : -1;
+                newIndex = oldIndex + delta;
+                newIndex = (newIndex + 1) % ($selectables.length + 1) - 1;
+                newIndex = newIndex < -1 ? $selectables.length - 1 : newIndex;
+                return newIndex === -1 ? null : $selectables.eq(newIndex);
+            },
+            setCursor: function setCursor($selectable) {
+                this._removeCursor();
+                if ($selectable = $selectable && $selectable.first()) {
+                    $selectable.addClass(this.classes.cursor);
+                    this._ensureVisible($selectable);
+                }
+            },
+            getSelectableData: function getSelectableData($el) {
+                return $el && $el.length ? Dataset.extractData($el) : null;
+            },
+            getActiveSelectable: function getActiveSelectable() {
+                var $selectable = this._getSelectables().filter(this.selectors.cursor).first();
+                return $selectable.length ? $selectable : null;
+            },
+            getTopSelectable: function getTopSelectable() {
+                var $selectable = this._getSelectables().first();
+                return $selectable.length ? $selectable : null;
+            },
+            update: function update(query) {
+                var isValidUpdate = query !== this.query;
+                if (isValidUpdate) {
+                    this.query = query;
+                    _.each(this.datasets, updateDataset);
+                }
+                return isValidUpdate;
+                function updateDataset(dataset) {
+                    dataset.update(query);
+                }
+            },
+            empty: function empty() {
+                _.each(this.datasets, clearDataset);
+                this.query = null;
+                this.$node.addClass(this.classes.empty);
+                function clearDataset(dataset) {
+                    dataset.clear();
+                }
+            },
+            destroy: function destroy() {
+                this.$node.off(".tt");
+                this.$node = $("<div>");
+                _.each(this.datasets, destroyDataset);
+                function destroyDataset(dataset) {
+                    dataset.destroy();
+                }
+            }
+        });
+        return Menu;
+    }();
+    var DefaultMenu = function() {
+        "use strict";
+        var s = Menu.prototype;
+        function DefaultMenu() {
+            Menu.apply(this, [].slice.call(arguments, 0));
+        }
+        _.mixin(DefaultMenu.prototype, Menu.prototype, {
+            open: function open() {
+                !this._allDatasetsEmpty() && this._show();
+                return s.open.apply(this, [].slice.call(arguments, 0));
+            },
+            close: function close() {
+                this._hide();
+                return s.close.apply(this, [].slice.call(arguments, 0));
+            },
+            _onRendered: function onRendered() {
+                if (this._allDatasetsEmpty()) {
+                    this._hide();
+                } else {
+                    this.isOpen() && this._show();
+                }
+                return s._onRendered.apply(this, [].slice.call(arguments, 0));
+            },
+            _onCleared: function onCleared() {
+                if (this._allDatasetsEmpty()) {
+                    this._hide();
+                } else {
+                    this.isOpen() && this._show();
+                }
+                return s._onCleared.apply(this, [].slice.call(arguments, 0));
+            },
+            setLanguageDirection: function setLanguageDirection(dir) {
+                this.$node.css(dir === "ltr" ? this.css.ltr : this.css.rtl);
+                return s.setLanguageDirection.apply(this, [].slice.call(arguments, 0));
+            },
+            _hide: function hide() {
+                this.$node.hide();
+            },
+            _show: function show() {
+                this.$node.css("display", "block");
+            }
+        });
+        return DefaultMenu;
+    }();
+    var Typeahead = function() {
+        "use strict";
+        function Typeahead(o, www) {
+            var onFocused, onBlurred, onEnterKeyed, onTabKeyed, onEscKeyed, onUpKeyed, onDownKeyed, onLeftKeyed, onRightKeyed, onQueryChanged, onWhitespaceChanged;
+            o = o || {};
+            if (!o.input) {
+                $.error("missing input");
+            }
+            if (!o.menu) {
+                $.error("missing menu");
+            }
+            if (!o.eventBus) {
+                $.error("missing event bus");
+            }
+            www.mixin(this);
+            this.eventBus = o.eventBus;
+            this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
+            this.input = o.input;
+            this.menu = o.menu;
+            this.enabled = true;
+            this.active = false;
+            this.input.hasFocus() && this.activate();
+            this.dir = this.input.getLangDir();
+            this._hacks();
+            this.menu.bind().onSync("selectableClicked", this._onSelectableClicked, this).onSync("asyncRequested", this._onAsyncRequested, this).onSync("asyncCanceled", this._onAsyncCanceled, this).onSync("asyncReceived", this._onAsyncReceived, this).onSync("datasetRendered", this._onDatasetRendered, this).onSync("datasetCleared", this._onDatasetCleared, this);
+            onFocused = c(this, "activate", "open", "_onFocused");
+            onBlurred = c(this, "deactivate", "_onBlurred");
+            onEnterKeyed = c(this, "isActive", "isOpen", "_onEnterKeyed");
+            onTabKeyed = c(this, "isActive", "isOpen", "_onTabKeyed");
+            onEscKeyed = c(this, "isActive", "_onEscKeyed");
+            onUpKeyed = c(this, "isActive", "open", "_onUpKeyed");
+            onDownKeyed = c(this, "isActive", "open", "_onDownKeyed");
+            onLeftKeyed = c(this, "isActive", "isOpen", "_onLeftKeyed");
+            onRightKeyed = c(this, "isActive", "isOpen", "_onRightKeyed");
+            onQueryChanged = c(this, "_openIfActive", "_onQueryChanged");
+            onWhitespaceChanged = c(this, "_openIfActive", "_onWhitespaceChanged");
+            this.input.bind().onSync("focused", onFocused, this).onSync("blurred", onBlurred, this).onSync("enterKeyed", onEnterKeyed, this).onSync("tabKeyed", onTabKeyed, this).onSync("escKeyed", onEscKeyed, this).onSync("upKeyed", onUpKeyed, this).onSync("downKeyed", onDownKeyed, this).onSync("leftKeyed", onLeftKeyed, this).onSync("rightKeyed", onRightKeyed, this).onSync("queryChanged", onQueryChanged, this).onSync("whitespaceChanged", onWhitespaceChanged, this).onSync("langDirChanged", this._onLangDirChanged, this);
+        }
+        _.mixin(Typeahead.prototype, {
+            _hacks: function hacks() {
+                var $input, $menu;
+                $input = this.input.$input || $("<div>");
+                $menu = this.menu.$node || $("<div>");
+                $input.on("blur.tt", function($e) {
+                    var active, isActive, hasActive;
+                    active = document.activeElement;
+                    isActive = $menu.is(active);
+                    hasActive = $menu.has(active).length > 0;
+                    if (_.isMsie() && (isActive || hasActive)) {
+                        $e.preventDefault();
+                        $e.stopImmediatePropagation();
+                        _.defer(function() {
+                            $input.focus();
+                        });
+                    }
+                });
+                $menu.on("mousedown.tt", function($e) {
+                    $e.preventDefault();
+                });
+            },
+            _onSelectableClicked: function onSelectableClicked(type, $el) {
+                this.select($el);
+            },
+            _onDatasetCleared: function onDatasetCleared() {
+                this._updateHint();
+            },
+            _onDatasetRendered: function onDatasetRendered(type, dataset, suggestions, async) {
+                this._updateHint();
+                this.eventBus.trigger("render", suggestions, async, dataset);
+            },
+            _onAsyncRequested: function onAsyncRequested(type, dataset, query) {
+                this.eventBus.trigger("asyncrequest", query, dataset);
+            },
+            _onAsyncCanceled: function onAsyncCanceled(type, dataset, query) {
+                this.eventBus.trigger("asynccancel", query, dataset);
+            },
+            _onAsyncReceived: function onAsyncReceived(type, dataset, query) {
+                this.eventBus.trigger("asyncreceive", query, dataset);
+            },
+            _onFocused: function onFocused() {
+                this._minLengthMet() && this.menu.update(this.input.getQuery());
+            },
+            _onBlurred: function onBlurred() {
+                if (this.input.hasQueryChangedSinceLastFocus()) {
+                    this.eventBus.trigger("change", this.input.getQuery());
+                }
+            },
+            _onEnterKeyed: function onEnterKeyed(type, $e) {
+                var $selectable;
+                if ($selectable = this.menu.getActiveSelectable()) {
+                    this.select($selectable) && $e.preventDefault();
+                }
+            },
+            _onTabKeyed: function onTabKeyed(type, $e) {
+                var $selectable;
+                if ($selectable = this.menu.getActiveSelectable()) {
+                    this.select($selectable) && $e.preventDefault();
+                } else if ($selectable = this.menu.getTopSelectable()) {
+                    this.autocomplete($selectable) && $e.preventDefault();
+                }
+            },
+            _onEscKeyed: function onEscKeyed() {
+                this.close();
+            },
+            _onUpKeyed: function onUpKeyed() {
+                this.moveCursor(-1);
+            },
+            _onDownKeyed: function onDownKeyed() {
+                this.moveCursor(+1);
+            },
+            _onLeftKeyed: function onLeftKeyed() {
+                if (this.dir === "rtl" && this.input.isCursorAtEnd()) {
+                    this.autocomplete(this.menu.getTopSelectable());
+                }
+            },
+            _onRightKeyed: function onRightKeyed() {
+                if (this.dir === "ltr" && this.input.isCursorAtEnd()) {
+                    this.autocomplete(this.menu.getTopSelectable());
+                }
+            },
+            _onQueryChanged: function onQueryChanged(e, query) {
+                this._minLengthMet(query) ? this.menu.update(query) : this.menu.empty();
+            },
+            _onWhitespaceChanged: function onWhitespaceChanged() {
+                this._updateHint();
+            },
+            _onLangDirChanged: function onLangDirChanged(e, dir) {
+                if (this.dir !== dir) {
+                    this.dir = dir;
+                    this.menu.setLanguageDirection(dir);
+                }
+            },
+            _openIfActive: function openIfActive() {
+                this.isActive() && this.open();
+            },
+            _minLengthMet: function minLengthMet(query) {
+                query = _.isString(query) ? query : this.input.getQuery() || "";
+                return query.length >= this.minLength;
+            },
+            _updateHint: function updateHint() {
+                var $selectable, data, val, query, escapedQuery, frontMatchRegEx, match;
+                $selectable = this.menu.getTopSelectable();
+                data = this.menu.getSelectableData($selectable);
+                val = this.input.getInputValue();
+                if (data && !_.isBlankString(val) && !this.input.hasOverflow()) {
+                    query = Input.normalizeQuery(val);
+                    escapedQuery = _.escapeRegExChars(query);
+                    frontMatchRegEx = new RegExp("^(?:" + escapedQuery + ")(.+$)", "i");
+                    match = frontMatchRegEx.exec(data.val);
+                    match && this.input.setHint(val + match[1]);
+                } else {
+                    this.input.clearHint();
+                }
+            },
+            isEnabled: function isEnabled() {
+                return this.enabled;
+            },
+            enable: function enable() {
+                this.enabled = true;
+            },
+            disable: function disable() {
+                this.enabled = false;
+            },
+            isActive: function isActive() {
+                return this.active;
+            },
+            activate: function activate() {
+                if (this.isActive()) {
+                    return true;
+                } else if (!this.isEnabled() || this.eventBus.before("active")) {
+                    return false;
+                } else {
+                    this.active = true;
+                    this.eventBus.trigger("active");
+                    return true;
+                }
+            },
+            deactivate: function deactivate() {
+                if (!this.isActive()) {
+                    return true;
+                } else if (this.eventBus.before("idle")) {
+                    return false;
+                } else {
+                    this.active = false;
+                    this.close();
+                    this.eventBus.trigger("idle");
+                    return true;
+                }
+            },
+            isOpen: function isOpen() {
+                return this.menu.isOpen();
+            },
+            open: function open() {
+                if (!this.isOpen() && !this.eventBus.before("open")) {
+                    this.menu.open();
+                    this._updateHint();
+                    this.eventBus.trigger("open");
+                }
+                return this.isOpen();
+            },
+            close: function close() {
+                if (this.isOpen() && !this.eventBus.before("close")) {
+                    this.menu.close();
+                    this.input.clearHint();
+                    this.input.resetInputValue();
+                    this.eventBus.trigger("close");
+                }
+                return !this.isOpen();
+            },
+            setVal: function setVal(val) {
+                this.input.setQuery(_.toStr(val));
+            },
+            getVal: function getVal() {
+                return this.input.getQuery();
+            },
+            select: function select($selectable) {
+                var data = this.menu.getSelectableData($selectable);
+                if (data && !this.eventBus.before("select", data.obj)) {
+                    this.input.setQuery(data.val, true);
+                    this.eventBus.trigger("select", data.obj);
+                    this.close();
+                    return true;
+                }
+                return false;
+            },
+            autocomplete: function autocomplete($selectable) {
+                var query, data, isValid;
+                query = this.input.getQuery();
+                data = this.menu.getSelectableData($selectable);
+                isValid = data && query !== data.val;
+                if (isValid && !this.eventBus.before("autocomplete", data.obj)) {
+                    this.input.setQuery(data.val);
+                    this.eventBus.trigger("autocomplete", data.obj);
+                    return true;
+                }
+                return false;
+            },
+            moveCursor: function moveCursor(delta) {
+                var query, $candidate, data, payload, cancelMove;
+                query = this.input.getQuery();
+                $candidate = this.menu.selectableRelativeToCursor(delta);
+                data = this.menu.getSelectableData($candidate);
+                payload = data ? data.obj : null;
+                cancelMove = this._minLengthMet() && this.menu.update(query);
+                if (!cancelMove && !this.eventBus.before("cursorchange", payload)) {
+                    this.menu.setCursor($candidate);
+                    if (data) {
+                        this.input.setInputValue(data.val);
+                    } else {
+                        this.input.resetInputValue();
+                        this._updateHint();
+                    }
+                    this.eventBus.trigger("cursorchange", payload);
+                    return true;
+                }
+                return false;
+            },
+            destroy: function destroy() {
+                this.input.destroy();
+                this.menu.destroy();
+            }
+        });
+        return Typeahead;
+        function c(ctx) {
+            var methods = [].slice.call(arguments, 1);
+            return function() {
+                var args = [].slice.call(arguments);
+                _.each(methods, function(method) {
+                    return ctx[method].apply(ctx, args);
+                });
+            };
+        }
+    }();
+    (function() {
+        "use strict";
+        var old, keys, methods;
+        old = $.fn.typeahead;
+        keys = {
+            www: "tt-www",
+            attrs: "tt-attrs",
+            typeahead: "tt-typeahead"
+        };
+        methods = {
+            initialize: function initialize(o, datasets) {
+                var www;
+                datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 1);
+                o = o || {};
+                www = WWW(o.classNames);
+                return this.each(attach);
+                function attach() {
+                    var $input, $wrapper, $hint, $menu, defaultHint, defaultMenu, eventBus, input, menu, typeahead, MenuConstructor;
+                    _.each(datasets, function(d) {
+                        d.highlight = !!o.highlight;
+                    });
+                    $input = $(this);
+                    $wrapper = $(www.html.wrapper);
+                    $hint = $elOrNull(o.hint);
+                    $menu = $elOrNull(o.menu);
+                    defaultHint = o.hint !== false && !$hint;
+                    defaultMenu = o.menu !== false && !$menu;
+                    defaultHint && ($hint = buildHintFromInput($input, www));
+                    defaultMenu && ($menu = $(www.html.menu).css(www.css.menu));
+                    $hint && $hint.val("");
+                    $input = prepInput($input, www);
+                    if (defaultHint || defaultMenu) {
+                        $wrapper.css(www.css.wrapper);
+                        $input.css(defaultHint ? www.css.input : www.css.inputWithNoHint);
+                        $input.wrap($wrapper).parent().prepend(defaultHint ? $hint : null).append(defaultMenu ? $menu : null);
+                    }
+                    MenuConstructor = defaultMenu ? DefaultMenu : Menu;
+                    eventBus = new EventBus({
+                        el: $input
+                    });
+                    input = new Input({
+                        hint: $hint,
+                        input: $input
+                    }, www);
+                    menu = new MenuConstructor({
+                        node: $menu,
+                        datasets: datasets
+                    }, www);
+                    typeahead = new Typeahead({
+                        input: input,
+                        menu: menu,
+                        eventBus: eventBus,
+                        minLength: o.minLength
+                    }, www);
+                    $input.data(keys.www, www);
+                    $input.data(keys.typeahead, typeahead);
+                }
+            },
+            isEnabled: function isEnabled() {
+                var enabled;
+                ttEach(this.first(), function(t) {
+                    enabled = t.isEnabled();
+                });
+                return enabled;
+            },
+            enable: function enable() {
+                ttEach(this, function(t) {
+                    t.enable();
+                });
+                return this;
+            },
+            disable: function disable() {
+                ttEach(this, function(t) {
+                    t.disable();
+                });
+                return this;
+            },
+            isActive: function isActive() {
+                var active;
+                ttEach(this.first(), function(t) {
+                    active = t.isActive();
+                });
+                return active;
+            },
+            activate: function activate() {
+                ttEach(this, function(t) {
+                    t.activate();
+                });
+                return this;
+            },
+            deactivate: function deactivate() {
+                ttEach(this, function(t) {
+                    t.deactivate();
+                });
+                return this;
+            },
+            isOpen: function isOpen() {
+                var open;
+                ttEach(this.first(), function(t) {
+                    open = t.isOpen();
+                });
+                return open;
+            },
+            open: function open() {
+                ttEach(this, function(t) {
+                    t.open();
+                });
+                return this;
+            },
+            close: function close() {
+                ttEach(this, function(t) {
+                    t.close();
+                });
+                return this;
+            },
+            select: function select(el) {
+                var success = false, $el = $(el);
+                ttEach(this.first(), function(t) {
+                    success = t.select($el);
+                });
+                return success;
+            },
+            autocomplete: function autocomplete(el) {
+                var success = false, $el = $(el);
+                ttEach(this.first(), function(t) {
+                    success = t.autocomplete($el);
+                });
+                return success;
+            },
+            moveCursor: function moveCursoe(delta) {
+                var success = false;
+                ttEach(this.first(), function(t) {
+                    success = t.moveCursor(delta);
+                });
+                return success;
+            },
+            val: function val(newVal) {
+                var query;
+                if (!arguments.length) {
+                    ttEach(this.first(), function(t) {
+                        query = t.getVal();
+                    });
+                    return query;
+                } else {
+                    ttEach(this, function(t) {
+                        t.setVal(newVal);
+                    });
+                    return this;
+                }
+            },
+            destroy: function destroy() {
+                ttEach(this, function(typeahead, $input) {
+                    revert($input);
+                    typeahead.destroy();
+                });
+                return this;
+            }
+        };
+        $.fn.typeahead = function(method) {
+            if (methods[method]) {
+                return methods[method].apply(this, [].slice.call(arguments, 1));
+            } else {
+                return methods.initialize.apply(this, arguments);
+            }
+        };
+        $.fn.typeahead.noConflict = function noConflict() {
+            $.fn.typeahead = old;
+            return this;
+        };
+        function ttEach($els, fn) {
+            $els.each(function() {
+                var $input = $(this), typeahead;
+                (typeahead = $input.data(keys.typeahead)) && fn(typeahead, $input);
+            });
+        }
+        function buildHintFromInput($input, www) {
+            return $input.clone().addClass(www.classes.hint).removeData().css(www.css.hint).css(getBackgroundStyles($input)).prop("readonly", true).removeAttr("id name placeholder required").attr({
+                autocomplete: "off",
+                spellcheck: "false",
+                tabindex: -1
+            });
+        }
+        function prepInput($input, www) {
+            $input.data(keys.attrs, {
+                dir: $input.attr("dir"),
+                autocomplete: $input.attr("autocomplete"),
+                spellcheck: $input.attr("spellcheck"),
+                style: $input.attr("style")
+            });
+            $input.addClass(www.classes.input).attr({
+                autocomplete: "off",
+                spellcheck: false
+            });
+            try {
+                !$input.attr("dir") && $input.attr("dir", "auto");
+            } catch (e) {}
+            return $input;
+        }
+        function getBackgroundStyles($el) {
+            return {
+                backgroundAttachment: $el.css("background-attachment"),
+                backgroundClip: $el.css("background-clip"),
+                backgroundColor: $el.css("background-color"),
+                backgroundImage: $el.css("background-image"),
+                backgroundOrigin: $el.css("background-origin"),
+                backgroundPosition: $el.css("background-position"),
+                backgroundRepeat: $el.css("background-repeat"),
+                backgroundSize: $el.css("background-size")
+            };
+        }
+        function revert($input) {
+            var www, $wrapper;
+            www = $input.data(keys.www);
+            $wrapper = $input.parent().filter(www.selectors.wrapper);
+            _.each($input.data(keys.attrs), function(val, key) {
+                _.isUndefined(val) ? $input.removeAttr(key) : $input.attr(key, val);
+            });
+            $input.removeData(keys.typeahead).removeData(keys.www).removeData(keys.attr).removeClass(www.classes.input);
+            if ($wrapper.length) {
+                $input.detach().insertAfter($wrapper);
+                $wrapper.remove();
+            }
+        }
+        function $elOrNull(obj) {
+            var isValid, $el;
+            isValid = _.isJQuery(obj) || _.isElement(obj);
+            $el = isValid ? $(obj).first() : [];
+            return $el.length ? $el : null;
+        }
+    })();
+});
+let AbilityManager = (function()
+{
+    function AbilityManager(container_id, class_prefix, edit_only = false)
+    {
+        this.container = jQuery('#' + container_id);
+        this.class_prefix = class_prefix;
+        this.abilities = [];
+        this.edit_only = edit_only;
+    }
+
+    AbilityManager.prototype.addAbility = function()
+    {
+        let index = this.abilities.length;
+        let ability_container = jQuery('<div class="' + this.class_prefix + '_container border border-info rounded p-2 m-2" id="' + this.class_prefix + '_' + index + '"></div>');
+        ability_container.append('<input type="hidden" name="' + this.class_prefix + '_id_' + this.index + '_input" ' +
+            'id="' + this.class_prefix + '_id_' + this.index + '_input" class="ability_id" />');
+        let ability_name_container = jQuery('<div class="form-group"></div>');
+        ability_name_container.append(jQuery('<label for="'+ this.class_prefix + '_name_' + this.index + '_input">Name</label>'));
+        ability_name_container.append(jQuery('<input type="text" name="'+ this.class_prefix + '_name_' + this.index + '_input" ' +
+            'id="'+ this.class_prefix + '_name_' + this.index + '_input" class="form-control ability_name" />'));
+        ability_container.append(ability_name_container);
+
+        let ability_description_container = jQuery('<div class="form-group"></div>');
+        ability_description_container.append(jQuery('<label for="'+ this.class_prefix + '_desc_' + this.index + '_input">Description</label>'));
+        ability_description_container.append(jQuery('<textarea name="'+ this.class_prefix + '_desc_' + this.index + '_input" ' +
+            'id="'+ this.class_prefix + '_desc_' + this.index + '_input" class="form-control ability_description"></textarea>'));
+        ability_container.append(ability_description_container);
+
+        let removeBtn = jQuery('<button type="button" class="btn btn-danger btn-block">Remove This Ability</button>');
+        removeBtn.click($.proxy(this.removeAbility, this, index));
+        ability_container.append(removeBtn);
+        this.container.append(ability_container);
+        this.abilities.push(ability_container);
+
+    };
+
+    AbilityManager.prototype.removeAbility = function(index)
+    {
+        let container = this.abilities.splice(index, 1);
+        jQuery(container).remove();
+        jQuery('#' + this.class_prefix + '_' + index).remove();
+    };
+
+    AbilityManager.prototype.getAbilities = function()
+    {
+        let ab = [];
+        for(let i = 0; i< this.abilities.length; i++)
+        {
+            ab.push(
+                {
+                    name: this.abilities[i].find('.ability_name').val(),
+                    description: this.abilities[i].find('.ability_description').val(),
+                    id: this.abilities[i].find('.ability_id').val()
+                }
+            );
+        }
+        return ab;
+    };
+
+    AbilityManager.prototype.loadAbilities = function(abilities)
+    {
+        let base_index = this.abilities.length;
+        for(var i = 0; i < abilities.length; i++)
+        {
+            let index = base_index + i;
+
+
+            let ability_container = "";
+
+            if (!this.edit_only) {
+                ability_container = jQuery('<div class="' + this.class_prefix + '_container border border-info rounded p-2 m-2" id="' + this.class_prefix + '_' + index + '"></div>');
+                ability_container.append('<input type="hidden" name="' + this.class_prefix + '_id_' + this.index + '_input" ' +
+                    'id="' + this.class_prefix + '_id_' + this.index + '_input" value="' + abilities[i].id + '" class="ability_id" />');
+                let ability_name_container = jQuery('<div class="form-group"></div>');
+                ability_name_container.append(jQuery('<label for="' + this.class_prefix + '_name_' + this.index + '_input">Name</label>'));
+                ability_name_container.append(jQuery('<input type="text" name="' + this.class_prefix + '_name_' + this.index + '_input" ' +
+                    'id="' + this.class_prefix + '_name_' + this.index + '_input" class="form-control ability_name" value="' + abilities[i].name + '"/>'));
+                ability_container.append(ability_name_container);
+                let ability_description_container = jQuery('<div class="form-group"></div>');
+                ability_description_container.append(jQuery('<label for="' + this.class_prefix + '_desc_' + this.index + '_input">Description</label>'));
+                ability_description_container.append(jQuery('<textarea name="' + this.class_prefix + '_desc_' + this.index + '_input" ' +
+                    'id="' + this.class_prefix + '_desc_' + this.index + '_input" class="form-control ability_description">' + abilities[i].description + '</textarea>'));
+                ability_container.append(ability_description_container);
+                let removeBtn = jQuery('<button type="button" class="btn btn-danger btn-block">Remove This Ability</button>');
+                removeBtn.click($.proxy(this.removeAbility, this, index));
+                ability_container.append(removeBtn);
+            } else {
+                ability_container = jQuery('<div class="alert alert-info"></div>');
+                ability_container.append(jQuery('<h4 class="alert-heading border-bottom">' + abilities[i].name + '</h4>'));
+                ability_container.append(jQuery('<p>' + abilities[i].description + '</p>'));
+            }
+
+            this.container.append(ability_container);
+            this.abilities.push(ability_container);
+        }
+    };
+
+    return AbilityManager;
+})();
+
+let MonsterManager = (function()
+{
+    function MonsterManager(container_id, text_input_id, data_url, cr_container)
+    {
+        this.container = jQuery('#' + container_id);
+        this.textInput = jQuery('#' + text_input_id);
+        this.dataUrl = data_url;
+        this.cr_container = jQuery('#' + cr_container);
+        this.monsters = [];
+        let self = this;
+
+        this.textInput.typeahead(
+            {
+                minLength: 3,
+                highlight: true,
+            },
+            {
+                name: 'monsters',
+                async: true,
+                limit: 10,
+                display: function(monster_data)
+                {
+                    return monster_data.name;
+                },
+                source:  function (query, syncResults, asyncResults)
+                {
+                    return jQuery.get(self.dataUrl, { query: query }, function (monster_data)
+                    {
+                        return asyncResults(monster_data);
+                    });
+                }
+            });
+        this.textInput.bind('typeahead:select', function (ev, suggestion)
+            {
+                self.addMonster(suggestion);
+            });
+
+
+    }
+
+    MonsterManager.prototype.buildMonsterList = function()
+    {
+        this.monsters.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+        let ul_container = jQuery('<ul class="list-group"></ul>');
+        let cr = 0;
+        for(let i = 0; i < this.monsters.length; i++)
+        {
+            let il_container = jQuery('<li class="list-group-item d-flex justify-content-between align-items-center" idx="' + i + '"></li>');
+            il_container.append('<h5>' + this.monsters[i].name) + "</h5>";
+            let control_span = jQuery('<span class="monster_control_span"></span>');
+            let copy_button = jQuery('<button type="button" class="btn btn-primary btn-sm mr-2"><span class="fa fa-copy"></span></button>');
+            copy_button.click($.proxy(this.copyMonster, this, i));
+            control_span.append(copy_button);
+            let delete_button = jQuery('<button type="button" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></button>');
+            delete_button.click($.proxy(this.removeMonster, this, i));
+            control_span.append(delete_button);
+
+            il_container.append(control_span);
+            ul_container.append(il_container);
+
+            cr += eval(this.monsters[i].cr);
+        }
+        this.container.empty();
+        this.container.append(ul_container);
+        this.cr_container.html(Math.floor(cr).toString());
+    }
+
+    MonsterManager.prototype.addMonster = function(monster)
+    {
+        this.monsters.push(monster);
+        this.buildMonsterList();
+        this.textInput.typeahead('val', '');
+        this.textInput.typeahead('close');
+
+    }
+
+    MonsterManager.prototype.removeMonster = function(idx)
+    {
+        this.monsters.splice(idx, 1);
+        this.buildMonsterList();
+    }
+
+    MonsterManager.prototype.copyMonster = function(idx)
+    {
+        this.monsters.push(JSON.parse(JSON.stringify(this.monsters[idx])));
+        this.buildMonsterList();
+    }
+
+    MonsterManager.prototype.getMonsters = function()
+    {
+        return this.monsters;
+    }
+
+    MonsterManager.prototype.loadMonsters = function(monsters)
+    {
+        this.monsters = monsters;
+        this.buildMonsterList();
+    }
+
+    return MonsterManager;
+})();
+
+let EncounterManager = (function()
+{
+    function EncounterManager(container_id, data_url)
+    {
+        this.container = jQuery('#' + container_id);
+        this.dataUrl = data_url;
+        this.encounters = [];
+        this.loaded = false;
+        this.selection = null;
+
+        let inputContainer = jQuery('<div class="input-group mb-3"><div class="input-group-prepend">' +
+            '<span class="input-group-text" id="encounterSearchLabel">Filter Encounters: </span></div>');
+        this.filterInput = jQuery('<input type="text" class="form-control" placeholder="Encounter" ' +
+            'aria-label="Encounter" aria-describedby="encounterSearchLabel" name="encounterSearch" id="encounterSearch">');
+        this.filterInput.keyup(debounce($.proxy(this.filterEncounters, this)));
+        inputContainer.append(this.filterInput);
+        this.container.append(inputContainer);
+        this.encounterContainer = jQuery('<div class="list-group"></div>');
+        this.container.append(this.encounterContainer);
+        var self = this;
+        axios.get(this.dataUrl)
+            .then(function (response)
+            {
+                self.encounters = response.data;
+                self.buildEncounters();
+            })
+            .catch(function (error)
+            {
+                console.log(error);
+            })
+    }
+
+    EncounterManager.prototype.buildEncounters = function()
+    {
+        this.encounterContainer.empty();
+        for(let i = 0; i < this.encounters.length; i++)
+        {
+            let il_container = jQuery('<label class="list-group-item" encounter_id="' + this.encounters[i].id + '" for="encounters_' + this.encounters[i].id + '"></label>');
+            let div_container = jQuery('<div class="d-flex justify-content-between align-items-center"></div>');
+            let formCheck = jQuery('<div class="form-check"></div>');
+            let selectInput = jQuery('<input class="form-check-input" type="checkbox" name="encounters[]" value="' + this.encounters[i].id + '" id="encounters_' + this.encounters[i].id + '">');
+            formCheck.append(selectInput);
+            formCheck.append('<span>' + this.encounters[i].name + '</span>');
+            selectInput.click(function()
+            {
+                if(jQuery(this).is(':checked'))
+                    jQuery('label[encounter_id=' + jQuery(this).val() + ']').addClass('active');
+                else
+                    jQuery('label[encounter_id=' + jQuery(this).val() + ']').removeClass('active');
+            });
+
+            div_container.append(formCheck);
+            div_container.append('<span class="tier_span"><strong>CR: </strong>' + this.encounters[i].cr + '</span>');
+
+            il_container.append(div_container);
+            this.encounterContainer.append(il_container);
+        }
+        this.loaded = true;
+        this.selectEncounters();
+    };
+
+    EncounterManager.prototype.selectEncounters = function()
+    {
+        if(this.loaded && this.selection != null)
+        {
+            this.encounterContainer.find('label').removeClass('active');
+            this.encounterContainer.find('label input[type=checkbox]').removeAttr('checked');
+            for(let i = 0; i < this.selection.length; i++)
+            {
+                this.encounterContainer.find('label[encounter_id=' + this.selection[i] + ']').addClass('active');
+                this.encounterContainer.find('label[encounter_id=' + this.selection[i] + '] input[type=checkbox]').attr('checked', 'checked');
+            }
+        }
+    };
+
+    EncounterManager.prototype.filterEncounters = function()
+    {
+        jQuery.expr[':'].contains = function(a, i, m) {
+            return jQuery(a).text().toUpperCase()
+                .indexOf(m[3].toUpperCase()) >= 0;
+        };
+
+        let query = this.filterInput.val();
+        let labels = this.encounterContainer.find('label');
+        labels.hide();
+        this.encounterContainer.find('label:contains("' + query + '")').show();
+    };
+
+    EncounterManager.prototype.loadSelection = function(encounter_ids)
+    {
+        this.selection = encounter_ids;
+        this.selectEncounters();
+    };
+
+    return EncounterManager;
+})();
+
+/* jquery Tocify - v1.9.0 - 2013-10-01
+* http://www.gregfranko.com/jquery.tocify.js/
+* Copyright (c) 2013 Greg Franko; Licensed MIT */
+
+// Immediately-Invoked Function Expression (IIFE) [Ben Alman Blog Post](http://benalman.com/news/2010/11/immediately-invoked-function-expression/) that calls another IIFE that contains all of the plugin logic.  I used this pattern so that anyone viewing this code would not have to scroll to the bottom of the page to view the local parameters that were passed to the main IIFE.
+(function(tocify) {
+
+    // ECMAScript 5 Strict Mode: [John Resig Blog Post](http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/)
+    "use strict";
+
+    // Calls the second IIFE and locally passes in the global jQuery, window, and document objects
+    tocify(window.jQuery, window, document);
+
+}
+
+// Locally passes in `jQuery`, the `window` object, the `document` object, and an `undefined` variable.  The `jQuery`, `window` and `document` objects are passed in locally, to improve performance, since javascript first searches for a variable match within the local variables set before searching the global variables set.  All of the global variables are also passed in locally to be minifier friendly. `undefined` can be passed in locally, because it is not a reserved word in JavaScript.
+(function($, window, document, undefined) {
+
+    // ECMAScript 5 Strict Mode: [John Resig Blog Post](http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/)
+    "use strict";
+
+    var tocClassName = "tocify",
+        tocClass = "." + tocClassName,
+        tocFocusClassName = "active",
+        tocHoverClassName = "list-group-item-action",
+        hideTocClassName = "tocify-hide",
+        hideTocClass = "." + hideTocClassName,
+        headerClassName = "list-group",
+        headerClass = "." + headerClassName,
+        subheaderClassName = "tocify-subheader",
+        subheaderClass = "." + subheaderClassName,
+        itemClassName = "list-group-item list-group-item-action",
+        itemClass = ".list-group-item",
+        extendPageClassName = "tocify-extend-page",
+        extendPageClass = "." + extendPageClassName;
+
+    // Calling the jQueryUI Widget Factory Method
+    $.widget("toc.tocify", {
+
+        //Plugin version
+        version: "1.9.0",
+
+        // These options will be used as defaults
+        options: {
+
+            // **context**: Accepts String: Any jQuery selector
+            // The container element that holds all of the elements used to generate the table of contents
+            context: "body",
+
+            // **ignoreSelector**: Accepts String: Any jQuery selector
+            // A selector to any element that would be matched by selectors that you wish to be ignored
+            ignoreSelector: null,
+
+            // **selectors**: Accepts an Array of Strings: Any jQuery selectors
+            // The element's used to generate the table of contents.  The order is very important since it will determine the table of content's nesting structure
+            selectors: "h1, h2, h3",
+
+            // **showAndHide**: Accepts a boolean: true or false
+            // Used to determine if elements should be shown and hidden
+            showAndHide: true,
+
+            // **showEffect**: Accepts String: "none", "fadeIn", "show", or "slideDown"
+            // Used to display any of the table of contents nested items
+            showEffect: "slideDown",
+
+            // **showEffectSpeed**: Accepts Number (milliseconds) or String: "slow", "medium", or "fast"
+            // The time duration of the show animation
+            showEffectSpeed: "medium",
+
+            // **hideEffect**: Accepts String: "none", "fadeOut", "hide", or "slideUp"
+            // Used to hide any of the table of contents nested items
+            hideEffect: "slideUp",
+
+            // **hideEffectSpeed**: Accepts Number (milliseconds) or String: "slow", "medium", or "fast"
+            // The time duration of the hide animation
+            hideEffectSpeed: "medium",
+
+            // **smoothScroll**: Accepts a boolean: true or false
+            // Determines if a jQuery animation should be used to scroll to specific table of contents items on the page
+            smoothScroll: true,
+
+            // **smoothScrollSpeed**: Accepts Number (milliseconds) or String: "slow", "medium", or "fast"
+            // The time duration of the smoothScroll animation
+            smoothScrollSpeed: "medium",
+
+            // **scrollTo**: Accepts Number (pixels)
+            // The amount of space between the top of page and the selected table of contents item after the page has been scrolled
+            scrollTo: 0,
+
+            // **showAndHideOnScroll**: Accepts a boolean: true or false
+            // Determines if table of contents nested items should be shown and hidden while scrolling
+            showAndHideOnScroll: true,
+
+            // **highlightOnScroll**: Accepts a boolean: true or false
+            // Determines if table of contents nested items should be highlighted (set to a different color) while scrolling
+            highlightOnScroll: true,
+
+            // **highlightOffset**: Accepts a number
+            // The offset distance in pixels to trigger the next active table of contents item
+            highlightOffset: 40,
+
+            // **theme**: Accepts a string: "bootstrap", "jqueryui", or "none"
+            // Determines if Twitter Bootstrap, jQueryUI, or Tocify classes should be added to the table of contents
+            theme: "bootstrap",
+
+            // **extendPage**: Accepts a boolean: true or false
+            // If a user scrolls to the bottom of the page and the page is not tall enough to scroll to the last table of contents item, then the page height is increased
+            extendPage: true,
+
+            // **extendPageOffset**: Accepts a number: pixels
+            // How close to the bottom of the page a user must scroll before the page is extended
+            extendPageOffset: 100,
+
+            // **history**: Accepts a boolean: true or false
+            // Adds a hash to the page url to maintain history
+            history: true,
+
+            // **scrollHistory**: Accepts a boolean: true or false
+            // Adds a hash to the page url, to maintain history, when scrolling to a TOC item
+            scrollHistory: false,
+
+            // **hashGenerator**: How the hash value (the anchor segment of the URL, following the
+            // # character) will be generated.
+            //
+            // "compact" (default) - #CompressesEverythingTogether
+            // "pretty" - #looks-like-a-nice-url-and-is-easily-readable
+            // function(text, element){} - Your own hash generation function that accepts the text as an
+            // argument, and returns the hash value.
+            hashGenerator: "compact",
+
+            // **highlightDefault**: Accepts a boolean: true or false
+            // Set's the first TOC item as active if no other TOC item is active.
+            highlightDefault: true
+
+        },
+
+        // _Create
+        // -------
+        //      Constructs the plugin.  Only called once.
+        _create: function() {
+
+            var self = this;
+
+            self.extendPageScroll = true;
+
+            // Internal array that keeps track of all TOC items (Helps to recognize if there are duplicate TOC item strings)
+            self.items = [];
+
+            // Generates the HTML for the dynamic table of contents
+            self._generateToc();
+
+            // Adds CSS classes to the newly generated table of contents HTML
+            self._addCSSClasses();
+
+            self.webkit = (function() {
+
+                for(var prop in window) {
+
+                    if(prop) {
+
+                        if(prop.toLowerCase().indexOf("webkit") !== -1) {
+
+                            return true;
+
+                        }
+
+                    }
+
+                }
+
+                return false;
+
+            }());
+
+            // Adds jQuery event handlers to the newly generated table of contents
+            self._setEventHandlers();
+
+            // Binding to the Window load event to make sure the correct scrollTop is calculated
+            $(window).on('load', function() {
+
+                // Sets the active TOC item
+                self._setActiveElement(true);
+
+                // Once all animations on the page are complete, this callback function will be called
+                $("html, body").promise().done(function() {
+
+                    setTimeout(function() {
+
+                        self.extendPageScroll = false;
+
+                    },0);
+
+                });
+
+            });
+
+        },
+
+        // _generateToc
+        // ------------
+        //      Generates the HTML for the dynamic table of contents
+        _generateToc: function() {
+
+            // _Local variables_
+
+            // Stores the plugin context in the self variable
+            var self = this,
+
+                // All of the HTML tags found within the context provided (i.e. body) that match the top level jQuery selector above
+                firstElem,
+
+                // Instantiated variable that will store the top level newly created unordered list DOM element
+                ul,
+                ignoreSelector = self.options.ignoreSelector;
+
+             // If the selectors option has a comma within the string
+             if(this.options.selectors.indexOf(",") !== -1) {
+
+                 // Grabs the first selector from the string
+                 firstElem = $(this.options.context).find(this.options.selectors.replace(/ /g,"").substr(0, this.options.selectors.indexOf(",")));
+
+             }
+
+             // If the selectors option does not have a comman within the string
+             else {
+
+                 // Grabs the first selector from the string and makes sure there are no spaces
+                 firstElem = $(this.options.context).find(this.options.selectors.replace(/ /g,""));
+
+             }
+
+            if(!firstElem.length) {
+
+                self.element.addClass(hideTocClassName);
+
+                return;
+
+            }
+
+            self.element.addClass(tocClassName);
+
+            // Loops through each top level selector
+            firstElem.each(function(index) {
+
+                //If the element matches the ignoreSelector then we skip it
+                if($(this).is(ignoreSelector)) {
+                    return;
+                }
+
+                // Creates an unordered list HTML element and adds a dynamic ID and standard class name
+                ul = $("<ul/>", {
+                    "id": headerClassName + index,
+                    "class": headerClassName
+                }).
+
+                // Appends a top level list item HTML element to the previously created HTML header
+                append(self._nestElements($(this), index));
+
+                // Add the created unordered list element to the HTML element calling the plugin
+                self.element.append(ul);
+
+                // Finds all of the HTML tags between the header and subheader elements
+                $(this).nextUntil(this.nodeName.toLowerCase()).each(function() {
+
+                    // If there are no nested subheader elemements
+                    if($(this).find(self.options.selectors).length === 0) {
+
+                        // Loops through all of the subheader elements
+                        $(this).filter(self.options.selectors).each(function() {
+
+                            //If the element matches the ignoreSelector then we skip it
+                            if($(this).is(ignoreSelector)) {
+                                return;
+                            }
+
+                            self._appendSubheaders.call(this, self, ul);
+
+                        });
+
+                    }
+
+                    // If there are nested subheader elements
+                    else {
+
+                        // Loops through all of the subheader elements
+                        $(this).find(self.options.selectors).each(function() {
+
+                            //If the element matches the ignoreSelector then we skip it
+                            if($(this).is(ignoreSelector)) {
+                                return;
+                            }
+
+                            self._appendSubheaders.call(this, self, ul);
+
+                        });
+
+                    }
+
+                });
+
+            });
+
+        },
+
+        _setActiveElement: function(pageload) {
+
+            var self = this,
+
+                hash = window.location.hash.substring(1),
+
+                elem = self.element.find('li[data-unique="' + hash + '"]');
+
+            if(hash.length) {
+
+                // Removes highlighting from all of the list item's
+                self.element.find("." + self.focusClass).removeClass(self.focusClass);
+
+                // Highlights the current list item that was clicked
+                elem.addClass(self.focusClass);
+
+                // If the showAndHide option is true
+                if(self.options.showAndHide) {
+
+                    // Triggers the click event on the currently focused TOC item
+                    elem.click();
+
+                }
+
+            }
+
+            else {
+
+                // Removes highlighting from all of the list item's
+                self.element.find("." + self.focusClass).removeClass(self.focusClass);
+
+                if(!hash.length && pageload && self.options.highlightDefault) {
+
+                    // Highlights the first TOC item if no other items are highlighted
+                    self.element.find(itemClass).first().addClass(self.focusClass);
+
+                }
+
+            }
+
+            return self;
+
+        },
+
+        // _nestElements
+        // -------------
+        //      Helps create the table of contents list by appending nested list items
+        _nestElements: function(self, index) {
+
+            var arr, item, hashValue;
+
+            arr = $.grep(this.items, function (item) {
+
+                return item === self.text();
+
+            });
+
+            // If there is already a duplicate TOC item
+            if(arr.length) {
+
+                // Adds the current TOC item text and index (for slight randomization) to the internal array
+                this.items.push(self.text() + index);
+
+            }
+
+            // If there not a duplicate TOC item
+            else {
+
+                // Adds the current TOC item text to the internal array
+                this.items.push(self.text());
+
+            }
+
+            hashValue = this._generateHashValue(arr, self, index);
+
+            // Appends a list item HTML element to the last unordered list HTML element found within the HTML element calling the plugin
+            item = $("<li/>", {
+
+                // Sets a common class name to the list item
+                "class": itemClassName,
+
+                "data-unique": hashValue
+
+            }).append($("<a/>", {
+
+                "text": self.text()
+
+            }));
+
+            // Adds an HTML anchor tag before the currently traversed HTML element
+            self.before($("<div/>", {
+
+                // Sets a name attribute on the anchor tag to the text of the currently traversed HTML element (also making sure that all whitespace is replaced with an underscore)
+                "name": hashValue,
+
+                "data-unique": hashValue
+
+            }));
+
+            return item;
+
+        },
+
+        // _generateHashValue
+        // ------------------
+        //      Generates the hash value that will be used to refer to each item.
+        _generateHashValue: function(arr, self, index) {
+
+            var hashValue = "",
+                hashGeneratorOption = this.options.hashGenerator;
+
+            if (hashGeneratorOption === "pretty") {
+
+                // prettify the text
+                hashValue = self.text().toLowerCase().replace(/\s/g, "-");
+
+                // fix double hyphens
+                while (hashValue.indexOf("--") > -1) {
+                    hashValue = hashValue.replace(/--/g, "-");
+                }
+
+                // fix colon-space instances
+                while (hashValue.indexOf(":-") > -1) {
+                    hashValue = hashValue.replace(/:-/g, "-");
+                }
+
+            } else if (typeof hashGeneratorOption === "function") {
+
+                // call the function
+                hashValue = hashGeneratorOption(self.text(), self);
+
+            } else {
+
+                // compact - the default
+                hashValue = self.text().replace(/\s/g, "");
+
+            }
+
+            // add the index if we need to
+            if (arr.length) { hashValue += ""+index; }
+
+            // return the value
+            return hashValue;
+
+        },
+
+        // _appendElements
+        // ---------------
+        //      Helps create the table of contents list by appending subheader elements
+
+        _appendSubheaders: function(self, ul) {
+
+            // The current element index
+            var index = $(this).index(self.options.selectors),
+
+                // Finds the previous header DOM element
+                previousHeader = $(self.options.selectors).eq(index - 1),
+
+                currentTagName = +$(this).prop("tagName").charAt(1),
+
+                previousTagName = +previousHeader.prop("tagName").charAt(1),
+
+                lastSubheader;
+
+            // If the current header DOM element is smaller than the previous header DOM element or the first subheader
+            if(currentTagName < previousTagName) {
+
+                // Selects the last unordered list HTML found within the HTML element calling the plugin
+                self.element.find(subheaderClass + "[data-tag=" + currentTagName + "]").last().append(self._nestElements($(this), index));
+
+            }
+
+            // If the current header DOM element is the same type of header(eg. h4) as the previous header DOM element
+            else if(currentTagName === previousTagName) {
+
+                ul.find(itemClass).last().after(self._nestElements($(this), index));
+
+            }
+
+            else {
+
+                // Selects the last unordered list HTML found within the HTML element calling the plugin
+                ul.find(itemClass).last().
+
+                // Appends an unorderedList HTML element to the dynamic `unorderedList` variable and sets a common class name
+                after($("<ul/>", {
+
+                    "class": subheaderClassName,
+
+                    "data-tag": currentTagName
+
+                })).next(subheaderClass).
+
+                // Appends a list item HTML element to the last unordered list HTML element found within the HTML element calling the plugin
+                append(self._nestElements($(this), index));
+            }
+
+        },
+
+       // _setEventHandlers
+        // ----------------
+        //      Adds jQuery event handlers to the newly generated table of contents
+        _setEventHandlers: function() {
+
+            // _Local variables_
+
+            // Stores the plugin context in the self variable
+            var self = this,
+
+                // Instantiates a new variable that will be used to hold a specific element's context
+                $self,
+
+                // Instantiates a new variable that will be used to determine the smoothScroll animation time duration
+                duration;
+
+            // Event delegation that looks for any clicks on list item elements inside of the HTML element calling the plugin
+            this.element.on("click.tocify", "li", function(event) {
+
+                if(self.options.history) {
+
+                    window.location.hash = $(this).attr("data-unique");
+
+                }
+
+                // Removes highlighting from all of the list item's
+                self.element.find("." + self.focusClass).removeClass(self.focusClass);
+
+                // Highlights the current list item that was clicked
+                $(this).addClass(self.focusClass);
+
+                // If the showAndHide option is true
+                if(self.options.showAndHide) {
+
+                    var elem = $('li[data-unique="' + $(this).attr("data-unique") + '"]');
+
+                    self._triggerShow(elem);
+
+                }
+
+                self._scrollTo($(this));
+
+            });
+
+            // Mouseenter and Mouseleave event handlers for the list item's within the HTML element calling the plugin
+            this.element.find("li").on({
+
+                // Mouseenter event handler
+                "mouseenter.tocify": function() {
+
+                    // Adds a hover CSS class to the current list item
+                    $(this).addClass(self.hoverClass);
+
+                    // Makes sure the cursor is set to the pointer icon
+                    $(this).css("cursor", "pointer");
+
+                },
+
+                // Mouseleave event handler
+                "mouseleave.tocify": function() {
+
+                    if(self.options.theme !== "bootstrap") {
+
+                        // Removes the hover CSS class from the current list item
+                        $(this).removeClass(self.hoverClass);
+
+                    }
+
+                }
+            });
+
+            // only attach handler if needed (expensive in IE)
+            if (self.options.extendPage || self.options.highlightOnScroll || self.options.scrollHistory || self.options.showAndHideOnScroll)
+            {
+            // Window scroll event handler
+                $(window).on("scroll.tocify", function() {
+
+                    // Once all animations on the page are complete, this callback function will be called
+                    $("html, body").promise().done(function() {
+
+                        // Local variables
+
+                        // Stores how far the user has scrolled
+                        var winScrollTop = $(window).scrollTop(),
+
+                            // Stores the height of the window
+                            winHeight = $(window).height(),
+
+                            // Stores the height of the document
+                            docHeight = $(document).height(),
+
+                            scrollHeight = $("body")[0].scrollHeight,
+
+                            // Instantiates a variable that will be used to hold a selected HTML element
+                            elem,
+
+                            lastElem,
+
+                            lastElemOffset,
+
+                            currentElem;
+
+                        if(self.options.extendPage) {
+
+                            // If the user has scrolled to the bottom of the page and the last toc item is not focused
+                            if((self.webkit && winScrollTop >= scrollHeight - winHeight - self.options.extendPageOffset) || (!self.webkit && winHeight + winScrollTop > docHeight - self.options.extendPageOffset)) {
+
+                                if(!$(extendPageClass).length) {
+
+                                    lastElem = $('div[data-unique="' + $(itemClass).last().attr("data-unique") + '"]');
+
+                                    if(!lastElem.length) return;
+
+                                    // Gets the top offset of the page header that is linked to the last toc item
+                                    lastElemOffset = lastElem.offset().top;
+
+                                    // Appends a div to the bottom of the page and sets the height to the difference of the window scrollTop and the last element's position top offset
+                                    $(self.options.context).append($("<div />", {
+
+                                        "class": extendPageClassName,
+
+                                        "height": Math.abs(lastElemOffset - winScrollTop) + "px",
+
+                                        "data-unique": extendPageClassName
+
+                                    }));
+
+                                    if(self.extendPageScroll) {
+
+                                        currentElem = self.element.find('li.active');
+
+                                        self._scrollTo($('div[data-unique="' + currentElem.attr("data-unique") + '"]'));
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                        // The zero timeout ensures the following code is run after the scroll events
+                        setTimeout(function() {
+
+                            // _Local variables_
+
+                            // Stores the distance to the closest anchor
+                            var closestAnchorDistance = null,
+
+                                // Stores the index of the closest anchor
+                                closestAnchorIdx = null,
+
+                                // Keeps a reference to all anchors
+                                anchors = $(self.options.context).find("div[data-unique]"),
+
+                                anchorText;
+
+                            // Determines the index of the closest anchor
+                            anchors.each(function(idx) {
+                                var distance = Math.abs(($(this).next().length ? $(this).next() : $(this)).offset().top - winScrollTop - self.options.highlightOffset);
+                                if (closestAnchorDistance == null || distance < closestAnchorDistance) {
+                                    closestAnchorDistance = distance;
+                                    closestAnchorIdx = idx;
+                                } else {
+                                    return false;
+                                }
+                            });
+
+                            anchorText = $(anchors[closestAnchorIdx]).attr("data-unique");
+
+                            // Stores the list item HTML element that corresponds to the currently traversed anchor tag
+                            elem = $('li[data-unique="' + anchorText + '"]');
+
+                            // If the `highlightOnScroll` option is true and a next element is found
+                            if(self.options.highlightOnScroll && elem.length) {
+
+                                // Removes highlighting from all of the list item's
+                                self.element.find("." + self.focusClass).removeClass(self.focusClass);
+
+                                // Highlights the corresponding list item
+                                elem.addClass(self.focusClass);
+
+                            }
+
+                            if(self.options.scrollHistory) {
+
+                                if(window.location.hash !== "#" + anchorText) {
+
+                                    window.location.replace("#" + anchorText);
+
+                                }
+                            }
+
+                            // If the `showAndHideOnScroll` option is true
+                            if(self.options.showAndHideOnScroll && self.options.showAndHide) {
+
+                                self._triggerShow(elem, true);
+
+                            }
+
+                        }, 0);
+
+                    });
+
+                });
+            }
+
+        },
+
+        // Show
+        // ----
+        //      Opens the current sub-header
+        show: function(elem, scroll) {
+
+            // Stores the plugin context in the `self` variable
+            var self = this,
+                element = elem;
+
+            // If the sub-header is not already visible
+            if (!elem.is(":visible")) {
+
+                // If the current element does not have any nested subheaders, is not a header, and its parent is not visible
+                if(!elem.find(subheaderClass).length && !elem.parent().is(headerClass) && !elem.parent().is(":visible")) {
+
+                    // Sets the current element to all of the subheaders within the current header
+                    elem = elem.parents(subheaderClass).add(elem);
+
+                }
+
+                // If the current element does not have any nested subheaders and is not a header
+                else if(!elem.children(subheaderClass).length && !elem.parent().is(headerClass)) {
+
+                    // Sets the current element to the closest subheader
+                    elem = elem.closest(subheaderClass);
+
+                }
+
+                //Determines what jQuery effect to use
+                switch (self.options.showEffect) {
+
+                    //Uses `no effect`
+                    case "none":
+
+                        elem.show();
+
+                    break;
+
+                    //Uses the jQuery `show` special effect
+                    case "show":
+
+                        elem.show(self.options.showEffectSpeed);
+
+                    break;
+
+                    //Uses the jQuery `slideDown` special effect
+                    case "slideDown":
+
+                        elem.slideDown(self.options.showEffectSpeed);
+
+                    break;
+
+                    //Uses the jQuery `fadeIn` special effect
+                    case "fadeIn":
+
+                        elem.fadeIn(self.options.showEffectSpeed);
+
+                    break;
+
+                    //If none of the above options were passed, then a `jQueryUI show effect` is expected
+                    default:
+
+                        elem.show();
+
+                    break;
+
+                }
+
+            }
+
+            // If the current subheader parent element is a header
+            if(elem.parent().is(headerClass)) {
+
+                // Hides all non-active sub-headers
+                self.hide($(subheaderClass).not(elem));
+
+            }
+
+            // If the current subheader parent element is not a header
+            else {
+
+                // Hides all non-active sub-headers
+                self.hide($(subheaderClass).not(elem.closest(headerClass).find(subheaderClass).not(elem.siblings())));
+
+            }
+
+            // Maintains chainablity
+            return self;
+
+        },
+
+        // Hide
+        // ----
+        //      Closes the current sub-header
+        hide: function(elem) {
+
+            // Stores the plugin context in the `self` variable
+            var self = this;
+
+            //Determines what jQuery effect to use
+            switch (self.options.hideEffect) {
+
+                // Uses `no effect`
+                case "none":
+
+                    elem.hide();
+
+                break;
+
+                // Uses the jQuery `hide` special effect
+                case "hide":
+
+                    elem.hide(self.options.hideEffectSpeed);
+
+                break;
+
+                // Uses the jQuery `slideUp` special effect
+                case "slideUp":
+
+                    elem.slideUp(self.options.hideEffectSpeed);
+
+                break;
+
+                // Uses the jQuery `fadeOut` special effect
+                case "fadeOut":
+
+                    elem.fadeOut(self.options.hideEffectSpeed);
+
+                break;
+
+                // If none of the above options were passed, then a `jqueryUI hide effect` is expected
+                default:
+
+                    elem.hide();
+
+                break;
+
+            }
+
+            // Maintains chainablity
+            return self;
+        },
+
+        // _triggerShow
+        // ------------
+        //      Determines what elements get shown on scroll and click
+        _triggerShow: function(elem, scroll) {
+
+            var self = this;
+
+            // If the current element's parent is a header element or the next element is a nested subheader element
+            if(elem.parent().is(headerClass) || elem.next().is(subheaderClass)) {
+
+                // Shows the next sub-header element
+                self.show(elem.next(subheaderClass), scroll);
+
+            }
+
+            // If the current element's parent is a subheader element
+            else if(elem.parent().is(subheaderClass)) {
+
+                // Shows the parent sub-header element
+                self.show(elem.parent(), scroll);
+
+            }
+
+            // Maintains chainability
+            return self;
+
+        },
+
+        // _addCSSClasses
+        // --------------
+        //      Adds CSS classes to the newly generated table of contents HTML
+        _addCSSClasses: function() {
+
+            // If the user wants a jqueryUI theme
+            if(this.options.theme === "jqueryui") {
+
+                this.focusClass = "ui-state-default";
+
+                this.hoverClass = "ui-state-hover";
+
+                //Adds the default styling to the dropdown list
+                this.element.addClass("ui-widget").find(".toc-title").addClass("ui-widget-header").end().find("li").addClass("ui-widget-content");
+
+            }
+
+            // If the user wants a twitterBootstrap theme
+            else if(this.options.theme === "bootstrap") {
+
+                this.element.find(headerClass + "," + subheaderClass).addClass("nav nav-list");
+
+                this.focusClass = "active";
+
+            }
+
+            // If a user does not want a prebuilt theme
+            else {
+
+                // Adds more neutral classes (instead of jqueryui)
+
+                this.focusClass = tocFocusClassName;
+
+                this.hoverClass = tocHoverClassName;
+
+            }
+
+            //Maintains chainability
+            return this;
+
+        },
+
+        // setOption
+        // ---------
+        //      Sets a single Tocify option after the plugin is invoked
+        setOption: function() {
+
+            // Calls the jQueryUI Widget Factory setOption method
+            $.Widget.prototype._setOption.apply(this, arguments);
+
+        },
+
+        // setOptions
+        // ----------
+        //      Sets a single or multiple Tocify options after the plugin is invoked
+        setOptions: function() {
+
+            // Calls the jQueryUI Widget Factory setOptions method
+            $.Widget.prototype._setOptions.apply(this, arguments);
+
+        },
+
+        // _scrollTo
+        // ---------
+        //      Scrolls to a specific element
+        _scrollTo: function(elem) {
+
+            var self = this,
+                duration = self.options.smoothScroll || 0,
+                scrollTo = self.options.scrollTo,
+                currentDiv = $('div[data-unique="' + elem.attr("data-unique") + '"]');
+
+            if(!currentDiv.length) {
+
+                return self;
+
+            }
+
+            // Once all animations on the page are complete, this callback function will be called
+            $("html, body").promise().done(function() {
+
+                // Animates the html and body element scrolltops
+                $("html, body").animate({
+
+                    // Sets the jQuery `scrollTop` to the top offset of the HTML div tag that matches the current list item's `data-unique` tag
+                    "scrollTop": currentDiv.offset().top - ($.isFunction(scrollTo) ? scrollTo.call() : scrollTo) + "px"
+
+                }, {
+
+                    // Sets the smoothScroll animation time duration to the smoothScrollSpeed option
+                    "duration": duration
+
+                });
+
+            });
+
+            // Maintains chainability
+            return self;
+
+        }
+
+    });
+
+})); //end of plugin
+
+/*!
+ * jQuery UI Touch Punch 0.2.3
+ *
+ * Copyright 2011–2014, Dave Furfero
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ *
+ * Depends:
+ *  jquery.ui.widget.js
+ *  jquery.ui.mouse.js
+ */
+(function ($) {
+
+  // Detect touch support
+  $.support.touch = 'ontouchend' in document;
+
+  // Ignore browsers without touch support
+  if (!$.support.touch) {
+    return;
+  }
+
+  var mouseProto = $.ui.mouse.prototype,
+      _mouseInit = mouseProto._mouseInit,
+      _mouseDestroy = mouseProto._mouseDestroy,
+      touchHandled;
+
+  /**
+   * Simulate a mouse event based on a corresponding touch event
+   * @param {Object} event A touch event
+   * @param {String} simulatedType The corresponding mouse event
+   */
+  function simulateMouseEvent (event, simulatedType) {
+
+    // Ignore multi-touch events
+    if (event.originalEvent.touches.length > 1) {
+      return;
+    }
+
+    event.preventDefault();
+
+    var touch = event.originalEvent.changedTouches[0],
+        simulatedEvent = document.createEvent('MouseEvents');
+    
+    // Initialize the simulated mouse event using the touch event's coordinates
+    simulatedEvent.initMouseEvent(
+      simulatedType,    // type
+      true,             // bubbles                    
+      true,             // cancelable                 
+      window,           // view                       
+      1,                // detail                     
+      touch.screenX,    // screenX                    
+      touch.screenY,    // screenY                    
+      touch.clientX,    // clientX                    
+      touch.clientY,    // clientY                    
+      false,            // ctrlKey                    
+      false,            // altKey                     
+      false,            // shiftKey                   
+      false,            // metaKey                    
+      0,                // button                     
+      null              // relatedTarget              
+    );
+
+    // Dispatch the simulated event to the target element
+    event.target.dispatchEvent(simulatedEvent);
+  }
+
+  /**
+   * Handle the jQuery UI widget's touchstart events
+   * @param {Object} event The widget element's touchstart event
+   */
+  mouseProto._touchStart = function (event) {
+
+    var self = this;
+
+    // Ignore the event if another widget is already being handled
+    if (touchHandled || !self._mouseCapture(event.originalEvent.changedTouches[0])) {
+      return;
+    }
+
+    // Set the flag to prevent other widgets from inheriting the touch event
+    touchHandled = true;
+
+    // Track movement to determine if interaction was a click
+    self._touchMoved = false;
+
+    // Simulate the mouseover event
+    simulateMouseEvent(event, 'mouseover');
+
+    // Simulate the mousemove event
+    simulateMouseEvent(event, 'mousemove');
+
+    // Simulate the mousedown event
+    simulateMouseEvent(event, 'mousedown');
+  };
+
+  /**
+   * Handle the jQuery UI widget's touchmove events
+   * @param {Object} event The document's touchmove event
+   */
+  mouseProto._touchMove = function (event) {
+
+    // Ignore event if not handled
+    if (!touchHandled) {
+      return;
+    }
+
+    // Interaction was not a click
+    this._touchMoved = true;
+
+    // Simulate the mousemove event
+    simulateMouseEvent(event, 'mousemove');
+  };
+
+  /**
+   * Handle the jQuery UI widget's touchend events
+   * @param {Object} event The document's touchend event
+   */
+  mouseProto._touchEnd = function (event) {
+
+    // Ignore event if not handled
+    if (!touchHandled) {
+      return;
+    }
+
+    // Simulate the mouseup event
+    simulateMouseEvent(event, 'mouseup');
+
+    // Simulate the mouseout event
+    simulateMouseEvent(event, 'mouseout');
+
+    // If the touch interaction did not move, it should trigger a click
+    if (!this._touchMoved) {
+
+      // Simulate the click event
+      simulateMouseEvent(event, 'click');
+    }
+
+    // Unset the flag to allow other widgets to inherit the touch event
+    touchHandled = false;
+  };
+
+  /**
+   * A duck punch of the $.ui.mouse _mouseInit method to support touch events.
+   * This method extends the widget with bound touch event handlers that
+   * translate touch events to mouse events and pass them to the widget's
+   * original mouse event handling methods.
+   */
+  mouseProto._mouseInit = function () {
+    
+    var self = this;
+
+    // Delegate the touch handlers to the widget's element
+    self.element.bind({
+      touchstart: $.proxy(self, '_touchStart'),
+      touchmove: $.proxy(self, '_touchMove'),
+      touchend: $.proxy(self, '_touchEnd')
+    });
+
+    // Call the original $.ui.mouse init method
+    _mouseInit.call(self);
+  };
+
+  /**
+   * Remove the touch event handlers
+   */
+  mouseProto._mouseDestroy = function () {
+    
+    var self = this;
+
+    // Delegate the touch handlers to the widget's element
+    self.element.unbind({
+      touchstart: $.proxy(self, '_touchStart'),
+      touchmove: $.proxy(self, '_touchMove'),
+      touchend: $.proxy(self, '_touchEnd')
+    });
+
+    // Call the original $.ui.mouse destroy method
+    _mouseDestroy.call(self);
+  };
+
+})(jQuery);

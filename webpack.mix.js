@@ -24,6 +24,7 @@ mix.scripts(
         'resources/js/monster_manager.js',
         'resources/js/encounter_manager.js',
         'resources/js/jquery.tocify.js',
+        'resources/js/jquery.ui.touch-punch.js',
 ],
 'public/js/dnd-tools.js'
 );

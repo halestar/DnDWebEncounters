@@ -26,7 +26,7 @@
     <div class="col-2">
         <img src="{{ route('monster_tokens.show', ['id' => $currentActor->token->id]) }}" class="img-thumbnail" style="width: 64px;">
     </div>
-    <div class="col-7 font-weight-bold">
+    <div class="col-6 font-weight-bold">
         {{ $currentActor->name }}
         <br>
         @if($currentActor->isSrMonster())
@@ -35,7 +35,7 @@
         {{ $currentActor->customMonster->monsterSize }} {{ $currentActor->customMonster->monsterType }}
         @endif
     </div>
-    <div class="col-3 h2">
+    <div class="col-4 h2">
         <strong>AC: </strong>
         @if($currentActor->isSrMonster())
             {{ $currentActor->srMonster()->ac }}
@@ -49,10 +49,10 @@
     <input type="hidden" name="status" id="status" value="ALIVE" />
     <div class="border border-info rounded p-2 monster-health-widget mb-3">
         <div class="row font-weight-bold">
-            <div class="col-2 text-center">
+            <div class="col-3 text-center">
                 <h4>HP</h4>
             </div>
-            <div class="col-10 text-center">
+            <div class="col-9 text-center">
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="dmg_type" id="dmg_type_dmg" value="DMG" checked>
                     <label class="form-check-label" for="dmg_type_dmg">Damage</label>
@@ -64,23 +64,23 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2 text-center">
-                <input type="text" class="border border-dark rounded text-center p-1" name="current_hp" id="current_hp" value="{{ $currentActor->current_hp }}" style="width: 64px; height:64px; font-size: 32px" />
+            <div class="col-3 text-center">
+                <input type="text" class="border border-dark rounded text-center" name="current_hp" id="current_hp" value="{{ $currentActor->current_hp }}" style="width: 64px; height:64px; font-size: 32px" />
             </div>
-            <div class="col-10">
+            <div class="col-9">
                 <div class="w-100 d-flex align-content-stretch flex-nowrap mb-2">
-                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 1, {{ $currentActor->max_hp }})">1</button>
-                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 2, {{ $currentActor->max_hp }})">2</button>
-                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 3, {{ $currentActor->max_hp }})">3</button>
-                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 4, {{ $currentActor->max_hp }})">4</button>
-                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 5, {{ $currentActor->max_hp }})">5</button>
+                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" style="width: 44px; height: 44px;" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 1, {{ $currentActor->max_hp }})">1</button>
+                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" style="width: 44px; height: 44px;" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 2, {{ $currentActor->max_hp }})">2</button>
+                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" style="width: 44px; height: 44px;" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 3, {{ $currentActor->max_hp }})">3</button>
+                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" style="width: 44px; height: 44px;" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 4, {{ $currentActor->max_hp }})">4</button>
+                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" style="width: 44px; height: 44px;" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 5, {{ $currentActor->max_hp }})">5</button>
                 </div>
                 <div class="d-flex align-content-stretch flex-nowrap mb-2">
-                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 6, {{ $currentActor->max_hp }})">6</button>
-                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 7, {{ $currentActor->max_hp }})">7</button>
-                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 8, {{ $currentActor->max_hp }})">8</button>
-                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 9, {{ $currentActor->max_hp }})">9</button>
-                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 10, {{ $currentActor->max_hp }})">10</button>
+                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" style="width: 44px; height: 44px;" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 6, {{ $currentActor->max_hp }})">6</button>
+                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" style="width: 44px; height: 44px;" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 7, {{ $currentActor->max_hp }})">7</button>
+                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" style="width: 44px; height: 44px;" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 8, {{ $currentActor->max_hp }})">8</button>
+                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" style="width: 44px; height: 44px;" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 9, {{ $currentActor->max_hp }})">9</button>
+                    <button type="button" class="flex-grow-1 btn btn-secondary m-1" style="width: 44px; height: 44px;" onclick="update_monster_hp(jQuery('input[name=dmg_type]:checked').val(), 10, {{ $currentActor->max_hp }})">10</button>
                 </div>
             </div>
         </div>

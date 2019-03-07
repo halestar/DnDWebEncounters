@@ -20,7 +20,7 @@
                     <div class="tab-pane fade show active" id="custom_monsters" role="tabpanel" aria-labelledby="custom-monsters">
                         <h3 class="d-flex justify-content-between border-bottom pb-1 mb-3">
                             Custom Monsters
-                            <a href="{{ route('monsters.create') }}" role="button" class="btn btn-primary btn-sm"><span class="fa fa-plus border-right pr-1 mr-1"></span>Add New Custom Monster</a>
+                            <a href="{{ route('monsters.create') }}" role="button" class="btn btn-primary btn-sm align-self-end"><span class="fa fa-plus border-right pr-1 mr-1"></span>Add New Custom Monster</a>
                         </h3>
                         <table class="table table-bordered" id="custom_monster_table" style="width: 100%;">
                             <thead>

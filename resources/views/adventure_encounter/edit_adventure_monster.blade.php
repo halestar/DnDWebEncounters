@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-md-center">
-            <div class="col-8">
+            <div class="col-lg-8">
                 <form
                     action="{{ route('play.monster.update', ['adventure_encounter' => $adventureEncounter->id, 'actor_id' => $actor->id]) }}"
                     method="POST">
@@ -11,91 +11,96 @@
                     @csrf
                     <div class="card">
                         <div class="card-header">Editing {{ $actor->name }}</div>
-                        <div class="card-body">
+                        <div class="card-body p-1">
                             <ul class="list-group">
-                                <li class="list-group-item d-flex justify-content-between align-items-center"
-                                    actor_id="{{ $actor->id }}">
-                                    <div class="monster-info">
-                                        <h5>{{ $actor->name }}</h5>
-                                        <div class="input-group mb-2 ml-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">Initiative:</div>
+                                <li class="list-group-item p-1" actor_id="{{ $actor->id }}">
+                                    <div class="row">
+                                        <div class="monster-info col col-9">
+                                            <h5>{{ $actor->name }}</h5>
+                                            <div class="input-group mb-2 ml-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Initiative:</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="initiative" name="initiative"
+                                                       value="{{ $actor->initiative }}">
                                             </div>
-                                            <input type="text" class="form-control" id="initiative" name="initiative"
-                                                   value="{{ $actor->initiative }}">
+                                            <div class="input-group mb-2 ml-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Initiative Position:</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="initiative_pos"
+                                                       name="initiative_pos" value="{{ $actor->initiative_pos }}">
+                                            </div>
+                                            <div class="input-group mb-2 ml-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">HP:</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="hp" name="hp"
+                                                       value="{{ $actor->current_hp }}">
+                                            </div>
+                                            <div class="input-group mb-2 ml-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Token:</div>
+                                                </div>
+                                                <select
+                                                    class="custom-select"
+                                                    name="token"
+                                                    id="token"
+                                                    onchange="jQuery('#token_monster_thumb').prop('src', '/monster_tokens/' + jQuery(this).val());"
+                                                >
+                                                    @foreach($tokens as $token)
+                                                        <option value="{{ $token->id }}"
+                                                                @if($token->id == $actor->token_id) selected @endif>{{ $token->name }}
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="input-group mb-2 ml-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">Initiative Position:</div>
-                                            </div>
-                                            <input type="text" class="form-control" id="initiative_pos"
-                                                   name="initiative_pos" value="{{ $actor->initiative_pos }}">
-                                        </div>
-                                        <div class="input-group mb-2 ml-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">HP:</div>
-                                            </div>
-                                            <input type="text" class="form-control" id="hp" name="hp"
-                                                   value="{{ $actor->current_hp }}">
-                                        </div>
-                                        <div class="input-group mb-2 ml-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">Token:</div>
-                                            </div>
-                                            <select
-                                                class="custom-select"
-                                                name="token"
-                                                id="token"
-                                                onchange="jQuery('#token_monster_thumb').prop('src', '/monster_tokens/' + jQuery(this).val());"
+                                        <div class="monster-controls text-right m-l col col-3">
+                                            <input type="hidden" name="dead" id="dead"
+                                                   value="{{ $actor->isAlive()? '0': '1' }}"/>
+                                            <button
+                                                type="button"
+                                                @if($actor->isAlive())
+                                                class="btn btn-success mb-2 p-1"
+                                                @else
+                                                class="btn btn-danger p-1"
+                                                @endif
+                                                onclick="toggle_dead()"
+                                                id="dead_btn"
                                             >
-                                                @foreach($tokens as $token)
-                                                    <option value="{{ $token->id }}"
-                                                            @if($token->id == $actor->token_id) selected @endif>{{ $token->name }}
-                                                @endforeach
-                                            </select>
+                                                <small>
+                                                @if($actor->isAlive())
+                                                    ALIVE
+                                                @else
+                                                    DEAD
+                                                @endif
+                                                </small>
+                                            </button>
+                                            <br>
+                                            <input type="hidden" name="acted" id="acted"
+                                                   value="{{ $actor->has_acted? '1': '0' }}"/>
+                                            <button
+                                                type="button"
+                                                @if(!$actor->has_acted)
+                                                class="btn btn-success mb-2 p-1"
+                                                @else
+                                                class="btn btn-secondary p-1"
+                                                @endif
+                                                onclick="toggle_acted()"
+                                                id="acted_btn"
+                                            >
+                                                <small>
+                                                @if($actor->has_acted)
+                                                    Acted
+                                                @else
+                                                    Not Acted
+                                                @endif
+                                                </small>
+                                            </button>
+                                            <br>
+                                            <img src="{{ route('monster_tokens.show', ['id' => $actor->token_id]) }}"
+                                                 class="img-thumbnail ml-3" id="token_monster_thumb">
                                         </div>
-                                    </div>
-                                    <div class="monster-controls text-right">
-                                        <input type="hidden" name="dead" id="dead"
-                                               value="{{ $actor->isAlive()? '0': '1' }}"/>
-                                        <button
-                                            type="button"
-                                            @if($actor->isAlive())
-                                            class="btn btn-success mb-2"
-                                            @else
-                                            class="btn btn-danger"
-                                            @endif
-                                            onclick="toggle_dead()"
-                                            id="dead_btn"
-                                        >
-                                            @if($actor->isAlive())
-                                                ALIVE
-                                            @else
-                                                DEAD
-                                            @endif
-                                        </button>
-                                        <br>
-                                        <input type="hidden" name="acted" id="acted"
-                                               value="{{ $actor->has_acted? '1': '0' }}"/>
-                                        <button
-                                            type="button"
-                                            @if(!$actor->has_acted)
-                                            class="btn btn-success mb-2"
-                                            @else
-                                            class="btn btn-secondary"
-                                            @endif
-                                            onclick="toggle_acted()"
-                                            id="acted_btn"
-                                        >
-                                            @if($actor->has_acted)
-                                                Acted
-                                            @else
-                                                Not Acted
-                                            @endif
-                                        </button>
-                                        <br>
-                                        <img src="{{ route('monster_tokens.show', ['id' => $actor->token_id]) }}"
-                                             class="img-thumbnail ml-3" id="token_monster_thumb">
                                     </div>
                                 </li>
                             </ul>
