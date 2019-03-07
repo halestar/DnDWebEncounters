@@ -16,7 +16,7 @@ Route::view('/', 'welcome');
 Route::view('/help', 'help')->name('help');
 Route::view('/register', 'auth.registration_closed')->name('register');
 
-Auth::routes(['register' => false]);
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'HomeController@settings')->name('settings');
