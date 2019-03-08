@@ -1,5 +1,5 @@
 <h4 class="mt-3">Available Players</h4>
-<table class="table">
+<table class="table table-responsive">
     <thead>
         <tr>
             <td>Name</td>
