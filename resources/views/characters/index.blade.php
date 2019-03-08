@@ -21,7 +21,7 @@
                         </select>
                     </div>
                 </small>
-                <table class="table table-bordered" id="players-table" style="width: 100%;">
+                <table class="table table-responsive table-bordered" id="players-table" style="width: 100%;">
                     <thead>
                         <tr>
                             <th>Name</th>

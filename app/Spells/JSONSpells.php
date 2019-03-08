@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: adming
- * Date: 2/7/2019
- * Time: 12:15 PM
+ * Date: 3/7/2019
+ * Time: 4:27 PM
  */
 
 namespace App\Spells;
@@ -12,10 +12,10 @@ namespace App\Spells;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
-class Spell
+class JSONSpells
 {
-	public $name, $description, $page, $range, $components, $material, $duration, $casting_time,
-	$level, $spellClass, $higher_level, $school;
+	public $name, $desc, $page, $range, $components, $material, $duration, $casting_time,
+		$level, $class, $higher_level, $school;
 	public $ritual, $concentration;
 	
 	public static function allSpells()
@@ -23,20 +23,17 @@ class Spell
 		$spell_json = json_decode(Storage::disk('local')->get('spells.json'), true);
 		\Log::debug(print_r($spell_json, true));
 		$spells = new Collection();
-		$idx = 0;
 		foreach($spell_json as $spell_stats)
 		{
-			$spells->push(new Spell($idx, $spell_stats));
-			$idx++;
+			$spells->push(new JSONSpells($spell_stats));
 		}
 		return $spells;
 	}
 	
-	public function __construct($idx, $stats)
+	public function __construct($stats)
 	{
-		$this->idx = $idx;
 		$this->name = $stats['name'];
-		$this->description = $stats['desc'];
+		$this->desc = $stats['desc'];
 		$this->page = isset($stats['page'])? $stats['page']: "";
 		$this->range = isset($stats['range'])? $stats['range']: "";
 		$this->components = isset($stats['components'])? $stats['components']: "";
@@ -44,10 +41,10 @@ class Spell
 		$this->duration = isset($stats['duration'])? $stats['duration']: "";
 		$this->casting_time = isset($stats['casting_time'])? $stats['casting_time']: "";
 		$this->level = isset($stats['level'])? $stats['level']: "";
-		$this->spellClass = isset($stats['class'])? $stats['class']: "";
+		$this->class = isset($stats['class'])? $stats['class']: "";
 		$this->higher_level = isset($stats['higher_level'])? $stats['higher_level']: "";
 		$this->school = isset($stats['school'])? $stats['school']: "";
-		$this->ritual = ($stats['ritual'] == "yes")? true: false;
-		$this->concentration = ($stats['concentration'] == "yes")? true: false;
+		$this->ritual = isset($stats['ritual'])? $stats['ritual']: "";
+		$this->concentration = isset($stats['concentration'])? $stats['concentration']: "";
 	}
 }

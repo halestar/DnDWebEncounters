@@ -38,7 +38,9 @@
                                     value="1"
                                     id="make_admin"
                                     name="make_admin"
-                                    @can('admin') checked @endcan
+                                    @if($user->hasPermissionTo('admin'))
+                                    checked
+                                    @endif
                             >
                             <label class="form-check-label" for="make_admin">
                                 User is an Administrator
