@@ -21,16 +21,18 @@
                         </select>
                     </div>
                 </small>
-                <table class="table table-responsive table-bordered" id="players-table" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Level</th>
-                            <th>Type</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="players-table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Level</th>
+                                <th>Type</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
 

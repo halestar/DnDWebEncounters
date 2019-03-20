@@ -1,3 +1,4 @@
+/.idea
 /node_modules
 /public/hot
 /public/storage
@@ -11,3 +12,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 yarn.lock
+_ide_helper.php

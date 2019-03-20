@@ -11,6 +11,6 @@ class Pc extends Model
 	
 	public function player()
 	{
-		return $this->belongsTo('App\Players\Player', 'id', 'player_id');
+		return $this->belongsTo('App\Players\Player', 'player_id');
 	}
 }

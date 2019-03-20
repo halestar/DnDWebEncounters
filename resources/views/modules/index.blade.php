@@ -8,16 +8,18 @@
                     Modules
                     <a href="{{ route('modules.create') }}" role="button" class="btn btn-primary btn-sm"><span class="fa fa-plus border-right pr-1 mr-1"></span>Add New Module</a>
                 </h3>
-                <table class="table table-responsive table-bordered" id="modules-table" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Tier</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
+                    <div class="table-responsive">
+                    <table class="table table-bordered" id="modules-table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Tier</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                    </div>
             </div>
         </div>
 

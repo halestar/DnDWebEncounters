@@ -22,25 +22,29 @@
                             Custom Monsters
                             <a href="{{ route('monsters.create') }}" role="button" class="btn btn-primary btn-sm align-self-end"><span class="fa fa-plus border-right pr-1 mr-1"></span>Add New Custom Monster</a>
                         </h3>
-                        <table class="table table-responsive table-bordered" id="custom_monster_table" style="width: 100%;">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>CR</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="custom_monster_table" style="width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>CR</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="sr_monsters" role="tabpanel" aria-labelledby="sr-monsters">
-                        <table class="table table-responsive table-bordered" id="sr_monster_table" style="width: 100%;">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>CR</th>
-                            </tr>
-                            </thead>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="sr_monster_table" style="width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>CR</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

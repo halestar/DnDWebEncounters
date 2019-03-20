@@ -35,21 +35,19 @@
                                     <input type="submit" class="btn btn-outline-primary" value="Assign" />
                                 </div>
                                 <div class="input-group-append">
-                                    <button type="button" onclick="buildCreateParty(jQuery('#party_id').val())"
-                                            class="btn btn-outline-secondary">Edit
-                                    </button>
+                                    <a role="button" class="btn btn-outline-secondary" onclick="window.location='/parties/'+jQuery('#party_id').val()+'/edit'">Edit</a>
                                 </div>
                             </div>
                         </form>
                         <p class="text-center my-3">
                             &mdash; OR &mdash;
                         </p>
-                        <button type="button" class="btn btn-primary btn-block" onclick="buildCreateParty()">Create New
-                            Party
-                        </button>
+                        <a role="button" class="btn btn-primary btn-block" href="{{ route('parties.create') }}">Create New Party</a>
+                        @if($playSession->party != null)
                         <button type="button" class="btn btn-secondary btn-block mt-3"
                                 onclick="jQuery('#party_builder').hide();jQuery('#party_display').show()">Cancel
                         </button>
+                        @endif
                     </div>
                     @if($playSession->party != null)
                     <div id="party_display">
@@ -193,20 +191,6 @@
                 jQuery('label[pc_id=' + jQuery(element).val() + ']').addClass('active');
             else
                 jQuery('label[pc_id=' + jQuery(element).val() + ']').removeClass('active');
-        }
-
-        function buildCreateParty(id = null) {
-            let url = "/adventure/party/create/{{ $playSession->id }}";
-            if (id != null)
-                url += "/" + id;
-            axios.get(url)
-                .then(function (response) {
-                    jQuery('#modal_dialog_body').html(response.data);
-                    jQuery('#global_modal_dialog').modal();
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
         }
     </script>
 @endpush

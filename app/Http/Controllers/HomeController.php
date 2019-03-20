@@ -38,6 +38,7 @@ class HomeController extends Controller
         $playSessions = Auth::user()->playSessions()->whereNull('ended');
         if($lastActiveSession != null) $playSessions = $playSessions->where('id', '<>', $lastActiveSession->id);
         $playSessions = $playSessions->get();
+	    session(['new_pc_return' => route('pcs.index')]);
         return view('home',
 	        [
 		        'numPlayers' => $numPlayers,

@@ -75,6 +75,9 @@
                                 <a class="nav-link @if(app('request')->is('pcs*')) active @endif" href="{{ route('pcs.index') }}">PC's</a>
                             </li>
                             <li class="nav-item mr-2">
+                                <a class="nav-link @if(app('request')->is('parties*')) active @endif" href="{{ route('parties.index') }}">Parties</a>
+                            </li>
+                            <li class="nav-item mr-2">
                                 <a class="nav-link @if(app('request')->is('monsters*')) active @endif" href="{{ route('monsters.index') }}">Monsters</a>
                             </li>
                             <li class="nav-item mr-2">

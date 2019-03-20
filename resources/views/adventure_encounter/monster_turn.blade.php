@@ -1,26 +1,28 @@
 <h4 class="mt-3">Available Players</h4>
-<table class="table table-responsive">
-    <thead>
-        <tr>
-            <td>Name</td>
-            <td>AC</td>
-            <td>Max HP</td>
-            <td>PP</td>
-            <td>Spell DC</td>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach($adventureEncounter->pcActors() as $pc)
-        <tr>
-            <th>{{ $pc->pc->name }}</th>
-            <th>{{ $pc->pc->ac }}</th>
-            <th>{{ $pc->pc->hp }}</th>
-            <th>{{ $pc->pc->pp }}</th>
-            <th>{{ $pc->pc->spellDc }}</th>
-        </tr>
-    @endforeach
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>AC</td>
+                <td>Max HP</td>
+                <td>PP</td>
+                <td>Spell DC</td>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach($adventureEncounter->pcActors() as $pc)
+            <tr>
+                <th>{{ $pc->pc->name }}</th>
+                <th>{{ $pc->pc->ac }}</th>
+                <th>{{ $pc->pc->hp }}</th>
+                <th>{{ $pc->pc->pp }}</th>
+                <th>{{ $pc->pc->spellDc }}</th>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+</div>
 <hr />
 <div class="row monster-header mb-2">
     <div class="col-2">

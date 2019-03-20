@@ -38,6 +38,7 @@ Route::get('/players/pcs/{player}','PcController@playerIndex')->name('players.ch
 Route::resource('players', 'PlayerController');
 
 Route::get('/pcs/data/{selectedPlayer}','PcController@pcList')->name('pcs.data');
+Route::get('/pcs/pc-data','PcController@characterList')->name('pcs.pc_data');
 Route::resource('pcs', 'PcController')->except(['show']);
 
 
@@ -59,9 +60,9 @@ Route::get('/modules/data','ModuleController@moduleList')->name('modules.data');
 Route::get('/modules/encounter-data','ModuleController@encounterList')->name('modules.encounter_data');
 Route::resource('modules', 'ModuleController')->except(['show']);
 
+Route::get('/parties/data','PartyController@partyList')->name('parties.data');
+Route::resource('parties', 'PartyController')->except(['show']);
 
-Route::get('/adventure/party/create/{play_session}/{party_id?}', 'PlaySessionController@showCreateParty')->name('adventure.party.create.show');
-Route::post('/adventure/party/create/{play_session}', 'PlaySessionController@createParty')->name('adventure.party.create');
 Route::post('/adventure/party/assign/{play_session}', 'PlaySessionController@assignParty')->name('adventure.party.assign');
 Route::get('/adventure/pcs', 'PlaySessionController@pcList')->name('adventure.pcs');
 Route::get('/adventure/parties', 'PlaySessionController@partyList')->name('adventure.parties');

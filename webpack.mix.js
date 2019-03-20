@@ -23,6 +23,7 @@ mix.scripts(
         'resources/js/ability_manager.js',
         'resources/js/monster_manager.js',
         'resources/js/encounter_manager.js',
+        'resources/js/pc_manager.js',
         'resources/js/jquery.tocify.js',
         'resources/js/jquery.ui.touch-punch.js',
         'node_modules/bs-custom-file-input/dist/bs-custom-file-input.js',

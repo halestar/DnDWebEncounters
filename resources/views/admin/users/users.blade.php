@@ -8,17 +8,19 @@
                 Users
                 <a href="{{ route('admin.users.create') }}" role="button" class="btn btn-primary btn-sm"><span class="fa fa-plus border-right pr-1 mr-1"></span>Add New User</a>
             </h3>
-            <table class="table table-responsive table-bordered" id="user-table" style="width: 100%;">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Last Logon</th>
-                    <th></th>
-                </tr>
-                </thead>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="user-table" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Last Logon</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
 </div>

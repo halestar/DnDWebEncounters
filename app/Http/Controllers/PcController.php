@@ -24,6 +24,7 @@ class PcController extends Controller
      */
     public function index(Request $request)
     {
+	    session(['new_pc_return' => $request->fullUrl()]);
 	    $players = $request->user()->players;
 	    return view('characters.index', compact('players'))->with('selectedPlayer', 'ALL');
     }
@@ -82,7 +83,8 @@ class PcController extends Controller
 	    $pc = new Pc();
 	    $pc->fill($data);
 	    $player->pcs()->save($pc);
-	    return redirect()->route('pcs.index');
+	    $returnRoute = session('new_pc_return', route('pcs.index'));
+	    return redirect($returnRoute);
     }
 
 
@@ -120,7 +122,8 @@ class PcController extends Controller
 	    );
 	    $pc->fill($data);
 	    $pc->save();
-	    return redirect()->route('pcs.index');
+	    $returnRoute = session('new_pc_return', route('pcs.index'));
+	    return redirect($returnRoute);
     }
 
     /**
@@ -157,5 +160,12 @@ class PcController extends Controller
 		$selectedPlayer = $player->id;
 		$players = $request->user()->players;
 		return view('characters.index', compact('players'))->with('selectedPlayer', $selectedPlayer);
+	}
+	
+	public function characterList(Request $request)
+	{
+		$pcs = Pc::select('characters.*')->join('players', 'players.id', '=', 'characters.player_id')
+			->where('players.user_id', '=', $request->user()->id)->with('player')->get();
+		return response()->json($pcs, 200);
 	}
 }

@@ -8,16 +8,18 @@
                     Players
                     <a href="{{ route('players.create') }}" role="button" class="btn btn-primary btn-sm"><span class="fa fa-plus border-right pr-1 mr-1"></span>Add New Player</a>
                 </h3>
-                <table class="table table-responsive table-bordered" id="players-table" style="width: 100%;">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>DCI</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="players-table" style="width: 100%;">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>DCI</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

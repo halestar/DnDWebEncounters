@@ -8,15 +8,17 @@
                     Monster Tokens
                     <a href="{{ route('monster_tokens.create') }}" role="button" class="btn btn-primary btn-sm"><span class="fa fa-plus border-right pr-1 mr-1"></span>Add New Monster Token</a>
                 </h3>
-                <table class="table table-responsive table-bordered" id="tokens-table" style="width: 100%;">
-                    <thead>
-                    <tr>
-                        <th>Token</th>
-                        <th>Name</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tokens-table" style="width: 100%;">
+                        <thead>
+                        <tr>
+                            <th>Token</th>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -28,6 +28,7 @@ class PlaySessionController extends Controller
 	
 	public function continueSession(Request $request, PlaySession $playSession)
 	{
+		session(['new_party_return' => $request->fullUrl()]);
 		$playSession->touch();
 		$parties = $request->user()->parties;
 		$pcs = $request->user()->pcs;
@@ -46,39 +47,6 @@ class PlaySessionController extends Controller
 	{
 		$pcs = Party::where('user_id', '=', Auth::user()->id)->get();
 		return response()->json($pcs);
-	}
-	
-	public function createParty(Request $request, PlaySession $playSession)
-	{
-		$data = $request->validate(
-			[
-				'party_id' => 'nullable|numeric',
-				'name' => 'required|max:255',
-				'pcs' => 'nullable|array',
-			]
-		);
-		Log::debug(print_r($data, true));
-		if(isset($data['party_id']))
-			$party = Party::findOrFail($data['party_id']);
-		else
-			$party = new Party();
-		$party->name = $data['name'];
-		$apl = 0;
-		foreach($data['pcs'] as $pc_id)
-		{
-			$pc = Pc::findOrFail($pc_id);
-			$apl += $pc->level;
-		}
-		$party->apl = floor($apl / count($data['pcs']));
-		if(isset($data['party_id']))
-			$party->save();
-		else
-			$request->user()->parties()->save($party);
-		Log::debug(print_r($party, true));
-		$party->pcs()->sync($data['pcs']);
-		$playSession->party()->associate($party);
-		$playSession->save();
-		return redirect()->route('adventure.continue', ['id' => $playSession->id]);
 	}
 	
 	public function assignParty(Request $request, PlaySession $playSession)
@@ -174,13 +142,5 @@ class PlaySessionController extends Controller
 	    //close out the session
 	    $playSession->finishSession();
     	return redirect()->route('home');
-    }
-    
-    public function showCreateParty(Request $request, PlaySession $playSession, $party_id = null)
-    {
-        $party_edit = null;
-        if($party_id != null) $party_edit = Party::findOrFail($party_id);
-        $pcs = $request->user()->pcs;
-        return view('play_session.create_party', compact('playSession', 'party_edit', 'pcs'));
     }
 }

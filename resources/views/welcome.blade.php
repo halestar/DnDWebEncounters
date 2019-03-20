@@ -75,7 +75,7 @@
                     <a class="nav-link" href="{{ route('help') }}">Documentation</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=""><img src="/img/github_logo.png" style="width: 24px;"></a>
+                    <a class="nav-link" href="https://github.com/halestar/DnDWebEncounters"><img src="/img/github_logo.png" style="width: 24px;"></a>
                 </li>
             </ul>
         </div>
