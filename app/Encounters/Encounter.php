@@ -16,7 +16,7 @@ class Encounter extends Model
     
     public function customMonsters()
     {
-        return $this->belongsToMany('App\Encounters\CustomMonster', 'encounter_monsters');
+        return $this->belongsToMany('App\Encounters\CustomMonster', 'encounter_monsters')->orderBy('name')->orderBy('id');
     }
     
     public function getSrMonstersAttribute()

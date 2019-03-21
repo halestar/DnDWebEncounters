@@ -143,10 +143,10 @@
                 {{ $ability['name'] }}
             </h4>
             <p>
-                {{ $ability['desc'] }}
+                {{ $ability['description'] }}
             </p>
             <div class="border-top border-dark small pt-2 d-flex justify-content-around">
-                @foreach (\App\Dice\DiceParser::parseString($ability['desc']) as $dice)
+                @foreach (\App\Dice\DiceParser::parseString($ability['description']) as $dice)
                     <button type="button" class="btn btn-secondary btn-sm" onclick="quickRoll('{{ $dice->getDiceStr() }}')">
                         {{ $dice->getDiceStr() }}
                     </button>
@@ -183,10 +183,10 @@
                 {{ $ability['name'] }}
             </h4>
             <p>
-                {{ $ability['desc'] }}
+                {{ $ability['description'] }}
             </p>
             <div class="border-top border-dark small pt-2 d-flex justify-content-around">
-                @foreach (\App\Dice\DiceParser::parseString($ability['desc']) as $dice)
+                @foreach (\App\Dice\DiceParser::parseString($ability['description']) as $dice)
                     <button type="button" class="btn btn-secondary btn-sm" onclick="quickRoll('{{ $dice->getDiceStr() }}')">
                         {{ $dice->getDiceStr() }}
                     </button>
@@ -223,10 +223,10 @@
                     {{ $ability['name'] }}
                 </h4>
                 <p>
-                    {{ $ability['desc'] }}
+                    {{ $ability['description'] }}
                 </p>
                 <div class="border-top border-dark small pt-2 d-flex justify-content-around">
-                    @foreach (\App\Dice\DiceParser::parseString($ability['desc']) as $dice)
+                    @foreach (\App\Dice\DiceParser::parseString($ability['description']) as $dice)
                         <button type="button" class="btn btn-secondary btn-sm" onclick="quickRoll('{{ $dice->getDiceStr() }}')">
                             {{ $dice->getDiceStr() }}
                         </button>

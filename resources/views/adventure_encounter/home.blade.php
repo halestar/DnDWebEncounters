@@ -41,7 +41,11 @@
         </div>
         <div class="col-lg-6">
             <div class="card">
-                <div class="card-header">Encounter Information</div>
+                <div class="card-header d-flex justify-content-between">
+                    Encounter Information
+                    <button id="initiative_locked" type="button" class="btn btn-success btn-sm" onclick="toggle_initiative()">Inititive Locked</button>
+                    <button id="initiative_unlocked" type="button" class="btn btn-danger btn-sm" onclick="toggle_initiative()" style="display: none;">Inititive Unlocked</button>
+                </div>
                 <div class="card-body">
                     <div class="text-center">
                         <h5>
@@ -183,6 +187,7 @@
             jQuery('.same_initiative_container').sortable(
                 {
                     axis: "y",
+                    disabled: true,
                     update: function(event, ui)
                     {
                         var positions = [];
@@ -213,6 +218,25 @@
                     }
                 }
             );
+
         });
+
+        function toggle_initiative()
+        {
+            //which button is showing?
+            if(jQuery('#initiative_locked').is(":visible"))
+            {
+                jQuery('.same_initiative_container').sortable("enable");
+                jQuery('#initiative_locked').hide();
+                jQuery('#initiative_unlocked').show();
+            }
+            else
+            {
+                jQuery('.same_initiative_container').sortable("disable");
+                jQuery('#initiative_locked').show();
+                jQuery('#initiative_unlocked').hide();
+
+            }
+        }
     </script>
 @endpush

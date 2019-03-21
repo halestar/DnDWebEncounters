@@ -40,17 +40,17 @@ class PlayController extends Controller
 	    	$rules['initiative_' . $pc->id] = 'required|numeric';
 	    //validate sr monster tokens
 	    $srMonsters = $adventureEncounter->encounter->srMonsters;
-	    $idx = 0;
-	    foreach($srMonsters as $srMonster)
+	    for($idx = 0; $idx < count($srMonsters); $idx++)
 	    {
 		    $rules['monster_target_' . $idx] = 'required|json';
 		    $rules['monster_token_' . $idx] = 'required|numeric';
-		    $idx++;
 	    }
 	    //validate custom monsters
 	    $customMonsters = $adventureEncounter->encounter->customMonsters;
-	    foreach($customMonsters as $customMonster)
-		    $rules['custom_monster_token_' . $customMonster->id] = 'required|numeric';
+	    for($idx = 0; $idx < count($customMonsters); $idx++)
+	    {
+		    $rules['custom_monster_token_' . $idx] = 'required|numeric';
+	    }
 	    //validate
 	    $data = $request->validate($rules);
 	    //at this point, we can enter the objects.
@@ -100,6 +100,7 @@ class PlayController extends Controller
 		    $idx++;
 	    }
 	    //custom monsters
+	    $idx = 0;
         foreach($customMonsters as $customMonster)
         {
             $actor = new AdventureActor();
@@ -116,8 +117,9 @@ class PlayController extends Controller
             else
                 $actor->max_hp = $customMonster->hp;
             $actor->current_hp = $actor->max_hp;
-            $actor->token_id = $data['custom_monster_token_' . $customMonster->id];
+            $actor->token_id = $data['custom_monster_token_' . $idx];
             $adventureEncounter->actors()->save($actor);
+	        $idx++;
         }
 	    return redirect()->route('play', ['id' => $adventureEncounter->id]);
     }
