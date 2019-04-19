@@ -34,7 +34,6 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="/img/d_d_logo.png" style="width: 150px;"></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -61,7 +60,8 @@
                     @endauth
                 @endif
                 <li class="nav-item">
-                    <a class="nav-link" href=""><img src="/img/github_logo.png" style="width: 24px;"></a>
+                    <a class="nav-link" href="https://github.com/halestar/DnDWebEncounters"><img
+                            src="/img/github_logo.png" style="width: 24px;"></a>
                 </li>
             </ul>
         </div>
@@ -73,11 +73,11 @@
     <div class="container h-100">
         <div class="row h-100 align-items-center justify-content-center text-center">
             <div class="col-lg-10 align-self-end">
-                <h1 class="text-uppercase text-white font-weight-bold">Dungeons &amp; Dragons Encounters</h1>
+                <h1 class="text-uppercase text-white font-weight-bold">Combat Encounter Tracker for D&D</h1>
                 <hr class="divider my-4">
             </div>
             <div class="col-lg-8 align-self-baseline">
-                <p class="text-white-75 font-weight-light mb-5">A website to help run D&amp;D encounters.</p>
+                <p class="text-white-75 font-weight-light mb-5">A website to help run D&amp;D combat encounters.</p>
                 <a class="btn btn-primary btn-xl" href="{{ route('login') }}">Login</a>
                 <a class="btn btn-primary btn-xl" href="{{ route('register') }}">Register</a>
             </div>
@@ -90,7 +90,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
-                <h2 class="text-white mt-0">Run D&amp;D Encounters the Easy Way!</h2>
+                <h2 class="text-white mt-0">Run D&amp;D Combat Encounters the Easy Way!</h2>
                 <hr class="divider light my-4">
                 <p class="text-white-50 mb-4">
                     Encounters in Dungeons &amp; Dragons are complicated.  As a DM, you need to keep track of player's initiative, monsters initiative,
@@ -102,7 +102,8 @@
                 <p class="text-white-50 mb-4">
                     This Web App helps you in running encounters.  It has all the SR monsters and spells already loaded, so you can create encounters ahead of time or
                     on the fly and add these monsters to create encounters.  You then start an adventure, enter the party basic stats, and the App does the rest, such
-                    as roll monster initiative (either individual monster iniitiative or group), keep track of the monsters/PC turns, give you information about
+                    as roll monster initiative (either individual monster initiative or group), keep track of the
+                    monsters/PC turns, give you information about
                     all the monsters on the fly, and even allows you to keep trak of monster's HP!
                 </p>
                 <h3 class="text-white mt-0">What does this Web App <strong>NOT</strong> do?</h3>
@@ -110,7 +111,7 @@
                     This app only runs encounters!  It will not generate encounters for you (you can use, instead, <a href="https://kobold.club/fight/">Kobold Fight Club</a>
                     for that), nor will it keep track of XP (use <a href="https://www.adventurersleaguelog.com/">Adventurer's League Logsheets</a> for that), nor will it
                     do any visual maps or tokens of any kind.  This is only meant to run encounters in a live person setting.  The App tries to stay out of the DM's
-                    way as much as posible, only providing information that is relevant to the encounter.
+                    way as much as possible, only providing information that is relevant to the encounter.
                 </p>
                 <h3 class="text-white mt-0">What do I need to get started?</h3>
                 <h4 class="text-white mt-0">Preparation!</h4>
