@@ -3,31 +3,38 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-md-center">
-            <div class="col-12">
-                <h3>
-                    PC's
-                    <a href="{{ route('pcs.create') }}" class="text-primary small"><span class="fa fa-plus"></span></a>
-                    <small>
-                        <label for="player_selection">View for player:</label>
-                        <select name="player_selection" id="player_selection" onchange="updatePlayerFilter(jQuery(this).val())">
+            <div class="col col-lg-8">
+                <div class="d-flex justify-content-between border-bottom pb-1 mb-3">
+                    <span class="h4 align-self-end">Player Characters</span>
+                    <a href="{{ route('pcs.create') }}" role="button" class="btn btn-primary btn-sm"><span
+                            class="fa fa-plus border-right pr-1 mr-1"></span>Add New PC</a>
+                </div>
+                <small>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="player_selection">View PC's for player:</label>
+                        </div>
+                        <select name="player_selection" id="player_selection"
+                                onchange="updatePlayerFilter(jQuery(this).val())" class="custom-select">
                             <option value="ALL" @if($selectedPlayer == "ALL") selected @endif>All Players</option>
                             @foreach($players as $player)
                                 <option value="{{ $player->id }}" @if($selectedPlayer == $player->id) selected @endif>{{ $player->name }}</option>
                             @endforeach
                         </select>
-                    </small>
-                </h3>
-                <table class="table table-bordered" id="players-table">
-                    <thead>
+                    </div>
+                </small>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="players-table" style="width: 100%;">
+                        <thead>
                         <tr>
                             <th>Name</th>
                             <th>Level</th>
-                            <th>Class</th>
-                            <th>Race</th>
+                            <th>Type</th>
                             <th></th>
                         </tr>
-                    </thead>
-                </table>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -63,14 +70,18 @@
         columns: [
             { data: 'name', name: 'name' },
             { data: 'level', name: 'level' },
-            { data: 'characterClass', name: 'class' },
-            { data: 'characterRace', name: 'race' },
+            {
+                data: null,
+                render: function (data) {
+                    return data.characterRace + " " + data.characterClass;
+                }
+            },
             {
                 data: 'id',
                 render: function(id)
                 {
-                    return "<a href='/pcs/" + id + "/edit' class='text-primary mr-2'><span class='fa fa-edit'></span></a>" +
-                        "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger'><span class='fa fa-trash'></span></a>";
+                    return "<a href='/pcs/" + id + "/edit' class='text-primary mr-2 h4'><span class='fa fa-edit'></span></a>" +
+                        "<a href='#' onclick='promptDelete(" + id + ")' class='text-danger h4'><span class='fa fa-trash'></span></a>";
                 }
             }
         ]

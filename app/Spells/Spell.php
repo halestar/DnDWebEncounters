@@ -21,6 +21,7 @@ class Spell
 	public static function allSpells()
 	{
 		$spell_json = json_decode(Storage::disk('local')->get('spells.json'), true);
+        \Log::debug(print_r($spell_json, true));
 		$spells = new Collection();
 		$idx = 0;
 		foreach($spell_json as $spell_stats)

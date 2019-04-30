@@ -51,16 +51,17 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     {{ $customMonster->name }}
                                     <select
-                                            name="custom_monster_token_{{ $customMonster->id }}"
-                                            id="custom_monster_token_{{ $customMonster->id }}"
-                                            class="custom-select ml-5 "
-                                            onchange="jQuery('#custom_token_monster_thumb_{{ $customMonster->id }}').prop('src', '/monster_tokens/' + jQuery(this).val());"
+                                        name="custom_monster_token_{{ $loop->index }}"
+                                        id="custom_monster_token_{{ $loop->index }}"
+                                        class="custom-select ml-5 "
+                                        onchange="jQuery('#custom_token_monster_thumb_{{ $loop->index }}').prop('src', '/monster_tokens/' + jQuery(this).val());"
                                     >
                                         @foreach($tokens as $token)
                                             <option value="{{ $token->id }}">{{ $token->name }}</option>
                                         @endforeach
                                     </select>
-                                    <img src="{{ route('monster_tokens.show', ['id' => $tokens->first()->id]) }}" class="img-thumbnail ml-3" id="custom_token_monster_thumb_{{ $customMonster->id }}">
+                                    <img src="{{ route('monster_tokens.show', ['id' => $tokens->first()->id]) }}"
+                                         class="img-thumbnail ml-3" id="custom_token_monster_thumb_{{ $loop->index }}">
                                 </li>
                             @endforeach
                         </ul>

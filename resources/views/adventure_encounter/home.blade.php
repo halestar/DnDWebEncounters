@@ -41,7 +41,15 @@
         </div>
         <div class="col-lg-6">
             <div class="card">
-                <div class="card-header">Encounter Information</div>
+                <div class="card-header d-flex justify-content-between">
+                    Encounter Information
+                    <button id="initiative_locked" type="button" class="btn btn-success btn-sm"
+                            onclick="toggle_initiative()">Inititive Locked
+                    </button>
+                    <button id="initiative_unlocked" type="button" class="btn btn-danger btn-sm"
+                            onclick="toggle_initiative()" style="display: none;">Inititive Unlocked
+                    </button>
+                </div>
                 <div class="card-body">
                     <div class="text-center">
                         <h5>
@@ -55,7 +63,12 @@
                         </h5>
                     </div>
                     <div class="list-group mb-2" id="encounter-initiative-display">
-                        @foreach($adventureEncounter->actors()->orderBy('initiative', 'DESC')->orderBy('initiative_pos', 'ASC')->get() as $actor)
+                        @foreach($initiativeGroups as $initiative => $actors)
+                            @if(count($actors) > 1)
+                                <div class="same_initiative_container alert alert-dark m-0 p-1"
+                                     initiative="{{ $initiative }}">
+                                    @endif
+                                    @foreach($actors as $actor)
                             <a
                                 @if($actor->isSrMonster() || $actor->isCustomMonster())
                                 href="{{ route('play.monster.edit', ['adventure_encounter' => $adventureEncounter->id, 'actor_id' => $actor->id]) }}"
@@ -77,6 +90,10 @@
                                 </span>
                                 <span class="initiative-container"><strong>Initiative:</strong> {{ $actor->initiative }}</span>
                             </a>
+                                    @endforeach
+                                    @if(count($actors) > 1)
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                     <h5>Legend</h5>
@@ -168,6 +185,56 @@
         {
             jQuery('#status').val('DEAD');
             jQuery('#monster_turn_form').submit();
+        }
+
+        jQuery(function () {
+            jQuery('.same_initiative_container').sortable(
+                {
+                    axis: "y",
+                    disabled: true,
+                    update: function (event, ui) {
+                        var positions = [];
+                        jQuery(this).find('a[actor_id]').each(function (index, value) {
+                            positions.push(
+                                {
+                                    actor_id: jQuery(this).attr('actor_id'),
+                                    position: index,
+                                }
+                            )
+                        });
+                        var form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '{{ route('play.update_positions', ['adventure_encounter' => $adventureEncounter->id]) }}';
+                        var csrf = document.createElement('input');
+                        csrf.type = 'hidden';
+                        csrf.name = '_token';
+                        csrf.value = jQuery('meta[name="csrf-token"]').attr('content');
+                        form.appendChild(csrf);
+                        var data = document.createElement('input');
+                        data.type = 'hidden';
+                        data.name = 'positions';
+                        data.value = JSON.stringify(positions);
+                        form.appendChild(data);
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                }
+            );
+
+        });
+
+        function toggle_initiative() {
+            //which button is showing?
+            if (jQuery('#initiative_locked').is(":visible")) {
+                jQuery('.same_initiative_container').sortable("enable");
+                jQuery('#initiative_locked').hide();
+                jQuery('#initiative_unlocked').show();
+            } else {
+                jQuery('.same_initiative_container').sortable("disable");
+                jQuery('#initiative_locked').show();
+                jQuery('#initiative_unlocked').hide();
+
+            }
         }
     </script>
 @endpush

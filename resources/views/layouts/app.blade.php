@@ -12,6 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" ></script>
     <script src="{{ asset('js/dnd-tools.js') }}" ></script>
+@yield('js_sources')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,6 +22,22 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+@yield('css_sources')
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135391270-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-135391270-1');
+    </script>
+
 </head>
 <body>
     <div id="app">
@@ -61,6 +78,10 @@
                                 <a class="nav-link @if(app('request')->is('pcs*')) active @endif" href="{{ route('pcs.index') }}">PC's</a>
                             </li>
                             <li class="nav-item mr-2">
+                                <a class="nav-link @if(app('request')->is('parties*')) active @endif"
+                                   href="{{ route('parties.index') }}">Parties</a>
+                            </li>
+                            <li class="nav-item mr-2">
                                 <a class="nav-link @if(app('request')->is('monsters*')) active @endif" href="{{ route('monsters.index') }}">Monsters</a>
                             </li>
                             <li class="nav-item mr-2">
@@ -89,6 +110,7 @@
                                     @endcan
                                     <a class="dropdown-item" href="#" onclick="showDiceRoller()">Dice Roller</a>
                                     <a class="dropdown-item" href="#" onclick="showSpellSearch()">Spell Search</a>
+                                    <a class="dropdown-item" href="{{ route('help') }}">Help</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

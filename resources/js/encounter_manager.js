@@ -81,8 +81,8 @@ let EncounterManager = (function()
         };
 
         let query = this.filterInput.val();
-        let lis = this.encounterContainer.find('li');
-        lis.hide();
+        let labels = this.encounterContainer.find('label');
+        labels.hide();
         this.encounterContainer.find('label:contains("' + query + '")').show();
     };
 

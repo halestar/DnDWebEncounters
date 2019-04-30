@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    
     /*
     |--------------------------------------------------------------------------
     | Default Queue Connection Name
@@ -12,9 +12,9 @@ return [
     | syntax for every one. Here you may define a default connection.
     |
     */
-
-    'default' => env('QUEUE_CONNECTION', 'sync'),
-
+    
+    'default' => env('QUEUE_CONNECTION', 'database'),
+    
     /*
     |--------------------------------------------------------------------------
     | Queue Connections
@@ -27,7 +27,7 @@ return [
     | Drivers: "sync", "database", "beanstalkd", "sqs", "redis", "null"
     |
     */
-
+    
     'connections' => [
 
         'sync' => [
@@ -66,7 +66,7 @@ return [
         ],
 
     ],
-
+    
     /*
     |--------------------------------------------------------------------------
     | Failed Queue Jobs
@@ -77,7 +77,7 @@ return [
     | have failed. You may change them to any database / table you wish.
     |
     */
-
+    
     'failed' => [
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',

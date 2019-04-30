@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{ route('settings.save') }}" method="POST">
+    <form action="{{ route('settings.save') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="container">
         <div class="card">
@@ -37,9 +37,12 @@
                 <h3>Account Settings</h3>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="avatar_url_label">Avatar URL:</span>
+                        <span class="input-group-text">Upload Avatar:</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Avatar URL" aria-label="Avatar URL" aria-describedby="avatar_url_label" name="avatar_url" value="{{ $user->avatar_url }}">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="avatar" name="avatar">
+                        <label class="custom-file-label" for="avatar">Choose file</label>
+                    </div>
                 </div>
 
                 <div class="form-check">
@@ -78,3 +81,10 @@
     </div>
 </form>
 @endsection
+@push('scripts')
+    <script>
+        jQuery(document).ready(function () {
+            bsCustomFileInput.init();
+        })
+    </script>
+@endpush

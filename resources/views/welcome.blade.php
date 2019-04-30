@@ -27,6 +27,21 @@
     <!-- Theme CSS - Includes Bootstrap -->
     <link href="css/creative.min.css" rel="stylesheet">
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135391270-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-135391270-1');
+    </script>
+
+
 </head>
 
 <body id="page-top">
@@ -59,6 +74,9 @@
                         @endif
                     @endauth
                 @endif
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('help') }}">Documentation</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://github.com/halestar/DnDWebEncounters"><img
                             src="/img/github_logo.png" style="width: 24px;"></a>

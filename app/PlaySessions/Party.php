@@ -11,12 +11,12 @@ class Party extends Model
 	
 	public function playSessions()
 	{
-		return $this->hasMany('App\PlaySessions\PlaySession', 'party_id', 'id');
+        return $this->hasMany('App\PlaySessions\PlaySession', 'party_id');
 	}
 	
 	public function user()
 	{
-		return $this->belongsTo('App\User', 'id', 'user_id');
+        return $this->belongsTo('App\User', 'user_id');
 	}
 	
 	public function pcs()

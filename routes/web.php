@@ -12,34 +12,33 @@
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
+Route::view('/help', 'help')->name('help');
+Route::view('/register', 'auth.registration_closed')->name('register');
 
-Route::get('/register', function()
-{
-    return view('auth.registration_closed');
-})->name('register');
-Auth::routes(['register' => false]);
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'HomeController@settings')->name('settings');
 Route::post('/settings', 'HomeController@saveSettings')->name('settings.save');
 
-Route::get('/admin', function () {
-	return redirect()->route('admin.users');
-})->name('admin');
+Route::redirect('/admin', '/admin/users')->name('admin');
 Route::get('/admin/users', 'AdminController@users')->name('admin.users');
 Route::get('/admin/permissions', 'AdminController@permissions')->name('admin.permissions');
 Route::get('/admin/users/table','AdminController@usersTable')->name('admin.users.table');
 Route::get('/admin/users/edit/{user}','AdminController@editUser')->name('admin.users.edit');
+Route::get('/admin/users/create', 'AdminController@createUser')->name('admin.users.create');
+Route::post('/admin/users/store', 'AdminController@storeUser')->name('admin.users.store');
 Route::post('/admin/users/update/{user}','AdminController@updateUser')->name('admin.users.update');
+Route::post('/admin/users/update/{user}', 'AdminController@updateUser')->name('admin.users.update');
+Route::delete('/admin/users/delete/{user}', 'AdminController@deleteUser')->name('admin.users.delete');
 
 Route::get('/players/data','PlayerController@playerList')->name('players.data');
 Route::get('/players/pcs/{player}','PcController@playerIndex')->name('players.characters');
 Route::resource('players', 'PlayerController');
 
 Route::get('/pcs/data/{selectedPlayer}','PcController@pcList')->name('pcs.data');
+Route::get('/pcs/pc-data', 'PcController@characterList')->name('pcs.pc_data');
 Route::resource('pcs', 'PcController')->except(['show']);
 
 
@@ -61,9 +60,9 @@ Route::get('/modules/data','ModuleController@moduleList')->name('modules.data');
 Route::get('/modules/encounter-data','ModuleController@encounterList')->name('modules.encounter_data');
 Route::resource('modules', 'ModuleController')->except(['show']);
 
+Route::get('/parties/data', 'PartyController@partyList')->name('parties.data');
+Route::resource('parties', 'PartyController')->except(['show']);
 
-Route::get('/adventure/party/create/{play_session}/{party_id?}', 'PlaySessionController@showCreateParty')->name('adventure.party.create.show');
-Route::post('/adventure/party/create/{play_session}', 'PlaySessionController@createParty')->name('adventure.party.create');
 Route::post('/adventure/party/assign/{play_session}', 'PlaySessionController@assignParty')->name('adventure.party.assign');
 Route::get('/adventure/pcs', 'PlaySessionController@pcList')->name('adventure.pcs');
 Route::get('/adventure/parties', 'PlaySessionController@partyList')->name('adventure.parties');
@@ -98,6 +97,7 @@ Route::get('/play/{adventure_encounter}/finish/player/{adventure_actor}', 'PlayC
 Route::post('/play/{adventure_encounter}/finish/monster-turn/{adventure_actor}', 'PlayController@finishMonsterTurn')->name('play.finish.monster_turn');
 Route::get('/play/{adventure_encounter}/finish/turn', 'PlayController@finishTurn')->name('play.finish.turn');
 Route::get('/play/{adventure_encounter}/finish/encounter', 'PlayController@finishEncounter')->name('play.finish.encounter');
+Route::post('/play/{adventure_encounter}/update-positions', 'PlayController@updateInitiativePositions')->name('play.update_positions');
 
 Route::get('/dice/dialog', 'DiceController@showDialog')->name('dice.dialog');
 Route::post('/dice/roll', 'DiceController@rollDice')->name('dice.roll');

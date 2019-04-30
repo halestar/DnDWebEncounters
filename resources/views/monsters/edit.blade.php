@@ -182,8 +182,8 @@
                 @foreach($monster->specialAbilities as $ability)
                 {
                   id: '{{ $ability->id }}',
-                  name: '{{ $ability->name }}',
-                  description: '{{ $ability->description }}',
+                    name: '{{ trim(preg_replace('/\s+/', ' ', $ability->name)) }}',
+                    description: '{{ trim(preg_replace('/\s+/', ' ', $ability->description)) }}',
                 },
                 @endforeach
             ]
@@ -194,8 +194,8 @@
                     @foreach($monster->actions as $ability)
                 {
                     id: '{{ $ability->id }}',
-                    name: '{{ $ability->name }}',
-                    description: '{{ $ability->description }}',
+                    name: '{{ trim(preg_replace('/\s+/', ' ', $ability->name)) }}',
+                    description: '{{ trim(preg_replace('/\s+/', ' ', $ability->description)) }}',
                 },
                 @endforeach
             ]
@@ -206,8 +206,8 @@
                     @foreach($monster->legendaryAbilities as $ability)
                 {
                     id: '{{ $ability->id }}',
-                    name: '{{ $ability->name }}',
-                    description: '{{ $ability->description }}',
+                    name: '{{ trim(preg_replace('/\s+/', ' ', $ability->name)) }}',
+                    description: '{{ trim(preg_replace('/\s+/', ' ', $ability->description)) }}',
                 },
                 @endforeach
             ]

@@ -55,4 +55,39 @@ class AdminController extends Controller
             $user->revokePermissionTo('admin');
 		return redirect()->route('admin.users')->with('success_message', 'User Updated');
 	}
+    
+    public function createUser(Request $request)
+    {
+        return view('admin.users.create');
+    }
+    
+    public function storeUser(Request $request)
+    {
+        $data = $request->validate(['name'               => 'required|max:255',
+                                    'email'              => 'required|email',
+                                    'password'           => 'required|min:8',
+                                    'avatar_url'         => 'nullable|url',
+                                    'monster_initiative' => 'checkbox',
+                                    'monster_hp'         => 'checkbox',
+                                    'make_admin'         => 'checkbox',
+                                   ]);
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->avatar_url = $data['avatar_url'];
+        $user->monster_initiative = $data['monster_initiative'];
+        $user->monster_hp = $data['monster_hp'];
+        $user->password = bcrypt($data['password']);
+        $user->save();
+        if($data['make_admin'] == "1") $user->givePermissionTo('admin');
+        else
+            $user->revokePermissionTo('admin');
+        return redirect()->route('admin.users')->with('success_message', 'User Created');
+    }
+    
+    public function deleteUser(Request $request, User $user)
+    {
+        $user->delete();
+        return redirect()->route('admin.users')->with('success_message', 'User Deleted');
+    }
 }

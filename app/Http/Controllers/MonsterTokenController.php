@@ -71,8 +71,10 @@ class MonsterTokenController extends Controller
         $file = $request->file('portrait');
         if($file && $data['token_type'] == MonsterToken::$TOKEN_TYPE_MINI)
         {
-            $contents = $file->openFile()->fread($file->getSize());
-            $token->mini = $contents;
+            $image = Image::make($file->getRealPath());
+            $image->widen(64);
+            $image->crop(64, 64);
+            $token->mini = $image->encode('png');
         }
         $request->user()->monsterTokens()->save($token);
         return redirect()->route('monster_tokens.index');
@@ -159,8 +161,10 @@ class MonsterTokenController extends Controller
         $file = $request->file('portrait');
         if($file && $data['token_type'] == MonsterToken::$TOKEN_TYPE_MINI)
         {
-            $contents = $file->openFile()->fread($file->getSize());
-            $token->mini = $contents;
+            $image = Image::make($file->getRealPath());
+            $image->widen(64);
+            $image->crop(64, 64);
+            $token->mini = $image->encode('png');
         }
         $request->user()->monsterTokens()->save($token);
         return redirect()->route('monster_tokens.index');

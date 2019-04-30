@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Players\Player;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Yajra\Datatables\Datatables;
 
 class PlayerController extends Controller
@@ -58,8 +59,10 @@ class PlayerController extends Controller
         $file = $request->file('portrait');
         if($file)
         {
-            $contents = $file->openFile()->fread($file->getSize());
-            $player->portrait = $contents;
+            $image = Image::make($file->getRealPath());
+            $image->widen(64);
+            $image->crop(64, 64);
+            $player->portrait = $image->encode('png');
         }
         $request->user()->players()->save($player);
         return redirect()->route('players.index');
@@ -112,8 +115,10 @@ class PlayerController extends Controller
         $file = $request->file('portrait');
         if($file)
         {
-            $contents = $file->openFile()->fread($file->getSize());
-            $player->portrait = $contents;
+            $image = Image::make($file->getRealPath());
+            $image->widen(64);
+            $image->crop(64, 64);
+            $player->portrait = $image->encode('png');
         }
         $player->save();
         return redirect()->route('players.index');
